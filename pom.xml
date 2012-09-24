@@ -11,7 +11,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
-	<description>JAMBER is a very basic toolkit for working with AMBER potentials and models, written in JAVA.</description>
+	<description>JQuante is essentially a JAVA QM toolkit that was inspired by PyQuante.</description>
 
 	<url>https://bitbucket.org/mjw99/jquante</url>
 
