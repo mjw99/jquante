@@ -1,0 +1,76 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>name.mjw</groupId>
+	<artifactId>jquante</artifactId>
+	<packaging>jar</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>jquante</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<description>JAMBER is a very basic toolkit for working with AMBER potentials and models, written in JAVA.</description>
+
+	<url>https://bitbucket.org/mjw99/jquante</url>
+
+	<inceptionYear>2012</inceptionYear>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+			<comments>A business-friendly OSS license</comments>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>mjw99</id>
+			<name>Mark J. Williamson</name>
+			<email>mjw@mjw.name</email>
+			<url>http://www-ucc.ch.cam.ac.uk/members/mw529</url>
+			<organization>The Unilever Centre for Molecular Informatics </organization>
+			<organizationUrl> http://www-ucc.ch.cam.ac.uk/</organizationUrl>
+			<roles>
+				<role>Founder</role>
+				<role>Java Developer</role>
+			</roles>
+			<timezone>0</timezone>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:hg:https://bitbucket.org/mjw99/jquante</connection>
+		<url>https://bitbucket.org/mjw99/jquante</url>
+	</scm>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+
+			</plugin>
+
+
+
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>
