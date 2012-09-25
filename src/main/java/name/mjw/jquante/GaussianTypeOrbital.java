@@ -10,13 +10,30 @@ public class GaussianTypeOrbital {
 	
 	private double alpha;
 	
-	// Origin
+	/**
+	 * Electronic coordinate x
+	 */
 	private double x = 0.0;
+	/**
+	 * Electronic coordinate y
+	 */
 	private double y = 0.0;
+	/**
+	 * Electronic coordinate z
+	 */
 	private double z = 0.0;
-	
+
+	/**
+	 * Quantum number l
+	 */
 	private int l = 0;
+	/**
+	 * Quantum number m
+	 */
 	private int m = 0;
+	/**
+	 * Quantum number n
+	 */
 	private int n = 0;
 	
 	private double norm;

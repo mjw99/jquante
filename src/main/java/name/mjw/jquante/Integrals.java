@@ -1,5 +1,14 @@
 package name.mjw.jquante;
 
+/**
+ * Class containing various Gaussian Type Orbitial overlap
+ * integration methods.
+ * 
+ * Useful background refs:
+ * http://dx.doi.org/10.1002/wcms.78
+ * @author mjw
+ *
+ */
 public class Integrals {
 
 	/**
