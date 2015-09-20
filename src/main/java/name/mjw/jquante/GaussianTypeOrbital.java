@@ -1,27 +1,17 @@
 package name.mjw.jquante;
 
+import javax.vecmath.Point3d;
+import org.apache.commons.math3.util.CombinatoricsUtils;
+
 public class GaussianTypeOrbital {
 
-	
 	/*
-	 *  g(x,y,z) = A*(x^i)*(y^j)*(z^k)*exp{-a*(r-ro)^2}
+	 * g(x,y,z) = A*(x^i)*(y^j)*(z^k)*exp{-a*(r-ro)^2}
 	 */
-	
-	
-	private double alpha;
-	
-	/**
-	 * Electronic coordinate x
-	 */
-	private double x = 0.0;
-	/**
-	 * Electronic coordinate y
-	 */
-	private double y = 0.0;
-	/**
-	 * Electronic coordinate z
-	 */
-	private double z = 0.0;
+
+	private double exponent;
+
+	private Point3d origin = new Point3d(0, 0, 0);
 
 	/**
 	 * Quantum number l
@@ -35,40 +25,55 @@ public class GaussianTypeOrbital {
 	 * Quantum number n
 	 */
 	private int n = 0;
-	
-	private double norm;
-	private double coef = 1.0;
-	
-	public GaussianTypeOrbital(double alpha, double x, double y, double z, int l, int m,
-			int n, double coef) {
-	
-		this.alpha = alpha;
 
-		this.x = x;
-		this.y = y;
-		this.z = z;
+	private double norm = 1.0;
+
+	public GaussianTypeOrbital(double exponent) {
+
+		this.exponent = exponent;
+
+		normalise();
+
+	}
+
+	public GaussianTypeOrbital(double exponent, Point3d origin, int l, int m,
+			int n) {
+
+		this.exponent = exponent;
+
+		this.origin = origin;
 
 		this.l = l;
 		this.m = m;
 		this.n = n;
 
-		this.coef = coef;
+		normalise();
 
 	}
-	
-	public void normalise() {
-		
+
+	private void normalise() {
+
 	}
-	
+
 	public void overlap(GaussianTypeOrbital Other) {
-		
-	}
-	
-	public void amp(double x, double y, double z) {
-		
+
 	}
 
-	
-	
-	
+	/**
+	 * Compute the amplitude of the primitive Gaussian at point x,y,z
+	 * 
+	 * @param point
+	 */
+	public double valueAtPoint(Point3d point) {
+
+		double dx = point.x - origin.x;
+		double dy = point.y - origin.y;
+		double dz = point.z - origin.z;
+
+		double d2 = Math.pow(dx, 2) + Math.pow(dy, 2) + Math.pow(dz, 2);
+
+		return norm * Math.pow(dx, l) * Math.pow(dx, m) * Math.pow(dx, n)
+				* Math.exp(-1 * exponent * d2);
+
+	}
 }
