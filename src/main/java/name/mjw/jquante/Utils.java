@@ -3,10 +3,6 @@ package name.mjw.jquante;
 public class Utils {
 
 	public static int factorial(int x) {
-		if (x < 0) {
-			return 0;
-		}
-		;
 
 		int fact = 1;
 		while (x > 1) {
@@ -18,10 +14,6 @@ public class Utils {
 	}
 
 	static public int doubleFactorial(int x) {
-		if (x < 0) {
-			return 0;
-		}
-		;
 
 		int fact = 1;
 		while (x > 1) {

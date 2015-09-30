@@ -25,6 +25,13 @@ public class UtilsTest {
 	}
 
 	@Test
+	public void testDoubleFactorialMinusOne() {
+
+		assertEquals(1, Utils.doubleFactorial(-1));
+
+	}
+
+	@Test
 	public void testDoubleFactorialZero() {
 
 		assertEquals(1, Utils.doubleFactorial(0));

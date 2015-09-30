@@ -1,7 +1,6 @@
 package name.mjw.jquante;
 
 import javax.vecmath.Point3d;
-import org.apache.commons.math3.util.CombinatoricsUtils;
 
 public class GaussianTypeOrbital {
 
@@ -52,6 +51,12 @@ public class GaussianTypeOrbital {
 	}
 
 	private void normalise() {
+
+		norm = Math.sqrt(Math.pow(2, 2 * (l + m + n) + 1.5)
+				* Math.pow(exponent, l + m + n + 1.5)
+				/ Utils.doubleFactorial(2 * l - 1)
+				/ Utils.doubleFactorial(2 * m - 1)
+				/ Utils.doubleFactorial(2 * n - 1) / Math.pow(Math.PI, 1.5));
 
 	}
 
