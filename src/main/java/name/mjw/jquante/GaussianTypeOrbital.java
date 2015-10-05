@@ -4,8 +4,11 @@ import javax.vecmath.Point3d;
 
 /**
  * Gaussian Type Orbitial based upon the following function:
- * 
+ * <p>
  * g(x,y,z) = norm*(x^i)*(y^j)*(z^k)*exp{-exponent*(r-ro)^2}
+ * <p>
+ * Refs:
+ * http://dx.doi.org/10.1143/JPSJ.21.2313
  */
 public class GaussianTypeOrbital {
 
@@ -40,6 +43,9 @@ public class GaussianTypeOrbital {
 
 	}
 
+	/**
+	 * Equ 2.2 http://dx.doi.org/10.1143/JPSJ.21.2313
+	 */
 	private void normalise() {
 
 		norm = Math.sqrt(Math.pow(2, 2 * (i + j + k) + 1.5)
