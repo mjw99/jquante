@@ -14,7 +14,6 @@
 
 		<junit.version>4.12</junit.version>
 		<vecmath.version>1.3.1</vecmath.version>
-		<commons-math3.version>3.5</commons-math3.version>
 	</properties>
 
 	<description>JQuante is essentially a JAVA QM toolkit that was inspired by PyQuante.</description>
@@ -128,12 +127,6 @@
 			<artifactId>vecmath</artifactId>
 			<version>${vecmath.version}</version>
 			<type>jar</type>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-math3</artifactId>
-			<version>${commons-math3.version}</version>
 		</dependency>
 	</dependencies>
 </project>
