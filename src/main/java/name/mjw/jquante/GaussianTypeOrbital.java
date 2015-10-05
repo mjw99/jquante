@@ -5,9 +5,11 @@ import javax.vecmath.Point3d;
 /**
  * Gaussian Type Orbitial based upon the following function:
  * 
- * g(x,y,z) = A*(x^i)*(y^j)*(z^k)*exp{-a*(r-ro)^2}
+ * g(x,y,z) = norm*(x^i)*(y^j)*(z^k)*exp{-exponent*(r-ro)^2}
  */
 public class GaussianTypeOrbital {
+
+	private double norm = 1.0;
 
 	private double exponent;
 
@@ -16,8 +18,6 @@ public class GaussianTypeOrbital {
 	private int i = 0;
 	private int j = 0;
 	private int k = 0;
-
-	private double norm = 1.0;
 
 	public GaussianTypeOrbital(double exponent) {
 
