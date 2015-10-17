@@ -18,7 +18,7 @@ public class Integrals {
 	 * @param GTO2
 	 * @return
 	 */
-	public double overlap(GaussianTypeOrbital GTO1, GaussianTypeOrbital GTO2) {
+	public double overlap(PrimitiveGaussianTypeOrbital GTO1, PrimitiveGaussianTypeOrbital GTO2) {
 		return 0.0;
 
 	}
@@ -31,7 +31,7 @@ public class Integrals {
 	 * @param GTO2
 	 * @return
 	 */
-	public double kinetic(GaussianTypeOrbital GTO1, GaussianTypeOrbital GTO2) {
+	public double kinetic(PrimitiveGaussianTypeOrbital GTO1, PrimitiveGaussianTypeOrbital GTO2) {
 		return 0.0;
 
 	}
@@ -54,26 +54,26 @@ public class Integrals {
 	 *            Fouth gaussian
 	 * @return
 	 */
-	public double coulomb_repulsion(GaussianTypeOrbital GTO1,
-			GaussianTypeOrbital GTO2, GaussianTypeOrbital GTO3,
-			GaussianTypeOrbital GTO4) {
+	public double coulomb_repulsion(PrimitiveGaussianTypeOrbital GTO1,
+			PrimitiveGaussianTypeOrbital GTO2, PrimitiveGaussianTypeOrbital GTO3,
+			PrimitiveGaussianTypeOrbital GTO4) {
 
 		return 0.0;
 
 	}
 
-	private double dist2(GaussianTypeOrbital GTO1, GaussianTypeOrbital GTO2) {
+	private double dist2(PrimitiveGaussianTypeOrbital GTO1, PrimitiveGaussianTypeOrbital GTO2) {
 		return 0.0;
 
 	}
 
-	private double dist(GaussianTypeOrbital GTO1, GaussianTypeOrbital GTO2) {
+	private double dist(PrimitiveGaussianTypeOrbital GTO1, PrimitiveGaussianTypeOrbital GTO2) {
 		return 0.0;
 
 	}
 
-	private double productCenter1D(GaussianTypeOrbital GTO1,
-			GaussianTypeOrbital GTO2) {
+	private double productCenter1D(PrimitiveGaussianTypeOrbital GTO1,
+			PrimitiveGaussianTypeOrbital GTO2) {
 		return 0.0;
 
 	}

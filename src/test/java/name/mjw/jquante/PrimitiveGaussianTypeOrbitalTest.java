@@ -1,18 +1,18 @@
 package name.mjw.jquante;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import javax.vecmath.Point3d;
 
 import org.junit.Test;
 
-public class GaussianTypeOrbitalTest {
+public class PrimitiveGaussianTypeOrbitalTest {
 
 	private final double delta = 0.000001;
 
 	@Test
-	public void testOne() {
-		GaussianTypeOrbital gto = new GaussianTypeOrbital(1.0);
+	public void d() {
+		PrimitiveGaussianTypeOrbital gto = new PrimitiveGaussianTypeOrbital(1.0);
 
 		assertEquals(0.712705, gto.valueAtPoint(new Point3d(0, 0, 0)), delta);
 
@@ -20,7 +20,7 @@ public class GaussianTypeOrbitalTest {
 
 	@Test
 	public void testTwo() {
-		GaussianTypeOrbital gto = new GaussianTypeOrbital(1.0, new Point3d(0,
+		PrimitiveGaussianTypeOrbital gto = new PrimitiveGaussianTypeOrbital(1.0, new Point3d(0,
 				0, 0), 1, 0, 1);
 
 		assertEquals(0.0, gto.valueAtPoint(new Point3d(0, 0, 0)), delta);

@@ -10,7 +10,7 @@ import javax.vecmath.Point3d;
  * Refs:
  * http://dx.doi.org/10.1143/JPSJ.21.2313
  */
-public class GaussianTypeOrbital {
+public class PrimitiveGaussianTypeOrbital {
 
 	private double norm = 1.0;
 
@@ -22,14 +22,14 @@ public class GaussianTypeOrbital {
 	private int j = 0;
 	private int k = 0;
 
-	public GaussianTypeOrbital(double exponent) {
+	public PrimitiveGaussianTypeOrbital(double exponent) {
 
 		this.exponent = exponent;
 		normalise();
 
 	}
 
-	public GaussianTypeOrbital(double exponent, Point3d origin, int l, int m,
+	public PrimitiveGaussianTypeOrbital(double exponent, Point3d origin, int l, int m,
 			int n) {
 
 		this.exponent = exponent;
@@ -56,7 +56,7 @@ public class GaussianTypeOrbital {
 
 	}
 
-	public void overlap(GaussianTypeOrbital Other) {
+	public void overlap(PrimitiveGaussianTypeOrbital Other) {
 
 	}
 
