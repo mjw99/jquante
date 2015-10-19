@@ -45,4 +45,14 @@ public class UtilsTest {
 
 	}
 
+	@Test
+	public void binomialFiveTwo() {
+		assertEquals(10, Utils.binomial(5, 2));
+	}
+
+	@Test
+	public void binomialTenFive() {
+		assertEquals(252, Utils.binomial(10, 5));
+	}
+
 }
