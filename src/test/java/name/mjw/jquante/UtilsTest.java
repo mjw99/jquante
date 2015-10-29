@@ -9,7 +9,7 @@ public class UtilsTest {
 	@Test
 	public void testFactorialZero() {
 
-		assertEquals(1, Utils.factorial(1));
+		assertEquals(1, Utils.factorial(0));
 	}
 
 	@Test
