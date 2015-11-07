@@ -15,91 +15,91 @@ import name.mjw.jquante.math.qm.SCFMethod;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.molecule.Molecule;
 
-
 /**
  * Computes MO density on specified points for a Molecule.
- *
- * @author  V.Ganesh
+ * 
+ * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
 public class MODensity extends OneElectronProperty {
 
-    private int monumber;
+	private int monumber;
 
-    private int nbf;
-    private double [][] mos;    
-    
-    private ArrayList<ContractedGaussian> bfs;
+	private int nbf;
+	private double[][] mos;
 
-    /** Creates a new instance of MODensity */
-    public MODensity(SCFMethod scfMethod) {
-        super(scfMethod);
+	private ArrayList<ContractedGaussian> bfs;
 
-        bfs = scfMethod.getOneEI().getBasisFunctions().getBasisFunctions();
-        nbf = bfs.size();
+	/** Creates a new instance of MODensity */
+	public MODensity(SCFMethod scfMethod) {
+		super(scfMethod);
 
-        mos = scfMethod.getMos().getCoefficients();
+		bfs = scfMethod.getOneEI().getBasisFunctions().getBasisFunctions();
+		nbf = bfs.size();
 
-        monumber = scfMethod.getMolecule().getNumberOfElectrons()/2;
-    }
+		mos = scfMethod.getMos().getCoefficients();
 
-    /** Creates a new instance of MODensity */
-    public MODensity(SCFMethod scfMethod, int monumber) {
-        this(scfMethod);
+		monumber = scfMethod.getMolecule().getNumberOfElectrons() / 2;
+	}
 
-        this.monumber = monumber;
-    }
+	/** Creates a new instance of MODensity */
+	public MODensity(SCFMethod scfMethod, int monumber) {
+		this(scfMethod);
 
-    /** Creates a new instance of MODensity */
-    public MODensity(Molecule molecule, BasisFunctions bfs,
-                     MolecularOrbitals mos) {
+		this.monumber = monumber;
+	}
 
-        this.bfs = bfs.getBasisFunctions();
-        this.nbf = this.bfs.size();
-        this.mos = mos.getCoefficients();
-        this.monumber = molecule.getNumberOfElectrons()/2;
-    }
+	/** Creates a new instance of MODensity */
+	public MODensity(Molecule molecule, BasisFunctions bfs,
+			MolecularOrbitals mos) {
 
-    /** Creates a new instance of MODensity */
-    public MODensity(Molecule molecule, BasisFunctions bfs,
-                     MolecularOrbitals mos, int monumber) {
+		this.bfs = bfs.getBasisFunctions();
+		this.nbf = this.bfs.size();
+		this.mos = mos.getCoefficients();
+		this.monumber = molecule.getNumberOfElectrons() / 2;
+	}
 
-        this.bfs = bfs.getBasisFunctions();
-        this.nbf = this.bfs.size();
-        this.mos = mos.getCoefficients();
-        this.monumber = monumber;
-    }
+	/** Creates a new instance of MODensity */
+	public MODensity(Molecule molecule, BasisFunctions bfs,
+			MolecularOrbitals mos, int monumber) {
 
-    /**
-     * Computes the one electron property on the specified point and returns its
-     * value at the specified point. <br>
-     * Note that the unit of Point3D object must be a.u. No attempt is made
-     * to verify this.
-     *
-     * @param point the point of interest
-     * @return the value of this property at this point
-     */
-    @Override
-    public double compute(Point3D point) {
-        Vector amplitides = new Vector(nbf);
-        double [] amp  = amplitides.getVector();
-        double moden = 0.0, amp_m, mos_m;
-        int m, l;
+		this.bfs = bfs.getBasisFunctions();
+		this.nbf = this.bfs.size();
+		this.mos = mos.getCoefficients();
+		this.monumber = monumber;
+	}
 
-        for(m=0; m<nbf; m++)
-            amp[m] = bfs.get(m).amplitude(point);
+	/**
+	 * Computes the one electron property on the specified point and returns its
+	 * value at the specified point. <br>
+	 * Note that the unit of Point3D object must be a.u. No attempt is made to
+	 * verify this.
+	 * 
+	 * @param point
+	 *            the point of interest
+	 * @return the value of this property at this point
+	 */
+	@Override
+	public double compute(Point3D point) {
+		Vector amplitides = new Vector(nbf);
+		double[] amp = amplitides.getVector();
+		double moden = 0.0, amp_m, mos_m;
+		int m, l;
 
-        moden = 0.0;
+		for (m = 0; m < nbf; m++)
+			amp[m] = bfs.get(m).amplitude(point);
 
-        for (m = 0; m < nbf; m++) {
-            amp_m = amp[m];
-            mos_m = mos[monumber][m];
+		moden = 0.0;
 
-            for (l = 0; l < nbf; l++) {
-                moden += mos_m*mos[monumber][l]*amp[l]*amp_m;
-            } // end for
-        } // end for
-        
-        return moden;
-    }
+		for (m = 0; m < nbf; m++) {
+			amp_m = amp[m];
+			mos_m = mos[monumber][m];
+
+			for (l = 0; l < nbf; l++) {
+				moden += mos_m * mos[monumber][l] * amp[l] * amp_m;
+			} // end for
+		} // end for
+
+		return moden;
+	}
 }

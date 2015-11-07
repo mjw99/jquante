@@ -17,16 +17,16 @@ import name.mjw.jquante.math.optimizer.OptimizerFunction;
  */
 public class SimplexOptimizer extends AbstractOptimizer {
 
-    /** Creates a new instance of SimplexOptimizer */
-    public SimplexOptimizer(OptimizerFunction function) {
-        super(function);
-    }
-    
-    /**
-     * Apply the simplex minimizer
-     */
-    @Override
-    public void minimize() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	/** Creates a new instance of SimplexOptimizer */
+	public SimplexOptimizer(OptimizerFunction function) {
+		super(function);
+	}
+
+	/**
+	 * Apply the simplex minimizer
+	 */
+	@Override
+	public void minimize() {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 }

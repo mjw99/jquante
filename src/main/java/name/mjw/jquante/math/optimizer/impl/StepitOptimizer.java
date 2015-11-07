@@ -16,16 +16,16 @@ import name.mjw.jquante.math.optimizer.OptimizerFunction;
  */
 public class StepitOptimizer extends AbstractOptimizer {
 
-    /** Creates a new instance of StepitOptimizer */
-    public StepitOptimizer(OptimizerFunction function) {
-        super(function);
-    }
+	/** Creates a new instance of StepitOptimizer */
+	public StepitOptimizer(OptimizerFunction function) {
+		super(function);
+	}
 
-    /**
-     * Apply the simplex minimizer
-     */
-    @Override
-    public void minimize() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	/**
+	 * Apply the simplex minimizer
+	 */
+	@Override
+	public void minimize() {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 }

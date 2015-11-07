@@ -1,13 +1,12 @@
 package name.mjw.jquante;
 
 /**
- * Class containing various Gaussian Type Orbitial overlap
- * integration methods.
+ * Class containing various Gaussian Type Orbitial overlap integration methods.
  * 
- * Useful background refs:
- * http://dx.doi.org/10.1002/wcms.78
+ * Useful background refs: http://dx.doi.org/10.1002/wcms.78
+ * 
  * @author mjw
- *
+ * 
  */
 public class Integrals {
 
@@ -18,7 +17,8 @@ public class Integrals {
 	 * @param GTO2
 	 * @return
 	 */
-	public double overlap(PrimitiveGaussianTypeOrbital GTO1, PrimitiveGaussianTypeOrbital GTO2) {
+	public double overlap(PrimitiveGaussianTypeOrbital GTO1,
+			PrimitiveGaussianTypeOrbital GTO2) {
 		return 0.0;
 
 	}
@@ -31,7 +31,8 @@ public class Integrals {
 	 * @param GTO2
 	 * @return
 	 */
-	public double kinetic(PrimitiveGaussianTypeOrbital GTO1, PrimitiveGaussianTypeOrbital GTO2) {
+	public double kinetic(PrimitiveGaussianTypeOrbital GTO1,
+			PrimitiveGaussianTypeOrbital GTO2) {
 		return 0.0;
 
 	}
@@ -55,19 +56,21 @@ public class Integrals {
 	 * @return
 	 */
 	public double coulomb_repulsion(PrimitiveGaussianTypeOrbital GTO1,
-			PrimitiveGaussianTypeOrbital GTO2, PrimitiveGaussianTypeOrbital GTO3,
-			PrimitiveGaussianTypeOrbital GTO4) {
+			PrimitiveGaussianTypeOrbital GTO2,
+			PrimitiveGaussianTypeOrbital GTO3, PrimitiveGaussianTypeOrbital GTO4) {
 
 		return 0.0;
 
 	}
 
-	private double dist2(PrimitiveGaussianTypeOrbital GTO1, PrimitiveGaussianTypeOrbital GTO2) {
+	private double dist2(PrimitiveGaussianTypeOrbital GTO1,
+			PrimitiveGaussianTypeOrbital GTO2) {
 		return 0.0;
 
 	}
 
-	private double dist(PrimitiveGaussianTypeOrbital GTO1, PrimitiveGaussianTypeOrbital GTO2) {
+	private double dist(PrimitiveGaussianTypeOrbital GTO1,
+			PrimitiveGaussianTypeOrbital GTO2) {
 		return 0.0;
 
 	}

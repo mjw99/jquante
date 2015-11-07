@@ -2,7 +2,7 @@ package name.mjw.jquante;
 
 public class Element {
 
-	private static final String[] Symbol = { "X", "H", "He", "Li", "Be", "B",
+	private static final String[] Symbol = {"X", "H", "He", "Li", "Be", "B",
 			"C", "N", "O", "F", "Ne", "Na", "Mg", "Al", "Si", "P", "S", "Cl",
 			"Ar", "K", "Ca", "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni",
 			"Cu", "Zn", "Ga", "Ge", "As", "Se", "Br", "Kr", "Rb", "Sr", "Y",
@@ -10,9 +10,9 @@ public class Element {
 			"Sb", "Te", "I", "Xe", "Cs", "Ba", "La", "Ce", "Pr", "Nd", "Pm",
 			"Sm", "Eu", "Gd", "Tb", "Dy", "Ho", "Er", "Tm", "Yb", "Lu", "Hf",
 			"Ta", "W", "Re", "Os", "Ir", "Pt", "Au", "Hg", "Tl", "Pb", "Bi",
-			"Po", "At", "Rn" };
+			"Po", "At", "Rn"};
 
-	private static final String[] Name = { "dummy", "hydrogen", "helium",
+	private static final String[] Name = {"dummy", "hydrogen", "helium",
 			"lithium", "beryllium", "boron", "carbon", "nitrogen", "oxygen",
 			"fluorine", "neon", "sodium", "magnesium", "aluminum", "silicon",
 			"phosphorus", "sulfur", "chlorine", "argon", "potassium",
@@ -28,9 +28,9 @@ public class Element {
 			"erbium", "thulium", "ytterbium", "lutetium", "halfnium",
 			"tantalum", "tungsten", "rhenium", "osmium", "iridium", "platinum",
 			"gold", "mercury", "thallium", "lead", "bismuth", "polonium",
-			"astatine", "radon" };
+			"astatine", "radon"};
 
-	private static final double[] Mass = { 0.00, 1.0008, 4.0026, 6.941, 9.0122,
+	private static final double[] Mass = {0.00, 1.0008, 4.0026, 6.941, 9.0122,
 			10.811, 12.011, 14.007, 15.999, 18.998, 20.179, 22.990, 24.305,
 			26.982, 28.086, 30.974, 32.066, 35.453, 39.948, 39.098, 40.078,
 			44.9559, 47.867, 50.9415, 51.9961, 54.938, 55.845, 58.9332,
@@ -41,16 +41,16 @@ public class Element {
 			140.11, 140.90765, 144.24, 145.0, 150.36, 151.964, 157.25,
 			158.92534, 162.5, 164.93, 167.259, 168.934, 173.04, 174.967,
 			178.49, 180.9479, 183.84, 186.207, 190.23, 192.217, 195.078,
-			196.96655, 200.59 };
-	
+			196.96655, 200.59};
+
 	public String getSymbol(int Z) {
 		return Symbol[Z];
 	}
-	
+
 	public String getName(int Z) {
 		return Name[Z];
 	}
-	
+
 	public double Mass(int Z) {
 		return Mass[Z];
 	}

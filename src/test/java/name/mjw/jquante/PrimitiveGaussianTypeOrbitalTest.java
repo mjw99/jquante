@@ -20,8 +20,8 @@ public class PrimitiveGaussianTypeOrbitalTest {
 
 	@Test
 	public void testTwo() {
-		PrimitiveGaussianTypeOrbital gto = new PrimitiveGaussianTypeOrbital(1.0, new Point3d(0,
-				0, 0), 1, 0, 1);
+		PrimitiveGaussianTypeOrbital gto = new PrimitiveGaussianTypeOrbital(
+				1.0, new Point3d(0, 0, 0), 1, 0, 1);
 
 		assertEquals(0.0, gto.valueAtPoint(new Point3d(0, 0, 0)), delta);
 

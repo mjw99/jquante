@@ -11,18 +11,19 @@ package name.mjw.jquante.math.event;
 
 /**
  * Combination generator listener interface.
- *
+ * 
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
 public interface CombinationGeneratorListener extends java.util.EventListener {
-    
-    /**
-     * A new combination event.
-     *
-     * @param cge CombinationGeneratorEvent object describing the event
-     * @return ture in case this is a useful combination else false
-     */
-    public boolean newCombination(CombinationGeneratorEvent cge);
+
+	/**
+	 * A new combination event.
+	 * 
+	 * @param cge
+	 *            CombinationGeneratorEvent object describing the event
+	 * @return ture in case this is a useful combination else false
+	 */
+	public boolean newCombination(CombinationGeneratorEvent cge);
 } // end of interface CombinationGeneratorListener
 

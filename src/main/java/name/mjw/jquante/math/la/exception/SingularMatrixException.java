@@ -13,21 +13,21 @@ package name.mjw.jquante.math.la.exception;
  */
 public class SingularMatrixException extends Exception {
 
-    /**
-     * Creates a new instance of <code>SingularMatrixException</code>
-     * without detail message.
-     */
-    public SingularMatrixException() {
-    }
+	/**
+	 * Creates a new instance of <code>SingularMatrixException</code> without
+	 * detail message.
+	 */
+	public SingularMatrixException() {
+	}
 
-
-    /**
-     * Constructs an instance of <code>SingularMatrixException</code> 
-     * with the specified detail message.
-     *
-     * @param msg the detail message.
-     */
-    public SingularMatrixException(String msg) {
-        super(msg);
-    }
+	/**
+	 * Constructs an instance of <code>SingularMatrixException</code> with the
+	 * specified detail message.
+	 * 
+	 * @param msg
+	 *            the detail message.
+	 */
+	public SingularMatrixException(String msg) {
+		super(msg);
+	}
 }

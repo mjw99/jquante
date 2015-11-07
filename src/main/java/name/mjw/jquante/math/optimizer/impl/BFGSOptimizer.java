@@ -16,111 +16,109 @@ import name.mjw.jquante.math.optimizer.OptimizerFunction;
 /**
  * Implementation of Broyden-Fletcher-Goldfarb-Shanno (BFGS) optimizer method.
  * Based on <i> Numerical Recipes, Section 10.7 </i>.
- *
- * @author  V.Ganesh
+ * 
+ * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
 public class BFGSOptimizer extends AbstractOptimizer {
 
-    private static final float STPMX = 100.0f;
-    
-    /** Create a new instance of BFGSOptimizer */
-    public BFGSOptimizer(OptimizerFunction function) {
-        super(function);
+	private static final float STPMX = 100.0f;
 
-        convergenceCriteria = new SimpleConvergenceCriteria() {
-            private final double EPSILON = 1.0e-10;;
+	/** Create a new instance of BFGSOptimizer */
+	public BFGSOptimizer(OptimizerFunction function) {
+		super(function);
 
-            @Override
-            public boolean isConverged() {
-                boolean isConverged =
-                   2.0 * Math.abs(newValue - oldValue) <= tolerance *
-                    (Math.abs(newValue) + Math.abs(oldValue) + EPSILON);
+		convergenceCriteria = new SimpleConvergenceCriteria() {
+			private final double EPSILON = 1.0e-10;;
 
-                if (isComposite()) {
-                    Iterator<ConvergenceCriteria> ccList
-                                = getAttachedSubCriteriaList();
+			@Override
+			public boolean isConverged() {
+				boolean isConverged = 2.0 * Math.abs(newValue - oldValue) <= tolerance
+						* (Math.abs(newValue) + Math.abs(oldValue) + EPSILON);
 
-                    while (ccList.hasNext()) {
-                        ConvergenceCriteria cc = ccList.next();
+				if (isComposite()) {
+					Iterator<ConvergenceCriteria> ccList = getAttachedSubCriteriaList();
 
-                        switch (cc.getCriteriaCombinationType()) {
-                            case AND:
-                                isConverged = isConverged && cc.isConverged();
-                                break;
-                            case OR:
-                                isConverged = isConverged || cc.isConverged();
-                                break;
-                        } // end of switch .. case
-                    } // end while
-                } // end if
+					while (ccList.hasNext()) {
+						ConvergenceCriteria cc = ccList.next();
 
-                return isConverged;
-            }
-        };
-    }
+						switch (cc.getCriteriaCombinationType()) {
+							case AND :
+								isConverged = isConverged && cc.isConverged();
+								break;
+							case OR :
+								isConverged = isConverged || cc.isConverged();
+								break;
+						} // end of switch .. case
+					} // end while
+				} // end if
 
-    /**
-     * Apply the minimization procedure
-     */
-    @Override
-    public void minimize() {
-        double[] previousVariables = variables.clone();
-        double minValue = optimizerFunction.evaluate(variables);
-        convergenceCriteria.setOldValue(minValue);
-        currentMinima = minValue;
-        System.out.println("Starting value = " + minValue);
+				return isConverged;
+			}
+		};
+	}
 
-        double [] g = optimizerFunction.getDerivatives();
+	/**
+	 * Apply the minimization procedure
+	 */
+	@Override
+	public void minimize() {
+		double[] previousVariables = variables.clone();
+		double minValue = optimizerFunction.evaluate(variables);
+		convergenceCriteria.setOldValue(minValue);
+		currentMinima = minValue;
+		System.out.println("Starting value = " + minValue);
 
-        Matrix hessian = optimizerFunction.getHessian();
-        hessian.makeIdentity();
-        double [][] hessin = hessian.getMatrix();
+		double[] g = optimizerFunction.getDerivatives();
 
-        int n = g.length;
+		Matrix hessian = optimizerFunction.getHessian();
+		hessian.makeIdentity();
+		double[][] hessin = hessian.getMatrix();
 
-        Vector dgVec   = new Vector(n);
-        Vector pnewVec = new Vector(n);
-        Vector xiVec   = new Vector(n);
+		int n = g.length;
 
-        double [] dg   = dgVec.getVector();
-        double [] pnew = pnewVec.getVector();
-        double [] xi   = xiVec.getVector();
+		Vector dgVec = new Vector(n);
+		Vector pnewVec = new Vector(n);
+		Vector xiVec = new Vector(n);
 
-        float sum = 0.0f;
-        int i;
+		double[] dg = dgVec.getVector();
+		double[] pnew = pnewVec.getVector();
+		double[] xi = xiVec.getVector();
 
-        for(i=0; i<n; i++) {
-            xi[i] = -g[i];
-            sum   += previousVariables[i]*previousVariables[i];
-        } // end for
+		float sum = 0.0f;
+		int i;
 
-        float stpmax = STPMX * Math.max((float) Math.sqrt(sum), (float) n);
+		for (i = 0; i < n; i++) {
+			xi[i] = -g[i];
+			sum += previousVariables[i] * previousVariables[i];
+		} // end for
 
-        double newValue;
-        
-        for(int iter=0; iter < getMaxIterations(); iter++) {
-            previousVariables = variables.clone();
-            LineMinimizer lineMinimizer = new LineMinimizer(optimizerFunction, xi);
-            lineMinimizer.setVariables(variables);
-            lineMinimizer.minimize();
-            newValue = lineMinimizer.getCurrentMinima();
-            convergenceCriteria.setNewValue(newValue);
-            System.out.println("newValue = " + newValue);
+		float stpmax = STPMX * Math.max((float) Math.sqrt(sum), (float) n);
 
-            // TODO: BFGS
-            for(i=0; i<n; i++) {
-                
-            } // end for
+		double newValue;
 
-            if (convergenceCriteria.isConverged()) {
-                // the normal end of minimization
-                minValue = optimizerFunction.evaluate(previousVariables);
-                System.out.println("final value = " + minValue);
-                break;
-            } // end if
+		for (int iter = 0; iter < getMaxIterations(); iter++) {
+			previousVariables = variables.clone();
+			LineMinimizer lineMinimizer = new LineMinimizer(optimizerFunction,
+					xi);
+			lineMinimizer.setVariables(variables);
+			lineMinimizer.minimize();
+			newValue = lineMinimizer.getCurrentMinima();
+			convergenceCriteria.setNewValue(newValue);
+			System.out.println("newValue = " + newValue);
 
-            
-        } // end for
-    }
+			// TODO: BFGS
+			for (i = 0; i < n; i++) {
+
+			} // end for
+
+			if (convergenceCriteria.isConverged()) {
+				// the normal end of minimization
+				minValue = optimizerFunction.evaluate(previousVariables);
+				System.out.println("final value = " + minValue);
+				break;
+			} // end if
+
+		} // end for
+	}
 }

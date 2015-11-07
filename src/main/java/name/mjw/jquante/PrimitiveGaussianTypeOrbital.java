@@ -7,8 +7,7 @@ import javax.vecmath.Point3d;
  * <p>
  * g(x,y,z) = norm*(x^i)*(y^j)*(z^k)*exp{-exponent*(r-ro)^2}
  * <p>
- * Refs:
- * http://dx.doi.org/10.1143/JPSJ.21.2313
+ * Refs: http://dx.doi.org/10.1143/JPSJ.21.2313
  */
 public class PrimitiveGaussianTypeOrbital {
 
@@ -29,8 +28,8 @@ public class PrimitiveGaussianTypeOrbital {
 
 	}
 
-	public PrimitiveGaussianTypeOrbital(double exponent, Point3d origin, int l, int m,
-			int n) {
+	public PrimitiveGaussianTypeOrbital(double exponent, Point3d origin, int l,
+			int m, int n) {
 
 		this.exponent = exponent;
 		this.origin = origin;

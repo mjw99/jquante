@@ -21,63 +21,65 @@ import name.mjw.jquante.molecule.SpecialStructureRecognizer;
  */
 public class MonomerRecognizer implements SpecialStructureRecognizer {
 
-    /** the list of atoms is stored here */
-    private AtomGroupList theMonomers;
-    
-    /** Create instance of MonomerRecognizer */
-    public MonomerRecognizer() {    
-        theMonomers = new AtomGroupListImpl();
-    }
+	/** the list of atoms is stored here */
+	private AtomGroupList theMonomers;
 
-    /** 
-     * This method detects presence of cycles in the molecular
-     * graph and record this information in a object of AtomGroupList.
-     *
-     * @param molecule The molecule object reference.
-     */  
-    @Override
-    public void recognizeAndRecord(Molecule molecule) {
-        ArrayList<Integer> visitedList = new ArrayList<Integer>();
-        
-        for(int i=0; i<molecule.getNumberOfAtoms(); i++) {
-            if (!visitedList.contains(i)) {
-                Iterator<Integer> monomerIdx = molecule.traversePath(i, true);
+	/** Create instance of MonomerRecognizer */
+	public MonomerRecognizer() {
+		theMonomers = new AtomGroupListImpl();
+	}
 
-                DefaultAtomGroup monomer = new DefaultAtomGroup();
-                
-                while(monomerIdx.hasNext()) {
-                    Integer atomIdx = monomerIdx.next();
-                    
-                    monomer.addAtomIndex(atomIdx);
-                    visitedList.add(atomIdx);
-                } // end while
-                
-                theMonomers.addGroup(monomer);               
-            } // end if
-        } // end for
-    }
+	/**
+	 * This method detects presence of cycles in the molecular graph and record
+	 * this information in a object of AtomGroupList.
+	 * 
+	 * @param molecule
+	 *            The molecule object reference.
+	 */
+	@Override
+	public void recognizeAndRecord(Molecule molecule) {
+		ArrayList<Integer> visitedList = new ArrayList<Integer>();
 
-    /**
-     * This method returns the list of all the identified structures as a
-     * object of AtomGroupList
-     * 
-     * @return Instance of AtomGroupList
-     */
-    @Override
-    public AtomGroupList getGroupList() {
-        return theMonomers;
-    }
+		for (int i = 0; i < molecule.getNumberOfAtoms(); i++) {
+			if (!visitedList.contains(i)) {
+				Iterator<Integer> monomerIdx = molecule.traversePath(i, true);
 
-    /**
-     * a straight forward setGroupList() method, no checks are made
-     * of the correctness of groupList and hence the correctness wholy
-     * rests on the callie.
-     *
-     * @param groupList the groupList consisting of Ring objects.
-     */
-    @Override
-    public void setGroupList(AtomGroupList groupList) {
-        this.theMonomers = groupList;
-    }
+				DefaultAtomGroup monomer = new DefaultAtomGroup();
+
+				while (monomerIdx.hasNext()) {
+					Integer atomIdx = monomerIdx.next();
+
+					monomer.addAtomIndex(atomIdx);
+					visitedList.add(atomIdx);
+				} // end while
+
+				theMonomers.addGroup(monomer);
+			} // end if
+		} // end for
+	}
+
+	/**
+	 * This method returns the list of all the identified structures as a object
+	 * of AtomGroupList
+	 * 
+	 * @return Instance of AtomGroupList
+	 */
+	@Override
+	public AtomGroupList getGroupList() {
+		return theMonomers;
+	}
+
+	/**
+	 * a straight forward setGroupList() method, no checks are made of the
+	 * correctness of groupList and hence the correctness wholy rests on the
+	 * callie.
+	 * 
+	 * @param groupList
+	 *            the groupList consisting of Ring objects.
+	 */
+	@Override
+	public void setGroupList(AtomGroupList groupList) {
+		this.theMonomers = groupList;
+	}
 
 }

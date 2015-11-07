@@ -16,17 +16,17 @@ import name.mjw.jquante.math.optimizer.OptimizerFunction;
  */
 public class LineSearch extends AbstractOptimizer {
 
-    private double [] directions;
-    
-    public LineSearch(OptimizerFunction function, double [] directions) {
-        super(function);
+	private double[] directions;
 
-        this.directions = directions;
-    }
+	public LineSearch(OptimizerFunction function, double[] directions) {
+		super(function);
 
-    @Override
-    public void minimize() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+		this.directions = directions;
+	}
+
+	@Override
+	public void minimize() {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
 }
