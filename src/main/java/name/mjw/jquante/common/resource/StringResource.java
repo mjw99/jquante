@@ -216,7 +216,7 @@ public class StringResource implements Resource {
 		viewerResource = "org.meta.shell.idebeans.viewers.impl.QuickViewers";
 		fragmentationSchemeResource = "org.meta.fragmentor.impl.FragmentationSchemes";
 		fragmentGoodnessProbeResource = "org.meta.fragmentor.impl.FragmentGoodnessProbes";
-		defaultAtomInfo = "/org/meta/config/impl/AtomInfo.xml";
+		defaultAtomInfo = "/name/mjw/jquante/config/impl/AtomInfo.xml";
 		edgeTableResource = "/org/meta/shell/idebeans/graphics/"
 				+ "surfaces/edgeTable.xml";
 		triTableResource = "/org/meta/shell/idebeans/graphics/"
@@ -249,7 +249,7 @@ public class StringResource implements Resource {
 				+ "ext";
 
 		workspaceItemImplResource = "org.meta.workspace.impl.WorkspaceItemTypeMap";
-		basisLibraryPath = "/org/meta/math/qm/basis/basis_";
+		basisLibraryPath = "/name/mjw/jquante/math/qm/basis/basis_";
 
 		scriptengines = "org.meta.scripting.ScriptEngines";
 

@@ -1,0 +1,69 @@
+package name.mjw.jquante.math.qm;
+
+import static org.junit.Assert.*;
+import junit.framework.Assert;
+
+import name.mjw.jquante.math.geom.Point3D;
+import name.mjw.jquante.molecule.Atom;
+import name.mjw.jquante.molecule.Molecule;
+import name.mjw.jquante.molecule.impl.MoleculeImpl;
+
+import org.junit.Test;
+
+public class BasisFunctionsTest {
+
+	double diff = 0.00001;
+
+	@Test
+	public void testOne() {
+
+		Atom H1 = new Atom("H", 1.0, new Point3D(0.752510, -0.454585, 0.000000));
+
+		Molecule hydrogen = new MoleculeImpl("hydrogen");
+		hydrogen.addAtom(H1);
+
+		try {
+			BasisFunctions bf = new BasisFunctions(hydrogen, "sto3g");
+
+			System.out.println(bf.getShellList().getNumberOfShells());
+
+			assertEquals(1, bf.getBasisFunctions().size());
+
+			assertEquals(3.425251, bf.getBasisFunctions().get(0).getExponents()
+					.get(0), diff);
+
+			assertEquals(0.154329, bf.getBasisFunctions().get(0)
+					.getCoefficients().get(0), diff);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	@Test
+	public void testTwo() {
+
+		Atom H1 = new Atom("H", 1.0, new Point3D(0.752510, -0.454585, 0.000000));
+		Atom O = new Atom("O", 6.0, new Point3D(0.000000, 0.113671, 0.000000));
+		Atom H2 = new Atom("H", 1.0,
+				new Point3D(-0.752510, -0.454585, 0.000000));
+
+		Molecule water = new MoleculeImpl("water");
+		water.addAtom(H1);
+		water.addAtom(O);
+		water.addAtom(H2);
+
+		try {
+			BasisFunctions bf = new BasisFunctions(water, "sto3g");
+
+			assertEquals(7, bf.getBasisFunctions().size());
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+	}
+
+}
