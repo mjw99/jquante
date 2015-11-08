@@ -25,8 +25,6 @@ public class BasisFunctionsTest {
 		try {
 			BasisFunctions bf = new BasisFunctions(hydrogen, "sto3g");
 
-			System.out.println(bf.getShellList().getNumberOfShells());
-
 			assertEquals(1, bf.getBasisFunctions().size());
 
 			assertEquals(3.425251, bf.getBasisFunctions().get(0).getExponents()
