@@ -1,8 +1,10 @@
-package name.mjw.jquante.math.qm.basis;
+package name.mjw.jquante.math.math.qm.basis;
 
 import static org.junit.Assert.*;
 
 import name.mjw.jquante.math.geom.Point3D;
+import name.mjw.jquante.math.qm.basis.Power;
+import name.mjw.jquante.math.qm.basis.PrimitiveGaussian;
 
 import org.junit.Test;
 

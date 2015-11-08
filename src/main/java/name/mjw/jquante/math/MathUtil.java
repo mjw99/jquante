@@ -127,8 +127,8 @@ public final class MathUtil {
 	 *            the n, whose factorial is to be found
 	 * @return the factorial
 	 */
-	public static long factorial(int n) {
-		long value = 1;
+	public static int factorial(int n) {
+		int value = 1;
 
 		while (n > 1) {
 			value = value * n;
@@ -145,8 +145,8 @@ public final class MathUtil {
 	 *            the n, whose factorial is to be found
 	 * @return the factorial
 	 */
-	public static long factorial2(int n) {
-		long value = 1;
+	public static int factorial2(int n) {
+		int value = 1;
 
 		while (n > 0) {
 			value = value * n;
@@ -189,9 +189,19 @@ public final class MathUtil {
 	}
 
 	/**
-	 * the binomial coefficient
+	 * Binomial coefficient
+	 * 
+	 * Number of ways to choose k elements from a set of n elements.
+	 * 
+	 * @param n
+	 *            number of n elements in set
+	 * @param k
+	 *            number of k elements in set
+	 * @return binomial coefficient
+	 * 
+	 *         https://en.wikipedia.org/wiki/Binomial_coefficient
 	 */
-	public static double binomial(int i, int j) {
+	public static int binomial(int i, int j) {
 		return (MathUtil.factorial(i) / MathUtil.factorial(j) / MathUtil
 				.factorial(i - j));
 	}
