@@ -17,25 +17,27 @@ public class BasisFunctionsTest {
 	@Test
 	public void testOne() {
 
+		BasisFunctions bf = null;
+
 		Atom H1 = new Atom("H", 1.0, new Point3D(0.752510, -0.454585, 0.000000));
 
 		Molecule hydrogen = new MoleculeImpl("hydrogen");
 		hydrogen.addAtom(H1);
 
 		try {
-			BasisFunctions bf = new BasisFunctions(hydrogen, "sto3g");
-
-			assertEquals(1, bf.getBasisFunctions().size());
-
-			assertEquals(3.425251, bf.getBasisFunctions().get(0).getExponents()
-					.get(0), diff);
-
-			assertEquals(0.154329, bf.getBasisFunctions().get(0)
-					.getCoefficients().get(0), diff);
+			bf = new BasisFunctions(hydrogen, "sto3g");
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		assertEquals(1, bf.getBasisFunctions().size());
+
+		assertEquals(3.425251, bf.getBasisFunctions().get(0).getExponents()
+				.get(0), diff);
+
+		assertEquals(0.154329, bf.getBasisFunctions().get(0).getCoefficients()
+				.get(0), diff);
 
 	}
 
@@ -52,15 +54,16 @@ public class BasisFunctionsTest {
 		water.addAtom(O);
 		water.addAtom(H2);
 
-		try {
-			BasisFunctions bf = new BasisFunctions(water, "sto3g");
+		BasisFunctions bf = null;
 
-			assertEquals(7, bf.getBasisFunctions().size());
+		try {
+			bf = new BasisFunctions(water, "sto3g");
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
+		assertEquals(7, bf.getBasisFunctions().size());
 
 	}
 
