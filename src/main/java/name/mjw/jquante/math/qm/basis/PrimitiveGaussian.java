@@ -12,9 +12,19 @@ import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.math.qm.integral.Integrals;
 
 /**
+ * 
  * The class defines a primitive Gaussian (PG) and the operations on it.
  * 
+ * Gaussian Type Orbitial based upon the following function:
+ * <p>
+ * g(x,y,z) = normalization*(x^i)*(y^j)*(z^k)*exp{-exponent*(r-ro)^2}
+ * <p>
+ * 
+ * Refs: http://dx.doi.org/10.1143/JPSJ.21.2313
+ * 
+ * 
  * @author V.Ganesh
+ * @author mw529
  * @version 2.0 (Part of MeTA v2.0)
  */
 public class PrimitiveGaussian {
@@ -44,6 +54,8 @@ public class PrimitiveGaussian {
 	 */
 	private double normalization;
 
+	private final static double PI_RAISE_TO_1DOT5 = Math.pow(Math.PI, 1.5);
+
 	/**
 	 * Creates a new instance of PrimitiveGaussian
 	 * 
@@ -65,7 +77,6 @@ public class PrimitiveGaussian {
 
 		this.normalization = 1;
 
-		// normalise this PG
 		normalize();
 	}
 
@@ -167,13 +178,10 @@ public class PrimitiveGaussian {
 		return new PrimitiveGaussian(newOrigin, new Power(0, 0, 0), gamma, 0.0);
 	}
 
-	private final static double PI_RAISE_TO_1DOT5 = Math.pow(Math.PI, 1.5);
-
 	/**
 	 * Normalize this primitive Gaussian.
 	 * 
-	 * <br>
-	 * <i>H. Phys. Soc. Japan,</i> <b>21</b>, 2313, 1966 <br>
+	 * Equ 2.2 http://dx.doi.org/10.1143/JPSJ.21.2313
 	 */
 	public void normalize() {
 		int l = powers.getL(), m = powers.getM(), n = powers.getN();
@@ -252,13 +260,18 @@ public class PrimitiveGaussian {
 	 * @return the amplitude of this PG at the specified point
 	 */
 	public double amplitude(Point3D point) {
-		int l = powers.getL(), m = powers.getM(), n = powers.getN();
-		double x = point.getX() - origin.getX(), y = point.getY()
-				- origin.getY(), z = point.getZ() - origin.getZ();
+		int l = powers.getL();
+		int m = powers.getM();
+		int n = powers.getN();
 
-		return (normalization * coefficient * Math.pow(x, l) * Math.pow(y, m)
-				* Math.pow(z, n) * Math
-					.exp(-exponent * (x * x + y * y + z * z)));
+		double x = point.getX() - origin.getX();
+		double y = point.getY() - origin.getY();
+		double z = point.getZ() - origin.getZ();
+
+		double d2 = Math.pow(x, l) * Math.pow(y, m) * Math.pow(z, n);
+
+		return (normalization * coefficient * d2 * Math.exp(-exponent
+				* (x * x + y * y + z * z)));
 	}
 
 	/**
@@ -372,4 +385,4 @@ public class PrimitiveGaussian {
 				+ " Normalization : " + normalization + " Coefficient : "
 				+ coefficient + " Exponent : " + exponent;
 	}
-} // end of class PrimitiveGaussian
+}
