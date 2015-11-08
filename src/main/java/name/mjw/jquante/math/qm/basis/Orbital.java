@@ -1,9 +1,3 @@
-/*
- * Orbital.java
- *
- * Created on July 25, 2004, 11:14 AM
- */
-
 package name.mjw.jquante.math.qm.basis;
 
 import java.util.ArrayList;
@@ -134,4 +128,4 @@ public class Orbital {
 		addCoefficient(coeff);
 		addExponent(exp);
 	}
-} // end of class Orbital
+}

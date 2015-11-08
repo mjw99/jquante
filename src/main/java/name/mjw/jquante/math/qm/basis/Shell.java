@@ -1,8 +1,3 @@
-/**
- * Shell.java
- *
- * Created on Jul 8, 2009
- */
 package name.mjw.jquante.math.qm.basis;
 
 import java.util.ArrayList;

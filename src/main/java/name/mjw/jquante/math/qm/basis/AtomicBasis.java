@@ -6,7 +6,7 @@
 
 package name.mjw.jquante.math.qm.basis;
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * Represents a single entity in a BasisSet
@@ -112,4 +112,4 @@ public class AtomicBasis {
 	public void addOrbital(Orbital orbital) {
 		orbitals.add(orbital);
 	}
-} // end of class AtomicBasis
+}

@@ -1,14 +1,9 @@
-/*
- * PowerList.java
- *
- * Created on July 22, 2004, 8:57 PM
- */
-
 package name.mjw.jquante.math.qm.basis;
 
-import java.util.*;
-
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Orbital symbol to power list map. Follows a singleton pattern.
@@ -96,4 +91,4 @@ public class PowerList {
 	public Iterator<Power> getPowerList(String orbital) {
 		return thePowerList.get(orbital).iterator();
 	}
-} // end of class PowerList
+}

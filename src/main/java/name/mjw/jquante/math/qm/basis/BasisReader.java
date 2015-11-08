@@ -1,17 +1,12 @@
-/*
- * BasisReader.java
- *
- * Created on July 22, 2004, 7:06 AM
- */
-
 package name.mjw.jquante.math.qm.basis;
 
 import name.mjw.jquante.common.Utility;
 import name.mjw.jquante.common.resource.StringResource;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 
-// others
 import java.lang.ref.WeakReference;
 
 /**
@@ -103,49 +98,48 @@ public class BasisReader {
 		int type = n.getNodeType(); // get node type
 
 		switch (type) {
-			case Node.ATTRIBUTE_NODE :
-				String nodeName = n.getNodeName();
+		case Node.ATTRIBUTE_NODE:
+			String nodeName = n.getNodeName();
 
-				if (nodeName.equals("name")) {
-					// instance of a new basis set
-					basisSet = new BasisSet(nodeName);
-				} // end if
+			if (nodeName.equals("name")) {
+				// instance of a new basis set
+				basisSet = new BasisSet(nodeName);
+			} // end if
 
-				break;
-			case Node.ELEMENT_NODE :
-				element = n.getNodeName();
+			break;
+		case Node.ELEMENT_NODE:
+			element = n.getNodeName();
 
-				NamedNodeMap atts = n.getAttributes();
+			NamedNodeMap atts = n.getAttributes();
 
-				if (element.equals("atom")) {
-					// a new atomic basis
-					atomicBasis = new AtomicBasis(atts.getNamedItem("symbol")
-							.getNodeValue(), Integer.parseInt(atts
-							.getNamedItem("atomicNumber").getNodeValue()));
-					basisSet.addAtomicBasis(atomicBasis);
-				} else if (element.equals("orbital")) {
-					// a orbital entry for atomic basis
-					orbital = new Orbital(atts.getNamedItem("type")
-							.getNodeValue());
-					atomicBasis.addOrbital(orbital);
-				} else if (element.equals("entry")) {
-					// a orbital (coefficient, exponent) entry
-					orbital.addEntry(Double.parseDouble(atts.getNamedItem(
-							"coeff").getNodeValue()), Double.parseDouble(atts
-							.getNamedItem("exp").getNodeValue()));
-				} else {
-					if (atts == null)
-						return;
+			if (element.equals("atom")) {
+				// a new atomic basis
+				atomicBasis = new AtomicBasis(atts.getNamedItem("symbol")
+						.getNodeValue(), Integer.parseInt(atts.getNamedItem(
+						"atomicNumber").getNodeValue()));
+				basisSet.addAtomicBasis(atomicBasis);
+			} else if (element.equals("orbital")) {
+				// a orbital entry for atomic basis
+				orbital = new Orbital(atts.getNamedItem("type").getNodeValue());
+				atomicBasis.addOrbital(orbital);
+			} else if (element.equals("entry")) {
+				// a orbital (coefficient, exponent) entry
+				orbital.addEntry(Double.parseDouble(atts.getNamedItem("coeff")
+						.getNodeValue()), Double.parseDouble(atts.getNamedItem(
+						"exp").getNodeValue()));
+			} else {
+				if (atts == null)
+					return;
 
-					for (int i = 0; i < atts.getLength(); i++) {
-						Node att = atts.item(i);
-						saveIt(att);
-					} // end for
-				} // end if
+				for (int i = 0; i < atts.getLength(); i++) {
+					Node att = atts.item(i);
+					saveIt(att);
+				} // end for
+			} // end if
 
-				break;
-			default :
-				break;
+			break;
+		default:
+			break;
 		} // end switch..case
 
 		// save children if any
@@ -154,4 +148,4 @@ public class BasisReader {
 			saveIt(child);
 		} // end for
 	}
-} // end of class BasisReader
+}

@@ -1,12 +1,6 @@
-/*
- * ContractedGaussian.java
- *
- * Created on July 22, 2004, 7:10 AM
- */
-
 package name.mjw.jquante.math.qm.basis;
 
-import java.util.*;
+import java.util.ArrayList;
 
 import name.mjw.jquante.config.impl.AtomInfo;
 import name.mjw.jquante.math.Vector3D;
@@ -785,4 +779,4 @@ public class ContractedGaussian {
 				+ " Normalization : " + normalization + " Primitives : "
 				+ primitives;
 	}
-} // end of class ContractedGaussian
+}

@@ -1,9 +1,3 @@
-/*
- * Power.java
- *
- * Created on July 23, 2004, 6:51 AM
- */
-
 package name.mjw.jquante.math.qm.basis;
 
 /**
@@ -137,4 +131,4 @@ public class Power implements Cloneable {
 	public String toString() {
 		return "[" + l + ", " + m + ", " + n + "]";
 	}
-} // end of class Power
+}

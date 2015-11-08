@@ -1,9 +1,3 @@
-/*
- * BasisNotFoundException.java
- *
- * Created on July 25, 2004, 11:22 AM
- */
-
 package name.mjw.jquante.math.qm.basis;
 
 /**
@@ -13,6 +7,11 @@ package name.mjw.jquante.math.qm.basis;
  * @version 2.0 (Part of MeTA v2.0)
  */
 public class BasisNotFoundException extends java.lang.RuntimeException {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2348577368651609288L;
 
 	/**
 	 * Creates a new instance of <code>BasisNotFoundException</code> without
@@ -31,4 +30,4 @@ public class BasisNotFoundException extends java.lang.RuntimeException {
 	public BasisNotFoundException(String msg) {
 		super(msg);
 	}
-} // end of class BasisNotFoundException
+}

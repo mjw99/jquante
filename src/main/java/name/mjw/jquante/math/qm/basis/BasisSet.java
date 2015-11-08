@@ -1,12 +1,6 @@
-/*
- * Basis.java
- *
- * Created on July 25, 2004, 10:36 AM
- */
-
 package name.mjw.jquante.math.qm.basis;
 
-import java.util.*;
+import java.util.HashMap;
 
 /**
  * Represents an entire basis set (say sto-3g ... etc.)
@@ -58,7 +52,7 @@ public class BasisSet {
 	}
 
 	/**
-	 * Add a relevent atomic basis to this basis set
+	 * Add a relevant atomic basis to this basis set
 	 * 
 	 * @param basis
 	 *            the instance of AtomicBasis to be added to this basis set
@@ -86,4 +80,4 @@ public class BasisSet {
 
 		return basis;
 	}
-} // end of class BasisSet
+}

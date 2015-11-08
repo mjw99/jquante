@@ -1,8 +1,3 @@
-/**
- * ShellList.java
- *
- * Created on Jul 9, 2009
- */
 package name.mjw.jquante.math.qm.basis;
 
 import java.util.HashMap;

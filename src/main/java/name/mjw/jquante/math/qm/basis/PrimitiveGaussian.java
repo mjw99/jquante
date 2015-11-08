@@ -1,9 +1,3 @@
-/*
- * PrimitiveGaussian.java
- *
- * Created on July 22, 2004, 7:09 AM
- */
-
 package name.mjw.jquante.math.qm.basis;
 
 import name.mjw.jquante.math.MathUtil;
