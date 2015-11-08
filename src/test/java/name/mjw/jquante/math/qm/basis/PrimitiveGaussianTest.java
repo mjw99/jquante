@@ -1,4 +1,4 @@
-package name.mjw.jquante.math.math.qm.basis;
+package name.mjw.jquante.math.qm.basis;
 
 import static org.junit.Assert.*;
 
