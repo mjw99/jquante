@@ -201,9 +201,8 @@ public final class MathUtil {
 	 * 
 	 *         https://en.wikipedia.org/wiki/Binomial_coefficient
 	 */
-	public static int binomial(int i, int j) {
-		return (MathUtil.factorial(i) / MathUtil.factorial(j) / MathUtil
-				.factorial(i - j));
+	public static int binomial(int n, int k) {
+		return (factorial(n) / factorial(k) / factorial(n - k));
 	}
 
 	/**
