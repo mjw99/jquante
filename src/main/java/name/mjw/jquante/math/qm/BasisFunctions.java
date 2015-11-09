@@ -6,7 +6,9 @@
 
 package name.mjw.jquante.math.qm;
 
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import name.mjw.jquante.math.qm.basis.AtomicBasis;
 import name.mjw.jquante.math.qm.basis.BasisReader;
@@ -125,7 +127,7 @@ public class BasisFunctions {
 	private ArrayList<ContractedGaussian> getBasisFunctions(Molecule molecule,
 			String basisName) throws Exception {
 		BasisSet basis = BasisReader.getInstance().readBasis(basisName);
-		Iterator atoms = molecule.getAtoms();
+		Iterator<Atom> atoms = molecule.getAtoms();
 
 		basisFunctions = new ArrayList<ContractedGaussian>();
 
