@@ -6,7 +6,7 @@
 
 package name.mjw.jquante.math.qm;
 
-import java.util.*;
+import java.util.ArrayList;
 
 import name.mjw.jquante.config.impl.AtomInfo;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
@@ -145,9 +145,8 @@ public class OneElectronIntegrals {
 	 * Class encapsulating the way to compute 1E electrons in a way useful for
 	 * utilizing multi core (processor) systems.
 	 */
-	protected class OneElectronIntegralEvaluaterThread
-			extends
-				AbstractSimpleParallelTask {
+	protected class OneElectronIntegralEvaluaterThread extends
+			AbstractSimpleParallelTask {
 
 		private int startBasisFunction, endBasisFunction;
 		private ArrayList<ContractedGaussian> bfs;

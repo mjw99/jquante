@@ -6,7 +6,7 @@
 
 package name.mjw.jquante.math.qm;
 
-import java.util.*;
+import java.util.ArrayList;
 
 import name.mjw.jquante.math.Vector3D;
 import name.mjw.jquante.math.geom.Point3D;
@@ -251,7 +251,7 @@ public class TwoElectronIntegrals {
 		double currentAlpha;
 
 		if (bfi.getCenteredAtom().getIndex() == atomIndex) {
-			paramIdx = new int[]{4, 1, 2, 3};
+			paramIdx = new int[] { 4, 1, 2, 3 };
 			for (PrimitiveGaussian iPG : bfi.getPrimitives()) {
 				currentOrigin = iPG.getOrigin();
 				currentPower = iPG.getPowers();
@@ -269,7 +269,7 @@ public class TwoElectronIntegrals {
 		} // end if
 
 		if (bfj.getCenteredAtom().getIndex() == atomIndex) {
-			paramIdx = new int[]{0, 4, 2, 3};
+			paramIdx = new int[] { 0, 4, 2, 3 };
 			for (PrimitiveGaussian iPG : bfi.getPrimitives()) {
 				for (PrimitiveGaussian jPG : bfj.getPrimitives()) {
 					currentOrigin = jPG.getOrigin();
@@ -287,7 +287,7 @@ public class TwoElectronIntegrals {
 		} // end if
 
 		if (bfk.getCenteredAtom().getIndex() == atomIndex) {
-			paramIdx = new int[]{0, 1, 4, 3};
+			paramIdx = new int[] { 0, 1, 4, 3 };
 			for (PrimitiveGaussian iPG : bfi.getPrimitives()) {
 				for (PrimitiveGaussian jPG : bfj.getPrimitives()) {
 					for (PrimitiveGaussian kPG : bfk.getPrimitives()) {
@@ -305,7 +305,7 @@ public class TwoElectronIntegrals {
 		} // end if
 
 		if (bfl.getCenteredAtom().getIndex() == atomIndex) {
-			paramIdx = new int[]{0, 1, 2, 4};
+			paramIdx = new int[] { 0, 1, 2, 4 };
 			for (PrimitiveGaussian iPG : bfi.getPrimitives()) {
 				for (PrimitiveGaussian jPG : bfj.getPrimitives()) {
 					for (PrimitiveGaussian kPG : bfk.getPrimitives()) {
@@ -342,8 +342,8 @@ public class TwoElectronIntegrals {
 				l + 1, m, n), currentAlpha, coeff);
 		xPG.normalize();
 
-		PrimitiveGaussian[] pgs = new PrimitiveGaussian[]{iPG, jPG, kPG, lPG,
-				xPG};
+		PrimitiveGaussian[] pgs = new PrimitiveGaussian[] { iPG, jPG, kPG, lPG,
+				xPG };
 
 		double terma = Math.sqrt(currentAlpha * (2.0 * l + 1.0))
 				* coeff
@@ -572,9 +572,8 @@ public class TwoElectronIntegrals {
 	 * Class encapsulating the way to compute 2E electrons in a way useful for
 	 * utilizing multi core (processor) systems.
 	 */
-	protected class TwoElectronIntegralEvaluaterThread
-			extends
-				AbstractSimpleParallelTask {
+	protected class TwoElectronIntegralEvaluaterThread extends
+			AbstractSimpleParallelTask {
 
 		private int startBasisFunction, endBasisFunction;
 		private ArrayList<ContractedGaussian> bfs;
@@ -612,9 +611,8 @@ public class TwoElectronIntegrals {
 	 * Class encapsulating the way to compute 2E electrons in a way useful for
 	 * utilizing multi core (processor) systems.
 	 */
-	protected class TwoElectronIntegralDerivativeEvaluaterThread
-			extends
-				AbstractSimpleParallelTask {
+	protected class TwoElectronIntegralDerivativeEvaluaterThread extends
+			AbstractSimpleParallelTask {
 
 		private int startBasisFunction, endBasisFunction;
 		private ArrayList<ContractedGaussian> bfs;
