@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package name.mjw.jquante.math.qm.integral;
 
 import java.util.ArrayList;
@@ -20,7 +15,7 @@ import name.mjw.jquante.math.qm.basis.Power;
  * The equations herein are based upon: <br>
  * 'Gaussian Expansion Methods for Molecular Orbitals.' H. Taketa, S. Huzinaga,
  * and K. O-ohata. <i> H. Phys. Soc. Japan, </i> <b>21</b>, 2313, 1966. [THO
- * paper]. <br>
+ * paper]. http://dx.doi.org/10.1143/JPSJ.21.2313 <br>
  * and PyQuante (<a href="http://pyquante.sf.net"> http://pyquante.sf.net </a>).
  * 
  * @author V.Ganesh
@@ -90,10 +85,10 @@ public class HuzinagaTwoElectronTerm extends TwoElectronTerm {
 
 						jij += iaCoef * jbCoef * kcCoef * dCoefs.get(l)
 								* repulsionTerm;
-					} // end l loop
-				} // end k loop
-			} // end j loop
-		} // end i loop
+					}
+				}
+			}
+		}
 
 		return (a.getNormalization() * b.getNormalization()
 				* c.getNormalization() * d.getNormalization() * jij);
@@ -176,11 +171,11 @@ public class HuzinagaTwoElectronTerm extends TwoElectronTerm {
 							bArr[index] += constructBTerm(i1, i2, r1, r2, u,
 									l1, l2, l3, l4, p, a, b, q, c, d, g1, g2,
 									delta);
-						} // end u loop
-					} // end r2 loop
-				} // end r1 loop
-			} // end i2 loop
-		} // end i1 loop
+						}
+					}
+				}
+			}
+		}
 
 		return bArr;
 	}
