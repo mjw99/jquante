@@ -1,6 +1,6 @@
 # JQuante #
 
-JQuante is a basic Java QM toolkit that was inspired by PyQuante, written in Java. 
+JQuante is a basic Java QM toolkit, written in Java, that is inspired by [PyQuante](http://pyquante.sourceforge.net/).
 
 Having started to port the Python PyQuante code to Java, it was soon discovered that some of the PyQuante code had been ported by V. Ganesh in his [Metastudio](https://github.com/tovganesh/metastudio) project. V. Ganesh, re-licensed this code base to a MIT license, hence this can be used here.
 
