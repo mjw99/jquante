@@ -6,9 +6,9 @@ Having started to port the Python PyQuante code to Java, it was soon discovered 
 
 The code aims to:
 
-* Provide a basic set of Java QM methods
-* Provide associated unit tests
-* Packaged within a Maven framework
+* Provide a basic set of Java QM methods.
+* Provide associated unit tests.
+* Packaged within a Maven framework and available on [Maven Central](http://search.maven.org/).
 
 # Compiling from Source
 This will compile and install the Jquante to the Debian based OS.
