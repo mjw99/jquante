@@ -17,8 +17,10 @@ import name.mjw.jquante.math.qm.basis.Power;
  * Head-Gordon/Pople scheme of evaluating two-electron integrals.
  * 
  * The code be based on PyQuante (<a href="http://pyquante.sf.net">
- * http://pyquante.sf.net </a>). See M. Head-Gordon and J. A. Pople, J. Chem.
- * Phys. <b>89</b>, 5777 (1988) for more details.
+ * http://pyquante.sf.net </a>). See 'A method for two‐electron Gaussian
+ * integral and integral derivative evaluation using recurrence relations' <a
+ * href="http://dx.doi.org/10.1063/1.455553"> M. Head-Gordon and J. A. Pople, J.
+ * Chem. Phys. <b>89</b>, 5777 (1988)</a> for more details.
  * 
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)

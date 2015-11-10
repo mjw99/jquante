@@ -13,9 +13,9 @@ import name.mjw.jquante.math.qm.basis.Power;
  * The Huzinaga integral package.
  * 
  * The equations herein are based upon: <br>
- * 'Gaussian Expansion Methods for Molecular Orbitals.' H. Taketa, S. Huzinaga,
- * and K. O-ohata. <i> H. Phys. Soc. Japan, </i> <b>21</b>, 2313, 1966. [THO
- * paper]. http://dx.doi.org/10.1143/JPSJ.21.2313 <br>
+ * 'Gaussian Expansion Methods for Molecular Orbitals.' <a
+ * href="http://dx.doi.org/10.1143/JPSJ.21.2313"> H. Taketa, S. Huzinaga, and K.
+ * O-ohata. <i> H. Phys. Soc. Japan, </i> <b>21</b>, 2313, 1966.)</a> [THO paper]. <br>
  * and PyQuante (<a href="http://pyquante.sf.net"> http://pyquante.sf.net </a>).
  * 
  * @author V.Ganesh
