@@ -137,9 +137,9 @@ public class HuzinagaTwoElectronTerm extends TwoElectronTerm {
 							* bz[k]
 							* IntegralsUtil.computeFGamma(i + j + k, 0.25
 									* radiusPQSquared / delta);
-				} // end for
-			} // end for
-		} // end for
+				}
+			}
+		}
 
 		return (2 * Math.pow(Math.PI, 2.5)
 				/ (gamma1 * gamma2 * Math.sqrt(gamma1 + gamma2))
@@ -151,7 +151,7 @@ public class HuzinagaTwoElectronTerm extends TwoElectronTerm {
 	/**
 	 * Construct B array.
 	 * 
-	 * <i> THO eq. 2.22 </i>
+	 * <i> http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.22 </i>
 	 */
 	private double[] constructBArray(int l1, int l2, int l3, int l4, double p,
 			double a, double b, double q, double c, double d, double g1,
@@ -183,7 +183,7 @@ public class HuzinagaTwoElectronTerm extends TwoElectronTerm {
 	/**
 	 * Construct the B term
 	 * 
-	 * <i> THO eq. 2.22 </i>
+	 * <i> http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.22 </i>
 	 */
 	private double constructBTerm(int i1, int i2, int r1, int r2, int u,
 			int l1, int l2, int l3, int l4, double px, double ax, double bx,
