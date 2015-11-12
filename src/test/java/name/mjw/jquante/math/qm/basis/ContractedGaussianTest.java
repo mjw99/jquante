@@ -18,6 +18,7 @@ public class ContractedGaussianTest {
 				new Power(0, 0, 0));
 
 		cgto.addPrimitive(1.0, 1.0);
+		cgto.normalize();
 
 		assertEquals(0.712705, cgto.amplitude(new Point3D(0, 0, 0)), delta);
 
@@ -33,7 +34,8 @@ public class ContractedGaussianTest {
 		cgto.addPrimitive(3.42525091, 0.154329);
 		cgto.addPrimitive(0.62391373, 0.535328);
 		cgto.addPrimitive(0.16885540, 0.444636);
-		
+		cgto.normalize();
+
 		assertEquals(0.6282471373416881, cgto.amplitude(new Point3D(0, 0, 0)),
 				delta);
 
