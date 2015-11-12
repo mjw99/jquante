@@ -7,9 +7,12 @@ import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
 import name.mjw.jquante.molecule.impl.MoleculeImpl;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 
 public class SCFMethodFactoryTest {
+
+	private final Logger LOG = Logger.getLogger(SCFMethodFactoryTest.class);
 
 	double diff = 0.00001;
 
@@ -28,6 +31,7 @@ public class SCFMethodFactoryTest {
 		water.addAtom(O);
 		water.addAtom(H2);
 
+		long t1 = System.currentTimeMillis();
 		// Read Basis
 		BasisFunctions bf = null;
 
@@ -43,10 +47,17 @@ public class SCFMethodFactoryTest {
 		OneElectronIntegrals e1 = new OneElectronIntegrals(bf, water);
 		TwoElectronIntegrals e2 = new TwoElectronIntegrals(bf);
 
+		long t2 = System.currentTimeMillis();
+
 		// do SCF
 		SCFMethod scfm = SCFMethodFactory.getInstance().getSCFMethod(water, e1,
 				e2, SCFType.HARTREE_FOCK);
 		scfm.scf();
+
+		long t3 = System.currentTimeMillis();
+
+		LOG.debug("Time till 2E : " + (t2 - t1) + " ms");
+		LOG.debug("Time for SCF : " + (t3 - t2) + " ms");
 
 		// orbital energies
 		double[] ev = scfm.getOrbE();
