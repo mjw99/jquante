@@ -59,8 +59,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		Power dPower = d.getPowers();
 
 		// TODO:
-		return (a.getNormalization() * b.getNormalization()
-				* c.getNormalization() * d.getNormalization());
+		throw new UnsupportedOperationException("Not supported yet.");
 	}
 
 	/**
