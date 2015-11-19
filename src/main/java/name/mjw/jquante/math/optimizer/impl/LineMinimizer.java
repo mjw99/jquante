@@ -165,7 +165,7 @@ public class LineMinimizer extends AbstractOptimizer {
 	 * 
 	 * @param bracket
 	 * @param tolerance
-	 * @return
+	 * @return x
 	 */
 	private FunctionPoint1D getParabolicMinimum(final Bracket bracket,
 			final Function1D function, final double tolerance) {
