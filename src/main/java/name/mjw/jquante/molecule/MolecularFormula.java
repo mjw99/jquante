@@ -6,9 +6,9 @@
 
 package name.mjw.jquante.molecule;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 
-import name.mjw.jquante.common.Utility;
 import name.mjw.jquante.molecule.event.MoleculeStateChangeEvent;
 import name.mjw.jquante.molecule.event.MoleculeStateChangeListener;
 
@@ -61,7 +61,7 @@ public class MolecularFormula {
 
 		// iterate through each atoms and collect the unique ones and their
 		// counts...
-		Iterator atoms = molecule.getAtoms();
+		Iterator<Atom> atoms = molecule.getAtoms();
 		Atom atom;
 
 		// TODO: a bit expensive (?) operation, may need optimization
@@ -267,8 +267,7 @@ public class MolecularFormula {
 		int hash = 7;
 		hash = 47
 				* hash
-				+ (this.uniqueSymbols != null
-						? this.uniqueSymbols.hashCode()
+				+ (this.uniqueSymbols != null ? this.uniqueSymbols.hashCode()
 						: 0);
 		return hash;
 	}
