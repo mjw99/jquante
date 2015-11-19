@@ -1,9 +1,3 @@
-/*
- * Vector3D.java
- *
- * Created on November 16, 2003, 1:50 PM
- */
-
 package name.mjw.jquante.math;
 
 import java.io.Serializable;
@@ -19,6 +13,11 @@ import name.mjw.jquante.math.geom.Point3D;
  * @version 2.0 (Part of MeTA v2.0)
  */
 public class Vector3D implements Serializable {
+
+	/**
+	 * Eclipse generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** Null vector in 3 dimensional space */
 	public final static Vector3D NULL_VECTOR = new Vector3D(0.0, 0.0, 0.0);
