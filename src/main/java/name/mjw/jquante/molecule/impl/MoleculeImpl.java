@@ -1,12 +1,13 @@
-/*
- * MoleculeImpl.java
- *
- * Created on September 7, 2003, 8:07 PM
- */
-
 package name.mjw.jquante.molecule.impl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Set;
 
 import name.mjw.jquante.config.impl.AtomInfo;
 import name.mjw.jquante.math.geom.BoundingBox;
@@ -143,7 +144,7 @@ public class MoleculeImpl extends Molecule {
 		atomList.remove(atomIndex);
 
 		// then reindex the atoms
-		Iterator atoms = atomList.iterator();
+		Iterator<Atom> atoms = atomList.iterator();
 		int index = 0;
 		Atom atom1;
 
@@ -655,7 +656,8 @@ public class MoleculeImpl extends Molecule {
 	 */
 	@Override
 	public SpecialStructureRecognizer getRingRecognizer() {
-		Iterator ssrList = specialStructureRecognizerList.iterator();
+		Iterator<SpecialStructureRecognizer> ssrList = specialStructureRecognizerList
+				.iterator();
 		Object ssr;
 
 		while (ssrList.hasNext()) {
