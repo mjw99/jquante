@@ -14,6 +14,11 @@ package name.mjw.jquante.math.la.exception;
 public class SingularMatrixException extends Exception {
 
 	/**
+	 *  Eclipse generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 4254324891358597819L;
+
+	/**
 	 * Creates a new instance of <code>SingularMatrixException</code> without
 	 * detail message.
 	 */
