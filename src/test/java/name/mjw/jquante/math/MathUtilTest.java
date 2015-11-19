@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class MathUtilTest {
+	double diff = 0.00001;
 
 	@Test
 	public void testFactorialZero() {
@@ -53,6 +54,18 @@ public class MathUtilTest {
 	@Test
 	public void binomialTenFive() {
 		assertEquals(252, MathUtil.binomial(10, 5));
+	}
+
+	@Test
+	public void degreesToRadians() {
+		assertEquals(90.0, MathUtil.toDegrees(Math.PI / 2), diff);
+
+	}
+
+	@Test
+	public void radiansToDegrees() {
+		assertEquals(Math.PI / 4, MathUtil.toRadians(45), diff);
+
 	}
 
 }
