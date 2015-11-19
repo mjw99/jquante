@@ -116,7 +116,7 @@ public final class Utility {
 	 *             throw java.lang.ClassNotFoundException
 	 *             java.lang.ClassCastException
 	 */
-	public static synchronized Class getDefaultImplFor(Class theClass)
+	public static synchronized Class<?> getDefaultImplFor(Class<?> theClass)
 			throws ClassNotFoundException {
 		GlobalConfiguration glbCfg = DefaultConfiguration.getInstance();
 
@@ -251,7 +251,7 @@ public final class Utility {
 	 * @return int - the int value intended. if the key is not found in the
 	 *         table a zero is returned instead.
 	 */
-	public static int getInteger(Hashtable table, Object key) {
+	public static int getInteger(Hashtable<?, ?> table, Object key) {
 		int value = 0;
 
 		if (table.containsKey(key)) {
@@ -272,7 +272,7 @@ public final class Utility {
 	 * @return double - the double value intended. if the key is not found in
 	 *         the table a zero is returned instead.
 	 */
-	public static double getDouble(Hashtable table, Object key) {
+	public static double getDouble(Hashtable<?, ?> table, Object key) {
 		double value = 0.0;
 
 		if (table.containsKey(key)) {
@@ -293,7 +293,7 @@ public final class Utility {
 	 * @return String - the String value intended. if the key is not found in
 	 *         the table a blank String is returned instead.
 	 */
-	public static String getString(Hashtable table, Object key) {
+	public static String getString(Hashtable<?, ?> table, Object key) {
 		String value = " ";
 
 		if (table.containsKey(key)) {
@@ -314,7 +314,7 @@ public final class Utility {
 	 * @return Color - the Color value intended. if the key is not found in the
 	 *         table a Color(1.0, 1.0, 1.0, 1.0) :: white is returned instead.
 	 */
-	public static Color getColor(Hashtable table, Object key) {
+	public static Color getColor(Hashtable<?, ?> table, Object key) {
 		Color value = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 
 		if (table.containsKey(key)) {
@@ -343,7 +343,7 @@ public final class Utility {
 					fileName.length());
 			type = type.toLowerCase();
 
-			Iterator itr = mfr.getAllSupportedTypes();
+			Iterator<?> itr = mfr.getAllSupportedTypes();
 
 			while (itr.hasNext()) {
 				if (itr.next().equals(type))
@@ -537,7 +537,7 @@ public final class Utility {
 	 * @return the DefaultMutableTreeNode containing the class instance
 	 */
 	public static DefaultMutableTreeNode findImmediateParentNode(
-			DefaultMutableTreeNode node, Class toFind) {
+			DefaultMutableTreeNode node, Class<?> toFind) {
 		if (toFind.isInstance(node.getUserObject()))
 			return node;
 		else
