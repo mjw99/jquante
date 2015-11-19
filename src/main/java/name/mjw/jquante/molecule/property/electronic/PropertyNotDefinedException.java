@@ -18,6 +18,11 @@ package name.mjw.jquante.molecule.property.electronic;
  */
 public class PropertyNotDefinedException extends Exception {
 
+	/**
+	 * Eclipse generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 302077363758923072L;
+
 	/** Creates a new instance of PropertyNotDefinedException */
 	public PropertyNotDefinedException() {
 	}

@@ -16,6 +16,11 @@ package name.mjw.jquante.moleculereader;
 public class InvalidFileFormatException extends java.io.IOException {
 
 	/**
+	 * Eclipse generated serialVersionUID
+	 */
+	private static final long serialVersionUID = -8746033654617118528L;
+
+	/**
 	 * Creates a new instance of <code>InvalidFileFormatException</code> without
 	 * detail message.
 	 */
