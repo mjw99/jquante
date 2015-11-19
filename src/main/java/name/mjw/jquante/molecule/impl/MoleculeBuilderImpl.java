@@ -1,12 +1,9 @@
-/*
- * MoleculeBuilderImpl.java
- *
- * Created on November 30, 2003, 1:57 PM
- */
-
 package name.mjw.jquante.molecule.impl;
 
-import java.util.*;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
 
 import name.mjw.jquante.config.impl.AtomInfo;
 import name.mjw.jquante.math.MathUtil;
@@ -91,7 +88,8 @@ public class MoleculeBuilderImpl extends MoleculeBuilder {
 	 */
 	@Override
 	public void identifySpecialStructures(Molecule molecule) {
-		Iterator ssrs = molecule.getSpecialStructureRecognizers();
+		Iterator<SpecialStructureRecognizer> ssrs = molecule
+				.getSpecialStructureRecognizers();
 		SpecialStructureRecognizer ssr;
 
 		while (ssrs.hasNext()) {
@@ -275,10 +273,8 @@ public class MoleculeBuilderImpl extends MoleculeBuilder {
 						molecule.setBondType(i, j, BondType.WEAK_BOND);
 					} else {
 						if (isSingleBondPresent()) {
-							doubleBondOverlap = ((dblBndOverlaps[i] == 0.0)
-									? (dblBndOverlaps[j] == 0.0
-											? DOUBLE_BOND_OVERLAP_PERCENTAGE
-											: dblBndOverlaps[j])
+							doubleBondOverlap = ((dblBndOverlaps[i] == 0.0) ? (dblBndOverlaps[j] == 0.0 ? DOUBLE_BOND_OVERLAP_PERCENTAGE
+									: dblBndOverlaps[j])
 									: dblBndOverlaps[i]);
 
 							if (!(a1.getSymbol().equals("H") || a2.getSymbol()
@@ -423,10 +419,8 @@ public class MoleculeBuilderImpl extends MoleculeBuilder {
 							molecule.setBondType(i, j, BondType.WEAK_BOND);
 						} else {
 							if (isSingleBondPresent()) {
-								doubleBondOverlap = ((dblBndOverlaps[i] == 0.0)
-										? (dblBndOverlaps[j] == 0.0
-												? DOUBLE_BOND_OVERLAP_PERCENTAGE
-												: dblBndOverlaps[j])
+								doubleBondOverlap = ((dblBndOverlaps[i] == 0.0) ? (dblBndOverlaps[j] == 0.0 ? DOUBLE_BOND_OVERLAP_PERCENTAGE
+										: dblBndOverlaps[j])
 										: dblBndOverlaps[i]);
 
 								if (!(a1.getSymbol().equals("H") || a2
@@ -635,10 +629,8 @@ public class MoleculeBuilderImpl extends MoleculeBuilder {
 				if (canFormBond(atomCenter1, atomCenter2)) {
 					covalentRadiusSum = covalentRadius[i] + covalentRadius[j];
 					if (isSingleBondPresent()) {
-						doubleBondOverlap = ((dblBndOverlaps[i] == 0.0)
-								? (dblBndOverlaps[j] == 0.0
-										? DOUBLE_BOND_OVERLAP_PERCENTAGE
-										: dblBndOverlaps[j])
+						doubleBondOverlap = ((dblBndOverlaps[i] == 0.0) ? (dblBndOverlaps[j] == 0.0 ? DOUBLE_BOND_OVERLAP_PERCENTAGE
+								: dblBndOverlaps[j])
 								: dblBndOverlaps[i]);
 
 						if (!(a1.getSymbol().equals("H") || a2.getSymbol()
@@ -710,10 +702,9 @@ public class MoleculeBuilderImpl extends MoleculeBuilder {
 		if (bondtype.equals(BondType.SINGLE_BOND))
 			return isSingleBondPresent();
 		if (bondtype.equals(BondType.DOUBLE_BOND)) {
-			doubleBondOverlap = ((atomInfo.getDoubleBondOverlap(a1Symbol) == 0.0)
-					? (atomInfo.getDoubleBondOverlap(a2Symbol) == 0.0
-							? DOUBLE_BOND_OVERLAP_PERCENTAGE
-							: atomInfo.getDoubleBondOverlap(a2Symbol))
+			doubleBondOverlap = ((atomInfo.getDoubleBondOverlap(a1Symbol) == 0.0) ? (atomInfo
+					.getDoubleBondOverlap(a2Symbol) == 0.0 ? DOUBLE_BOND_OVERLAP_PERCENTAGE
+					: atomInfo.getDoubleBondOverlap(a2Symbol))
 					: atomInfo.getDoubleBondOverlap(a1Symbol));
 			return (isSingleBondPresent() && isDoubleBondPresent());
 		} // end if
@@ -796,8 +787,8 @@ public class MoleculeBuilderImpl extends MoleculeBuilder {
 
 		int i, j;
 		Object connectedAtom;
-		Hashtable connectedList;
-		Enumeration connectedAtoms;
+		Hashtable<Integer, BondType> connectedList;
+		Enumeration<Integer> connectedAtoms;
 
 		// check for each weak bond, and verify its correctness by
 		// checking for proper orientation
@@ -928,8 +919,8 @@ public class MoleculeBuilderImpl extends MoleculeBuilder {
 	 * @return Vector3D - representing the axis !
 	 */
 	protected Vector3D computeAxis(Atom atom, int atomIndex) {
-		Hashtable connectedList = atom.getConnectedList();
-		Enumeration connectedAtoms = connectedList.keys();
+		Hashtable<Integer, BondType> connectedList = atom.getConnectedList();
+		Enumeration<Integer> connectedAtoms = connectedList.keys();
 		int connectedAtom;
 
 		Vector3D axis = Vector3D.NULL_VECTOR;
@@ -961,23 +952,22 @@ public class MoleculeBuilderImpl extends MoleculeBuilder {
 
 		// TODO: Incomplete .. special structures
 		switch (msce.getEventType()) {
-			case MoleculeStateChangeEvent.ATOM_ADDED :
-			case MoleculeStateChangeEvent.ATOM_REMOVED :
-			case MoleculeStateChangeEvent.MAJOR_MODIFICATION :
-				if (mol.isAdditionalInformationAvailable()) {
-					// connectivity information that was previously
-					// read may now be incorrect
-					mol.getAdditionalInformation().setReadConnectivity(false);
-				} // end if
+		case MoleculeStateChangeEvent.ATOM_ADDED:
+		case MoleculeStateChangeEvent.ATOM_REMOVED:
+		case MoleculeStateChangeEvent.MAJOR_MODIFICATION:
+			if (mol.isAdditionalInformationAvailable()) {
+				// connectivity information that was previously
+				// read may now be incorrect
+				mol.getAdditionalInformation().setReadConnectivity(false);
+			} // end if
 
-				mol.setCommonUserDefinedProperty(
-						CommonUserDefinedMolecularPropertyNames.DETECT_ALL,
-						true);
+			mol.setCommonUserDefinedProperty(
+					CommonUserDefinedMolecularPropertyNames.DETECT_ALL, true);
 
-				makeConnectivity(mol); // need to remake every thing!
-										// indices have changed
-				identifySpecialStructures(mol);
-				break;
+			makeConnectivity(mol); // need to remake every thing!
+									// indices have changed
+			identifySpecialStructures(mol);
+			break;
 		} // end of switch .. case block
 	}
 
