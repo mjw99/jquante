@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package name.mjw.jquante.math.qm.integral;
 
 import name.mjw.jquante.math.MathUtil;
@@ -21,7 +16,8 @@ public class OneElectronTerm implements IntegralsPackage {
 	}
 
 	/**
-	 * Overlap matrix element taken form <i> Taken from THO eq. 2.12 <i>
+	 * Overlap matrix element taken form <i> Taken from
+	 * http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.12 <i>
 	 */
 	public double overlap(double alpha1, Power power, Point3D a, double alpha2,
 			Power power2, Point3D b) {
@@ -45,7 +41,7 @@ public class OneElectronTerm implements IntegralsPackage {
 	/**
 	 * 1D overlap.
 	 * 
-	 * <i> Taken from THO eq. 2.12 <i>
+	 * <i> Taken from http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.12 <i>
 	 */
 	public double overlap1D(int l1, int l2, double pax, double pbx, double gamma) {
 		double sum = 0.0;
@@ -54,21 +50,17 @@ public class OneElectronTerm implements IntegralsPackage {
 		for (int i = 0; i < k; i++) {
 			sum += (MathUtil.binomialPrefactor(2 * i, l1, l2, pax, pbx) * MathUtil
 					.factorial2(2 * i - 1)) / Math.pow(2D * gamma, i);
-		} // end for
-
+		}
 		return sum;
 	}
 
 	/**
 	 * The Kinetic Energy (KE) componant
 	 * 
-	 * <i> Taken from THO eq. 2.12 <i>
+	 * <i> Taken from http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.13 <i>
 	 */
 	public double kinetic(double alpha1, Power power1, Point3D a,
 			double alpha2, Power power2, Point3D b) {
-		int l1 = power1.getL();
-		int m1 = power1.getM();
-		int n1 = power1.getN();
 		int l2 = power2.getL();
 		int m2 = power2.getM();
 		int n2 = power2.getN();
