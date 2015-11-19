@@ -25,9 +25,6 @@ public class JacobiDiagonalizer extends Diagonalizer {
 	// reference to actual matrix and eigen vector matrix
 	private double[][] a, v;
 
-	// intermediate arrays for multiplications and other variables
-	private double[] xp, xq, yp, yq;
-
 	double[] b, z;
 	private double theta, tau, t, sum, sin, cos, h, g;
 
