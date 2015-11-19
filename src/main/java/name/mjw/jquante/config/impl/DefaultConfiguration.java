@@ -6,9 +6,10 @@
 
 package name.mjw.jquante.config.impl;
 
-import java.util.*;
-
 import java.beans.PropertyVetoException;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.ResourceBundle;
 
 import name.mjw.jquante.common.resource.StringResource;
 import name.mjw.jquante.config.GlobalConfiguration;
@@ -65,7 +66,7 @@ public class DefaultConfiguration implements GlobalConfiguration {
 
 		// first, we map the important interface implementation classes
 		// that define the concrete MeTA Studio implementation!
-		Enumeration implKeys = resources.getKeys();
+		Enumeration<?> implKeys = resources.getKeys();
 		String theKey;
 
 		while (implKeys.hasMoreElements()) {
