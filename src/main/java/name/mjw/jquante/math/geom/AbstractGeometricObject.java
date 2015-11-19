@@ -20,7 +20,7 @@ public abstract class AbstractGeometricObject implements GeometricObject,
 	/**
 	 * Eclipse generated serialVersionUID
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1512726154223016861L;
 
 	/** Creates a new instance of AbstractGeometricObject */
 	public AbstractGeometricObject() {

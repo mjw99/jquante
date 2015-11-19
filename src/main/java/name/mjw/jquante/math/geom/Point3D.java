@@ -14,7 +14,7 @@ public class Point3D extends AbstractGeometricObject implements Cloneable,
 	/**
 	 * Eclipse generated serialVersionUID
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -8461498837262319494L;
 
 	/** Holds value of property x. */
 	private double x;

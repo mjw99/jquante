@@ -11,7 +11,7 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	/**
 	 * Eclipse generated serialVersionUID
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2613593470614954917L;
 
 	/** Holds value of property upperLeft. */
 	private Point3D upperLeft;

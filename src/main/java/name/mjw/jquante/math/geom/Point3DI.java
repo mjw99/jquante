@@ -12,7 +12,7 @@ public class Point3DI extends Point3D {
 	/**
 	 * Eclipse generated serialVersionUID
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -949127979150488129L;
 
 	/** Creates a new instance of Point3DI */
 	public Point3DI(double x, double y, double z) {
