@@ -1,12 +1,6 @@
-/*
- * FileImplParameter.java
- *
- * Created on May 17, 2004, 7:24 AM
- */
-
 package name.mjw.jquante.config.impl;
 
-import java.io.*;
+import java.io.File;
 
 import name.mjw.jquante.config.Parameter;
 

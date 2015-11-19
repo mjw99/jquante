@@ -1,13 +1,7 @@
-/*
- * GridProperty.java
- *
- * Created on July 15, 2005, 2:58 PM
- *
- */
-
 package name.mjw.jquante.molecule.property.electronic;
 
-import java.util.*;
+
+import java.util.ArrayList;
 
 import name.mjw.jquante.math.geom.BoundingBox;
 import name.mjw.jquante.math.geom.Point3D;

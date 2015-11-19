@@ -1,11 +1,9 @@
-/*
- * Atom.java
- *
- * Created on April 27, 2003, 2:47 PM
- */
 package name.mjw.jquante.molecule;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Iterator;
 
 import name.mjw.jquante.common.Units;
 import name.mjw.jquante.common.Utility;

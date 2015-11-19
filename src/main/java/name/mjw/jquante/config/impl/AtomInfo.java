@@ -1,16 +1,16 @@
-/*
- * AtomInfo.java
- *
- * Created on November 23, 2003, 2:51 PM
- */
-
 package name.mjw.jquante.config.impl;
-
-import java.io.*;
-import java.util.*;
 
 import java.awt.Color;
 import java.beans.PropertyVetoException;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Hashtable;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 
 import name.mjw.jquante.common.EventListenerList;
 import name.mjw.jquante.common.Utility;
@@ -20,7 +20,6 @@ import name.mjw.jquante.config.Parameter;
 import name.mjw.jquante.config.event.AtomInfoChangeEvent;
 import name.mjw.jquante.config.event.AtomInfoChangeListener;
 
-import org.w3c.dom.*;
 
 /**
  * The default AtomProperty configuration.

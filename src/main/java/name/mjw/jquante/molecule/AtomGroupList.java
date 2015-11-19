@@ -1,12 +1,8 @@
-/*
- * AtomGroupList.java
- *
- * Created on September 9, 2003, 9:22 AM
- */
-
 package name.mjw.jquante.molecule;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 
 /**
  * An interface definint list of AtomGroup instances.

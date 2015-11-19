@@ -1,6 +1,6 @@
 package name.mjw.jquante.math.qm;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.molecule.Atom;

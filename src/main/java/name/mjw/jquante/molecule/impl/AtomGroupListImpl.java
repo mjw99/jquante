@@ -1,12 +1,7 @@
-/*
- * AtomGroupListImpl.java
- *
- * Created on May 26, 2004, 6:52 AM
- */
-
 package name.mjw.jquante.molecule.impl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import name.mjw.jquante.molecule.AtomGroup;
 import name.mjw.jquante.molecule.AtomGroupList;

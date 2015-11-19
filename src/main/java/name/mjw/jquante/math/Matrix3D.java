@@ -1,12 +1,8 @@
-/*
- * Matrix3D.java
- *
- * Created on December 18, 2003, 7:20 AM
- */
-
 package name.mjw.jquante.math;
 
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import name.mjw.jquante.common.Utility;
 import name.mjw.jquante.math.geom.Point3D;

@@ -1,12 +1,8 @@
-/*
- * DefaultAtomGroup.java
- *
- * Created on November 21, 2004, 11:30 AM
- */
-
 package name.mjw.jquante.molecule.impl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 import name.mjw.jquante.molecule.AtomGroup;
 

@@ -6,12 +6,7 @@
 
 package name.mjw.jquante.common;
 
-import java.io.*;
-import java.util.*;
-
 import java.awt.Color;
-
-import javax.xml.parsers.*;
 
 import name.mjw.jquante.common.resource.StringResource;
 import name.mjw.jquante.config.GlobalConfiguration;
@@ -21,16 +16,34 @@ import name.mjw.jquante.molecule.MoleculeBuilder;
 import name.mjw.jquante.moleculereader.MoleculeFileReader;
 import name.mjw.jquante.moleculereader.MoleculeFileReaderFactory;
 
-import org.xml.sax.*;
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
-//import bsh.Interpreter;
-
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Hashtable;
+import java.util.Iterator;
+
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * Utility class providing basic functionality such as ID generation etc. The

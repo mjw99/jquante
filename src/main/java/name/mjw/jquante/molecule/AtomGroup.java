@@ -1,12 +1,8 @@
-/*
- * AtomGroup.java
- *
- * Created on September 9, 2003, 9:21 AM
- */
-
 package name.mjw.jquante.molecule;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 
 /**
  * Represents a generic atom group for representing special structures like
