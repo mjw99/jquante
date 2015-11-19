@@ -1,9 +1,3 @@
-/**
- * AsyncTaskCompletionEvent.java
- *
- * Created on 22/09/2009
- */
-
 package name.mjw.jquante.parallel.event;
 
 /**
@@ -12,6 +6,11 @@ package name.mjw.jquante.parallel.event;
  * @version 2.0 (Part of MeTA v2.0)
  */
 public class AsyncTaskCompletionEvent extends java.util.EventObject {
+
+	/**
+	 * Eclipse generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 1028970494565784834L;
 
 	/** Creates a new instance of AsyncTaskCompletionEvent */
 	public AsyncTaskCompletionEvent(Object source) {
