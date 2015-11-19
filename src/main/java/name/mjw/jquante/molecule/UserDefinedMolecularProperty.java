@@ -15,6 +15,11 @@ import java.io.Serializable;
  */
 public class UserDefinedMolecularProperty implements Serializable {
 
+	/**
+	 * Eclipse generated serialVersionUID
+	 */
+	private static final long serialVersionUID = -6598766569031535775L;
+
 	/** Create a new instance of UserDefinedMolecularProperty */
 	public UserDefinedMolecularProperty() {
 	}

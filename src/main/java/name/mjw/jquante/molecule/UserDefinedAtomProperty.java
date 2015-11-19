@@ -16,6 +16,11 @@ import java.io.Serializable;
  */
 public class UserDefinedAtomProperty implements Serializable {
 
+	/**
+	 * Eclipse generated serialVersionUID
+	 */
+	private static final long serialVersionUID = -172897270553276800L;
+
 	/** Creates new instance of UserDefinedAtomProperty */
 	public UserDefinedAtomProperty() {
 	}
