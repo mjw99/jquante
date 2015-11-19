@@ -1,8 +1,3 @@
-/**
- * SimpleAsyncTask.java
- *
- * Created on May 12, 2009
- */
 package name.mjw.jquante.parallel;
 
 import java.lang.reflect.Method;
