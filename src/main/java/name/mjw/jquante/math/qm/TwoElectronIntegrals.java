@@ -523,7 +523,7 @@ public class TwoElectronIntegrals {
 	}
 
 	private int atomIndex;
-	private SCFMethod scfMethod;
+	protected SCFMethod scfMethod;
 
 	/**
 	 * Return the derivatives of the two electron integrals.
