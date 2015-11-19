@@ -1,17 +1,14 @@
-/*
- * RingRecognizer.java
- *
- * Created on May 26, 2004, 6:38 AM
- */
-
 package name.mjw.jquante.molecule.impl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 import name.mjw.jquante.math.MathUtil;
 import name.mjw.jquante.math.Vector3D;
 import name.mjw.jquante.molecule.AtomGroup;
 import name.mjw.jquante.molecule.AtomGroupList;
+import name.mjw.jquante.molecule.BondType;
 import name.mjw.jquante.molecule.Molecule;
 import name.mjw.jquante.molecule.SpecialStructureRecognizer;
 
@@ -113,8 +110,8 @@ public class RingRecognizer implements SpecialStructureRecognizer {
 	protected void traverseAndRecordRing(int v) {
 		color[v] = GRAY; // this vertex is to be processed now
 
-		Hashtable connectedList = theMolecule.getAtom(v).getConnectedList();
-		Enumeration atoms = connectedList.keys();
+		Hashtable<Integer, BondType> connectedList = theMolecule.getAtom(v).getConnectedList();
+		Enumeration<Integer> atoms = connectedList.keys();
 		int atomIndex;
 
 		// traverse the strongly connected ones only
@@ -161,7 +158,7 @@ public class RingRecognizer implements SpecialStructureRecognizer {
 	 * remove subsets of rings
 	 */
 	protected void removeSubsets() {
-		ArrayList theList = theRings.getGroupList();
+		ArrayList<AtomGroup> theList = theRings.getGroupList();
 		Ring r1;
 
 		for (int i = 0; i < theList.size(); i++) {
