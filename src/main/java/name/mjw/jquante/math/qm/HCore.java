@@ -1,8 +1,3 @@
-/**
- * HCore.java
- *
- * Created on Apr 16, 2009
- */
 package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
@@ -51,7 +46,7 @@ public class HCore extends Matrix {
 		super(a);
 	}
 
-	private int atomIndex;
+	protected int atomIndex;
 	private SCFMethod scfMethod;
 
 	/**
@@ -88,8 +83,8 @@ public class HCore extends Matrix {
 				hdx[i][j] = dHCoreEle.getI();
 				hdy[i][j] = dHCoreEle.getJ();
 				hdz[i][j] = dHCoreEle.getK();
-			} // end for
-		} // end for
+			}
+		}
 
 		dHCore.add(dHCoreDx);
 		dHCore.add(dHCoreDy);
