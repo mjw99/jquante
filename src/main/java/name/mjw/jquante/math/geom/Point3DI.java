@@ -1,10 +1,3 @@
-/*
- * Point3DI.java
- *
- * Created on October 21, 2005, 10:02 PM
- *
- */
-
 package name.mjw.jquante.math.geom;
 
 /**
@@ -15,6 +8,11 @@ package name.mjw.jquante.math.geom;
  * @version 2.0 (Part of MeTA v2.0)
  */
 public class Point3DI extends Point3D {
+
+	/**
+	 * Eclipse generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** Creates a new instance of Point3DI */
 	public Point3DI(double x, double y, double z) {

@@ -14,10 +14,13 @@ import java.io.Serializable;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public abstract class AbstractGeometricObject
-		implements
-			GeometricObject,
-			Serializable {
+public abstract class AbstractGeometricObject implements GeometricObject,
+		Serializable {
+
+	/**
+	 * Eclipse generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** Creates a new instance of AbstractGeometricObject */
 	public AbstractGeometricObject() {

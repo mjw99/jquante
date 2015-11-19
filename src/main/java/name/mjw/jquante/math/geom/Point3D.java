@@ -1,9 +1,3 @@
-/*
- * Point3D.java
- *
- * Created on May 6, 2003, 10:48 PM
- */
-
 package name.mjw.jquante.math.geom;
 
 import java.io.Serializable;
@@ -14,10 +8,13 @@ import java.io.Serializable;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class Point3D extends AbstractGeometricObject
-		implements
-			Cloneable,
-			Serializable {
+public class Point3D extends AbstractGeometricObject implements Cloneable,
+		Serializable {
+
+	/**
+	 * Eclipse generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** Holds value of property x. */
 	private double x;

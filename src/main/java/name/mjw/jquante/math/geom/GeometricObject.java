@@ -1,9 +1,3 @@
-/**
- * GeometricObject.java
- *
- * Created on 27/04/2010
- */
-
 package name.mjw.jquante.math.geom;
 
 /**

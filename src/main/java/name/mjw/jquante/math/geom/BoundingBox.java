@@ -1,9 +1,3 @@
-/*
- * BoundingBox.java
- *
- * Created on January 25, 2004, 11:49 AM
- */
-
 package name.mjw.jquante.math.geom;
 
 /**
@@ -13,6 +7,11 @@ package name.mjw.jquante.math.geom;
  * @version 2.0 (Part of MeTA v2.0)
  */
 public class BoundingBox extends AbstractGeometricObject implements Cloneable {
+
+	/**
+	 * Eclipse generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** Holds value of property upperLeft. */
 	private Point3D upperLeft;
