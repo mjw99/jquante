@@ -25,11 +25,12 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 	private ArrayList<Fock> fockMatrixList;
 	private ArrayList<Vector> errorMatrixList;
 
-	private int diisStep = 0;
+	protected int diisStep = 0;
 
 	private boolean diisStarted = false;
 
 	private Fock oldFock = null;
+
 	/** Initialize this interpolator */
 	@Override
 	public void init() {
@@ -45,7 +46,7 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 	}
 
 	/**
-	 * Get the next exrapolated fock matrix
+	 * Get the next extrapolated fock matrix
 	 * 
 	 * @param currentFock
 	 *            the current fock
@@ -67,9 +68,8 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 		double mxerr = errorMatrix.maxNorm();
 
 		if (mxerr < errorThreshold && !diisStarted) {
-			System.out.println("Starting DIIS...");
 			diisStarted = true;
-		} // end if
+		}
 
 		if (!diisStarted) {
 			if (oldFock == null) {
@@ -104,13 +104,13 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 			for (int j = 0; j < noOfIterations; j++) {
 				aMatrix[i][j] = errorMatrixList.get(i).dot(
 						errorMatrixList.get(j));
-			} // end for
-		} // end for
+			}
+		}
 
 		for (int i = 0; i < noOfIterations; i++) {
 			aMatrix[noOfIterations][i] = aMatrix[i][noOfIterations] = -1.0;
 			bVector[i] = 0.0;
-		} // end for
+		}
 
 		aMatrix[noOfIterations][noOfIterations] = 0.0;
 		bVector[noOfIterations] = -1.0;
@@ -129,9 +129,9 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 				for (int j = 0; j < newFockMat.length; j++) {
 					for (int k = 0; k < newFockMat.length; k++) {
 						newFockMat[j][k] += solVec[i] * prevFockMat[j][k];
-					} // end for
-				} // end for
-			} // end for
+					}
+				}
+			}
 
 			oldFock = currentFock;
 		} catch (SingularMatrixException ignored) {
@@ -141,7 +141,7 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 			// no solution could be found, so return the current Fock as is
 			diisStep++;
 			return currentFock;
-		} // end of try .. catch block
+		}
 
 		diisStep++;
 
