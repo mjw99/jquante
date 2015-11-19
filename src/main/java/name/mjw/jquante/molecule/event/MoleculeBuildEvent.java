@@ -16,6 +16,10 @@ package name.mjw.jquante.molecule.event;
  */
 public class MoleculeBuildEvent extends java.util.EventObject {
 
+	/**
+	 * Eclipse generated serialVersionUID
+	 */
+	private static final long serialVersionUID = -155132299770862677L;
 	/** event types */
 	public static final int DESCRIPTION_EVENT = 0;
 	public static final int PERCENT_COMPLETION_EVENT = 1;

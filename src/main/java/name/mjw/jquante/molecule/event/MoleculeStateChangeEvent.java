@@ -19,6 +19,11 @@ public class MoleculeStateChangeEvent extends java.util.EventObject {
 
 	/** event types ... */
 
+	/**
+	 * Eclipse generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 8048783608407762017L;
+
 	/** atom added event */
 	public static final int ATOM_ADDED = 1;
 
