@@ -572,7 +572,6 @@ public final class Utility {
 					int hig = Integer.parseInt(hypSepStr[1].trim());
 
 					if (low > hig) {
-						int tmp = hig;
 						hig = low;
 						low = hig;
 					} // end if
