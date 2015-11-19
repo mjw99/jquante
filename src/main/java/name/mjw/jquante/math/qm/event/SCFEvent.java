@@ -15,6 +15,11 @@ package name.mjw.jquante.math.qm.event;
 public class SCFEvent extends java.util.EventObject {
 
 	/**
+	 * Eclipse generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 3063823325261803339L;
+
+	/**
 	 * Holds value of property currentIteration.
 	 */
 	private int currentIteration;
