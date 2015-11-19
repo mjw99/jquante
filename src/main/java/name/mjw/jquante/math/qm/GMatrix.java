@@ -173,57 +173,6 @@ public class GMatrix extends Matrix {
 		System.gc();
 	}
 
-	/** function to facilitate mulithreaded direct formation of GMatrix */
-	private void makeGMatrixDirectOrg(int startBasisFunction,
-			int endBasisFunction) {
-		int noOfBasisFunctions = density.getRowCount();
-		Matrix theGMatrix = this;
-		Vector densityOneD = new Vector(density); // form 1D vector of density
-		Vector tempVector = new Vector(noOfBasisFunctions * noOfBasisFunctions);
-
-		double[][] gMatrix = theGMatrix.getMatrix();
-		double[] temp = tempVector.getVector();
-
-		double twoEIntVal1, twoEIntVal2, twoEIntVal3;
-
-		int i, j, k, l, kl, indexJ, indexK1, indexK2;
-		for (i = startBasisFunction; i < endBasisFunction; i++) {
-			for (j = 0; j < i + 1; j++) {
-
-				tempVector.makeZero();
-				kl = 0;
-
-				for (k = 0; k < noOfBasisFunctions; k++) {
-					for (l = 0; l < noOfBasisFunctions; l++) {
-						indexJ = IntegralsUtil.ijkl2intindex(i, j, k, l);
-						indexK1 = IntegralsUtil.ijkl2intindex(i, k, j, l);
-						indexK2 = IntegralsUtil.ijkl2intindex(i, l, k, j);
-
-						twoEIntVal1 = twoEI.compute2E(i, j, k, l);
-						if (indexJ == indexK1)
-							twoEIntVal2 = twoEIntVal1;
-						else
-							twoEIntVal2 = twoEI.compute2E(i, k, j, l);
-
-						if (indexJ == indexK2)
-							twoEIntVal3 = twoEIntVal1;
-						else if (indexK1 == indexK2)
-							twoEIntVal3 = twoEIntVal2;
-						else
-							twoEIntVal3 = twoEI.compute2E(i, l, k, j);
-
-						temp[kl] = 2.0 * twoEIntVal1 - 0.5 * twoEIntVal2 - 0.5
-								* twoEIntVal3;
-
-						kl++;
-					} // end l loop
-				} // end k loop
-
-				gMatrix[i][j] = gMatrix[j][i] = tempVector.dot(densityOneD);
-			} // end j loop
-		} // end i loop
-	}
-
 	private ArrayList<GMatrix> partialGMatrixList;
 
 	/** function to facilitate mulithreaded direct formation of GMatrix */
