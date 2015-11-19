@@ -16,6 +16,11 @@ import java.util.EventObject;
  */
 public class AtomInfoChangeEvent extends EventObject {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5378842897630157145L;
+
 	/** Holds value of property changeType. */
 	private int changeType;
 
