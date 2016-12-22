@@ -63,19 +63,27 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 	/**
 	 * HRR (Horizontal Recurrance Relation)
 	 */
-	protected double contrHrr(Point3D a, Power aPower,
-			ArrayList<Double> aCoeff, ArrayList<Double> aExps,
-			ArrayList<Double> aNorms, Point3D b, Power bPower,
-			ArrayList<Double> bCoeff, ArrayList<Double> bExps,
-			ArrayList<Double> bNorms, Point3D c, Power cPower,
-			ArrayList<Double> cCoeff, ArrayList<Double> cExps,
-			ArrayList<Double> cNorms, Point3D d, Power dPower,
-			ArrayList<Double> dCoeff, ArrayList<Double> dExps,
-			ArrayList<Double> dNorms) {
-		int la = aPower.getL(), ma = aPower.getM(), na = aPower.getN();
-		int lb = bPower.getL(), mb = bPower.getM(), nb = bPower.getN();
-		int lc = cPower.getL(), mc = cPower.getM(), nc = cPower.getN();
-		int ld = dPower.getL(), md = dPower.getM(), nd = dPower.getN();
+	protected double contrHrr(
+			Point3D a, Power aPower, ArrayList<Double> aCoeff, ArrayList<Double> aExps, ArrayList<Double> aNorms,
+			Point3D b, Power bPower, ArrayList<Double> bCoeff, ArrayList<Double> bExps, ArrayList<Double> bNorms,
+			Point3D c, Power cPower, ArrayList<Double> cCoeff, ArrayList<Double> cExps, ArrayList<Double> cNorms,
+			Point3D d, Power dPower, ArrayList<Double> dCoeff, ArrayList<Double> dExps, ArrayList<Double> dNorms) {
+
+		int la = aPower.getL();
+		int ma = aPower.getM();
+		int na = aPower.getN();
+
+		int lb = bPower.getL();
+		int mb = bPower.getM();
+		int nb = bPower.getN();
+
+		int lc = cPower.getL();
+		int mc = cPower.getM();
+		int nc = cPower.getN();
+
+		int ld = dPower.getL();
+		int md = dPower.getM();
+		int nd = dPower.getN();
 
 		if (lb > 0) {
 			Power newBPower = new Power(lb - 1, mb, nb);
@@ -133,9 +141,11 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 							cNorms, d, newDPower, dCoeff, dExps, dNorms));
 		} // end if
 
-		return contrVrr(a, aPower, aCoeff, aExps, aNorms, b, bCoeff, bExps,
-				bNorms, c, cPower, cCoeff, cExps, cNorms, d, dCoeff, dExps,
-				dNorms);
+		return contrVrr(
+				a, aPower, aCoeff, aExps, aNorms, 
+				b, bCoeff, bExps, bNorms,
+				c, cPower, cCoeff, cExps, cNorms,
+				d, dCoeff, dExps, dNorms);
 	}
 
 	/**
