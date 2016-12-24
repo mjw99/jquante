@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package name.mjw.jquante.math;
 
 import name.mjw.jquante.math.geom.Point3D;

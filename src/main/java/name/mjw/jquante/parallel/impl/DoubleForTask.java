@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package name.mjw.jquante.parallel.impl;
 
 import java.util.ArrayList;
@@ -44,7 +39,7 @@ public abstract class DoubleForTask extends ForTask<Double> {
 				throw new UnsupportedOperationException(
 						"The requested openration '" + op
 								+ "' is not supported");
-		} // end switch case
+		}
 
 		return result;
 	}

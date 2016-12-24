@@ -1,12 +1,3 @@
-/*
- * LinearInterpolater.java
- *
- * Created on July 26, 2007, 11:08 PM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package name.mjw.jquante.math.interpolater;
 
 /**
@@ -68,4 +59,4 @@ public class LinearInterpolater extends Interpolater {
 	public String toString() {
 		return "Linear interpolater";
 	}
-} // end of class LinearInterpolater
+}

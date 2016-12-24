@@ -1,12 +1,3 @@
-/*
- * OptimizerFunction.java
- *
- * Created on August 28, 2007, 11:02 AM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package name.mjw.jquante.math.optimizer;
 
 import name.mjw.jquante.math.Matrix;
@@ -79,4 +70,4 @@ public interface OptimizerFunction {
 	 */
 	public Matrix getHessian();
 
-} // end of interface OptimizerFunction
+}

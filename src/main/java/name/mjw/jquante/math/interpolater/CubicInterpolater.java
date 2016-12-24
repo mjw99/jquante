@@ -1,12 +1,3 @@
-/*
- * CubicInterpolater.java
- *
- * Created on July 26, 2007, 11:19 PM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package name.mjw.jquante.math.interpolater;
 
 /**
@@ -87,4 +78,4 @@ public class CubicInterpolater extends Interpolater {
 	public String toString() {
 		return "Cubic interpolater";
 	}
-} // end of class CubicInterpolater
+}

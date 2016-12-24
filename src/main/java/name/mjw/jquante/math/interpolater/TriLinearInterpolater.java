@@ -1,12 +1,3 @@
-/*
- * TriLinearInterpolater.java
- *
- * Created on July 28, 2007, 6:25 AM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package name.mjw.jquante.math.interpolater;
 
 /**
@@ -111,4 +102,4 @@ public class TriLinearInterpolater extends Interpolater {
 	public String toString() {
 		return "Tri linear interpolater";
 	}
-} // end of class TriLinearInterpolater
+}

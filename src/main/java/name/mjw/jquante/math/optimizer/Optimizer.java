@@ -1,12 +1,3 @@
-/*
- * Optimizer.java
- *
- * Created on August 25, 2007, 11:22 AM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package name.mjw.jquante.math.optimizer;
 
 /**
@@ -92,4 +83,4 @@ public interface Optimizer {
 	 */
 	public ConvergenceCriteria getConvergenceCriteria();
 
-} // end of interface Optimizer
+}

@@ -1,12 +1,3 @@
-/*
- * PropertyNotDefinedException.java
- *
- * Created on October 11, 2007, 10:00 AM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package name.mjw.jquante.molecule.property.electronic;
 
 /**
@@ -40,4 +31,4 @@ public class PropertyNotDefinedException extends Exception {
 	public String toString() {
 		return errMsg;
 	}
-} // end of class PropertyNotDefinedException
+}

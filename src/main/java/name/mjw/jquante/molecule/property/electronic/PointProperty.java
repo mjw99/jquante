@@ -1,12 +1,3 @@
-/*
- * PointProperty.java
- *
- * Created on October 11, 2007, 9:56 AM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package name.mjw.jquante.molecule.property.electronic;
 
 import name.mjw.jquante.math.geom.Point3D;

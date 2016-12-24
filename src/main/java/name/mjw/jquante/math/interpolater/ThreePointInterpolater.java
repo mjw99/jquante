@@ -1,12 +1,3 @@
-/*
- * ThreePointInterpolater.java
- *
- * Created on August 5, 2007, 9:13 PM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package name.mjw.jquante.math.interpolater;
 
 /**
@@ -115,4 +106,4 @@ public class ThreePointInterpolater extends Interpolater {
 	public int getNumberOfRequiredXArgs() {
 		return 9;
 	}
-} // end of class ThreePointInterpolater
+}
