@@ -9,12 +9,15 @@ package name.mjw.jquante.math.qm.integral;
  */
 public class IntegralsPackageFactory {
 
-	/** Private constructor */
+	private static IntegralsPackageFactory theInstance;
+	protected IntegralPackageType defaultTwoElectronIntegralPackage;
+	private OneElectronTerm oneElectronTerm;
+	private NuclearTerm nuclearTerm;
+	private TwoElectronTerm twoElectronTerm;
+
 	private IntegralsPackageFactory() {
 		defaultTwoElectronIntegralPackage = IntegralPackageType.TWO_ELECTRON_HUZINAGA;
 	}
-
-	private static IntegralsPackageFactory _theInstance;
 
 	/**
 	 * Get the instance of IntegralsPackageFactory
@@ -22,14 +25,12 @@ public class IntegralsPackageFactory {
 	 * @return instance of IntegralsPackageFactory
 	 */
 	public static IntegralsPackageFactory getInstance() {
-		if (_theInstance == null) {
-			_theInstance = new IntegralsPackageFactory();
-		} // end if
+		if (theInstance == null) {
+			theInstance = new IntegralsPackageFactory();
+		}
 
-		return _theInstance;
+		return theInstance;
 	}
-
-	private NuclearTerm _nuclearTerm;
 
 	/**
 	 * Request a nuclear term integral package
@@ -37,13 +38,11 @@ public class IntegralsPackageFactory {
 	 * @return instance of NuclearTerm
 	 */
 	public NuclearTerm getNuclearTerm() {
-		if (_nuclearTerm == null)
-			_nuclearTerm = new NuclearTerm();
+		if (nuclearTerm == null)
+			nuclearTerm = new NuclearTerm();
 
-		return _nuclearTerm;
+		return nuclearTerm;
 	}
-
-	private OneElectronTerm _oneElectronTerm;
 
 	/**
 	 * Request a one electron integral package
@@ -51,13 +50,11 @@ public class IntegralsPackageFactory {
 	 * @return instance of OneElectronTerm
 	 */
 	public OneElectronTerm getOneElectronTerm() {
-		if (_oneElectronTerm == null)
-			_oneElectronTerm = new OneElectronTerm();
+		if (oneElectronTerm == null)
+			oneElectronTerm = new OneElectronTerm();
 
-		return _oneElectronTerm;
+		return oneElectronTerm;
 	}
-
-	private TwoElectronTerm _twoElectronTerm;
 
 	/**
 	 * Request a 2E integral package.
@@ -69,21 +66,21 @@ public class IntegralsPackageFactory {
 	 */
 	public TwoElectronTerm getTwoElectronTerm(IntegralPackageType type) {
 		switch (type) {
-			case TWO_ELECTRON_HUZINAGA :
-				_twoElectronTerm = new HuzinagaTwoElectronTerm();
-				break;
-			case TWO_ELECTRON_RYS :
-				_twoElectronTerm = new RysTwoElectronTerm();
-				break;
-			case TWO_ELECTRON_HGP :
-				_twoElectronTerm = new HGPTwoElectronTerm();
-				break;
-			default :
-				throw new UnsupportedOperationException("No 2E integral "
-						+ "package yet for: " + type);
-		} // end of switch .. case block
+		case TWO_ELECTRON_HUZINAGA:
+			twoElectronTerm = new HuzinagaTwoElectronTerm();
+			break;
+		case TWO_ELECTRON_RYS:
+			twoElectronTerm = new RysTwoElectronTerm();
+			break;
+		case TWO_ELECTRON_HGP:
+			twoElectronTerm = new HGPTwoElectronTerm();
+			break;
+		default:
+			throw new UnsupportedOperationException("No 2E integral "
+					+ "package yet for: " + type);
+		}
 
-		return _twoElectronTerm;
+		return twoElectronTerm;
 	}
 
 	/**
@@ -96,8 +93,6 @@ public class IntegralsPackageFactory {
 	public TwoElectronTerm getTwoElectronTerm() {
 		return getTwoElectronTerm(defaultTwoElectronIntegralPackage);
 	}
-
-	protected IntegralPackageType defaultTwoElectronIntegralPackage;
 
 	/**
 	 * Get the value of defaultTwoElectronIntegralPackage
@@ -118,7 +113,7 @@ public class IntegralsPackageFactory {
 			IntegralPackageType defaultTwoElectronIntegralPackage) {
 		this.defaultTwoElectronIntegralPackage = defaultTwoElectronIntegralPackage;
 
-		// change here affects the statically initilised Integral package
+		// change here affects the statically initialised Integral package
 		// so update reference there
 		Integrals.reInitPackageReference();
 	}
@@ -133,17 +128,17 @@ public class IntegralsPackageFactory {
 	 */
 	public IntegralsPackage getPackage(IntegralPackageType type) {
 		switch (type) {
-			case NUCLEAR_TERM :
-				return getNuclearTerm();
-			case ONE_ELECTRON_TERM :
-				return getOneElectronTerm();
-			case TWO_ELECTRON_HUZINAGA :
-			case TWO_ELECTRON_HGP :
-			case TWO_ELECTRON_RYS :
-				return getTwoElectronTerm(type);
-			default :
-				throw new UnsupportedOperationException("No integral "
-						+ "package yet for: " + type);
-		} // end of switch .. case block
+		case NUCLEAR_TERM:
+			return getNuclearTerm();
+		case ONE_ELECTRON_TERM:
+			return getOneElectronTerm();
+		case TWO_ELECTRON_HUZINAGA:
+		case TWO_ELECTRON_HGP:
+		case TWO_ELECTRON_RYS:
+			return getTwoElectronTerm(type);
+		default:
+			throw new UnsupportedOperationException("No integral "
+					+ "package yet for: " + type);
+		}
 	}
 }
