@@ -9,7 +9,7 @@ import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
 
 /**
- * The class defines a contracted gaussian and the operations on it.
+ * The class defines a contracted Gaussian and the operations on it.
  * 
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
@@ -22,7 +22,7 @@ public class ContractedGaussian {
 	private Point3D origin;
 
 	/**
-	 * Holds value of property powers, whoes array size is 3.
+	 * Holds value of property powers, whole array size is 3.
 	 */
 	private Power powers;
 
