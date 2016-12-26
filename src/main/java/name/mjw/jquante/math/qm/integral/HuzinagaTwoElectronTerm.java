@@ -15,7 +15,8 @@ import name.mjw.jquante.math.qm.basis.Power;
  * The equations herein are based upon: <br>
  * 'Gaussian Expansion Methods for Molecular Orbitals.' <a
  * href="http://dx.doi.org/10.1143/JPSJ.21.2313"> H. Taketa, S. Huzinaga, and K.
- * O-ohata. <i> H. Phys. Soc. Japan, </i> <b>21</b>, 2313, 1966.)</a> [THO paper]. <br>
+ * O-ohata. <i> H. Phys. Soc. Japan, </i> <b>21</b>, 2313, 1966.)</a> [THO
+ * paper]. <br>
  * and PyQuante (<a href="http://pyquante.sf.net"> http://pyquante.sf.net </a>).
  * 
  * @author V.Ganesh
@@ -28,39 +29,57 @@ public class HuzinagaTwoElectronTerm extends TwoElectronTerm {
 	}
 
 	/**
-	 * 2E coulomb interactions between 4 contracted Gaussians
+	 * 2E coulomb interactions between four contracted Gaussians
 	 */
 	@Override
 	public double coulomb(ContractedGaussian a, ContractedGaussian b,
 			ContractedGaussian c, ContractedGaussian d) {
+
 		double jij = 0.0;
 
-		ArrayList<Double> aExps = a.getExponents(), aCoefs = a
-				.getCoefficients(), aNorms = a.getPrimNorms();
+		int i;
+		int j;
+		int k;
+		int l;
+		double iaExp;
+		double iaCoef;
+		double iaNorm;
+		double jbExp;
+		double jbCoef;
+		double jbNorm;
+		double kcExp;
+		double kcCoef;
+		double kcNorm;
+		double repulsionTerm;
+
+		ArrayList<Double> aExps = a.getExponents();
+		ArrayList<Double> aCoefs = a.getCoefficients();
+		ArrayList<Double> aNorms = a.getPrimNorms();
 		Point3D aOrigin = a.getOrigin();
 		Power aPower = a.getPowers();
 
-		ArrayList<Double> bExps = b.getExponents(), bCoefs = b
-				.getCoefficients(), bNorms = b.getPrimNorms();
+		ArrayList<Double> bExps = b.getExponents();
+		ArrayList<Double> bCoefs = b.getCoefficients();
+		ArrayList<Double> bNorms = b.getPrimNorms();
 		Point3D bOrigin = b.getOrigin();
 		Power bPower = b.getPowers();
 
-		ArrayList<Double> cExps = c.getExponents(), cCoefs = c
-				.getCoefficients(), cNorms = c.getPrimNorms();
+		ArrayList<Double> cExps = c.getExponents();
+		ArrayList<Double> cCoefs = c.getCoefficients();
+		ArrayList<Double> cNorms = c.getPrimNorms();
 		Point3D cOrigin = c.getOrigin();
 		Power cPower = c.getPowers();
 
-		ArrayList<Double> dExps = d.getExponents(), dCoefs = d
-				.getCoefficients(), dNorms = d.getPrimNorms();
+		ArrayList<Double> dExps = d.getExponents();
+		ArrayList<Double> dCoefs = d.getCoefficients();
+		ArrayList<Double> dNorms = d.getPrimNorms();
 		Point3D dOrigin = d.getOrigin();
 		Power dPower = d.getPowers();
 
-		int i, j, k, l;
-		double iaExp, iaCoef, iaNorm, jbExp, jbCoef, jbNorm, kcExp, kcCoef, kcNorm;
-		double repulsionTerm;
-
-		int asz = aExps.size(), bsz = bExps.size(), csz = cExps.size(), dsz = dExps
-				.size();
+		int asz = aExps.size();
+		int bsz = bExps.size();
+		int csz = cExps.size();
+		int dsz = dExps.size();
 
 		for (i = 0; i < asz; i++) {
 			iaCoef = aCoefs.get(i);
@@ -103,6 +122,11 @@ public class HuzinagaTwoElectronTerm extends TwoElectronTerm {
 			double bAlpha, Point3D c, double cNorm, Power cPower,
 			double cAlpha, Point3D d, double dNorm, Power dPower, double dAlpha) {
 
+		double sum = 0.0;
+		int i;
+		int j;
+		int k;
+
 		double radiusABSquared = a.distanceSquaredFrom(b);
 		double radiusCDSquared = c.distanceSquaredFrom(d);
 
@@ -127,8 +151,6 @@ public class HuzinagaTwoElectronTerm extends TwoElectronTerm {
 				cPower.getN(), dPower.getN(), p.getZ(), a.getZ(), b.getZ(),
 				q.getZ(), c.getZ(), d.getZ(), gamma1, gamma2, delta);
 
-		double sum = 0.0;
-		int i, j, k;
 		for (i = 0; i < bx.length; i++) {
 			for (j = 0; j < by.length; j++) {
 				for (k = 0; k < bz.length; k++) {
@@ -156,10 +178,16 @@ public class HuzinagaTwoElectronTerm extends TwoElectronTerm {
 	private double[] constructBArray(int l1, int l2, int l3, int l4, double p,
 			double a, double b, double q, double c, double d, double g1,
 			double g2, double delta) {
+
+		int i1;
+		int i2;
+		int r1;
+		int r2;
+		int u;
+		int index;
+
 		int iMax = l1 + l2 + l3 + l4 + 1;
 		double[] bArr = new double[iMax];
-
-		int i1, i2, r1, r2, u, index;
 
 		for (i1 = 0; i1 < (l1 + l2 + 1); i1++) {
 			for (i2 = 0; i2 < (l3 + l4 + 1); i2++) {
