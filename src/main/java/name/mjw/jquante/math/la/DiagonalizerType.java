@@ -1,9 +1,3 @@
-/*
- * DiagonalizerType.java
- *
- * Created on August 4, 2004, 7:20 AM
- */
-
 package name.mjw.jquante.math.la;
 
 /**
@@ -43,8 +37,9 @@ public final class DiagonalizerType {
 	 * 
 	 * @return a string indicating diagonalizer type
 	 */
+	@Override
 	public String toString() {
-		String description = "";
+		String description;
 
 		if (this.equals(JACOBI)) {
 			description = "Jacobi Diagonalization Method";
@@ -61,10 +56,11 @@ public final class DiagonalizerType {
 	 * 
 	 * @return true/ false specifying the equality or inequality
 	 */
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 
-		return ((obj != null) && (obj instanceof DiagonalizerType) && (this.type == ((DiagonalizerType) obj).type));
+		return (obj != null) && (obj instanceof DiagonalizerType) && (this.type == ((DiagonalizerType) obj).type);
 	}
-} // end of class DiagonalizerType
+}

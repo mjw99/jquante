@@ -85,7 +85,7 @@ public class MoleculeBuilderMCImpl extends MoleculeBuilderImpl {
 
 		molecule.disableListeners(); // disable listeners
 
-		// init bond metrices
+		// init bond metrics
 		molecule.initBondMetrics();
 
 		// first cache the covalent and vdw radius, along with the info
@@ -129,7 +129,6 @@ public class MoleculeBuilderMCImpl extends MoleculeBuilderImpl {
 
 		// try to free up some memory
 		covalentRadius = vdwRadius = dblBndOverlaps = null;
-		System.gc();
 
 		// put a marker on what is detected
 		molecule.setCommonUserDefinedProperty(
@@ -143,7 +142,6 @@ public class MoleculeBuilderMCImpl extends MoleculeBuilderImpl {
 		confirmWeakBonds();
 		// again try to grab some space
 		weakBondAngle = null;
-		System.gc();
 
 		molecule.enableListeners(); // enable the listeners
 
@@ -227,7 +225,6 @@ public class MoleculeBuilderMCImpl extends MoleculeBuilderImpl {
 
 		// try to free up some memory
 		covalentRadius = null;
-		System.gc();
 
 		// put a marker on what is detected
 		molecule.setCommonUserDefinedProperty(
@@ -243,9 +240,17 @@ public class MoleculeBuilderMCImpl extends MoleculeBuilderImpl {
 	 */
 	protected class MoleculeBuilderThread extends AbstractSimpleParallelTask {
 		private Molecule molecule;
-		private int startAtomIndex, endAtomIndex, i, j;
-		private double vdwRadiusSum, covalentRadiusSum, doubleBondOverlap,
-				distance, x, y, z;
+		private int startAtomIndex;
+		private int endAtomIndex;
+		private int i;
+		private int j;
+		private double vdwRadiusSum;
+		private double covalentRadiusSum;
+		private double doubleBondOverlap;
+		private double distance;
+		private double x;
+		private double y;
+		private double z;
 
 		public MoleculeBuilderThread(Molecule molecule) {
 			this.molecule = molecule;
@@ -260,11 +265,12 @@ public class MoleculeBuilderMCImpl extends MoleculeBuilderImpl {
 			setTaskName("MoleculeBuilder Thread");
 		}
 
-		/** overriden run() */
 		@Override
 		public void run() {
-			Point3D atomCenter1, atomCenter2;
-			Atom a1, a2;
+			Point3D atomCenter1;
+			Point3D atomCenter2;
+			Atom a1;
+			Atom a2;
 
 			for (i = startAtomIndex; i < endAtomIndex; i++) {
 				a1 = molecule.getAtom(i);
@@ -320,7 +326,6 @@ public class MoleculeBuilderMCImpl extends MoleculeBuilderImpl {
 			} // end for
 		}
 
-		/** Overridden init() */
 		@Override
 		public SimpleParallelTask init(int startItem, int endItem) {
 			return new MoleculeBuilderThread(molecule, startItem, endItem);
@@ -336,8 +341,7 @@ public class MoleculeBuilderMCImpl extends MoleculeBuilderImpl {
 			// orientation of the interacting atoms.
 			// >>>> NOTE : This criteria is taken from
 			// Cambridge Cluster Data base site
-			return ((distance < (vdwRadiusSum - WEAK_BOND_TOLERANCE_LOWER) && (vdwRadiusSum - WEAK_BOND_TOLERANCE_UPPER) < distance));
-			// >>>>
+			return (distance < (vdwRadiusSum - WEAK_BOND_TOLERANCE_LOWER) && (vdwRadiusSum - WEAK_BOND_TOLERANCE_UPPER) < distance);
 		}
 
 		/**
@@ -346,7 +350,7 @@ public class MoleculeBuilderMCImpl extends MoleculeBuilderImpl {
 		protected boolean isSingleBondPresent() {
 			// >>>> NOTE : This criteria is taken from
 			// Cambridge Cluster Data base site
-			return (((covalentRadiusSum - COVALENT_BOND_TOLERANCE) < distance) && (distance < (covalentRadiusSum + COVALENT_BOND_TOLERANCE)));
+			return ((covalentRadiusSum - COVALENT_BOND_TOLERANCE) < distance) && (distance < (covalentRadiusSum + COVALENT_BOND_TOLERANCE));
 			// >>>>
 		}
 
@@ -390,7 +394,7 @@ public class MoleculeBuilderMCImpl extends MoleculeBuilderImpl {
 
 			return true;
 		}
-	} // end of class MoleculeBuilderThread
+	}
 
 	/**
 	 * The molecule builder Thread ... that does the actual job of partially
@@ -400,8 +404,15 @@ public class MoleculeBuilderMCImpl extends MoleculeBuilderImpl {
 			extends
 				AbstractSimpleParallelTask {
 		private Molecule molecule;
-		private int startAtomIndex, endAtomIndex, i, j;
-		private double covalentRadiusSum, distance, x, y, z;
+		private int startAtomIndex;
+		private int endAtomIndex;
+		private int i;
+		private int j;
+		private double covalentRadiusSum;
+		private double distance;
+		private double x;
+		private double y;
+		private double z;
 
 		public SimpleMoleculeBuilderThread(Molecule molecule) {
 			this.molecule = molecule;
@@ -419,8 +430,10 @@ public class MoleculeBuilderMCImpl extends MoleculeBuilderImpl {
 		/** overriden run() */
 		@Override
 		public void run() {
-			Point3D atomCenter1, atomCenter2;
-			Atom a1, a2;
+			Point3D atomCenter1;
+			Point3D atomCenter2;
+			Atom a1;
+			Atom a2;
 
 			for (i = startAtomIndex; i < endAtomIndex; i++) {
 				a1 = molecule.getAtom(i);
@@ -453,8 +466,7 @@ public class MoleculeBuilderMCImpl extends MoleculeBuilderImpl {
 		protected boolean isSingleBondPresent() {
 			// >>>> NOTE : This criteria is taken from
 			// Cambridge Cluster Data base site
-			return (((covalentRadiusSum - COVALENT_BOND_TOLERANCE) < distance) && (distance < (covalentRadiusSum + COVALENT_BOND_TOLERANCE)));
-			// >>>>
+			return ((covalentRadiusSum - COVALENT_BOND_TOLERANCE) < distance) && (distance < (covalentRadiusSum + COVALENT_BOND_TOLERANCE));
 		}
 
 		/**
@@ -489,6 +501,6 @@ public class MoleculeBuilderMCImpl extends MoleculeBuilderImpl {
 		public SimpleParallelTask init(int startItem, int endItem) {
 			return new SimpleMoleculeBuilderThread(molecule, startItem, endItem);
 		}
-	} // end of class SimpleMoleculeBuilderThread
+	}
 
-} // end of class MoleculeBuilderMCImpl
+}

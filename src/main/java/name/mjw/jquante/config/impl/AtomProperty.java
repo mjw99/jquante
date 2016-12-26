@@ -229,10 +229,12 @@ public class AtomProperty implements Parameter {
 		this.atomicWeight = atomicWeight;
 	}
 
+	@Override
 	public Object getValue() {
 		return this;
 	}
 
+	@Override
 	public void setValue(Object value) {
 		AtomProperty ap = (AtomProperty) value;
 
