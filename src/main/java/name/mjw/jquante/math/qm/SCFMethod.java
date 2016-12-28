@@ -23,6 +23,11 @@ import name.mjw.jquante.molecule.Molecule;
  */
 public abstract class SCFMethod implements OptimizerFunction {
 
+	// default constants
+	private static final int MAX_ITERATION = 20;
+	private static final double ENERGY_TOLERANCE = 1.0e-4;
+	private static final double DENSITY_TOLERANCE = 1.0e-4;
+
 	/**
 	 * Holds value of property energyTolerance.
 	 */
@@ -83,34 +88,31 @@ public abstract class SCFMethod implements OptimizerFunction {
 	 */
 	protected Fock fock;
 
-	// default constants
-	private static final int MAX_ITERATION = 20;
-	private static final double ENERGY_TOLERANCE = 1.0e-4;
-	private static final double DENSITY_TOLERANCE = 1.0e-4;
+	/**
+	 * Holds value of property energy.
+	 */
+	protected double energy;
+
+	protected GMatrix gMatrix;
 
 	/**
 	 * Utility field used by event firing mechanism.
 	 */
 	private EventListenerList<SCFEventListener> listenerList = null;
 
-	/**
-	 * Holds value of property energy.
-	 */
-	protected double energy;
-
 	/** Creates a new instance of SCFMethod */
 	public SCFMethod(Molecule molecule, OneElectronIntegrals oneEI,
 			TwoElectronIntegrals twoEI) {
-		maxIteration = MAX_ITERATION;
+		this.maxIteration = MAX_ITERATION;
 
-		energyTolerance = ENERGY_TOLERANCE;
-		densityTolerance = DENSITY_TOLERANCE;
+		this.energyTolerance = ENERGY_TOLERANCE;
+		this.densityTolerance = DENSITY_TOLERANCE;
 
 		this.molecule = molecule;
 		this.oneEI = oneEI;
 		this.twoEI = twoEI;
 
-		guessInitialDM = false;
+		this.guessInitialDM = false;
 	}
 
 	/**
@@ -125,10 +127,12 @@ public abstract class SCFMethod implements OptimizerFunction {
 	 */
 	public double nuclearEnergy() {
 		double eNuke = 0.0;
-		int i, j;
+		int i;
+		int j;
 		int noOfAtoms = molecule.getNumberOfAtoms();
 
-		Atom atomI, atomJ;
+		Atom atomI;
+		Atom atomJ;
 
 		// read in the atomic numbers
 		int[] atomicNumbers = new int[noOfAtoms];
@@ -137,20 +141,20 @@ public abstract class SCFMethod implements OptimizerFunction {
 		for (i = 0; i < noOfAtoms; i++) {
 			atomicNumbers[i] = ai.getAtomicNumber(molecule.getAtom(i)
 					.getSymbol());
-		} // end for
+		}
 
-		// and compute nuclear energy
+		// compute nuclear energy
 		for (i = 0; i < noOfAtoms; i++) {
-			atomI = (Atom) molecule.getAtom(i);
+			atomI = molecule.getAtom(i);
 			for (j = 0; j < i; j++) {
-				atomJ = (Atom) molecule.getAtom(j);
+				atomJ = molecule.getAtom(j);
 
 				eNuke += atomicNumbers[i]
 						* atomicNumbers[j]
 						/ atomI.getAtomCenterInAU().distanceFrom(
 								atomJ.getAtomCenterInAU());
-			} // end for
-		} // end for
+			}
+		}
 
 		return eNuke;
 	}
@@ -322,8 +326,6 @@ public abstract class SCFMethod implements OptimizerFunction {
 		return this.fock;
 	}
 
-	protected GMatrix gMatrix;
-
 	/**
 	 * Get the value of gMatrix
 	 * 
@@ -341,7 +343,7 @@ public abstract class SCFMethod implements OptimizerFunction {
 	 */
 	public synchronized void addSCFEventListener(SCFEventListener listener) {
 		if (listenerList == null) {
-			listenerList = new EventListenerList<SCFEventListener>();
+			listenerList = new EventListenerList<>();
 		}
 		listenerList.add(SCFEventListener.class, listener);
 	}
@@ -388,6 +390,6 @@ public abstract class SCFMethod implements OptimizerFunction {
 	 */
 	@Override
 	public String toString() {
-		return getEnergy() + "";
+		return Double.toString(getEnergy());
 	}
-} // end of class SCFMethod
+}
