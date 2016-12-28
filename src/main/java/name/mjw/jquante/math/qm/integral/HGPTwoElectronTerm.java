@@ -22,25 +22,25 @@ import name.mjw.jquante.math.qm.basis.Power;
  */
 public class HGPTwoElectronTerm extends TwoElectronTerm {
 
+	private final double sqrt2PI = Math.sqrt(2.0) * Math.pow(Math.PI, 1.25);
+
 	/** Creates a new instance of HGPTwoElectronTerm */
 	public HGPTwoElectronTerm() {
 	}
 
 	/**
-	 * 2E coulomb interactions between 4 contracted Gaussians
+	 * 2E coulomb interactions between four contracted Gaussians
 	 */
 	@Override
 	public double coulomb(ContractedGaussian a, ContractedGaussian b,
 			ContractedGaussian c, ContractedGaussian d) {
-		return (a.getNormalization() * b.getNormalization()
-				* c.getNormalization() * d.getNormalization() * contrHrr(
-					a.getOrigin(), a.getPowers(), a.getCoefficients(),
-					a.getExponents(), a.getPrimNorms(), b.getOrigin(),
-					b.getPowers(), b.getCoefficients(), b.getExponents(),
-					b.getPrimNorms(), c.getOrigin(), b.getPowers(),
-					c.getCoefficients(), c.getExponents(), c.getPrimNorms(),
-					d.getOrigin(), d.getPowers(), d.getCoefficients(),
-					d.getExponents(), d.getPrimNorms()));
+		return (a.getNormalization() * b.getNormalization() * c.getNormalization() * d.getNormalization() *
+			contrHrr(
+				a.getOrigin(), a.getPowers(), a.getCoefficients(), a.getExponents(), a.getPrimNorms(),
+				b.getOrigin(), b.getPowers(), b.getCoefficients(), b.getExponents(), b.getPrimNorms(),
+				c.getOrigin(), b.getPowers(), c.getCoefficients(), c.getExponents(), c.getPrimNorms(),
+				d.getOrigin(), d.getPowers(), d.getCoefficients(), d.getExponents(), d.getPrimNorms())
+				);
 	}
 
 	/**
@@ -146,17 +146,30 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 	/**
 	 * VRR (Vertical Recurrance Relation) contribution
 	 */
-	protected double contrVrr(Point3D a, Power aPower,
-			ArrayList<Double> aCoeff, ArrayList<Double> aExps,
-			ArrayList<Double> aNorms, Point3D b, ArrayList<Double> bCoeff,
-			ArrayList<Double> bExps, ArrayList<Double> bNorms, Point3D c,
-			Power cPower, ArrayList<Double> cCoeff, ArrayList<Double> cExps,
-			ArrayList<Double> cNorms, Point3D d, ArrayList<Double> dCoeff,
-			ArrayList<Double> dExps, ArrayList<Double> dNorms) {
+	protected double contrVrr(
+			Point3D a, Power aPower, ArrayList<Double> aCoeff, ArrayList<Double> aExps, ArrayList<Double> aNorms,
+			Point3D b, ArrayList<Double> bCoeff, ArrayList<Double> bExps, ArrayList<Double> bNorms,
+			Point3D c, Power cPower, ArrayList<Double> cCoeff, ArrayList<Double> cExps, ArrayList<Double> cNorms,
+			Point3D d, ArrayList<Double> dCoeff, ArrayList<Double> dExps, ArrayList<Double> dNorms) {
+
 		double value = 0.0;
 
-		int i, j, k, l;
-		double iaExp, iaCoef, iaNorm, jbExp, jbCoef, jbNorm, kcExp, kcCoef, kcNorm;
+		int i;
+		int j;
+		int k;
+		int l;
+
+		double iaExp;
+		double iaCoef;
+		double iaNorm;
+
+		double jbExp;
+		double jbCoef;
+		double jbNorm;
+
+		double kcExp;
+		double kcCoef;
+		double kcNorm;
 
 		for (i = 0; i < aExps.size(); i++) {
 			iaCoef = aCoeff.get(i);
@@ -182,15 +195,13 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 										jbNorm, jbExp, c, kcNorm, cPower,
 										kcExp, d, dNorms.get(l), dExps.get(l),
 										0);
-					} // end for
-				} // end for
-			} // end for
-		} // end for
+					}
+				}
+			}
+		}
 
 		return value;
 	}
-
-	private final double sqrt2PI = Math.sqrt(2.0) * Math.pow(Math.PI, 1.25);
 
 	/**
 	 * VRR (Vertical Recurrance Relation)
@@ -421,6 +432,7 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 		int la = aPower.getL();
 		int ma = aPower.getM();
 		int na = aPower.getN();
+
 		int lc = cPower.getL();
 		int mc = cPower.getM();
 		int nc = cPower.getN();
