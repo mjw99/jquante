@@ -58,6 +58,8 @@ public class SCFMethodFactoryTest {
 		LOG.debug("Time till 2E : " + (t2 - t1) + " ms");
 		LOG.debug("Time for SCF : " + (t3 - t2) + " ms");
 
+		assertEquals(9.087438510255588, scfm.nuclearEnergy(), diff);
+
 		assertEquals(-74.9645174916, scfm.getEnergy(), diff);
 
 		// orbital energies
