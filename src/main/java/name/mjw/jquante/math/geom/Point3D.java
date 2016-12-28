@@ -146,7 +146,7 @@ public class Point3D extends AbstractGeometricObject implements Cloneable,
 			Point3D o = (Point3D) obj;
 
 			return ((x == o.x) && (y == o.y) && (z == o.z));
-		} // end if
+		}
 	}
 
 	/**
@@ -222,11 +222,11 @@ public class Point3D extends AbstractGeometricObject implements Cloneable,
 	}
 
 	/**
-	 * substraction of two points (this - b)
+	 * subtraction of two points (this - b)
 	 * 
 	 * @param b
-	 *            the Point3D to be substracted from the current point
-	 * @return the substraction of two point
+	 *            the Point3D to be subtracted from the current point
+	 * @return the subtraction of two point
 	 */
 	public Point3D sub(Point3D b) {
 		return new Point3D(this.x - b.x, this.y - b.y, this.z - b.z);
@@ -240,4 +240,4 @@ public class Point3D extends AbstractGeometricObject implements Cloneable,
 		return new Point3D(this.x, this.y, this.z);
 	}
 
-} // end of class Point3D
+}
