@@ -10,21 +10,29 @@ import name.mjw.jquante.math.geom.Point3D;
  */
 public final class IntegralsUtil {
 
-	/** No instantiation: private constructor */
+	// for gammaIncomplete method
+	private static final double SMALL = 0.00000001;
+	private static final double EPS = 3.0e-7;
+	private static final double FPMIN = 1.0e-30;
+
+	private static final int MAX_ITERATION = 100;
+
 	private IntegralsUtil() {
 	}
 
 	/**
-	 * the gaussian product theorem
+	 * the Gaussian product theorem
 	 * 
 	 * @param alpha1
-	 *            exponent of first gaussian
+	 *            exponent of first Gaussian
 	 * @param a
-	 *            center of first gaussian
+	 *            centre of first Gaussian
 	 * @param alpha2
-	 *            exponent of first gaussian
+	 *            exponent of first Gaussian
 	 * @param b
-	 *            center of first gaussian
+	 *            centre of first Gaussian
+	 *
+	 * @return centre of resulting two-centre product Gaussian
 	 */
 	public static Point3D gaussianProductCenter(double alpha1, Point3D a,
 			double alpha2, Point3D b) {
@@ -45,12 +53,12 @@ public final class IntegralsUtil {
 			temp = i;
 			i = j;
 			j = temp;
-		} // end if
+		}
 		if (k < l) {
 			temp = k;
 			k = l;
 			l = temp;
-		} // end if
+		}
 
 		int ij = i * (i + 1) / 2 + j;
 		int kl = k * (k + 1) / 2 + l;
@@ -59,7 +67,7 @@ public final class IntegralsUtil {
 			temp = ij;
 			ij = kl;
 			kl = temp;
-		} // end id
+		}
 
 		return (ij * (ij + 1) / 2 + kl);
 	}
@@ -74,14 +82,14 @@ public final class IntegralsUtil {
 	}
 
 	/**
-	 * Incomple gamma function gamma() computed from Numerical Recipes routine
+	 * Incomplete gamma function gamma() computed from Numerical Recipes routine
 	 * gammp.
 	 */
 	public static double gammaIncomplete(double a, double x) {
-		double gammap = 0.0;
-		double gln = 0.0;
+		double gammap;
+		double gln;
 
-		gln = gammln(a);
+		gln = logGamma(a);
 
 		if (x < (a + 1.0)) {
 			// Series representation of Gamma. NumRec sect 6.1.
@@ -96,19 +104,20 @@ public final class IntegralsUtil {
 					sum += delta;
 					if (Math.abs(delta) < Math.abs(sum) * EPS)
 						break;
-				} // end for
+				}
 
 				gammap = sum * Math.exp(-x + a * Math.log(x) - gln);
 			} else {
 				gammap = 0.0;
-			} // end if
+			}
 		} else {
 			// Continued fraction representation of Gamma. NumRec sect 6.1
 			double b = (x + 1.0) - a;
 			double c = 1.0 / FPMIN;
 			double d = 1.0 / b;
 			double h = d;
-			double an, delta;
+			double an;
+			double delta;
 
 			for (int i = 1; i < (MAX_ITERATION + 1); i++) {
 				an = -i * (i - a);
@@ -129,10 +138,10 @@ public final class IntegralsUtil {
 
 				if (Math.abs(delta - 1.0) < EPS)
 					break;
-			} // end for
+			}
 
 			gammap = 1.0 - (Math.exp(-x + a * Math.log(x) - gln) * h);
-		} // end if
+		}
 
 		return (Math.exp(gln) * gammap);
 	}
@@ -140,7 +149,7 @@ public final class IntegralsUtil {
 	/**
 	 * Numerical recipes, section 6.1
 	 */
-	public static double gammln(double x) {
+	public static double logGamma(double x) {
 		double y = x;
 		double tmp = x + 5.5;
 
@@ -163,11 +172,4 @@ public final class IntegralsUtil {
 
 		return (-tmp + Math.log((2.5066282746310005 * ser) / x));
 	}
-
-	// for gammp mathod
-	private static double SMALL = 0.00000001;
-	private static double EPS = 3.0e-7;
-	private static double FPMIN = 1.0e-30;
-
-	private static int MAX_ITERATION = 100;
 }
