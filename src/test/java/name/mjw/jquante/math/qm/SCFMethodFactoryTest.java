@@ -16,6 +16,115 @@ public class SCFMethodFactoryTest {
 	double diff = 0.00001;
 
 	@Test
+	public void SinglePointHFHydrogenSTO3G() {
+
+		// Create molecule
+		Atom H1 = new Atom("H", 1.0, new Point3D(0.00000000, 0.00000000,
+				0.00000000));
+		Atom H2 = new Atom("H", 1.0, new Point3D(0.74000000, 0.00000000,
+				0.00000000));
+
+		Molecule hydrogen = new MoleculeImpl("hydrogen");
+		hydrogen.addAtom(H1);
+		hydrogen.addAtom(H2);
+
+		long t1 = System.currentTimeMillis();
+		// Read Basis
+		BasisFunctions bf = null;
+
+		try {
+			bf = new BasisFunctions(hydrogen, "sto3g");
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		// compute integrals
+		OneElectronIntegrals e1 = new OneElectronIntegrals(bf, hydrogen);
+		TwoElectronIntegrals e2 = new TwoElectronIntegrals(bf);
+
+		long t2 = System.currentTimeMillis();
+
+		// do SCF
+		SCFMethod scfm = SCFMethodFactory.getInstance().getSCFMethod(hydrogen,
+				e1, e2, SCFType.HARTREE_FOCK);
+		scfm.scf();
+
+		long t3 = System.currentTimeMillis();
+
+		LOG.debug("Time till 2E : " + (t2 - t1) + " ms");
+		LOG.debug("Time for SCF : " + (t3 - t2) + " ms");
+
+		assertEquals(0.7151043908648649, scfm.nuclearEnergy(), diff);
+
+		assertEquals(-1.1167593656305694, scfm.getEnergy(), diff);
+
+		// orbital energies
+		double[] ev = scfm.getOrbE();
+
+		assertEquals(-0.578554081990778, ev[0], diff);
+		assertEquals(0.6711435173832502, ev[1], diff);
+	}
+
+	@Test
+	// Values checked with NWChem 6.6
+	public void SinglePointHFHydrogenFluorideSTO3G() {
+
+		// Create molecule
+		Atom H = new Atom("H", 1.0, new Point3D(0.00000000, 0.00000000,
+				0.00000000));
+		Atom F = new Atom("F", 7.0, new Point3D(0.91700000, 0.00000000,
+				0.00000000));
+
+		Molecule hydrogenFluoride = new MoleculeImpl("hydrogenFluoride");
+		hydrogenFluoride.addAtom(H);
+		hydrogenFluoride.addAtom(F);
+
+		long t1 = System.currentTimeMillis();
+		// Read Basis
+		BasisFunctions bf = null;
+
+		try {
+			bf = new BasisFunctions(hydrogenFluoride, "sto3g");
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		// compute integrals
+		OneElectronIntegrals e1 = new OneElectronIntegrals(bf, hydrogenFluoride);
+		TwoElectronIntegrals e2 = new TwoElectronIntegrals(bf);
+
+		long t2 = System.currentTimeMillis();
+
+		// do SCF
+		SCFMethod scfm = SCFMethodFactory.getInstance().getSCFMethod(
+				hydrogenFluoride, e1, e2, SCFType.HARTREE_FOCK);
+		scfm.scf();
+
+		long t3 = System.currentTimeMillis();
+
+		LOG.debug("Time till 2E : " + (t2 - t1) + " ms");
+		LOG.debug("Time for SCF : " + (t3 - t2) + " ms");
+
+		assertEquals(5.1936698398691385, scfm.nuclearEnergy(), diff);
+
+		assertEquals(-98.5707789400326, scfm.getEnergy(), diff);
+
+		// orbital energies
+		double[] ev = scfm.getOrbE();
+
+		assertEquals(-25.89997382162182, ev[0], diff);
+		assertEquals(-1.4711982487067965, ev[1], diff);
+		assertEquals(-0.5851370412095496, ev[2], diff);
+		assertEquals(-0.4641445641331199, ev[3], diff);
+		assertEquals(-0.4641445641331199, ev[4], diff);
+		assertEquals(0.6290476912112247, ev[5], diff);
+	}
+
+	@Test
 	public void SinglePointHFWaterSTO3G() {
 
 		// Create molecule
