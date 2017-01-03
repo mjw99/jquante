@@ -15,7 +15,12 @@ public class FileImplParameter implements Parameter {
 
 	private File theFile;
 
-	/** Creates a new instance of FileImplParameter */
+	/**
+	 * Creates a new instance of FileImplParameter
+	 * 
+	 * @param theFile
+	 *            Name of the File.
+	 */
 	public FileImplParameter(File theFile) {
 		this.theFile = theFile;
 	}
@@ -35,12 +40,11 @@ public class FileImplParameter implements Parameter {
 	 * 
 	 * @param value
 	 *            New value of property value.
-	 * @throws may
-	 *             throw java.lang.ClassCastException
+	 * 
 	 */
 	@Override
 	public void setValue(Object value) {
 		theFile = (File) value;
 	}
 
-} // end of class FileImplParameter
+}

@@ -1,9 +1,3 @@
-/*
- * Configuration.java
- *
- * Created on June 1, 2003, 10:39 AM
- */
-
 package name.mjw.jquante.config;
 
 import java.beans.PropertyVetoException;
@@ -46,6 +40,8 @@ public interface Configuration {
 	 *            New value of property configFile.
 	 * 
 	 * @throws PropertyVetoException
+	 *             A PropertyVetoException is thrown when a proposed change to a
+	 *             property represents an unacceptable value.
 	 */
 	public void setConfigFile(String configFile) throws PropertyVetoException;
 
@@ -56,6 +52,9 @@ public interface Configuration {
 	 *            of the property., and the new Parameter value
 	 * @param parameter
 	 *            New value of the property at 'key'.
+	 * @throws PropertyVetoException
+	 *             A PropertyVetoException is thrown when a proposed change to a
+	 *             property represents an unacceptable value.
 	 */
 	public void setParameter(String key, Parameter parameter)
 			throws PropertyVetoException;
@@ -69,4 +68,4 @@ public interface Configuration {
 	 */
 	public Parameter getParameter(String key);
 
-} // end of interface Configuration
+}

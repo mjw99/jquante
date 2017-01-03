@@ -1,9 +1,3 @@
-/*
- * AtomProperty.java
- *
- * Created on November 30, 2003, 11:50 AM
- */
-
 package name.mjw.jquante.config.impl;
 
 import java.awt.Color;
@@ -45,7 +39,28 @@ public class AtomProperty implements Parameter {
 	/** Holds value of property doubleBondOverlap. */
 	private double doubleBondOverlap;
 
-	/** Creates a new instance of AtomProperty */
+	/**
+	 * Creates a new instance of AtomProperty
+	 * 
+	 * @param name
+	 *            Name of atom.
+	 * @param atomicNumber
+	 *            Atomic nubmer of atom.
+	 * @param atomicWeight
+	 *            Atomic weight of atom.
+	 * @param defaultValency
+	 *            Valency of of atom.
+	 * @param covalentRadius
+	 *            Covalent radius of of atom.
+	 * @param vdwRadius
+	 *            Vdw radius of of atom.
+	 * @param weakBondAngle
+	 *            Weak bond Angle of atom.
+	 * @param doubleBondOverlap
+	 *            Double bond overlap of of atom.
+	 * @param color
+	 *            Display color of atom.
+	 */
 	public AtomProperty(String name, int atomicNumber, double atomicWeight,
 			int defaultValency, double covalentRadius, double vdwRadius,
 			double weakBondAngle, double doubleBondOverlap, Color color) {
@@ -270,4 +285,4 @@ public class AtomProperty implements Parameter {
 		this.doubleBondOverlap = doubleBondOverlap;
 	}
 
-} // end of class AtomProperty
+}

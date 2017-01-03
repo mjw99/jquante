@@ -38,6 +38,7 @@ public interface SimpleParallelTask extends Runnable {
 	 * Setter property of totalItems
 	 * 
 	 * @param totalItems
+	 *            Total number of items.
 	 */
 	public void setTotalItems(int totalItems);
 

@@ -1,9 +1,3 @@
-/*
- * ClassImplParameter.java
- *
- * Created on September 9, 2003, 8:52 PM
- */
-
 package name.mjw.jquante.config.impl;
 
 import name.mjw.jquante.config.Parameter;
@@ -21,7 +15,12 @@ public class ClassImplParameter implements Parameter {
 
 	private String implClass;
 
-	/** Creates a new instance of ClassImplParameter */
+	/**
+	 * Creates a new instance of ClassImplParameter
+	 * 
+	 * @param implClass
+	 *            Name of ClassImplParameter
+	 */
 	public ClassImplParameter(String implClass) {
 		this.implClass = implClass;
 	}
@@ -41,12 +40,11 @@ public class ClassImplParameter implements Parameter {
 	 * 
 	 * @param value
 	 *            New value of property value.
-	 * @throws may
-	 *             throw java.lang.ClassCastException
+	 * 
 	 */
 	@Override
 	public void setValue(Object value) {
 		this.implClass = (String) value;
 	}
 
-} // end of class ClassImplParameter
+}

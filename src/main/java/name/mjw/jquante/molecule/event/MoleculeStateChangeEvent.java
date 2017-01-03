@@ -1,9 +1,3 @@
-/*
- * MoleculeStateChangeEvent.java
- *
- * Created on February 1, 2004, 6:56 AM
- */
-
 package name.mjw.jquante.molecule.event;
 
 import name.mjw.jquante.molecule.Atom;
@@ -16,8 +10,6 @@ import name.mjw.jquante.molecule.SpecialStructureRecognizer;
  * @version 2.0 (Part of MeTA v2.0)
  */
 public class MoleculeStateChangeEvent extends java.util.EventObject {
-
-	/** event types ... */
 
 	/**
 	 * Eclipse generated serialVersionUID
@@ -66,7 +58,12 @@ public class MoleculeStateChangeEvent extends java.util.EventObject {
 	/** Holds value of property specialStructureRecognizer. */
 	private SpecialStructureRecognizer specialStructureRecognizer;
 
-	/** Creates a new instance of MoleculeStateChangeEvent */
+	/**
+	 * Creates a new instance of MoleculeStateChangeEvent
+	 * 
+	 * @param source
+	 *            Object source.
+	 */
 	public MoleculeStateChangeEvent(Object source) {
 		super(source);
 
@@ -169,27 +166,25 @@ public class MoleculeStateChangeEvent extends java.util.EventObject {
 		StringBuffer sb = new StringBuffer();
 
 		switch (eventType) {
-			case ATOM_ADDED :
-				sb.append("Atom added : " + atom1);
-				break;
-			case ATOM_REMOVED :
-				sb.append("Atom removed : " + atom1);
-				break;
-			case BOND_REMOVED :
-				sb.append("Bond between : (" + atom1 + ", " + atom2
-						+ ") removed");
-				break;
-			case BOND_MODIFIED :
-				sb.append("Bond between : (" + atom1 + ", " + atom2
-						+ ") modified");
-				break;
+		case ATOM_ADDED:
+			sb.append("Atom added : " + atom1);
+			break;
+		case ATOM_REMOVED:
+			sb.append("Atom removed : " + atom1);
+			break;
+		case BOND_REMOVED:
+			sb.append("Bond between : (" + atom1 + ", " + atom2 + ") removed");
+			break;
+		case BOND_MODIFIED:
+			sb.append("Bond between : (" + atom1 + ", " + atom2 + ") modified");
+			break;
 
-			default :
-				sb.append("General molecule state modification event");
-				break;
-		} // end switch..case
+		default:
+			sb.append("General molecule state modification event");
+			break;
+		}
 
 		return sb.toString();
 	}
 
-} // end of class MoleculeStateChangeEvent
+}

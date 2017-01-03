@@ -62,8 +62,8 @@ public class DefaultAtomGroup implements AtomGroup {
 	 * @param index
 	 *            of in the list
 	 * @return the atom index at the specified location
-	 * @throws runtime
-	 *             exception IndexOutOfBoundsException if not a valid index.
+	 * @throws IndexOutOfBoundsException
+	 *             exception if not a valid index.
 	 */
 	@Override
 	public int getAtomIndexAt(int index) {

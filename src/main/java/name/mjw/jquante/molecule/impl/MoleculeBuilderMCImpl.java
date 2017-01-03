@@ -1,9 +1,3 @@
-/*
- * MoleculeBuilderMCImpl.java
- *
- * Created on July 9, 2007, 11:11 AM
- */
-
 package name.mjw.jquante.molecule.impl;
 
 import name.mjw.jquante.math.geom.Point3D;
@@ -291,15 +285,13 @@ public class MoleculeBuilderMCImpl extends MoleculeBuilderImpl {
 						vdwRadiusSum = vdwRadius[i] + vdwRadius[j];
 						covalentRadiusSum = covalentRadius[i]
 								+ covalentRadius[j];
-						if (isWeekBondPresent() && (!isSingleBondPresent())) { // weak
+						if (isWeakBondPresent() && (!isSingleBondPresent())) { // weak
 																				// bond?
 							molecule.setBondType(i, j, BondType.WEAK_BOND);
 						} else {
 							if (isSingleBondPresent()) {
-								doubleBondOverlap = ((dblBndOverlaps[i] == 0.0)
-										? (dblBndOverlaps[j] == 0.0
-												? DOUBLE_BOND_OVERLAP_PERCENTAGE
-												: dblBndOverlaps[j])
+								doubleBondOverlap = ((dblBndOverlaps[i] == 0.0) ? (dblBndOverlaps[j] == 0.0 ? DOUBLE_BOND_OVERLAP_PERCENTAGE
+										: dblBndOverlaps[j])
 										: dblBndOverlaps[i]);
 
 								if (!(a1.getSymbol().equals("H") || a2
@@ -335,38 +327,47 @@ public class MoleculeBuilderMCImpl extends MoleculeBuilderImpl {
 
 		/**
 		 * method to check the presence of weak bond, using distance criterion
+		 * 
+		 * @return True if a weak bond is present.
 		 */
-		protected boolean isWeekBondPresent() {
+		protected boolean isWeakBondPresent() {
 			// this checking is very simple, at present no care is taken of the
 			// orientation of the interacting atoms.
-			// >>>> NOTE : This criteria is taken from
-			// Cambridge Cluster Data base site
+			// >>>> NOTE : This criteria is taken from Cambridge Cluster Data
+			// base site
 			return (distance < (vdwRadiusSum - WEAK_BOND_TOLERANCE_LOWER) && (vdwRadiusSum - WEAK_BOND_TOLERANCE_UPPER) < distance);
 		}
 
 		/**
 		 * method to check the presence of single bond, using distance criterion
+		 * 
+		 * @return True if a single bond is present.
+		 * 
 		 */
 		protected boolean isSingleBondPresent() {
-			// >>>> NOTE : This criteria is taken from
-			// Cambridge Cluster Data base site
-			return ((covalentRadiusSum - COVALENT_BOND_TOLERANCE) < distance) && (distance < (covalentRadiusSum + COVALENT_BOND_TOLERANCE));
-			// >>>>
+			// >>>> NOTE : This criteria is taken from Cambridge Cluster Data
+			// base site
+			return ((covalentRadiusSum - COVALENT_BOND_TOLERANCE) < distance)
+					&& (distance < (covalentRadiusSum + COVALENT_BOND_TOLERANCE));
 		}
 
 		/**
 		 * method to check the presence of double bond, using distance criterion
+		 * 
+		 * @return True if a double bond is present.
 		 */
 		protected boolean isDoubleBondPresent() {
 			return (distance < (doubleBondOverlap * covalentRadiusSum));
-		} // end of method isWeekBondPresent()
+		}
 
 		/**
 		 * method to check the presence of triple bond, using distance criterion
+		 * 
+		 * @return True if a triple bond is present.
 		 */
 		protected boolean isTripleBondPresent() {
 			return (distance < (TRIPLE_BOND_OVERLAP_PERCENTAGE * covalentRadiusSum));
-		} // end of method isWeekBondPresent()
+		}
 
 		/**
 		 * A method that smartly calculates the distance between two points by
@@ -376,6 +377,8 @@ public class MoleculeBuilderMCImpl extends MoleculeBuilderImpl {
 		 *            - the first point, representing an atom center
 		 * @param p2
 		 *            - the second point, representing another atom center
+		 * 
+		 * @return True if a bond can be formed.
 		 */
 		protected boolean canFormBond(Point3D p1, Point3D p2) {
 			x = Math.abs(p2.getX() - p1.getX());
@@ -400,9 +403,8 @@ public class MoleculeBuilderMCImpl extends MoleculeBuilderImpl {
 	 * The molecule builder Thread ... that does the actual job of partially
 	 * building the connectivity of Molecule (for makeSimpleConnectivity())
 	 */
-	protected class SimpleMoleculeBuilderThread
-			extends
-				AbstractSimpleParallelTask {
+	protected class SimpleMoleculeBuilderThread extends
+			AbstractSimpleParallelTask {
 		private Molecule molecule;
 		private int startAtomIndex;
 		private int endAtomIndex;
@@ -439,9 +441,8 @@ public class MoleculeBuilderMCImpl extends MoleculeBuilderImpl {
 				a1 = molecule.getAtom(i);
 				atomCenter1 = a1.getAtomCenter();
 
-				// >>> This is the place where defaultValency needs to be
-				// checked
-				// >>> for a1
+				// This is the place where defaultValency needs to be checked
+				// for a1
 				for (j = 0; j < i; j++) {
 					a2 = molecule.getAtom(j);
 					atomCenter2 = a2.getAtomCenter();
@@ -454,19 +455,22 @@ public class MoleculeBuilderMCImpl extends MoleculeBuilderImpl {
 						if (isSingleBondPresent()) {
 							molecule.setBondType(i, j, BondType.SINGLE_BOND);
 							molecule.incrementNumberOfSingleBonds();
-						} // end if
-					} // end if
+						}
+					}
 				}
 			}
 		}
 
 		/**
 		 * method to check the presence of single bond, using distance criterion
+		 * 
+		 * @return True if single bond is present.
 		 */
 		protected boolean isSingleBondPresent() {
-			// >>>> NOTE : This criteria is taken from
-			// Cambridge Cluster Data base site
-			return ((covalentRadiusSum - COVALENT_BOND_TOLERANCE) < distance) && (distance < (covalentRadiusSum + COVALENT_BOND_TOLERANCE));
+			// >>>> NOTE : This criteria is taken from Cambridge Cluster Data
+			// base site
+			return ((covalentRadiusSum - COVALENT_BOND_TOLERANCE) < distance)
+					&& (distance < (covalentRadiusSum + COVALENT_BOND_TOLERANCE));
 		}
 
 		/**
@@ -474,9 +478,11 @@ public class MoleculeBuilderMCImpl extends MoleculeBuilderImpl {
 		 * taking in to cognizance the separation along X, Y and Z coordinates.
 		 * 
 		 * @param p1
-		 *            - the first point, representing an atom center
+		 *            the first point, representing an atom center
 		 * @param p2
-		 *            - the second point, representing another atom center
+		 *            the second point, representing another atom center
+		 * 
+		 * @return True if the points can form a bond.
 		 */
 		protected boolean canFormBond(Point3D p1, Point3D p2) {
 			x = Math.abs(p2.getX() - p1.getX());

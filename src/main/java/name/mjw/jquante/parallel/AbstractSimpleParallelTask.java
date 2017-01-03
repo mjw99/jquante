@@ -8,7 +8,9 @@ package name.mjw.jquante.parallel;
  */
 public abstract class AbstractSimpleParallelTask implements SimpleParallelTask {
 
-	protected int totalItems, startItem, endItem;
+	protected int totalItems;
+	protected int startItem;
+	protected int endItem;
 
 	protected String taskName;
 
@@ -35,6 +37,7 @@ public abstract class AbstractSimpleParallelTask implements SimpleParallelTask {
 	 * Setter property of totalItems
 	 * 
 	 * @param totalItems
+	 *            Total numeber of items.
 	 */
 	@Override
 	public void setTotalItems(int totalItems) {

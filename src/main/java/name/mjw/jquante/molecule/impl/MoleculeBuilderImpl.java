@@ -268,7 +268,7 @@ public class MoleculeBuilderImpl extends MoleculeBuilder {
 					// first check for weak interactions
 					vdwRadiusSum = vdwRadius[i] + vdwRadius[j];
 					covalentRadiusSum = covalentRadius[i] + covalentRadius[j];
-					if (isWeekBondPresent() && (!isSingleBondPresent())) { // weak
+					if (isWeakBondPresent() && (!isSingleBondPresent())) { // weak
 																			// bond?
 						molecule.setBondType(i, j, BondType.WEAK_BOND);
 					} else {
@@ -414,7 +414,7 @@ public class MoleculeBuilderImpl extends MoleculeBuilder {
 						vdwRadiusSum = vdwRadius[i] + vdwRadius[j];
 						covalentRadiusSum = covalentRadius[i]
 								+ covalentRadius[j];
-						if (isWeekBondPresent() && (!isSingleBondPresent())) { // weak
+						if (isWeakBondPresent() && (!isSingleBondPresent())) { // weak
 																				// bond?
 							molecule.setBondType(i, j, BondType.WEAK_BOND);
 						} else {
@@ -537,7 +537,7 @@ public class MoleculeBuilderImpl extends MoleculeBuilder {
 					// first check for weak interactions
 					vdwRadiusSum = vdwRadius[i] + vdwRadius[j];
 					covalentRadiusSum = covalentRadius[i] + covalentRadius[j];
-					if (isWeekBondPresent() && (!isSingleBondPresent())) { // weak
+					if (isWeakBondPresent() && (!isSingleBondPresent())) { // weak
 																			// bond?
 						molecule.setBondType(i, j, BondType.WEAK_BOND);
 					} // end if
@@ -711,7 +711,7 @@ public class MoleculeBuilderImpl extends MoleculeBuilder {
 		if (bondtype.equals(BondType.TRIPLE_BOND))
 			return (isSingleBondPresent() && isTripleBondPresent());
 		if (bondtype.equals(BondType.WEAK_BOND))
-			return isWeekBondPresent();
+			return isWeakBondPresent();
 
 		return false;
 	}
@@ -724,6 +724,7 @@ public class MoleculeBuilderImpl extends MoleculeBuilder {
 	 *            - the first point, representing an atom center
 	 * @param p2
 	 *            - the second point, representing another atom center
+	 * @return True if the two atoms can form a bond.
 	 */
 	protected boolean canFormBond(Point3D p1, Point3D p2) {
 		x = Math.abs(p2.getX() - p1.getX());
@@ -745,39 +746,46 @@ public class MoleculeBuilderImpl extends MoleculeBuilder {
 
 	/**
 	 * method to check the presence of weak bond, using distance criterion
+	 * 
+	 * @return True if a weak bond is present.
 	 */
-	protected boolean isWeekBondPresent() {
+	protected boolean isWeakBondPresent() {
 		// this checking is very simple, at present no care is taken of the
 		// orientation of the interacting atoms.
-		// >>>> NOTE : This criteria is taken from
-		// Cambridge Cluster Data base site
+		// >>>> NOTE : This criteria is taken from Cambridge Cluster Data base
+		// site
 		return ((distance < (vdwRadiusSum - WEAK_BOND_TOLERANCE_LOWER) && (vdwRadiusSum - WEAK_BOND_TOLERANCE_UPPER) < distance));
-		// >>>>
 	}
 
 	/**
 	 * method to check the presence of single bond, using distance criterion
+	 * 
+	 * @return True if single bond is present.
 	 */
 	protected boolean isSingleBondPresent() {
-		// >>>> NOTE : This criteria is taken from
-		// Cambridge Cluster Data base site
+		// >>>> NOTE : This criteria is taken from Cambridge Cluster Data base
+		// site
 		return (((covalentRadiusSum - COVALENT_BOND_TOLERANCE) < distance) && (distance < (covalentRadiusSum + COVALENT_BOND_TOLERANCE)));
-		// >>>>
+
 	}
 
 	/**
 	 * method to check the presence of double bond, using distance criterion
+	 * 
+	 * @return True if double bond is present.
 	 */
 	protected boolean isDoubleBondPresent() {
 		return (distance < (doubleBondOverlap * covalentRadiusSum));
-	} // end of method isWeekBondPresent()
+	}
 
 	/**
 	 * method to check the presence of triple bond, using distance criterion
+	 * 
+	 * @return True if triple bond is present.
 	 */
 	protected boolean isTripleBondPresent() {
 		return (distance < (TRIPLE_BOND_OVERLAP_PERCENTAGE * covalentRadiusSum));
-	} // end of method isWeekBondPresent()
+	}
 
 	/**
 	 * confirm the presence of weak bonds
@@ -827,29 +835,30 @@ public class MoleculeBuilderImpl extends MoleculeBuilder {
 	 * by the method isWeakBondPresent(); this method checks whether the atom
 	 * pairs are properly oriented to form weak interaction.
 	 * 
+	 * To check for proper orientation, the following procedure is used: a)
+	 * Consider the following situation:
+	 * 
 	 * <pre>
-	 * To check for proper orientation, the following procedure is used:
-	 * a) Consider the following situation:
-	 *    
-	 *          C
+	 * 
+	 * {@code   C
 	 *            +
 	 *              > O.......H - C
 	 *            +
 	 *          C  
-	 *    
-	 * b) Since the OH pair satisfies the van der Waals' distance criteria;
-	 *    therefore there is a possibility of weak interaction between O and H
-	 *    atoms.
-	 * c) To confirm the existance of such an interaction, we draw a
-	 *    characteristic cone (immaginary) as follows:
-	 *      i) Find out all the adjacent atoms of O which are strongly bonded.
-	 *     ii) Find the resultant of the vectors that represent the bondings.
-	 *    iii) Similarly find the resultant vector of atom H.
-	 *     iv) Compute the angles made by the two resultants vectors computed 
-	 *         above.
-	 *      v) If this angle lies with in the standard cone angles specified 
-	 *         then there exists weak interaction between two atom pairs.
+	 * 	 }
 	 * </pre>
+	 * 
+	 * b) Since the OH pair satisfies the van der Waals' distance criteria;
+	 * therefore there is a possibility of weak interaction between O and H
+	 * atoms. c) To confirm the existance of such an interaction, we draw a
+	 * characteristic cone (immaginary) as follows: i) Find out all the adjacent
+	 * atoms of O which are strongly bonded. ii) Find the resultant of the
+	 * vectors that represent the bondings. iii) Similarly find the resultant
+	 * vector of atom H. iv) Compute the angles made by the two resultants
+	 * vectors computed above. v) If this angle lies with in the standard cone
+	 * angles specified then there exists weak interaction between two atom
+	 * pairs.
+	 * 
 	 * 
 	 * @param atomIndex1
 	 *            - the first atom index
@@ -1236,6 +1245,8 @@ public class MoleculeBuilderImpl extends MoleculeBuilder {
 	 * 
 	 * @param molecule
 	 *            the
+	 *            
+	 * @return True if no issues found.
 	 */
 	protected boolean preProcessMolecule(Molecule molecule) {
 		try {
@@ -1312,4 +1323,4 @@ public class MoleculeBuilderImpl extends MoleculeBuilder {
 
 		return false;
 	}
-} // end of class MoleculeBuilderImpl
+}

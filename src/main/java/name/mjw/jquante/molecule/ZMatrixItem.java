@@ -1,22 +1,31 @@
-/*
- * ZMatrixItem.java
- *
- * Created on December 5, 2005, 8:55 PM
- *
- */
-
 package name.mjw.jquante.molecule;
 
 /**
- * Represents a single ZMatrix element: <reference atom, value> pair. The pair
- * may indicate distance, angle or dihedral with the reference atom.
+ * Represents a single ZMatrix element: {@code <reference atom, value>} pair.
+ * The pair may indicate distance, angle or dihedral with the reference atom.
  * 
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
 public class ZMatrixItem implements Cloneable {
 
-	/** Creates a new instance of ZMatrixItem */
+	/**
+	 * Holds value of property referenceAtom.
+	 */
+	private Atom referenceAtom;
+	/**
+	 * Holds value of property value.
+	 */
+	private double value;
+
+	/**
+	 * Creates a new instance of ZMatrixItem
+	 * 
+	 * @param referenceAtom
+	 *            Atom reference
+	 * @param value
+	 *            Value
+	 */
 	public ZMatrixItem(Atom referenceAtom, double value) {
 		this.referenceAtom = referenceAtom;
 		this.value = value;
@@ -31,11 +40,6 @@ public class ZMatrixItem implements Cloneable {
 	public String toString() {
 		return (referenceAtom.getSymbol() + referenceAtom.getIndex() + " " + value);
 	}
-
-	/**
-	 * Holds value of property referenceAtom.
-	 */
-	private Atom referenceAtom;
 
 	/**
 	 * Getter for property referenceAtom.
@@ -55,11 +59,6 @@ public class ZMatrixItem implements Cloneable {
 	public void setReferenceAtom(Atom referenceAtom) {
 		this.referenceAtom = referenceAtom;
 	}
-
-	/**
-	 * Holds value of property value.
-	 */
-	private double value;
 
 	/**
 	 * Getter for property value.
@@ -91,4 +90,4 @@ public class ZMatrixItem implements Cloneable {
 	public Object clone() throws CloneNotSupportedException {
 		return new ZMatrixItem(this.referenceAtom, this.value);
 	}
-} // end of class ZMatrixItem
+}

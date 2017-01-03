@@ -1,9 +1,3 @@
-/*
- * Utility.java
- *
- * Created on June 1, 2003, 7:30 PM
- */
-
 package name.mjw.jquante.common;
 
 import java.awt.Color;
@@ -124,10 +118,12 @@ public final class Utility {
 	 * Returns the default implementation of an MeTA API interface as defined by
 	 * <code> StringResource.getDefaultImplResource() </code> class.
 	 * 
+	 * @param theClass
+	 *            The class.
 	 * @return an instance of class which impliments the given interface.
-	 * @throws may
-	 *             throw java.lang.ClassNotFoundException
-	 *             java.lang.ClassCastException
+	 * @throws ClassNotFoundException
+	 *             If Class was not found.
+	 * 
 	 */
 	public static synchronized Class<?> getDefaultImplFor(Class<?> theClass)
 			throws ClassNotFoundException {
@@ -140,7 +136,7 @@ public final class Utility {
 	/**
 	 * Get new instance of a molecule object using default implementation
 	 * 
-	 * @return the instance of Molecule object, a null if this method failed to
+	 * @return The instance of Molecule object, a null if this method failed to
 	 *         do so
 	 */
 	public static synchronized Molecule createMoleculeObject() {
@@ -168,13 +164,15 @@ public final class Utility {
 	}
 
 	/**
-	 * Method to capitalise a string
+	 * Method to capitalise a string.
 	 * 
 	 * @param theString
 	 *            the string to be capitalised
 	 * @return the string which is capitalised
-	 * @throws may
-	 *             throw NullPointerException, ArrayIndexOutOfBoundsException
+	 * @throws NullPointerException
+	 *             If string is null.
+	 * @throws ArrayIndexOutOfBoundsException
+	 *             If string is greater than two characters.
 	 */
 	public static String capitalise(String theString) {
 		String firstChar = theString.substring(0, 1);
@@ -199,6 +197,10 @@ public final class Utility {
 	 *             / SAXException in case of error reading xml file or creating
 	 *             the parser. An IOException in case the XML file is not
 	 *             present!
+	 * @throws org.xml.sax.SAXException
+	 *             org.xml.sax.SAXException
+	 * @throws java.io.IOException
+	 *             java.io.IOException
 	 */
 	public static Document parseXML(String xmlFile)
 			throws ParserConfigurationException, SAXException, IOException {
@@ -218,6 +220,10 @@ public final class Utility {
 	 *             / SAXException in case of error reading xml file or creating
 	 *             the parser. An IOException in case the XML file is not
 	 *             present!
+	 * @throws org.xml.sax.SAXException
+	 *             org.xml.sax.SAXException
+	 * @throws java.io.IOException
+	 *             java.io.IOException
 	 */
 	public static Document parseXML(InputStream xmlStream)
 			throws ParserConfigurationException, SAXException, IOException {
@@ -269,7 +275,7 @@ public final class Utility {
 
 		if (table.containsKey(key)) {
 			value = ((Integer) table.get(key)).intValue();
-		} // end if
+		}
 
 		return value;
 	}
@@ -438,7 +444,7 @@ public final class Utility {
 	 *            - the filewriter object
 	 * @param lin
 	 *            - the line to be written to the file
-	 * @throws Exception
+	 * @throws IOException
 	 *             - a general IOException, in case write fails
 	 */
 	public static void dumpALine(FileWriter fw, String lin) throws IOException {
@@ -452,92 +458,13 @@ public final class Utility {
 	 *            - the buffered filewriter object
 	 * @param lin
 	 *            - the line to be written to the file
-	 * @throws Exception
+	 * @throws IOException
 	 *             - a general IOException, in case write fails
 	 */
 	public static void dumpALine(BufferedWriter bfw, String lin)
 			throws IOException {
 		bfw.write(lin);
 	}
-
-	/**
-	 * Execute a script line using a new instance of appropriate interpreter
-	 * object
-	 * 
-	 * @param scriptFileName
-	 *            the script file name
-	 * @throws Exception
-	 *             if the execution was unsuccessful
-	 */
-	// public static void executeScriptFile(String scriptFileName) throws
-	// Exception {
-	// File scriptFile = new File(scriptFileName);
-	//
-	// ScriptEngine scriptEngine = ScriptInterpreter.getInstance()
-	// .findProbableScriptEngineFor(scriptFile);
-	//
-	// scriptEngine.init();
-	// scriptEngine.loadBuiltInModules();
-	// scriptEngine.execute(scriptFile);
-	// }
-
-	/** Interpreter object to be used through out the studio */
-	// private static Interpreter interpreter;
-
-	/**
-	 * Execute a BeanShell script line using a new instance of the BeanShell
-	 * interpreter object.
-	 * 
-	 * @param scriptLine
-	 *            the BeanShell script / command to be executed
-	 * @throws Exception
-	 *             if the execution was unsuccessful
-	 */
-	// public static void executeBeanShellScript(String scriptLine)
-	// throws Exception {
-	// if (interpreter == null) {
-	// interpreter = new Interpreter();
-	// interpreter.eval(
-	// "importCommands(\"org.meta.commands\")");
-	// } // end if
-	//
-	// interpreter.eval(scriptLine);
-	// }
-
-	/**
-	 * Execute a BeanShell script file using a new instance of the BeanShell
-	 * interpreter object.
-	 * 
-	 * @param scriptFileName
-	 *            the BeanShell script file name
-	 * @throws Exception
-	 *             if the execution was unsuccessful
-	 */
-	// public static void executeBeanShellScriptFile(String scriptFileName)
-	// throws Exception {
-	// if (interpreter == null) {
-	// interpreter = new Interpreter();
-	// interpreter.eval("importCommands(\"org.meta.commands\")");
-	// } // end if
-	//
-	// interpreter.eval("source(\"" + scriptFileName + "\");");
-	// }
-
-	/**
-	 * Return a new instance of BeanShell interpreter as appropriate
-	 * 
-	 * @return the interpreter instance
-	 * @throws an
-	 *             exception if unable to create a new instance of interpreter
-	 *             and initialize it appropriately
-	 */
-	// public static Interpreter createNewBeanShellInterpreter() throws
-	// Exception {
-	// Interpreter intrp = new Interpreter();
-	// intrp.eval("importCommands(\"org.meta.commands\")");
-	//
-	// return intrp;
-	// }
 
 	/**
 	 * Searches for immediate parent tree node for a node with a target class
@@ -640,12 +567,12 @@ public final class Utility {
 	}
 
 	/**
-	 * Print an integer array to standard output
+	 * Print an integer array to standard output.
 	 * 
 	 * @param arr
-	 *            the array
+	 *            the integer array
 	 * @param len
-	 *            the lenght of array to print
+	 *            the length of array to print
 	 */
 	public static void printArray(int[] arr, int len) {
 		for (int i = 0; i <= len; i++)
@@ -654,11 +581,15 @@ public final class Utility {
 	}
 
 	/**
-	 * method to read all the lines in the reader
+	 * Method to read all the lines in the reader.
 	 * 
 	 * @param reader
 	 *            the reader object
 	 * @return the lines in a ArrayList
+	 * 
+	 * @throws IOException
+	 *             If reader is null.
+	 * 
 	 */
 	public static ArrayList<String> readLines(BufferedReader reader)
 			throws IOException {
@@ -683,6 +614,9 @@ public final class Utility {
 	 * @param url
 	 *            the URL of the file
 	 * @return the lines in a ArrayList
+	 * 
+	 * @throws IOException
+	 *             If Url was not read correctly.
 	 */
 	public static ArrayList<String> readLines(URL url) throws IOException {
 		URLConnection conn = url.openConnection();
@@ -692,13 +626,13 @@ public final class Utility {
 	}
 
 	/**
-	 * initiate a stream copy from input stream to the file output stream
+	 * Initiate a stream copy from input stream to the file output stream.
 	 * 
 	 * @param istream
 	 *            the input stream
 	 * @param fos
 	 *            the file output stream
-	 * @throws java.lang.IOException
+	 * @throws IOException
 	 *             thrown if we land up with some error
 	 */
 	public static void streamCopy(InputStream istream, FileOutputStream fos)
@@ -711,11 +645,11 @@ public final class Utility {
 			if (nBytes == -1 || nBytes == 0)
 				break;
 			fos.write(readBytes, 0, nBytes);
-		} // end while
+		}
 	}
 
 	/**
-	 * nitiate a stream copy from file input stream to the output stream
+	 * Initiate a stream copy from file input stream to the output stream.
 	 * 
 	 * @param fis
 	 *            the file input stream
@@ -750,8 +684,8 @@ public final class Utility {
 	 * 
 	 * @param more
 	 *            a list of more arguments to be added to the class path
-	 * @throws java.lang.Exception
-	 *             well if anything goes wrong!
+	 * @throws Exception
+	 *             If anything goes wrong.
 	 */
 	public static void appendExtLibClassPaths(String... more) throws Exception {
 		// init places...
@@ -772,7 +706,7 @@ public final class Utility {
 		if (systemClassLoader instanceof URLClassLoader) {
 			// use reflection API to get hold of "addURL" method
 			Method addURLMethod = URLClassLoader.class.getDeclaredMethod(
-					"addURL", new Class[]{URL.class});
+					"addURL", new Class[] { URL.class });
 
 			// "addURL" is actually a protected method,
 			// according to URLClassLoader; make it publicly accessible for
@@ -787,7 +721,7 @@ public final class Utility {
 				if (extLibFile.exists()) {
 					// invoke the method to add the external library
 					addURLMethod.invoke(systemClassLoader,
-							new Object[]{extLibFile.toURI().toURL()});
+							new Object[] { extLibFile.toURI().toURL() });
 				} // end if
 			} // end for
 
@@ -799,7 +733,7 @@ public final class Utility {
 				if (extLibFile.exists()) {
 					// invoke the method to add the external library
 					addURLMethod.invoke(systemClassLoader,
-							new Object[]{extLibFile.toURI().toURL()});
+							new Object[] { extLibFile.toURI().toURL() });
 				} // end if
 			} // end for
 		} // end if
@@ -888,8 +822,8 @@ public final class Utility {
 	 * @return the list of platform specific jar files
 	 */
 	public static String[] getPlatformSpecificJars() {
-		return new String[]{"j3dcore.jar", "j3dutils.jar", "jogl.jar",
-				"gluegen-rt.jar"};
+		return new String[] { "j3dcore.jar", "j3dutils.jar", "jogl.jar",
+				"gluegen-rt.jar" };
 	}
 
 	/**
@@ -914,4 +848,4 @@ public final class Utility {
 				+ appName);
 		strings.refreshAppSettingsPath();
 	}
-} // end of class Utility
+}

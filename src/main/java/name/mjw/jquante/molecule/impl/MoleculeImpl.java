@@ -310,8 +310,8 @@ public class MoleculeImpl extends Molecule {
 	 * Method to get a particular atom from the lists of atoms.
 	 * 
 	 * @return Atom the instance of atom class
-	 * @throws runtime
-	 *             exception IndexOutOfBoundsException if not a valid atomIndex
+	 * @throws IndexOutOfBoundsException
+	 *             If not a valid atomIndex
 	 */
 	@Override
 	public Atom getAtom(int atomIndex) {
@@ -325,8 +325,8 @@ public class MoleculeImpl extends Molecule {
 	 *            the index in the list, which is to be changed
 	 * @param atom
 	 *            the instance of atom class
-	 * @throws runtime
-	 *             exception IndexOutOfBoundsException if not a valid atomIndex
+	 * @throws IndexOutOfBoundsException
+	 *             If not a valid atomIndex
 	 */
 	@Override
 	public void setAtom(int atomIndex, Atom atom) {
@@ -444,9 +444,8 @@ public class MoleculeImpl extends Molecule {
 	 *            the atom index for which the bonding information is queried.
 	 * @return true if there is a bond between atomIndex1 and atomIndex2, false
 	 *         otherwise.
-	 * @throws runtime
-	 *             exception IndexOutOfBoundsException if not a valid
-	 *             atomIndex1.
+	 * @throws IndexOutOfBoundsException
+	 *             If not a valid atomIndex1.
 	 */
 	@Override
 	public boolean isBonded(int atomIndex1, int atomIndex2) {
@@ -463,9 +462,8 @@ public class MoleculeImpl extends Molecule {
 	 *            the atom index for which the bonding information is queried.
 	 * @return true if there is a strong bond between atomIndex1 and atomIndex2,
 	 *         false otherwise.
-	 * @throws runtime
-	 *             exception IndexOutOfBoundsException if not a valid
-	 *             atomIndex1.
+	 * @throws IndexOutOfBoundsException
+	 *             If not a valid atomIndex1.
 	 */
 	@Override
 	public boolean isStronglyBonded(int atomIndex1, int atomIndex2) {
@@ -498,9 +496,8 @@ public class MoleculeImpl extends Molecule {
 	 *            the atom index between which the bonding is to be defined
 	 * @param bondType
 	 *            An instance of BondType defining the type of the bond
-	 * @throws runtime
-	 *             exception IndexOutOfBoundsException if not a valid atomIndex1
-	 *             or atomIndex2.
+	 * @throws IndexOutOfBoundsException
+	 *             If not a valid atomIndex1 or atomIndex2.
 	 */
 	@Override
 	public void setBondType(int atomIndex1, int atomIndex2, BondType bondType) {
@@ -713,7 +710,7 @@ public class MoleculeImpl extends Molecule {
 	 * @param updateConnectivity
 	 *            is the connectivity to be updated?
 	 * @throws IllegalArgumentException
-	 *             (a RuntimeException), if the array size does not match 3N.
+	 *             If the array size does not match 3N.
 	 */
 	@Override
 	public void resetAtomCoordinates(double[] coords, boolean updateConnectivity)
@@ -1021,4 +1018,4 @@ public class MoleculeImpl extends Molecule {
 			getAtom(i).setIndex(i);
 		} // end for
 	}
-} // end of class MoleculeImpl
+}

@@ -1,9 +1,3 @@
-/*
- * MolecularFormula.java
- *
- * Created on October 2, 2004, 7:08 PM
- */
-
 package name.mjw.jquante.molecule;
 
 import java.util.Iterator;
@@ -36,7 +30,12 @@ public class MolecularFormula {
 	private MolecularFormula() {
 	}
 
-	/** Creates a new instance of MolecularFormula */
+	/**
+	 * Creates a new instance of MolecularFormula
+	 * 
+	 * @param molecule
+	 *            Molecule object.
+	 */
 	public MolecularFormula(Molecule molecule) {
 		this.molecule = molecule;
 
@@ -119,9 +118,9 @@ public class MolecularFormula {
 					temp = values[i];
 					values[i] = values[j];
 					values[j] = temp;
-				} // end if
-			} // end for
-		} // end for
+				}
+			}
+		}
 	}
 
 	/**
@@ -135,20 +134,24 @@ public class MolecularFormula {
 			formulaString += keys[i].toString() + values[i].toString() + " ";
 			formulaHTMLString += keys[i].toString() + "<sub>"
 					+ values[i].toString() + "</sub>";
-		} // end for
+		}
 
 		formulaHTMLString += "";
 	}
 
 	/**
-	 * method returns the formula as a HTML string object
+	 * Returns the formula as a HTML string object
+	 * 
+	 * @return formulaHTMLString The formula as a HTML string object
 	 */
 	public String getHTMLFormula() {
 		return formulaHTMLString;
 	}
 
 	/**
-	 * method returns the formula as a string object
+	 * Returns the formula as a string object
+	 * 
+	 * @return The formula as a string.
 	 */
 	public String getFormula() {
 		return formulaString;
@@ -271,4 +274,4 @@ public class MolecularFormula {
 						: 0);
 		return hash;
 	}
-} // end of class MolecularFormula
+}

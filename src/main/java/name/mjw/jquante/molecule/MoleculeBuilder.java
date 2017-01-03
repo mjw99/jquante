@@ -63,6 +63,8 @@ public abstract class MoleculeBuilder {
 	 * @param molecule
 	 *            The instance of the Molecule class which needs to be processed
 	 *            for bonding information.
+	 * @param atomIndices
+	 *            Atoms indices to build connectivity for.
 	 */
 	public abstract void makeConnectivity(Molecule molecule,
 			List<Integer> atomIndices);
@@ -197,4 +199,4 @@ public abstract class MoleculeBuilder {
 		}
 	}
 
-} // end of class MoleculeBuilder
+}

@@ -1,8 +1,3 @@
-/**
- * UserDefinedMolecularProperty.java
- *
- * Created on Feb 23, 2009
- */
 package name.mjw.jquante.molecule;
 
 import java.io.Serializable;
@@ -24,7 +19,14 @@ public class UserDefinedMolecularProperty implements Serializable {
 	public UserDefinedMolecularProperty() {
 	}
 
-	/** Creates new instance of UserDefinedAtomProperty */
+	/**
+	 * Creates new instance of UserDefinedAtomProperty
+	 * 
+	 * @param name
+	 *            Property name.
+	 * @param value
+	 *            Property value.
+	 */
 	public UserDefinedMolecularProperty(String name, Serializable value) {
 		this.name = name;
 		this.value = value;

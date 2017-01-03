@@ -1,6 +1,5 @@
 package name.mjw.jquante.molecule.property.electronic;
 
-
 import java.util.ArrayList;
 
 import name.mjw.jquante.math.geom.BoundingBox;
@@ -16,18 +15,67 @@ import name.mjw.jquante.math.interpolater.Interpolater;
  */
 public class GridProperty {
 
+	/**
+	 * Holds value of property boundingBox.
+	 */
+	private BoundingBox boundingBox;
+
+	/**
+	 * Holds value of property noOfPointsAlongX.
+	 */
+	private int noOfPointsAlongX;
+	/**
+	 * Holds value of property noOfPointsAlongY.
+	 */
+	private int noOfPointsAlongY;
+	/**
+	 * Holds value of property noOfPointsAlongZ.
+	 */
+	private int noOfPointsAlongZ;
+
+	/**
+	 * Holds value of property xIncrement.
+	 */
+	private double xIncrement;
+	/**
+	 * Holds value of property yIncrement.
+	 */
+	private double yIncrement;
+
+	/**
+	 * Holds value of property zIncrement.
+	 */
+	private double zIncrement;
+
+	private double[] xVals = new double[9];
+	private double[] yVals = new double[8];
+
+	/**
+	 * Holds value of property functionValues.
+	 */
+	private double[] functionValues;
+
 	// internal variable used to maintain consistancy of data provided
 	private boolean stateChanged;
 
-	private double minFunctionValue, maxFunctionValue;
-	private int noOfPositiveFunctionValues, noOfNegativeFunctionValues;
+	private double minFunctionValue;
+	private double maxFunctionValue;
+	private int noOfPositiveFunctionValues;
+	private int noOfNegativeFunctionValues;
 
 	/** Creates a new instance of GridProperty */
 	public GridProperty() {
 		this(new BoundingBox(), 0.0, 0.0, 0.0, 0, 0, 0, new double[1]);
 	}
 
-	/** Creates a new instance of GridProperty */
+	/**
+	 * Creates a new instance of GridProperty
+	 * 
+	 * @param bb
+	 *            BoundingBox.
+	 * @param inc
+	 *            Increment.
+	 */
 	public GridProperty(BoundingBox bb, double inc) {
 		this(bb, inc, inc, inc, (int) (bb.getXWidth() / inc), (int) (bb
 				.getYWidth() / inc), (int) (bb.getZWidth() / inc),
@@ -36,7 +84,18 @@ public class GridProperty {
 						* ((int) (bb.getZWidth() / inc))]);
 	}
 
-	/** Creates a new instance of GridProperty */
+	/**
+	 * Creates a new instance of GridProperty
+	 * 
+	 * @param bb
+	 *            BoundingBox.
+	 * @param xinc
+	 *            X increment.
+	 * @param yinc
+	 *            Y increment.
+	 * @param zinc
+	 *            Z increment.
+	 */
 	public GridProperty(BoundingBox bb, double xinc, double yinc, double zinc) {
 		this(bb, xinc, yinc, zinc, (int) (bb.getXWidth() / xinc), (int) (bb
 				.getYWidth() / yinc), (int) (bb.getZWidth() / zinc),
@@ -45,19 +104,56 @@ public class GridProperty {
 						* ((int) (bb.getZWidth() / zinc))]);
 	}
 
-	/** Creates a new instance of GridProperty */
+	/**
+	 * Creates a new instance of GridProperty
+	 * 
+	 * @param bb
+	 *            BoundingBox.
+	 * @param xyzPoints
+	 *            Number of xyzPoints.
+	 */
 	public GridProperty(BoundingBox bb, int xyzPoints) {
 		this(bb, bb.getXWidth() / xyzPoints, bb.getYWidth() / xyzPoints, bb
 				.getZWidth() / xyzPoints);
 	}
 
-	/** Creates a new instance of GridProperty */
+	/**
+	 * Creates a new instance of GridProperty
+	 * 
+	 * @param bb
+	 *            BoundingBox
+	 * @param xpnt
+	 *            Number of x points.
+	 * @param ypnt
+	 *            Number of y points.
+	 * @param zpnt
+	 *            Number of z points.
+	 */
 	public GridProperty(BoundingBox bb, int xpnt, int ypnt, int zpnt) {
 		this(bb, bb.getXWidth() / xpnt, bb.getYWidth() / ypnt, bb.getZWidth()
 				/ zpnt);
 	}
 
-	/** Creates a new instance of GridProperty */
+	/**
+	 * Creates a new instance of GridProperty
+	 * 
+	 * @param bb
+	 *            BoundingBox
+	 * @param xinc
+	 *            X increment.
+	 * @param yinc
+	 *            Y increment.
+	 * @param zinc
+	 *            Z increment.
+	 * @param xpnt
+	 *            Number of X points.
+	 * @param ypnt
+	 *            Number of Y points.
+	 * @param zpnt
+	 *            Number of Z points.
+	 * @param funcVals
+	 *            Function values.
+	 */
 	public GridProperty(BoundingBox bb, double xinc, double yinc, double zinc,
 			int xpnt, int ypnt, int zpnt, double[] funcVals) {
 		boundingBox = bb;
@@ -114,11 +210,6 @@ public class GridProperty {
 	}
 
 	/**
-	 * Holds value of property boundingBox.
-	 */
-	private BoundingBox boundingBox;
-
-	/**
 	 * Getter for property boundingBox.
 	 * 
 	 * @return Value of property boundingBox.
@@ -136,11 +227,6 @@ public class GridProperty {
 	public void setBoundingBox(BoundingBox boundingBox) {
 		this.boundingBox = boundingBox;
 	}
-
-	/**
-	 * Holds value of property xIncrement.
-	 */
-	private double xIncrement;
 
 	/**
 	 * Getter for property xIncrement.
@@ -162,11 +248,6 @@ public class GridProperty {
 	}
 
 	/**
-	 * Holds value of property yIncrement.
-	 */
-	private double yIncrement;
-
-	/**
 	 * Getter for property yIncrement.
 	 * 
 	 * @return Value of property yIncrement.
@@ -184,11 +265,6 @@ public class GridProperty {
 	public void setYIncrement(double yIncrement) {
 		this.yIncrement = yIncrement;
 	}
-
-	/**
-	 * Holds value of property zIncrement.
-	 */
-	private double zIncrement;
 
 	/**
 	 * Getter for property zIncrement.
@@ -210,11 +286,6 @@ public class GridProperty {
 	}
 
 	/**
-	 * Holds value of property noOfPointsAlongX.
-	 */
-	private int noOfPointsAlongX;
-
-	/**
 	 * Getter for property noOfPointsAlongX.
 	 * 
 	 * @return Value of property noOfPointsAlongX.
@@ -234,11 +305,6 @@ public class GridProperty {
 	}
 
 	/**
-	 * Holds value of property noOfPointsAlongY.
-	 */
-	private int noOfPointsAlongY;
-
-	/**
 	 * Getter for property noOfPointsAlongY.
 	 * 
 	 * @return Value of property noOfPointsAlongY.
@@ -256,11 +322,6 @@ public class GridProperty {
 	public void setNoOfPointsAlongY(int noOfPointsAlongY) {
 		this.noOfPointsAlongY = noOfPointsAlongY;
 	}
-
-	/**
-	 * Holds value of property noOfPointsAlongZ.
-	 */
-	private int noOfPointsAlongZ;
 
 	/**
 	 * Getter for property noOfPointsAlongZ.
@@ -329,8 +390,6 @@ public class GridProperty {
 				+ (j * noOfPointsAlongZ) + k);
 	}
 
-	private double[] xVals = new double[9];
-	private double[] yVals = new double[8];
 	/**
 	 * Get interpolated function value on this point.
 	 * 
@@ -350,8 +409,8 @@ public class GridProperty {
 		int[] idx = getGridIndexNear(x, y, z);
 
 		// else we apply interpolation
-		xVals = new double[]{p0.getX(), p0.getY(), p0.getZ(), x, y, z,
-				xIncrement, yIncrement, zIncrement};
+		xVals = new double[] { p0.getX(), p0.getY(), p0.getZ(), x, y, z,
+				xIncrement, yIncrement, zIncrement };
 
 		yVals[0] = getFunctionValueAt(idx[0], idx[1], idx[2]);
 		yVals[1] = getFunctionValueAt(idx[0], idx[1], idx[2] + 1);
@@ -375,11 +434,6 @@ public class GridProperty {
 	public double getFunctionValueAt(Point3D point) {
 		return getFunctionValueAt(point.getX(), point.getY(), point.getZ());
 	}
-
-	/**
-	 * Holds value of property functionValues.
-	 */
-	private double[] functionValues;
 
 	/**
 	 * Indexed getter for property functionValues.
@@ -706,7 +760,7 @@ public class GridProperty {
 	}
 
 	/**
-	 * Lock & Key operation on two GridProperty objects. The lock and key
+	 * Lock and Key operation on two GridProperty objects. The lock and key
 	 * operation is defined on only the common bouding box region. The operation
 	 * performed is the following: <br>
 	 * <code>this + gp</code> only if the following conditions are satisfied:
@@ -829,9 +883,9 @@ public class GridProperty {
 				.getUpperLeft().getY(), zMin = boundingBox.getUpperLeft()
 				.getZ();
 
-		return new int[]{(int) Math.rint(Math.abs((x - xMin) / xIncrement)),
+		return new int[] { (int) Math.rint(Math.abs((x - xMin) / xIncrement)),
 				(int) Math.rint(Math.abs((y - yMin) / yIncrement)),
-				(int) Math.rint(Math.abs((z - zMin) / zIncrement))};
+				(int) Math.rint(Math.abs((z - zMin) / zIncrement)) };
 	}
 
 	/**

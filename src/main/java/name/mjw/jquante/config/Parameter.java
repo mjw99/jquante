@@ -1,9 +1,3 @@
-/*
- * Parameter.java
- *
- * Created on June 8, 2003, 11:39 AM
- */
-
 package name.mjw.jquante.config;
 
 /**
@@ -35,4 +29,4 @@ public interface Parameter {
 	 */
 	public void setValue(Object value);
 
-} // end of interface Parameter
+}

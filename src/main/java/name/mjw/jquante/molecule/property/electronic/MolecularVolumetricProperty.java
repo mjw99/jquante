@@ -12,16 +12,21 @@ import name.mjw.jquante.molecule.Molecule;
  */
 public class MolecularVolumetricProperty {
 
+	protected Molecule molecule;
+
 	protected ArrayList<VolumeItem> volumeItemList;
 
-	/** Creates a new instance of MolecularVolumetricProperty */
+	/**
+	 * Creates a new instance of MolecularVolumetricProperty
+	 * 
+	 * @param molecule
+	 *            Molecule object.
+	 */
 	public MolecularVolumetricProperty(Molecule molecule) {
 		this.molecule = molecule;
 
 		this.volumeItemList = new ArrayList<VolumeItem>();
 	}
-
-	protected Molecule molecule;
 
 	/**
 	 * Get the value of molecule

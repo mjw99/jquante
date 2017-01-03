@@ -1,15 +1,9 @@
-/*
- * MoleculeBuildEvent.java
- *
- * Created on May 11, 2003, 9:19 AM
- */
-
 package name.mjw.jquante.molecule.event;
 
 /**
  * Defines the event object for MoleculeBuildEvent to be used by implementations
  * of MoleculeBuilder class for notifying various events such as various stages
- * in building the molecule cinnectivity.
+ * in building the molecule connectivity.
  * 
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
@@ -33,14 +27,28 @@ public class MoleculeBuildEvent extends java.util.EventObject {
 	/** Holds value of property eventType. */
 	private int eventType;
 
-	/** Creates a new instance of MoleculeBuildEvent */
+	/**
+	 * Creates a new instance of MoleculeBuildEvent
+	 * 
+	 * @param source
+	 *            Object source
+	 * @param eventDescription
+	 *            String object describing the event
+	 */
 	public MoleculeBuildEvent(Object source, String eventDescription) {
 		super(source);
 		this.eventType = MoleculeBuildEvent.DESCRIPTION_EVENT;
 		this.eventDescription = eventDescription;
 	}
 
-	/** Creates a new instance of MoleculeBuildEvent */
+	/**
+	 * Creates a new instance of MoleculeBuildEvent
+	 * 
+	 * @param source
+	 *            Object source
+	 * @param percentCompletion
+	 *            Percentage complete.
+	 */
 	public MoleculeBuildEvent(Object source, double percentCompletion) {
 		super(source);
 		this.eventType = MoleculeBuildEvent.PERCENT_COMPLETION_EVENT;
@@ -119,4 +127,4 @@ public class MoleculeBuildEvent extends java.util.EventObject {
 		this.eventType = eventType;
 	}
 
-} // end of class MoleculeBuildEvent
+}

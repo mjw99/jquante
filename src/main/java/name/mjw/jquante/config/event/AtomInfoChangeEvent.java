@@ -1,9 +1,3 @@
-/*
- * AtomInfoChangeEvent.java
- *
- * Created on December 4, 2003, 6:50 AM
- */
-
 package name.mjw.jquante.config.event;
 
 import java.util.EventObject;
@@ -16,9 +10,6 @@ import java.util.EventObject;
  */
 public class AtomInfoChangeEvent extends EventObject {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5378842897630157145L;
 
 	/** Holds value of property changeType. */
@@ -45,7 +36,12 @@ public class AtomInfoChangeEvent extends EventObject {
 	/** Holds value of property atomSymbol. */
 	private String atomSymbol;
 
-	/** Creates a new instance of AtomInfoChangeEvent */
+	/**
+	 * Creates a new instance of AtomInfoChangeEvent *
+	 * 
+	 * @param source
+	 *            The object on which the Event initially occurred.
+	 */
 	public AtomInfoChangeEvent(Object source) {
 		super(source);
 	}

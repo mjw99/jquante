@@ -1,9 +1,3 @@
-/*
- * Molecule.java
- *
- * Created on April 6, 2003, 7:00 AM
- */
-
 package name.mjw.jquante.molecule;
 
 import java.io.Serializable;
@@ -225,7 +219,10 @@ public abstract class Molecule {
 	/**
 	 * Method to get a particular atom from the lists of atoms.
 	 * 
-	 * @return Atom the instance of atom class
+	 * @param atomIndex
+	 *            The atoms index
+	 * 
+	 * @return Atom The instance of atom class
 	 */
 	public abstract Atom getAtom(int atomIndex);
 
@@ -255,8 +252,8 @@ public abstract class Molecule {
 	 *            the index in the list, which is to be changed
 	 * @param atom
 	 *            the instance of atom class
-	 * @throws runtime
-	 *             exception IndexOutOfBoundsException if not a valid atomIndex
+	 * @throws IndexOutOfBoundsException
+	 *             If not a valid atomIndex
 	 */
 	public abstract void setAtom(int atomIndex, Atom atom);
 
@@ -541,7 +538,9 @@ public abstract class Molecule {
 	}
 
 	/**
-	 * extended description of Molecule class
+	 * Build an extended description of Molecule class.
+	 * 
+	 * @return Extended description of Molecule class
 	 */
 	public String toExtendedString() {
 		StringBuilder sb = new StringBuilder();
@@ -587,8 +586,8 @@ public abstract class Molecule {
 					sb.append("Total Dipole Moment     : ")
 							.append(ai.getDipole().magnitude()).append("\n");
 				}
-			} // end if
-		} // end if
+			}
+		}
 
 		return sb.toString();
 	}
@@ -1355,6 +1354,7 @@ public abstract class Molecule {
 			return null;
 		}
 	} // end of inner class AdditionalInformation
+
 	/**
 	 * Holds value of property additionalInformationAvailable.
 	 */

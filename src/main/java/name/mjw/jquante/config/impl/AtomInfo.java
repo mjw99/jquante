@@ -20,7 +20,6 @@ import name.mjw.jquante.config.Parameter;
 import name.mjw.jquante.config.event.AtomInfoChangeEvent;
 import name.mjw.jquante.config.event.AtomInfoChangeListener;
 
-
 /**
  * The default AtomProperty configuration.
  * 
@@ -32,7 +31,7 @@ import name.mjw.jquante.config.event.AtomInfoChangeListener;
  */
 public class AtomInfo implements Configuration {
 
-	private static AtomInfo _atomInfo;
+	private static AtomInfo atomInfo;
 
 	private static final int DEFAULT_TABLE_SIZE = 90;
 
@@ -116,13 +115,16 @@ public class AtomInfo implements Configuration {
 
 	/**
 	 * Obtain an instance of this ...
+	 * 
+	 * @return atomInfo
+	 *            AtomProperty configuration
 	 */
 	public static AtomInfo getInstance() {
-		if (_atomInfo == null) {
-			_atomInfo = new AtomInfo();
-		} // end if
+		if (atomInfo == null) {
+			atomInfo = new AtomInfo();
+		}
 
-		return _atomInfo;
+		return atomInfo;
 	}
 
 	/**
@@ -131,18 +133,18 @@ public class AtomInfo implements Configuration {
 	 * 
 	 */
 	public static void reset() {
-		if (_atomInfo == null)
+		if (atomInfo == null)
 			return;
 
 		// re-initilize the parameters
 		try {
-			_atomInfo.setDefaultParams();
+			atomInfo.setDefaultParams();
 
-			AtomInfoChangeEvent changeEvent = new AtomInfoChangeEvent(_atomInfo);
+			AtomInfoChangeEvent changeEvent = new AtomInfoChangeEvent(atomInfo);
 
 			changeEvent.setChangeType(AtomInfoChangeEvent.ALL_CANGED);
 			// fire the event!
-			_atomInfo.fireAtomInfoChangeListenerAtomInfoChanged(changeEvent);
+			atomInfo.fireAtomInfoChangeListenerAtomInfoChanged(changeEvent);
 		} catch (PropertyVetoException ignored) {
 			// because it never should happen in this context
 			System.err.println(ignored.toString());
@@ -150,9 +152,12 @@ public class AtomInfo implements Configuration {
 	}
 
 	/**
-	 * method to reset the instance of AtomInfo .. so that default values are
+	 * Method to reset the instance of AtomInfo .. so that default values are
 	 * loaded for a particular atom. Note that the values are not saved on to a
 	 * persistent store.
+	 * 
+	 * @param symbol
+	 *            Atomic symbol
 	 */
 	public void resetValues(String symbol) {
 		nameTable.put(symbol, originalNameTable.get(symbol));
@@ -177,11 +182,13 @@ public class AtomInfo implements Configuration {
 
 	/**
 	 * Save user level configuration file
+	 * 
+	 * @throws IOException
+	 *             Signals that an I/O exception of some sort has occurred.
 	 */
 	public void saveUserConfigFile() throws IOException {
 		// TODO: we are being a bit paranoid by replicating every thing, though
-		// that
-		// is not really necessary
+		// that is not really necessary
 		StringResource strings = StringResource.getInstance();
 		FileOutputStream fos = new FileOutputStream(strings.getUserAtomInfo());
 
@@ -241,68 +248,68 @@ public class AtomInfo implements Configuration {
 		int type = n.getNodeType(); // get node type
 
 		switch (type) {
-			case Node.ATTRIBUTE_NODE :
-				String nodeName = n.getNodeName();
+		case Node.ATTRIBUTE_NODE:
+			String nodeName = n.getNodeName();
 
-				if (nodeName.equals("name")) {
-					originalNameTable.put(symbol, n.getNodeValue());
-				} else if (nodeName.equals("atomicNumber")) {
-					originalAtomicNumberTable.put(symbol,
-							new Integer(n.getNodeValue()));
-				} else if (nodeName.equals("atomicWeight")) {
-					originalAtomicWeightTable.put(symbol,
-							new Double(n.getNodeValue()));
-				} else if (nodeName.equals("covalentRadius")) {
-					originalCovalentRadiusTable.put(symbol,
-							new Double(n.getNodeValue()));
-				} else if (nodeName.equals("vdwRadius")) {
-					originalVdwRadiusTable.put(symbol,
-							new Double(n.getNodeValue()));
-				} else if (nodeName.equals("defaultValency")) {
-					originalDefaultValencyTable.put(symbol,
-							new Integer(n.getNodeValue()));
-				} else if (nodeName.equals("weakBondAngle")) {
-					originalWeakBondAngleTable.put(symbol,
-							new Double(n.getNodeValue()));
-				} else if (nodeName.equals("doubleBondOverlap")) {
-					originalDoubleBondOverlapTable.put(symbol,
-							new Double(n.getNodeValue()));
-				} // end if
+			if (nodeName.equals("name")) {
+				originalNameTable.put(symbol, n.getNodeValue());
+			} else if (nodeName.equals("atomicNumber")) {
+				originalAtomicNumberTable.put(symbol,
+						new Integer(n.getNodeValue()));
+			} else if (nodeName.equals("atomicWeight")) {
+				originalAtomicWeightTable.put(symbol,
+						new Double(n.getNodeValue()));
+			} else if (nodeName.equals("covalentRadius")) {
+				originalCovalentRadiusTable.put(symbol,
+						new Double(n.getNodeValue()));
+			} else if (nodeName.equals("vdwRadius")) {
+				originalVdwRadiusTable
+						.put(symbol, new Double(n.getNodeValue()));
+			} else if (nodeName.equals("defaultValency")) {
+				originalDefaultValencyTable.put(symbol,
+						new Integer(n.getNodeValue()));
+			} else if (nodeName.equals("weakBondAngle")) {
+				originalWeakBondAngleTable.put(symbol,
+						new Double(n.getNodeValue()));
+			} else if (nodeName.equals("doubleBondOverlap")) {
+				originalDoubleBondOverlapTable.put(symbol,
+						new Double(n.getNodeValue()));
+			} // end if
 
-				break;
-			case Node.ELEMENT_NODE :
-				element = n.getNodeName();
+			break;
+		case Node.ELEMENT_NODE:
+			element = n.getNodeName();
 
-				NamedNodeMap atts = n.getAttributes();
-				if (element.equals("physical")) {
-					symbol = atts.getNamedItem("symbol").getNodeValue();
+			NamedNodeMap atts = n.getAttributes();
+			if (element.equals("physical")) {
+				symbol = atts.getNamedItem("symbol").getNodeValue();
 
-					// save the others
-					for (int i = 0; i < atts.getLength(); i++) {
-						Node att = atts.item(i);
-						saveOriginal(att);
-					} // end for
-				} else if (element.equals("color")) {
-					originalColorTable.put(
-							symbol,
-							new Color(Integer.parseInt(atts.getNamedItem("r")
-									.getNodeValue()), Integer.parseInt(atts
-									.getNamedItem("g").getNodeValue()), Integer
-									.parseInt(atts.getNamedItem("b")
-											.getNodeValue())));
-				} else {
-					if (atts == null)
-						return;
+				// save the others
+				for (int i = 0; i < atts.getLength(); i++) {
+					Node att = atts.item(i);
+					saveOriginal(att);
+				} // end for
+			} else if (element.equals("color")) {
+				originalColorTable.put(
+						symbol,
+						new Color(Integer.parseInt(atts.getNamedItem("r")
+								.getNodeValue()), Integer.parseInt(atts
+								.getNamedItem("g").getNodeValue()),
+								Integer.parseInt(atts.getNamedItem("b")
+										.getNodeValue())));
+			} else {
+				if (atts == null)
+					return;
 
-					for (int i = 0; i < atts.getLength(); i++) {
-						Node att = atts.item(i);
-						saveOriginal(att);
-					} // end for
-				} // end if
+				for (int i = 0; i < atts.getLength(); i++) {
+					Node att = atts.item(i);
+					saveOriginal(att);
+				} // end for
+			} // end if
 
-				break;
-			default :
-				break;
+			break;
+		default:
+			break;
 		} // end switch..case
 
 		// save children if any
@@ -319,66 +326,62 @@ public class AtomInfo implements Configuration {
 		int type = n.getNodeType(); // get node type
 
 		switch (type) {
-			case Node.ATTRIBUTE_NODE :
-				String nodeName = n.getNodeName();
+		case Node.ATTRIBUTE_NODE:
+			String nodeName = n.getNodeName();
 
-				if (nodeName.equals("name")) {
-					nameTable.put(symbol, n.getNodeValue());
-				} else if (nodeName.equals("atomicNumber")) {
-					atomicNumberTable
-							.put(symbol, new Integer(n.getNodeValue()));
-				} else if (nodeName.equals("atomicWeight")) {
-					atomicWeightTable.put(symbol, new Double(n.getNodeValue()));
-				} else if (nodeName.equals("covalentRadius")) {
-					covalentRadiusTable.put(symbol,
-							new Double(n.getNodeValue()));
-				} else if (nodeName.equals("vdwRadius")) {
-					vdwRadiusTable.put(symbol, new Double(n.getNodeValue()));
-				} else if (nodeName.equals("defaultValency")) {
-					defaultValencyTable.put(symbol,
-							new Integer(n.getNodeValue()));
-				} else if (nodeName.equals("weakBondAngle")) {
-					weakBondAngleTable
-							.put(symbol, new Double(n.getNodeValue()));
-				} else if (nodeName.equals("doubleBondOverlap")) {
-					doubleBondOverlapTable.put(symbol,
-							new Double(n.getNodeValue()));
-				} // end if
+			if (nodeName.equals("name")) {
+				nameTable.put(symbol, n.getNodeValue());
+			} else if (nodeName.equals("atomicNumber")) {
+				atomicNumberTable.put(symbol, new Integer(n.getNodeValue()));
+			} else if (nodeName.equals("atomicWeight")) {
+				atomicWeightTable.put(symbol, new Double(n.getNodeValue()));
+			} else if (nodeName.equals("covalentRadius")) {
+				covalentRadiusTable.put(symbol, new Double(n.getNodeValue()));
+			} else if (nodeName.equals("vdwRadius")) {
+				vdwRadiusTable.put(symbol, new Double(n.getNodeValue()));
+			} else if (nodeName.equals("defaultValency")) {
+				defaultValencyTable.put(symbol, new Integer(n.getNodeValue()));
+			} else if (nodeName.equals("weakBondAngle")) {
+				weakBondAngleTable.put(symbol, new Double(n.getNodeValue()));
+			} else if (nodeName.equals("doubleBondOverlap")) {
+				doubleBondOverlapTable
+						.put(symbol, new Double(n.getNodeValue()));
+			} // end if
 
-				break;
-			case Node.ELEMENT_NODE :
-				element = n.getNodeName();
+			break;
+		case Node.ELEMENT_NODE:
+			element = n.getNodeName();
 
-				NamedNodeMap atts = n.getAttributes();
-				if (element.equals("physical")) {
-					symbol = atts.getNamedItem("symbol").getNodeValue();
+			NamedNodeMap atts = n.getAttributes();
+			if (element.equals("physical")) {
+				symbol = atts.getNamedItem("symbol").getNodeValue();
 
-					// save the others
-					for (int i = 0; i < atts.getLength(); i++) {
-						Node att = atts.item(i);
-						saveUserNode(att);
-					} // end for
-				} else if (element.equals("color")) {
-					colorTable.put(
-							symbol,
-							new Color(Integer.parseInt(atts.getNamedItem("r")
-									.getNodeValue()), Integer.parseInt(atts
-									.getNamedItem("g").getNodeValue()), Integer
-									.parseInt(atts.getNamedItem("b")
-											.getNodeValue())));
-				} else {
-					if (atts == null)
-						return;
+				// save the others
+				for (int i = 0; i < atts.getLength(); i++) {
+					Node att = atts.item(i);
+					saveUserNode(att);
+				} // end for
+			} else if (element.equals("color")) {
+				colorTable.put(
+						symbol,
+						new Color(Integer.parseInt(atts.getNamedItem("r")
+								.getNodeValue()), Integer.parseInt(atts
+								.getNamedItem("g").getNodeValue()),
+								Integer.parseInt(atts.getNamedItem("b")
+										.getNodeValue())));
+			} else {
+				if (atts == null)
+					return;
 
-					for (int i = 0; i < atts.getLength(); i++) {
-						Node att = atts.item(i);
-						saveUserNode(att);
-					} // end for
-				} // end if
+				for (int i = 0; i < atts.getLength(); i++) {
+					Node att = atts.item(i);
+					saveUserNode(att);
+				} // end for
+			} // end if
 
-				break;
-			default :
-				break;
+			break;
+		default:
+			break;
 		} // end switch..case
 
 		// save children if any
@@ -1180,4 +1183,4 @@ public class AtomInfo implements Configuration {
 
 		fireAtomInfoChangeListenerAtomInfoChanged(changeEvent);
 	}
-} // end of class AtomInfo
+}
