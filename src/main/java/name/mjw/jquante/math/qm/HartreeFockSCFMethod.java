@@ -1,9 +1,3 @@
-/*
- * HartreeFockSCFMethod.java
- *
- * Created on August 6, 2004, 7:36 PM
- */
-
 package name.mjw.jquante.math.qm;
 
 import name.mjw.jquante.math.Matrix;
@@ -25,6 +19,8 @@ public class HartreeFockSCFMethod extends SCFMethod {
 	protected SCFEvent scfEvent;
 
 	private SCFType scfType;
+
+	private boolean isDetivativeComputed = false;
 
 	/** Creates a new instance of HartreeFockSCFMethod */
 	public HartreeFockSCFMethod(Molecule molecule, OneElectronIntegrals oneEI,
@@ -129,8 +125,6 @@ public class HartreeFockSCFMethod extends SCFMethod {
 			fireSCFEventListenerScfEventOccured(scfEvent);
 		} // end if
 	}
-
-	private boolean isDetivativeComputed = false;
 
 	/**
 	 * This gradient (or Force) calculation is based on Appendix C of Mordern
@@ -266,4 +260,4 @@ public class HartreeFockSCFMethod extends SCFMethod {
 	public Matrix getHessian() {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
-} // end of class HartreeFockSCFMethod
+}
