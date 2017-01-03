@@ -16,19 +16,45 @@ import name.mjw.jquante.molecule.UserDefinedAtomProperty;
  */
 public class HartreeFockSCFMethod extends SCFMethod {
 
+	/**
+	 * Represents an event in sn SCF cycle
+	 */
 	protected SCFEvent scfEvent;
 
+	/**
+	 * SCF Type enumeration.
+	 */
 	private SCFType scfType;
 
-	private boolean isDetivativeComputed = false;
+	private boolean isDerivativeComputed = false;
 
-	/** Creates a new instance of HartreeFockSCFMethod */
+	/**
+	 * Creates a new instance of HartreeFockSCFMethod
+	 *
+	 * @param molecule
+	 *            The molecule under consideration.
+	 * @param oneEI
+	 *            The one electron integrals of the system
+	 * @param twoEI
+	 *            The two electron integrals of the system
+	 */
 	public HartreeFockSCFMethod(Molecule molecule, OneElectronIntegrals oneEI,
 			TwoElectronIntegrals twoEI) {
 		this(molecule, oneEI, twoEI, SCFType.HARTREE_FOCK);
 	}
 
-	/** Creates a new instance of HartreeFockSCFMethod */
+	/**
+	 * Creates a new instance of HartreeFockSCFMethod
+	 * 
+	 * @param molecule
+	 *            The molecule under consideration.
+	 * @param oneEI
+	 *            The one electron integrals of the system
+	 * @param twoEI
+	 *            The two electron integrals of the system
+	 * @param scfType
+	 *            Type of SCF Calculation.
+	 */
 	public HartreeFockSCFMethod(Molecule molecule, OneElectronIntegrals oneEI,
 			TwoElectronIntegrals twoEI, SCFType scfType) {
 		super(molecule, oneEI, twoEI);
@@ -148,7 +174,7 @@ public class HartreeFockSCFMethod extends SCFMethod {
 			atmForce.setValue(force);
 		} // end for
 
-		isDetivativeComputed = true;
+		isDerivativeComputed = true;
 	}
 
 	/**
@@ -166,7 +192,7 @@ public class HartreeFockSCFMethod extends SCFMethod {
 		oneEI.compute1E();
 		twoEI.compute2E();
 		scf();
-		isDetivativeComputed = false;
+		isDerivativeComputed = false;
 		return getEnergy();
 	}
 
@@ -209,9 +235,9 @@ public class HartreeFockSCFMethod extends SCFMethod {
 	 */
 	@Override
 	public double[] getDerivatives() {
-		if (!isDetivativeComputed) {
+		if (!isDerivativeComputed) {
 			computeForce();
-		} // end if
+		}
 
 		// unpack and return the forces
 		double[] forces = new double[molecule.getNumberOfAtoms() * 3];
@@ -226,7 +252,7 @@ public class HartreeFockSCFMethod extends SCFMethod {
 			forces[ii + 2] = force.getK();
 
 			ii += 3;
-		} // end if
+		}
 
 		return forces;
 	}
