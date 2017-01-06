@@ -5,6 +5,9 @@
 # You can specify a custom docker image from Docker Hub as your build environment.
 image: maven:3.3.3
 
+clone:           # the 'clone' section 
+  depth: 5       # the depth, in this case the clone will contain last five commits
+
 pipelines:
   default:
     - step:
