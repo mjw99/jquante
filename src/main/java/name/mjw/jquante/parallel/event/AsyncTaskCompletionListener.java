@@ -1,9 +1,3 @@
-/**
- * AsyncTaskCompletionListener.java
- *
- * Created on 22/09/2009
- */
-
 package name.mjw.jquante.parallel.event;
 
 /**

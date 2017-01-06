@@ -1,9 +1,3 @@
-/*
- * MathUtil.java
- *
- * Created on November 16, 2003, 2:44 PM
- */
-
 package name.mjw.jquante.math;
 
 import name.mjw.jquante.math.geom.Point3D;
@@ -133,8 +127,7 @@ public final class MathUtil {
 		while (n > 1) {
 			value = value * n;
 			n--;
-		} // end while
-
+		}
 		return value;
 	}
 
@@ -151,8 +144,7 @@ public final class MathUtil {
 		while (n > 0) {
 			value = value * n;
 			n -= 2;
-		} // end while
-
+		}
 		return value;
 	}
 
@@ -172,7 +164,20 @@ public final class MathUtil {
 	/**
 	 * Pre-factor of binomial expansion.
 	 * 
-	 * From Augspurger and Dykstra
+	 * From Augspurger and Dykstra: <a
+	 * href="http://dx.doi.org/10.1021/j100176a037">10.1021/j100176a037</a>
+	 * 
+	 * @param s
+	 *            s
+	 * @param ia
+	 *            ia
+	 * @param ib
+	 *            ib
+	 * @param xpa
+	 *            xpa
+	 * @param xpb
+	 *            xpb
+	 * @return Pre-factor of binomial expansion.
 	 */
 	public static double binomialPrefactor(int s, int ia, int ib, double xpa,
 			double xpb) {
@@ -182,8 +187,8 @@ public final class MathUtil {
 			if (((s - ia) <= t) && (t <= ib)) {
 				sum += binomial(ia, s - t) * binomial(ib, t)
 						* Math.pow(xpa, ia - s + t) * Math.pow(xpb, ib - t);
-			} // end if
-		} // end for
+			}
+		}
 
 		return sum;
 	}
@@ -207,7 +212,7 @@ public final class MathUtil {
 
 	/**
 	 * Relative difference between two floating point numbers, as described at:
-	 * <a href="http://c-faq.com/fp/fpequal.html"/>
+	 * <a href="http://c-faq.com/fp/fpequal.html">
 	 * http://c-faq.com/fp/fpequal.html</a>
 	 * 
 	 * @param a
@@ -224,4 +229,4 @@ public final class MathUtil {
 
 		return d == 0.0 ? 0.0 : Math.abs(a - b) / d;
 	}
-} // end of class MathUtil
+}

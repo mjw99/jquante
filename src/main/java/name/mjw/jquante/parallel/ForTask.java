@@ -18,6 +18,12 @@ public abstract class ForTask<T> {
 
 	/**
 	 * Creates a new instance of ForTask
+	 * 
+	 * @param startIndex
+	 *            Start index.
+	 * 
+	 * @param endIndex
+	 *            End index.
 	 */
 	public ForTask(int startIndex, int endIndex) {
 		this.startIndex = startIndex;
@@ -44,6 +50,7 @@ public abstract class ForTask<T> {
 	public void setStartIndex(int startIndex) {
 		this.startIndex = startIndex;
 	}
+
 	protected int endIndex;
 
 	/**
@@ -68,6 +75,10 @@ public abstract class ForTask<T> {
 	/**
 	 * Get a new instance of this task
 	 * 
+	 * @param startIndex
+	 *            Start index.
+	 * @param endIndex
+	 *            End index.
 	 * @return a new instance of this task
 	 */
 	public abstract ForTask<T> getNewInstance(int startIndex, int endIndex);

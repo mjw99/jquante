@@ -79,8 +79,8 @@ public class Ring implements AtomGroup {
 	 * @param index
 	 *            of in the list
 	 * @return the atom index at the specified location
-	 * @throws runtime
-	 *             exception IndexOutOfBoundsException if not a valid index.
+	 * @throws IndexOutOfBoundsException
+	 *             If not a valid index.
 	 */
 	public int getAtomIndexAt(int index) {
 		return ((Integer) ringAtoms.toArray()[index]).intValue();

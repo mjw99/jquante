@@ -1,9 +1,3 @@
-/*
- * Matrix.java
- *
- * Created on August 1, 2004, 7:53 PM
- */
-
 package name.mjw.jquante.math;
 
 import java.text.DecimalFormat;
@@ -281,7 +275,7 @@ public class Matrix implements Cloneable {
 	/**
 	 * rootMeanSquare() - method to compute the root mean square of elements of
 	 * a diagonal. This is one type of matrix norm.
-	 * <code>sqrt(sum(A<sub>ii</sub>))<code>.
+	 * <code>sqrt(sum(A<sub>ii</sub>))</code>.
 	 * 
 	 * @return double - the root mean square of the elements of the diagonal.
 	 */

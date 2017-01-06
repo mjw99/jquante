@@ -1,6 +1,5 @@
 package name.mjw.jquante.math;
 
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -220,6 +219,7 @@ public class Matrix3D implements Cloneable {
 	 *            the angle of rotation
 	 * @return the rotated Molecule
 	 * @throws CloneNotSupportedException
+	 *             If this cannot be cloned.
 	 */
 	public Atom rotate(Atom atom, Vector3D axis, double theta)
 			throws CloneNotSupportedException {
@@ -246,6 +246,7 @@ public class Matrix3D implements Cloneable {
 	 *            the angle of rotation in Z direction
 	 * @return the rotated Molecule
 	 * @throws CloneNotSupportedException
+	 *             If this cannot be cloned.
 	 */
 	public Atom rotate(Atom atom, double xAngle, double yAngle, double zAngle)
 			throws CloneNotSupportedException {
@@ -271,6 +272,7 @@ public class Matrix3D implements Cloneable {
 	 *            the Quaternion object used for transform
 	 * @return the rotated Molecule
 	 * @throws CloneNotSupportedException
+	 *             If this cannot be cloned.
 	 */
 	public Atom transform(Atom atom, Quaternion quat)
 			throws CloneNotSupportedException {
@@ -716,10 +718,10 @@ public class Matrix3D implements Cloneable {
 	/**
 	 * Convert this matrix into a 1D array.
 	 * 
-	 * return a double[] of this matrix
+	 * @return a double[] of this matrix
 	 */
 	public double[] toArray() {
-		return new double[]{a00, a01, a02, a03, a10, a11, a12, a13, a20, a21,
-				a22, a23, 0.0, 0.0, 0.0, 1.0};
+		return new double[] { a00, a01, a02, a03, a10, a11, a12, a13, a20, a21,
+				a22, a23, 0.0, 0.0, 0.0, 1.0 };
 	}
-} // end of class Matrix3D
+}

@@ -26,6 +26,7 @@ public class SimpleParallelTaskExecuter {
 	 * Execute the parallel task depending on the number of CPUs available
 	 * 
 	 * @param pTask
+	 *            Simple parallel task.
 	 */
 	public void execute(SimpleParallelTask pTask) {
 		// init lists
@@ -42,8 +43,8 @@ public class SimpleParallelTaskExecuter {
 				totalItems--;
 				if (totalItems < 0)
 					break;
-			} // end for
-		} // end while
+			}
+		}
 
 		// create objects representing the distribution
 		int i;

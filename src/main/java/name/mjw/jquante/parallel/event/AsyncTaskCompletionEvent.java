@@ -12,7 +12,13 @@ public class AsyncTaskCompletionEvent extends java.util.EventObject {
 	 */
 	private static final long serialVersionUID = 1028970494565784834L;
 
-	/** Creates a new instance of AsyncTaskCompletionEvent */
+	/**
+	 * Creates a new instance of AsyncTaskCompletionEvent
+	 * 
+	 * @param source
+	 *            The object upon which the Event in question initially occurred
+	 *            upon.
+	 */
 	public AsyncTaskCompletionEvent(Object source) {
 		super(source);
 	}

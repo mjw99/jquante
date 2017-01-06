@@ -25,7 +25,14 @@ public class Quaternion {
 
 	private Coding codingType;
 
-	/** Creates a new instance of Quaternion */
+	/**
+	 * Creates a new instance of Quaternion
+	 * 
+	 * @param rotationAxis
+	 *            Axis to carry the rotation about.
+	 * @param rotationAngle
+	 *            Angle of the rotation.
+	 */
 	public Quaternion(Vector3D rotationAxis, double rotationAngle) {
 		this.rotationAxis = rotationAxis;
 		this.rotationAngle = rotationAngle;
@@ -33,7 +40,16 @@ public class Quaternion {
 		codingType = Coding.AXIS_ANGLE;
 	}
 
-	/** Creates a new instance of Quaternion */
+	/**
+	 * Creates a new instance of Quaternion
+	 * 
+	 * @param zRotationAngle
+	 *            z component of roation angle.
+	 * @param yRotationAngle
+	 *            x component of roation angle.
+	 * @param xRotationAngle
+	 *            y component of roation angle.
+	 */
 	public Quaternion(double zRotationAngle, double yRotationAngle,
 			double xRotationAngle) {
 		double c1 = Math.cos(zRotationAngle / 2);

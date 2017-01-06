@@ -12,12 +12,32 @@ import java.util.Iterator;
  */
 public class SimpleParallelFor<T> {
 
-	/** Creates new instance of SimpleParallelFor */
+	/**
+	 * Creates new instance of SimpleParallelFor
+	 * 
+	 * @param startIndex
+	 *            Start index.
+	 * @param endIndex
+	 *            End index.
+	 * @param forTask
+	 *            Code body in a For loop
+	 */
 	public SimpleParallelFor(int startIndex, int endIndex, ForTask<T> forTask) {
 		this(startIndex, endIndex, forTask, ReduceOperation.USER_DEFINED);
 	}
 
-	/** Creates new instance of SimpleParallelFor */
+	/**
+	 * Creates new instance of SimpleParallelFor
+	 * 
+	 * @param startIndex
+	 *            Start index.
+	 * @param endIndex
+	 *            End index.
+	 * @param forTask
+	 *            Code body in a For loop
+	 * @param reop
+	 *            Reduction operation.
+	 */
 	public SimpleParallelFor(int startIndex, int endIndex, ForTask<T> forTask,
 			ReduceOperation reop) {
 		this.startIndex = startIndex;
@@ -67,6 +87,7 @@ public class SimpleParallelFor<T> {
 	public void setStartIndex(int startIndex) {
 		this.startIndex = startIndex;
 	}
+
 	protected int endIndex;
 
 	/**

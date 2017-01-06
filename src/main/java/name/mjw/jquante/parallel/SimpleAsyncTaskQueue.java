@@ -1,9 +1,3 @@
-/**
- * SimpleAsyncTaskQueue.java
- *
- * Created on 22/09/2009
- */
-
 package name.mjw.jquante.parallel;
 
 import java.lang.reflect.Method;
@@ -112,6 +106,8 @@ public class SimpleAsyncTaskQueue extends Thread {
 	 *            the target object
 	 * @param methodName
 	 *            the name of method that is to be invoked asynchronously
+	 * @param al
+	 *            AsyncTaskCompletionListener
 	 * @param args
 	 *            arguments to this method
 	 * @throws NoSuchMethodException
