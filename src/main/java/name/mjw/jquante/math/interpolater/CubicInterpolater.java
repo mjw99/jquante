@@ -29,9 +29,11 @@ public class CubicInterpolater extends Interpolater {
 	 *  a2  = y2 - y0 <br>
 	 *  a3  = y1 <br>
 	 *  a0*mu*m2 + a1*m2 + a2*mu + a3 <br>
-	 * </code> Where, <br>
-	 * y0, y1, y2, y3 => y[0], y[1], y[2] and y[3] respectively <br>
-	 * mu => x[0]
+	 *  Where, <br>
+	 *  y0, y1, y2, y3 &ge; y[0], y[1], y[2] and y[3] respectively <br>
+	 *  mu &ge; x[0]
+	 * 
+	 * </code>
 	 * 
 	 * @param y
 	 *            the Y values (results of fuction evaluation)

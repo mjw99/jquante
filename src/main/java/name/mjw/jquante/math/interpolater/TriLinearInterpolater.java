@@ -44,11 +44,12 @@ public class TriLinearInterpolater extends Interpolater {
 	 *  w2 = j1 * (1 - yd/incY) + j2 * yd/incY <br>
 	 * 
 	 *  Vx0y0z0 = w1 * (1 - xd/incX) + w2 * xd/incX <br>
-	 * </code> Where, <br>
-	 * Vx1y1z1 ... Vx2y2z2 => y[0] ... y[7] <br>
-	 * x1, y1, z1 => x[0], x[1], x[2] <br>
-	 * x0, y0, z0 => x[3], x[4], x[5] <br>
-	 * incX, incY, incZ => x[6], x[7], x[8] <br>
+	 *  Where, <br>
+	 * Vx1y1z1 ... Vx2y2z2 &ge; y[0] ... y[7] <br>
+	 * x1, y1, z1 &ge; x[0], x[1], x[2] <br>
+	 * x0, y0, z0 &ge; x[3], x[4], x[5] <br>
+	 * incX, incY, incZ &ge; x[6], x[7], x[8] <br>
+	 * </code>
 	 * 
 	 * @param y
 	 *            the Y values (results of fuction evaluation)
@@ -58,8 +59,8 @@ public class TriLinearInterpolater extends Interpolater {
 	 */
 	@Override
 	public double interpolate(double[] y, double[] x) {
-		double[] delta = new double[]{(x[3] - x[0]) / x[6],
-				(x[4] - x[1]) / x[7], (x[5] - x[2]) / x[8]};
+		double[] delta = new double[] { (x[3] - x[0]) / x[6],
+				(x[4] - x[1]) / x[7], (x[5] - x[2]) / x[8] };
 		double i1, i2, j1, j2, w1, w2;
 
 		i1 = y[0] * (1.0 - delta[2]) + y[1] * delta[2];

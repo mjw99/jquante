@@ -200,6 +200,8 @@ public class Vector3D implements Serializable {
 	/**
 	 * Find the angle made with the vector.
 	 * 
+	 * @param b
+	 *            Other vector.
 	 * @return the angle in radians
 	 */
 	public double angleWith(Vector3D b) {
@@ -245,7 +247,7 @@ public class Vector3D implements Serializable {
 	 * @return Vector the converted form
 	 */
 	public Vector toVector() {
-		return new Vector(new double[]{i, j, k});
+		return new Vector(new double[] { i, j, k });
 	}
 
 	/**

@@ -30,7 +30,16 @@ public class Point3D extends AbstractGeometricObject implements Cloneable,
 		this(0.0, 0.0, 0.0);
 	}
 
-	/** Creates a new instance of Point3D */
+	/**
+	 * Creates a new instance of Point3D
+	 * 
+	 * @param x
+	 *            X coordinate.
+	 * @param y
+	 *            Y coordinate.
+	 * @param z
+	 *            Z coordinate.
+	 */
 	public Point3D(double x, double y, double z) {
 		this.x = x;
 		this.y = y;

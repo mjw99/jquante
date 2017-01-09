@@ -15,9 +15,10 @@ public class LinearInterpolater extends Interpolater {
 
 	/**
 	 * Interpolate value at X depending upon value at Y Uses the formula: <br>
-	 * <code>y1 * (1 - mu) + y2 * mu <br> </code> Where, <br>
-	 * y1, y2 => y[0] and y[1] respectively <br>
-	 * mu => x[0]
+	 * <code>y1 * (1 - mu) + y2 * mu <br>  Where, <br>
+	 * y1, y2 &ge; y[0] and y[1] respectively <br>
+	 * mu &ge; x[0]
+	 * </code>
 	 * 
 	 * @param y
 	 *            the Y values (results of fuction evaluation)

@@ -14,17 +14,48 @@ public class Point3DI extends Point3D {
 	 */
 	private static final long serialVersionUID = -949127979150488129L;
 
-	/** Creates a new instance of Point3DI */
+	/**
+	 * Holds value of property index.
+	 */
+	private int index;
+
+	/**
+	 * Creates a new instance of Point3DI
+	 * 
+	 * @param x
+	 *            X coordinate.
+	 * @param y
+	 *            Y coordinate.
+	 * @param z
+	 *            Z coordinate.
+	 */
 	public Point3DI(double x, double y, double z) {
 		this(x, y, z, -1);
 	}
 
-	/** Creates a new instance of Point3DI */
+	/**
+	 * Creates a new instance of Point3DI
+	 * 
+	 * @param p
+	 *            Point3D object.
+	 */
 	public Point3DI(Point3D p) {
 		this(p.getX(), p.getY(), p.getZ(), -1);
 	}
 
-	/** Creates a new instance of Point3DI */
+	/**
+	 * Creates a new instance of Point3DI
+	 * 
+	 * @param x
+	 *            X coordinate.
+	 * @param y
+	 *            Y coordinate.
+	 * @param z
+	 *            Z coordinate.
+	 * @param index
+	 *            Index.
+	 * 
+	 */
 	public Point3DI(double x, double y, double z, int index) {
 		super(x, y, z);
 
@@ -108,11 +139,6 @@ public class Point3DI extends Point3D {
 	}
 
 	/**
-	 * Holds value of property index.
-	 */
-	private int index;
-
-	/**
 	 * Getter for property index.
 	 * 
 	 * @return Value of property index.
@@ -158,7 +184,7 @@ public class Point3DI extends Point3D {
 			Point3DI o = (Point3DI) obj;
 
 			return ((super.equals(o)) && (this.index == o.index));
-		} // end if
+		}
 	}
 
 	@Override
@@ -171,4 +197,4 @@ public class Point3DI extends Point3D {
 		return hash;
 	}
 
-} // end of class Point3DI
+}

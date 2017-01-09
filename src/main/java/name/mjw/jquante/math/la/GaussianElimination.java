@@ -1,9 +1,3 @@
-/**
- * GaussianElimination.java
- *
- * Created on 31/01/2010
- */
-
 package name.mjw.jquante.math.la;
 
 import name.mjw.jquante.math.Matrix;
@@ -92,7 +86,8 @@ public class GaussianElimination extends LinearEquationSolver {
 	/**
 	 * simplePivot() - This method does simple pivoting if the a[j][j]th element
 	 * is zero. It first finds the a[i][j]th element which is numerically
-	 * greater than a[j][j] and i>j and then interchanges the ith and jth rows.
+	 * greater than a[j][j] and i&gt;j and then interchanges the ith and jth
+	 * rows.
 	 * 
 	 * @param p
 	 *            - The pth iteration in Gaussian elemination.

@@ -1,8 +1,3 @@
-/*
- * StepitOptimizer.java 
- *
- * Created on 1 Oct, 2008 
- */
 package name.mjw.jquante.math.optimizer.impl;
 
 import name.mjw.jquante.math.optimizer.AbstractOptimizer;
@@ -16,7 +11,12 @@ import name.mjw.jquante.math.optimizer.OptimizerFunction;
  */
 public class StepitOptimizer extends AbstractOptimizer {
 
-	/** Creates a new instance of StepitOptimizer */
+	/**
+	 * Creates a new instance of StepitOptimizer
+	 * 
+	 * @param function
+	 *            Function to be optmimized.
+	 */
 	public StepitOptimizer(OptimizerFunction function) {
 		super(function);
 	}

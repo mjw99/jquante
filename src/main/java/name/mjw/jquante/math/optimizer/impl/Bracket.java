@@ -5,11 +5,13 @@ import name.mjw.jquante.math.optimizer.FunctionPoint1D;
 /**
  * A set of three points a, b, c that bracket a minimum of a function f(x). The
  * following relationships are guaranteed:
+ * 
  * <ul>
- * <li>a < b < c</li>
- * <li>f(b) < f(a)</li>
- * <li>f(b) < f(c)</li>
+ * <li>a &lt; b &lt; c</li>
+ * <li>f(b) &lt; f(a)</li>
+ * <li>f(b) &lt; f(c)</li>
  * </ul>
+ * 
  * 
  * @author J. Milthorpe
  * @version 2.0 (Part of MeTA v2.0)

@@ -1,8 +1,3 @@
-/**
- * BFGSOptimizer.java
- *
- * Created on Mar 25, 2009
- */
 package name.mjw.jquante.math.optimizer.impl;
 
 import java.util.Iterator;
@@ -24,7 +19,12 @@ public class BFGSOptimizer extends AbstractOptimizer {
 
 	private static final float STPMX = 100.0f;
 
-	/** Create a new instance of BFGSOptimizer */
+	/**
+	 * Create a new instance of BFGSOptimizer
+	 * 
+	 * @param function
+	 *            Function to be optimized.
+	 */
 	public BFGSOptimizer(OptimizerFunction function) {
 		super(function);
 
@@ -43,12 +43,12 @@ public class BFGSOptimizer extends AbstractOptimizer {
 						ConvergenceCriteria cc = ccList.next();
 
 						switch (cc.getCriteriaCombinationType()) {
-							case AND :
-								isConverged = isConverged && cc.isConverged();
-								break;
-							case OR :
-								isConverged = isConverged || cc.isConverged();
-								break;
+						case AND:
+							isConverged = isConverged && cc.isConverged();
+							break;
+						case OR:
+							isConverged = isConverged || cc.isConverged();
+							break;
 						} // end of switch .. case
 					} // end while
 				} // end if

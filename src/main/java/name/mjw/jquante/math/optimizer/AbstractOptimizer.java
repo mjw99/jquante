@@ -1,9 +1,3 @@
-/*
- * AbstractOptimizer.java 
- *
- * Created on 1 Oct, 2008 
- */
-
 package name.mjw.jquante.math.optimizer;
 
 /**
@@ -18,7 +12,12 @@ public abstract class AbstractOptimizer implements Optimizer {
 
 	private static final int DEFAULT_MAX_ITER = 100;
 
-	/** AbstractOptimizer default constructor */
+	/**
+	 * AbstractOptimizer default constructor
+	 * 
+	 * @param optimizerFunction
+	 *            Function to be optimized.
+	 */
 	public AbstractOptimizer(OptimizerFunction optimizerFunction) {
 		this.optimizerFunction = optimizerFunction;
 		variables = null;

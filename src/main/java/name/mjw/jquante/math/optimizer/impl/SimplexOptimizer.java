@@ -1,9 +1,3 @@
-/*
- * SimplexOptimizer.java 
- *
- * Created on 1 Oct, 2008 
- */
-
 package name.mjw.jquante.math.optimizer.impl;
 
 import name.mjw.jquante.math.optimizer.AbstractOptimizer;
@@ -17,7 +11,12 @@ import name.mjw.jquante.math.optimizer.OptimizerFunction;
  */
 public class SimplexOptimizer extends AbstractOptimizer {
 
-	/** Creates a new instance of SimplexOptimizer */
+	/**
+	 * Creates a new instance of SimplexOptimizer
+	 * 
+	 * @param function
+	 *            Function to be optimized.
+	 */
 	public SimplexOptimizer(OptimizerFunction function) {
 		super(function);
 	}
