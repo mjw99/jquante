@@ -29,7 +29,7 @@ public class BasisSet {
 	public BasisSet(String name) {
 		this.name = name;
 
-		basisSet = new HashMap<String, AtomicBasis>(80);
+		basisSet = new HashMap<>(80);
 	}
 
 	/**
@@ -76,8 +76,7 @@ public class BasisSet {
 		if (basis == null) {
 			throw new BasisNotFoundException("Basis for atom '" + symbol
 					+ "' is not defined in : " + name);
-		} // end if
-
+		}
 		return basis;
 	}
 }

@@ -6,12 +6,16 @@ import name.mjw.jquante.common.resource.StringResource;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * This class provides the means to read a basis set stored in XML format and
- * convert it into appropriate datastructure representation.
+ * convert it into appropriate data structure representation.
  * 
  * Follows a singleton pattern.
  * 
@@ -39,15 +43,15 @@ public class BasisReader {
 	 */
 	public static BasisReader getInstance() {
 		if (_basisReader == null) {
-			_basisReader = new WeakReference<BasisReader>(new BasisReader());
-		} // end if
+			_basisReader = new WeakReference<>(new BasisReader());
+		}
 
 		BasisReader basisReader = _basisReader.get();
 
 		if (basisReader == null) {
 			basisReader = new BasisReader();
-			_basisReader = new WeakReference<BasisReader>(basisReader);
-		} // end if
+			_basisReader = new WeakReference<>(basisReader);
+		}
 
 		return basisReader;
 	}
@@ -58,8 +62,12 @@ public class BasisReader {
 	 * @param basisName
 	 *            the name of basis
 	 * @return BasisSet object, representing the requested basis set
+	 * @throws IOException
+	 * @throw SAXException
+	 * @throws ParserConfigurationExceptio
 	 */
-	public BasisSet readBasis(String basisName) throws Exception {
+	public BasisSet readBasis(String basisName)
+			throws ParserConfigurationException, SAXException, IOException {
 		StringResource strings = StringResource.getInstance();
 
 		// read the XML config file
@@ -78,8 +86,12 @@ public class BasisReader {
 	 * @param basisFileName
 	 *            the name of external basis file name
 	 * @return BasisSet object, representing the requested basis set
+	 * @throws IOException
+	 * @throws SAXException
+	 * @throws ParserConfigurationException
 	 */
-	public BasisSet readExternalBasis(String basisFileName) throws Exception {
+	public BasisSet readExternalBasis(String basisFileName)
+			throws ParserConfigurationException, SAXException, IOException {
 		// read the XML config file
 		Document basisDoc = Utility.parseXML(getClass().getResourceAsStream(
 				basisFileName));
@@ -104,7 +116,7 @@ public class BasisReader {
 			if (nodeName.equals("name")) {
 				// instance of a new basis set
 				basisSet = new BasisSet(nodeName);
-			} // end if
+			}
 
 			break;
 		case Node.ELEMENT_NODE:
@@ -112,17 +124,17 @@ public class BasisReader {
 
 			NamedNodeMap atts = n.getAttributes();
 
-			if (element.equals("atom")) {
+			if ("atom".equals(element)) {
 				// a new atomic basis
 				atomicBasis = new AtomicBasis(atts.getNamedItem("symbol")
 						.getNodeValue(), Integer.parseInt(atts.getNamedItem(
 						"atomicNumber").getNodeValue()));
 				basisSet.addAtomicBasis(atomicBasis);
-			} else if (element.equals("orbital")) {
+			} else if ("orbital".equals(element)) {
 				// a orbital entry for atomic basis
 				orbital = new Orbital(atts.getNamedItem("type").getNodeValue());
 				atomicBasis.addOrbital(orbital);
-			} else if (element.equals("entry")) {
+			} else if ("entry".equals(element)) {
 				// a orbital (coefficient, exponent) entry
 				orbital.addEntry(Double.parseDouble(atts.getNamedItem("coeff")
 						.getNodeValue()), Double.parseDouble(atts.getNamedItem(
