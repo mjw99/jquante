@@ -1,9 +1,3 @@
-/*
- * AtomicBasis.java
- *
- * Created on July 25, 2004, 10:40 AM
- */
-
 package name.mjw.jquante.math.qm.basis;
 
 import java.util.ArrayList;
@@ -43,7 +37,7 @@ public class AtomicBasis {
 		this.symbol = symbol;
 		this.atomicNumber = atomicNumber;
 
-		orbitals = new ArrayList<Orbital>(6);
+		orbitals = new ArrayList<>(6);
 	}
 
 	/**

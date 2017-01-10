@@ -109,7 +109,8 @@ public class Matrix implements Cloneable {
 	public Matrix sub(Matrix b) {
 		Matrix c = new Matrix(rowCount);
 
-		int i, j;
+		int i;
+		int j;
 		for (i = 0; i < rowCount; i++) {
 			for (j = 0; j < columnCount; j++) {
 				c.matrix[i][j] = matrix[i][j] - b.matrix[i][j];
@@ -129,7 +130,9 @@ public class Matrix implements Cloneable {
 	public Matrix mul(Matrix b) {
 		Matrix c = new Matrix(rowCount, b.columnCount);
 
-		int i, j, k;
+		int i;
+		int j;
+		int k;
 		double cij;
 		for (i = 0; i < rowCount; i++) {
 			for (j = 0; j < b.columnCount; j++) {
@@ -154,7 +157,8 @@ public class Matrix implements Cloneable {
 	 * @return the value of dot product
 	 */
 	public double dot(Matrix b) {
-		int i, j;
+		int i;
+		int j;
 		double res = 0.0;
 
 		for (i = 0; i < rowCount; i++) {
@@ -174,7 +178,8 @@ public class Matrix implements Cloneable {
 	public Matrix transpose() {
 		Matrix matrixT = new Matrix(columnCount, rowCount);
 
-		int i, j;
+		int i;
+		int j;
 		for (i = 0; i < rowCount; i++) {
 			for (j = 0; j < columnCount; j++) {
 				matrixT.matrix[j][i] = matrix[i][j];
@@ -251,7 +256,8 @@ public class Matrix implements Cloneable {
 	 * only sensible if a square matrix
 	 */
 	public void makeIdentity() {
-		int i, j;
+		int i;
+		int j;
 		for (i = 0; i < rowCount; i++) {
 			for (j = 0; j < i; j++) {
 				matrix[i][j] = matrix[j][i] = 0.0;
@@ -264,7 +270,8 @@ public class Matrix implements Cloneable {
 	 * init the current matrix to zero
 	 */
 	public void makeZero() {
-		int i, j;
+		int i;
+		int j;
 		for (i = 0; i < rowCount; i++) {
 			for (j = 0; j < columnCount; j++) {
 				matrix[i][j] = 0.0;
@@ -296,7 +303,8 @@ public class Matrix implements Cloneable {
 	 */
 	public double sumOffDiagonal() {
 		double sum = 0.0;
-		int i, j;
+		int i;
+		int j;
 
 		for (i = 0; i < rowCount - 1; i++) {
 			for (j = i + 1; j < rowCount; j++) {
@@ -365,7 +373,9 @@ public class Matrix implements Cloneable {
 	public Vector toVector() {
 		Vector vec = new Vector(rowCount * columnCount);
 		double[] vecval = vec.getVector();
-		int i, j, ii = 0;
+		int i;
+		int j;
+		int ii = 0;
 
 		for (i = 0; i < rowCount; i++)
 			for (j = 0; j < columnCount; j++)
@@ -586,4 +596,4 @@ public class Matrix implements Cloneable {
 
 		return res;
 	}
-} // end of class
+}
