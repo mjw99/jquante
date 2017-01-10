@@ -50,7 +50,7 @@ public class PowerList {
 	 * @return the Power list in order for this maximum angular momentum
 	 */
 	public ArrayList<Power> generatePowerList(int maxAngularMomentum) {
-		ArrayList<Power> pList = new ArrayList<Power>();
+		ArrayList<Power> pList = new ArrayList<>();
 
 		for (int i = maxAngularMomentum; i >= 0; i--)
 			for (int j = maxAngularMomentum - i; j >= 0; j--)
@@ -66,14 +66,14 @@ public class PowerList {
 	 */
 	public static PowerList getInstance() {
 		if (_powerList == null) {
-			_powerList = new WeakReference<PowerList>(new PowerList());
+			_powerList = new WeakReference<>(new PowerList());
 		} // end if
 
 		PowerList powerList = _powerList.get();
 
 		if (powerList == null) {
 			powerList = new PowerList();
-			_powerList = new WeakReference<PowerList>(powerList);
+			_powerList = new WeakReference<>(powerList);
 		} // end if
 
 		return powerList;

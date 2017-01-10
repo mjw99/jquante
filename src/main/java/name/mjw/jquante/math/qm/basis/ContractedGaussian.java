@@ -53,6 +53,10 @@ public class ContractedGaussian {
 	 */
 	private ArrayList<Double> primNorms;
 
+	protected Atom centeredAtom;
+
+	protected int index;
+
 	/**
 	 * Creates a new instance of ContractedGaussian
 	 * 
@@ -65,10 +69,10 @@ public class ContractedGaussian {
 		this.origin = origin;
 		this.powers = powers;
 
-		primitives = new ArrayList<PrimitiveGaussian>(10);
-		exponents = new ArrayList<Double>(10);
-		coefficients = new ArrayList<Double>(10);
-		primNorms = new ArrayList<Double>(10);
+		primitives = new ArrayList<>(10);
+		exponents = new ArrayList<>(10);
+		coefficients = new ArrayList<>(10);
+		primNorms = new ArrayList<>(10);
 
 		this.normalization = 1;
 	}
@@ -86,8 +90,6 @@ public class ContractedGaussian {
 
 		this.centeredAtom = centeredAtom;
 	}
-
-	protected Atom centeredAtom;
 
 	/**
 	 * Get the value of centeredAtom
@@ -246,8 +248,7 @@ public class ContractedGaussian {
 		normalization = 1.0 / Math.sqrt(this.overlap(this));
 
 		for (int i = 0; i < primitives.size(); i++) {
-			primNorms.add(new Double(((PrimitiveGaussian) primitives.get(i))
-					.getNormalization()));
+			primNorms.add(new Double((primitives.get(i)).getNormalization()));
 		}
 	}
 
@@ -272,14 +273,14 @@ public class ContractedGaussian {
 
 				sij += iPG.getCoefficient() * jPG.getCoefficient()
 						* iPG.overlap(jPG);
-			} // end for
-		} // end for
+			}
+		}
 
 		return normalization * cg.normalization * sij;
 	}
 
 	/**
-	 * Compute the overlap energy detivative term w.r.t the specified atom index
+	 * Compute the overlap energy derivative term w.r.t the specified atom index
 	 * 
 	 * @param atomIndex
 	 *            the reference atomIndex
@@ -317,8 +318,9 @@ public class ContractedGaussian {
 	/** helper method for overlap derivative */
 	private void overlapDerivativeHelper(PrimitiveGaussian iPG,
 			PrimitiveGaussian jPG, Point3D pOrigin, Vector3D ovrDer) {
-		int l = iPG.getPowers().getL(), m = iPG.getPowers().getM(), n = iPG
-				.getPowers().getN();
+		int l = iPG.getPowers().getL();
+		int m = iPG.getPowers().getM();
+		int n = iPG.getPowers().getN();
 		double coeff = iPG.getCoefficient() * jPG.getCoefficient();
 		double alpha = iPG.getExponent();
 
@@ -388,14 +390,14 @@ public class ContractedGaussian {
 
 				tij += iPG.getCoefficient() * jPG.getCoefficient()
 						* iPG.kinetic(jPG);
-			} // end for
-		} // end for
+			}
+		}
 
 		return normalization * cg.normalization * tij;
 	}
 
 	/**
-	 * Compute the kinetic energy detivative term w.r.t the specified atom index
+	 * Compute the kinetic energy derivative term w.r.t the specified atom index
 	 * 
 	 * @param atomIndex
 	 *            the reference atomIndex
@@ -433,8 +435,9 @@ public class ContractedGaussian {
 	/** helper method for kinetic energy derivative */
 	private void kineticDerivativeHelper(PrimitiveGaussian iPG,
 			PrimitiveGaussian jPG, Point3D pOrigin, Vector3D kder) {
-		int l = iPG.getPowers().getL(), m = iPG.getPowers().getM(), n = iPG
-				.getPowers().getN();
+		int l = iPG.getPowers().getL();
+		int m = iPG.getPowers().getM();
+		int n = iPG.getPowers().getN();
 		double coeff = iPG.getCoefficient() * jPG.getCoefficient();
 		double alpha = iPG.getExponent();
 
@@ -451,7 +454,7 @@ public class ContractedGaussian {
 			xPG.normalize();
 			termb = -2.0 * l * Math.sqrt(alpha / (2.0 * l - 1.0)) * coeff
 					* xPG.kinetic(jPG);
-		} // end if
+		}
 
 		kder.setI(kder.getI() + terma + termb);
 
@@ -496,7 +499,8 @@ public class ContractedGaussian {
 	 */
 	public double nuclear(ContractedGaussian cg, Point3D center) {
 		double vij = 0.0;
-		int i, j;
+		int i;
+		int j;
 
 		ArrayList<PrimitiveGaussian> cgPrimitives = cg.getPrimitives();
 
@@ -563,8 +567,9 @@ public class ContractedGaussian {
 	/** helper method for kinetic energy derivative */
 	private void nuclearDerivativeHelper(Molecule mol, PrimitiveGaussian iPG,
 			PrimitiveGaussian jPG, Point3D pOrigin, Vector3D nder) {
-		int l = iPG.getPowers().getL(), m = iPG.getPowers().getM(), n = iPG
-				.getPowers().getN();
+		int l = iPG.getPowers().getL();
+		int m = iPG.getPowers().getM();
+		int n = iPG.getPowers().getN();
 		double coeff = iPG.getCoefficient() * jPG.getCoefficient();
 		double alpha = iPG.getExponent();
 
@@ -653,7 +658,7 @@ public class ContractedGaussian {
 	}
 
 	/**
-	 * The aplitude of this primitive gaussian at a given point.
+	 * The amplitude of this primitive Gaussian at a given point.
 	 * 
 	 * @param point
 	 *            the reference point
@@ -664,8 +669,7 @@ public class ContractedGaussian {
 
 		for (int i = 0; i < primitives.size(); i++) {
 			value += primitives.get(i).amplitude(point);
-		} // end for
-
+		}
 		return (normalization * value);
 	}
 
@@ -746,8 +750,6 @@ public class ContractedGaussian {
 	public int getTotalAngularMomentum() {
 		return powers.getTotalAngularMomentum();
 	}
-
-	protected int index;
 
 	/**
 	 * Get the value of index

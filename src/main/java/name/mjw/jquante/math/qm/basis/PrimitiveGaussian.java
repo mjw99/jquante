@@ -48,7 +48,7 @@ public class PrimitiveGaussian {
 	 */
 	private double normalization;
 
-	private final static double PI_RAISE_TO_1DOT5 = Math.pow(Math.PI, 1.5);
+	private static final double PI_RAISE_TO_1DOT5 = Math.pow(Math.PI, 1.5);
 
 	/**
 	 * Creates a new instance of PrimitiveGaussian
@@ -178,7 +178,9 @@ public class PrimitiveGaussian {
 	 * Equ 2.2 http://dx.doi.org/10.1143/JPSJ.21.2313
 	 */
 	public void normalize() {
-		int l = powers.getL(), m = powers.getM(), n = powers.getN();
+		int l = powers.getL();
+		int m = powers.getM();
+		int n = powers.getN();
 
 		normalization = Math.sqrt(Math.pow(2, 2 * (l + m + n) + 1.5)
 				* Math.pow(exponent, l + m + n + 1.5)
@@ -299,9 +301,13 @@ public class PrimitiveGaussian {
 	 * @return partial derivatives with respect to x, y, z
 	 */
 	public Vector3D gradient(Point3D point) {
-		int l = powers.getL(), m = powers.getM(), n = powers.getN();
-		double x = point.getX() - origin.getX(), y = point.getY()
-				- origin.getY(), z = point.getZ() - origin.getZ();
+		int l = powers.getL();
+		int m = powers.getM();
+		int n = powers.getN();
+
+		double x = point.getX() - origin.getX();
+		double y = point.getY() - origin.getY();
+		double z = point.getZ() - origin.getZ();
 
 		double fx = Math.pow(x, l) * Math.exp(-exponent * Math.pow(x, 2));
 		double fy = Math.pow(y, m) * Math.exp(-exponent * Math.pow(y, 2));
@@ -318,10 +324,9 @@ public class PrimitiveGaussian {
 			gz += Math.pow(z, n - 1) * Math.exp(-exponent * Math.pow(z, 2));
 
 		double nc = normalization * coefficient;
-		Vector3D grad = new Vector3D(gx * fy * fz * nc, fx * gy * fz * nc, fx
-				* fy * gz * nc);
+		return new Vector3D(gx * fy * fz * nc, fx * gy * fz * nc, fx * fy * gz
+				* nc);
 
-		return grad;
 	}
 
 	/**

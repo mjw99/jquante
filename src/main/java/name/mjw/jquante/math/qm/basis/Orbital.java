@@ -1,6 +1,7 @@
 package name.mjw.jquante.math.qm.basis;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents an orbital type and its coefficients and exponents in
@@ -35,8 +36,8 @@ public class Orbital {
 	public Orbital(String type) {
 		this.type = type;
 
-		coefficients = new ArrayList<Double>(10);
-		exponents = new ArrayList<Double>(10);
+		coefficients = new ArrayList<>(10);
+		exponents = new ArrayList<>(10);
 	}
 
 	/**
@@ -82,7 +83,7 @@ public class Orbital {
 	 * 
 	 * @return Value of property exponents.
 	 */
-	public ArrayList<Double> getExponents() {
+	public List<Double> getExponents() {
 		return this.exponents;
 	}
 
