@@ -29,22 +29,24 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 	}
 
 	/**
-	 * 2E coulomb interactions between four contracted Gaussians
+	 * 2E coulomb interactions between four contracted Gaussians.
 	 */
 	@Override
 	public double coulomb(ContractedGaussian a, ContractedGaussian b,
 			ContractedGaussian c, ContractedGaussian d) {
-		return (a.getNormalization() * b.getNormalization() * c.getNormalization() * d.getNormalization() *
-			contrHrr(
-				a.getOrigin(), a.getPowers(), a.getCoefficients(), a.getExponents(), a.getPrimNorms(),
-				b.getOrigin(), b.getPowers(), b.getCoefficients(), b.getExponents(), b.getPrimNorms(),
-				c.getOrigin(), b.getPowers(), c.getCoefficients(), c.getExponents(), c.getPrimNorms(),
-				d.getOrigin(), d.getPowers(), d.getCoefficients(), d.getExponents(), d.getPrimNorms())
-				);
+		return (a.getNormalization() * b.getNormalization()
+				* c.getNormalization() * d.getNormalization() * contractedHrr(
+					a.getOrigin(), a.getPowers(), a.getCoefficients(),
+					a.getExponents(), a.getPrimNorms(), b.getOrigin(),
+					b.getPowers(), b.getCoefficients(), b.getExponents(),
+					b.getPrimNorms(), c.getOrigin(), b.getPowers(),
+					c.getCoefficients(), c.getExponents(), c.getPrimNorms(),
+					d.getOrigin(), d.getPowers(), d.getCoefficients(),
+					d.getExponents(), d.getPrimNorms()));
 	}
 
 	/**
-	 * coulomb repulsion term
+	 * Coulomb repulsion term
 	 */
 	@Override
 	public double coulombRepulsion(Point3D a, double aNorm, Power aPower,
@@ -56,13 +58,69 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 	}
 
 	/**
-	 * HRR (Horizontal Recurrance Relation)
+	 * Contracted HRR (Horizontal Recurrence Relation)
+	 * 
+	 * @param a
+	 *            Center of contracted Gaussian function a.
+	 * @param aPower
+	 *            Angular momentum of Gaussian function a.
+	 * @param aCoeff
+	 *            Coefficients of primitives in contracted Gaussian function a.
+	 * @param aExps
+	 *            Orbital exponents of primitives in contracted Gaussian
+	 *            function a.
+	 * @param aNorms
+	 *            Primitive normalisation coefficients of primitives in
+	 *            contracted Gaussian function a.
+	 * 
+	 * @param b
+	 *            Center of contracted Gaussian function b.
+	 * @param bPower
+	 *            Angular momentum of Gaussian function b.
+	 * @param bCoeff
+	 *            Coefficients of primitives in contracted Gaussian function b.
+	 * @param bExps
+	 *            Orbital exponents of primitives in contracted Gaussian
+	 *            function b.
+	 * @param bNorms
+	 *            Primitive normalisation coefficients of primitives in
+	 *            contracted Gaussian function b.
+	 * @param c
+	 *            Center of contracted Gaussian function c.
+	 * @param cPower
+	 *            Angular momentum of Gaussian function c.
+	 * @param cCoeff
+	 *            Coefficients of primitives in contracted Gaussian function c.
+	 * @param cExps
+	 *            Orbital exponents of primitives in contracted Gaussian
+	 *            function c.
+	 * @param cNorms
+	 *            Primitive normalisation coefficients of primitives in
+	 *            contracted Gaussian function c.
+	 * @param d
+	 *            Center of contracted Gaussian function d.
+	 * @param dPower
+	 *            Angular momentum of Gaussian function d.
+	 * @param dCoeff
+	 *            Coefficients of primitives in contracted Gaussian function d.
+	 * @param dExps
+	 *            Orbital exponents of primitives in contracted Gaussian
+	 *            function d.
+	 * @param dNorms
+	 *            Primitive normalisation coefficients of primitives in
+	 *            contracted Gaussian function d.
+	 * 
+	 * @return Contribution to Horizontal Recurrence Relation.
 	 */
-	protected double contrHrr(
-			Point3D a, Power aPower, ArrayList<Double> aCoeff, ArrayList<Double> aExps, ArrayList<Double> aNorms,
-			Point3D b, Power bPower, ArrayList<Double> bCoeff, ArrayList<Double> bExps, ArrayList<Double> bNorms,
-			Point3D c, Power cPower, ArrayList<Double> cCoeff, ArrayList<Double> cExps, ArrayList<Double> cNorms,
-			Point3D d, Power dPower, ArrayList<Double> dCoeff, ArrayList<Double> dExps, ArrayList<Double> dNorms) {
+	protected double contractedHrr(Point3D a, Power aPower,
+			ArrayList<Double> aCoeff, ArrayList<Double> aExps,
+			ArrayList<Double> aNorms, Point3D b, Power bPower,
+			ArrayList<Double> bCoeff, ArrayList<Double> bExps,
+			ArrayList<Double> bNorms, Point3D c, Power cPower,
+			ArrayList<Double> cCoeff, ArrayList<Double> cExps,
+			ArrayList<Double> cNorms, Point3D d, Power dPower,
+			ArrayList<Double> dCoeff, ArrayList<Double> dExps,
+			ArrayList<Double> dNorms) {
 
 		int la = aPower.getL();
 		int ma = aPower.getM();
@@ -82,75 +140,128 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 
 		if (lb > 0) {
 			Power newBPower = new Power(lb - 1, mb, nb);
-			return (contrHrr(a, new Power(la + 1, ma, na), aCoeff, aExps,
+			return (contractedHrr(a, new Power(la + 1, ma, na), aCoeff, aExps,
 					aNorms, b, newBPower, bCoeff, bExps, bNorms, c, cPower,
 					cCoeff, cExps, cNorms, d, dPower, dCoeff, dExps, dNorms) + (a
 					.getX() - b.getX())
-					* contrHrr(a, aPower, aCoeff, aExps, aNorms, b, newBPower,
-							bCoeff, bExps, bNorms, c, cPower, cCoeff, cExps,
-							cNorms, d, dPower, dCoeff, dExps, dNorms));
+					* contractedHrr(a, aPower, aCoeff, aExps, aNorms, b,
+							newBPower, bCoeff, bExps, bNorms, c, cPower,
+							cCoeff, cExps, cNorms, d, dPower, dCoeff, dExps,
+							dNorms));
 		} else if (mb > 0) {
 			Power newBPower = new Power(lb, mb - 1, nb);
-			return (contrHrr(a, new Power(la, ma + 1, na), aCoeff, aExps,
+			return (contractedHrr(a, new Power(la, ma + 1, na), aCoeff, aExps,
 					aNorms, b, newBPower, bCoeff, bExps, bNorms, c, cPower,
 					cCoeff, cExps, cNorms, d, dPower, dCoeff, dExps, dNorms) + (a
 					.getY() - b.getY())
-					* contrHrr(a, aPower, aCoeff, aExps, aNorms, b, newBPower,
-							bCoeff, bExps, bNorms, c, cPower, cCoeff, cExps,
-							cNorms, d, dPower, dCoeff, dExps, dNorms));
+					* contractedHrr(a, aPower, aCoeff, aExps, aNorms, b,
+							newBPower, bCoeff, bExps, bNorms, c, cPower,
+							cCoeff, cExps, cNorms, d, dPower, dCoeff, dExps,
+							dNorms));
 		} else if (nb > 0) {
 			Power newBPower = new Power(lb, mb, nb - 1);
-			return (contrHrr(a, new Power(la, ma, na + 1), aCoeff, aExps,
+			return (contractedHrr(a, new Power(la, ma, na + 1), aCoeff, aExps,
 					aNorms, b, newBPower, bCoeff, bExps, bNorms, c, cPower,
 					cCoeff, cExps, cNorms, d, dPower, dCoeff, dExps, dNorms) + (a
 					.getZ() - b.getZ())
-					* contrHrr(a, aPower, aCoeff, aExps, aNorms, b, newBPower,
-							bCoeff, bExps, bNorms, c, cPower, cCoeff, cExps,
-							cNorms, d, dPower, dCoeff, dExps, dNorms));
+					* contractedHrr(a, aPower, aCoeff, aExps, aNorms, b,
+							newBPower, bCoeff, bExps, bNorms, c, cPower,
+							cCoeff, cExps, cNorms, d, dPower, dCoeff, dExps,
+							dNorms));
 		} else if (ld > 0) {
 			Power newDPower = new Power(ld - 1, md, nd);
-			return (contrHrr(a, aPower, aCoeff, aExps, aNorms, b, bPower,
+			return (contractedHrr(a, aPower, aCoeff, aExps, aNorms, b, bPower,
 					bCoeff, bExps, bNorms, c, new Power(lc + 1, mc, nc),
 					cCoeff, cExps, cNorms, d, newDPower, dCoeff, dExps, dNorms) + (c
 					.getX() - d.getX())
-					* contrHrr(a, aPower, aCoeff, aExps, aNorms, b, bPower,
-							bCoeff, bExps, bNorms, c, cPower, cCoeff, cExps,
-							cNorms, d, newDPower, dCoeff, dExps, dNorms));
+					* contractedHrr(a, aPower, aCoeff, aExps, aNorms, b,
+							bPower, bCoeff, bExps, bNorms, c, cPower, cCoeff,
+							cExps, cNorms, d, newDPower, dCoeff, dExps, dNorms));
 		} else if (md > 0) {
 			Power newDPower = new Power(ld, md - 1, nd);
-			return (contrHrr(a, aPower, aCoeff, aExps, aNorms, b, bPower,
+			return (contractedHrr(a, aPower, aCoeff, aExps, aNorms, b, bPower,
 					bCoeff, bExps, bNorms, c, new Power(lc, mc + 1, nc),
 					cCoeff, cExps, cNorms, d, newDPower, dCoeff, dExps, dNorms) + (c
 					.getY() - d.getY())
-					* contrHrr(a, aPower, aCoeff, aExps, aNorms, b, bPower,
-							bCoeff, bExps, bNorms, c, cPower, cCoeff, cExps,
-							cNorms, d, newDPower, dCoeff, dExps, dNorms));
+					* contractedHrr(a, aPower, aCoeff, aExps, aNorms, b,
+							bPower, bCoeff, bExps, bNorms, c, cPower, cCoeff,
+							cExps, cNorms, d, newDPower, dCoeff, dExps, dNorms));
 		} else if (nd > 0) {
 			Power newDPower = new Power(ld, md, nd - 1);
-			return (contrHrr(a, aPower, aCoeff, aExps, aNorms, b, bPower,
+			return (contractedHrr(a, aPower, aCoeff, aExps, aNorms, b, bPower,
 					bCoeff, bExps, bNorms, c, new Power(lc, mc, nc + 1),
 					cCoeff, cExps, cNorms, d, newDPower, dCoeff, dExps, dNorms) + (c
 					.getZ() - d.getZ())
-					* contrHrr(a, aPower, aCoeff, aExps, aNorms, b, bPower,
-							bCoeff, bExps, bNorms, c, cPower, cCoeff, cExps,
-							cNorms, d, newDPower, dCoeff, dExps, dNorms));
-		} // end if
+					* contractedHrr(a, aPower, aCoeff, aExps, aNorms, b,
+							bPower, bCoeff, bExps, bNorms, c, cPower, cCoeff,
+							cExps, cNorms, d, newDPower, dCoeff, dExps, dNorms));
+		}
 
-		return contrVrr(
-				a, aPower, aCoeff, aExps, aNorms, 
-				b, bCoeff, bExps, bNorms,
-				c, cPower, cCoeff, cExps, cNorms,
-				d, dCoeff, dExps, dNorms);
+		return contractedVrr(a, aPower, aCoeff, aExps, aNorms, b, bCoeff,
+				bExps, bNorms, c, cPower, cCoeff, cExps, cNorms, d, dCoeff,
+				dExps, dNorms);
 	}
 
 	/**
-	 * VRR (Vertical Recurrance Relation) contribution
+	 * Contracted VRR (Vertical Recurrence Relation) contribution
+	 * 
+	 * @param a
+	 *            Center of contracted Gaussian function a.
+	 * @param aPower
+	 *            Angular momentum of Gaussian function a.
+	 * @param aCoeff
+	 *            Coefficients of primitives in contracted Gaussian function a.
+	 * @param aExps
+	 *            Orbital exponents of primitives in contracted Gaussian
+	 *            function a.
+	 * @param aNorms
+	 *            Primitive normalisation coefficients of primitives in
+	 *            contracted Gaussian function a.
+	 * 
+	 * @param b
+	 *            Center of contracted Gaussian function b. *
+	 * @param bCoeff
+	 *            Coefficients of primitives in contracted Gaussian function b.
+	 * @param bExps
+	 *            Orbital exponents of primitives in contracted Gaussian
+	 *            function b.
+	 * @param bNorms
+	 *            Primitive normalisation coefficients of primitives in
+	 *            contracted Gaussian function b.
+	 * 
+	 * @param c
+	 *            Center of contracted Gaussian function c.
+	 * @param cPower
+	 *            Angular momentum of Gaussian function c.
+	 * @param cCoeff
+	 *            Coefficients of primitives in contracted Gaussian function c.
+	 * @param cExps
+	 *            Orbital exponents of primitives in contracted Gaussian
+	 *            function c.
+	 * @param cNorms
+	 *            Primitive normalisation coefficients of primitives in
+	 *            contracted Gaussian function c.
+	 * 
+	 * @param d
+	 *            Center of contracted Gaussian function d. *
+	 * @param dCoeff
+	 *            Coefficients of primitives in contracted Gaussian function d.
+	 * @param dExps
+	 *            Orbital exponents of primitives in contracted Gaussian
+	 *            function d.
+	 * @param dNorms
+	 *            Primitive normalisation coefficients of primitives in
+	 *            contracted Gaussian function d.
+	 * 
+	 * @return Contribution to Vertical Recurrence Relation.
 	 */
-	protected double contrVrr(
-			Point3D a, Power aPower, ArrayList<Double> aCoeff, ArrayList<Double> aExps, ArrayList<Double> aNorms,
-			Point3D b, ArrayList<Double> bCoeff, ArrayList<Double> bExps, ArrayList<Double> bNorms,
-			Point3D c, Power cPower, ArrayList<Double> cCoeff, ArrayList<Double> cExps, ArrayList<Double> cNorms,
-			Point3D d, ArrayList<Double> dCoeff, ArrayList<Double> dExps, ArrayList<Double> dNorms) {
+	protected double contractedVrr(Point3D a, Power aPower,
+			ArrayList<Double> aCoeff, ArrayList<Double> aExps,
+			ArrayList<Double> aNorms, Point3D b, ArrayList<Double> bCoeff,
+			ArrayList<Double> bExps, ArrayList<Double> bNorms, Point3D c,
+			Power cPower, ArrayList<Double> cCoeff, ArrayList<Double> cExps,
+			ArrayList<Double> cNorms, Point3D d, ArrayList<Double> dCoeff,
+			ArrayList<Double> dExps, ArrayList<Double> dNorms) {
 
 		double value = 0.0;
 
@@ -204,20 +315,58 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 	}
 
 	/**
-	 * VRR (Vertical Recurrance Relation)
+	 * VRR (Vertical Recurrence Relation) contribution
+	 * 
+	 * @param a
+	 *            Center of primitive Gaussian function a.
+	 * @param aNorm
+	 *            Normalisation coefficients of primitive Gaussian function a.
+	 * @param aPower
+	 *            Angular momentum of primitive Gaussian function a.
+	 * @param aAlpha
+	 *            Orbital exponent of primitiveGaussian function a.
+	 * 
+	 * @param b
+	 *            Center of primitive Gaussian function b.
+	 * @param bNorm
+	 *            Normalisation coefficients of primitive Gaussian function b.
+	 * @param bAlpha
+	 *            Orbital exponent of primitiveGaussian function b.
+	 * 
+	 * @param c
+	 *            Center of primitive Gaussian function c.
+	 * @param cNorm
+	 *            Normalisation coefficients of primitive Gaussian function c.
+	 * @param cPower
+	 *            Angular momentum of primitive Gaussian function c.
+	 * @param cAlpha
+	 *            Orbital exponent of primitiveGaussian function c.
+	 * 
+	 * @param d
+	 *            Center of primitive Gaussian function d.
+	 * @param dNorm
+	 *            Normalisation coefficients of primitive Gaussian function d.
+	 * @param dAlpha
+	 *            Orbital exponent of primitiveGaussian function d.
+	 * 
+	 * @param m
+	 *            If equal to 0, ERI is true, else greater than 0, ERI is an
+	 *            auxiliary integral.
+	 * @return Contribution to Vertical Recurrence Relation.
 	 */
 	protected double vrrWrapper(Point3D a, double aNorm, Power aPower,
 			double aAlpha, Point3D b, double bNorm, double bAlpha, Point3D c,
 			double cNorm, Power cPower, double cAlpha, Point3D d, double dNorm,
 			double dAlpha, int m) {
+
 		return vrrNonRecursive(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c,
 				cNorm, cPower, cAlpha, d, dNorm, dAlpha, m);
 	}
 
 	/**
-	 * VRR (Vertical Recurrance Relation)
+	 * VRR (Vertical Recurrence Relation)
 	 */
-	protected double vrr(Point3D a, double aNorm, Power aPower, double aAlpha,
+	private double vrr(Point3D a, double aNorm, Power aPower, double aAlpha,
 			Point3D b, double bNorm, double bAlpha, Point3D c, double cNorm,
 			Power cPower, double cAlpha, Point3D d, double dNorm,
 			double dAlpha, int m) {
@@ -413,9 +562,9 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 	}
 
 	/**
-	 * VRR (Vertical Recurrance Relation)
+	 * VRR (Vertical Recurrence Relation)
 	 */
-	protected double vrrNonRecursive(Point3D a, double aNorm, Power aPower,
+	private double vrrNonRecursive(Point3D a, double aNorm, Power aPower,
 			double aAlpha, Point3D b, double bNorm, double bAlpha, Point3D c,
 			double cNorm, Power cPower, double cAlpha, Point3D d, double dNorm,
 			double dAlpha, int m) {

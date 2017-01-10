@@ -1,13 +1,7 @@
-/*
- * SCFEvent.java
- *
- * Created on August 9, 2004, 10:19 PM
- */
-
 package name.mjw.jquante.math.qm.event;
 
 /**
- * Represents an event in sn SCF cycle
+ * Represents an event in an SCF cycle
  * 
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
@@ -49,7 +43,13 @@ public class SCFEvent extends java.util.EventObject {
 	 */
 	public static final int FAILED_CONVERGENCE_EVENT = 2;
 
-	/** Creates a new instance of SCFEvent */
+	/**
+	 * Creates a new instance of SCFEvent
+	 * 
+	 * @param source
+	 *            The object upon which the Event in question initially occurred
+	 *            upon.
+	 */
 	public SCFEvent(Object source) {
 		super(source);
 
@@ -117,7 +117,7 @@ public class SCFEvent extends java.util.EventObject {
 	}
 
 	/**
-	 * Simple overridded toString()
+	 * Simple overridden toString()
 	 * 
 	 * @return the string representation of this event
 	 */
@@ -125,4 +125,4 @@ public class SCFEvent extends java.util.EventObject {
 	public String toString() {
 		return getCurrentIteration() + " " + getCurrentEnergy();
 	}
-} // end of class SCFEvent
+}

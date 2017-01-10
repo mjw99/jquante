@@ -27,14 +27,12 @@ public class ContractedGaussian {
 	private Power powers;
 
 	/**
-	 * Holds value of property primitives. The Primitive Gaussians (PGs) that
-	 * make up this Contracted Gaussian.
+	 * The Primitive Gaussians (PGs) that make up this Contracted Gaussian.
 	 */
 	private ArrayList<PrimitiveGaussian> primitives;
 
 	/**
-	 * Holds value of property exponents. The list of exponents for this
-	 * gaussian.
+	 * The list of exponents for this Gaussian.
 	 */
 	private ArrayList<Double> exponents;
 
@@ -250,7 +248,7 @@ public class ContractedGaussian {
 		for (int i = 0; i < primitives.size(); i++) {
 			primNorms.add(new Double(((PrimitiveGaussian) primitives.get(i))
 					.getNormalization()));
-		} // end for
+		}
 	}
 
 	/**

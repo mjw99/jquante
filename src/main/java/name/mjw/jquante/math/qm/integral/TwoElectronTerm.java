@@ -15,19 +15,81 @@ import name.mjw.jquante.math.qm.basis.Power;
 public abstract class TwoElectronTerm implements IntegralsPackage {
 
 	/**
-	 * 2E coulomb interactions between 4 contracted Gaussians
+	 * 2E coulomb interactions between four contracted Gaussian functions.
+	 * 
+	 * @param a
+	 *            Contracted Gaussian function a.
+	 * @param b
+	 *            Contracted Gaussian function b.
+	 * @param c
+	 *            Contracted Gaussian function c.
+	 * @param d
+	 *            Contracted Gaussian function d.
+	 * @return Two-electron integral.
 	 */
 	public abstract double coulomb(ContractedGaussian a, ContractedGaussian b,
 			ContractedGaussian c, ContractedGaussian d);
 
-	/** The column repulsion term between four centered Gaussians */
+	/**
+	 * The coulomb repulsion term between four centered Gaussians.
+	 * 
+	 * @param a
+	 *            Center of contracted Gaussian function a.
+	 * @param aNorm
+	 *            Normalisation factor of the contracted Gaussian function a.
+	 * @param aPower
+	 *            Angular momentum of Gaussian function a.
+	 * @param aAlpha
+	 *            Orbital exponent of Gaussian function a.
+	 * @param b
+	 *            Center of contracted Gaussian function b.
+	 * @param bNorm
+	 *            Normalisation factor of the contracted Gaussian function b.
+	 * @param bPower
+	 *            Angular momentum of Gaussian function b.
+	 * @param bAlpha
+	 *            Orbital exponent of Gaussian function b.
+	 * @param c
+	 *            Center of contracted Gaussian function c.
+	 * @param cNorm
+	 *            Normalisation factor of the contracted Gaussian function c.
+	 * @param cPower
+	 *            Angular momentum of Gaussian function c.
+	 * @param cAlpha
+	 *            Orbital exponent of Gaussian function c.
+	 * @param d
+	 *            Center of contracted Gaussian function d.
+	 * @param dNorm
+	 *            Normalisation factor of the contracted Gaussian function d.
+	 * @param dPower
+	 *            Angular momentum of Gaussian function d.
+	 * @param dAlpha
+	 *            Orbital exponent of Gaussian function d.
+	 * @return Two-electron integral.
+	 */
 	public abstract double coulombRepulsion(Point3D a, double aNorm,
 			Power aPower, double aAlpha, Point3D b, double bNorm, Power bPower,
 			double bAlpha, Point3D c, double cNorm, Power cPower,
 			double cAlpha, Point3D d, double dNorm, Power dPower, double dAlpha);
 
 	/**
-	 * 2E coulomb interactions between 4 contracted Gaussians
+	 * 2E coulomb interactions between four contracted Gaussians.
+	 * 
+	 * @param a
+	 *            Contracted Gaussian function a.
+	 * @param b
+	 *            Contracted Gaussian function b.
+	 * @param c
+	 *            Contracted Gaussian function c.
+	 * @param d
+	 *            Contracted Gaussian function d.
+	 * @param density
+	 *            Density matrix.
+	 * @param jMat
+	 *            J matrix.
+	 * @param kMat
+	 *            K matrix.
+	 * @return Two-electron integral.
 	 */
 	public abstract double coulomb(ContractedGaussian a, ContractedGaussian b,
 			ContractedGaussian c, ContractedGaussian d, Density density,

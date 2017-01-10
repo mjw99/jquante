@@ -1,9 +1,3 @@
-/*
- * Integrals.java
- *
- * Created on July 28, 2004, 7:03 AM
- */
-
 package name.mjw.jquante.math.qm.integral;
 
 import name.mjw.jquante.math.Vector3D;
@@ -21,7 +15,7 @@ import name.mjw.jquante.math.qm.basis.PrimitiveGaussian;
  * in turn gives an easy way to dynamically change the method used to actually
  * evaluate the integrals.
  * 
- * The static initialization is done as a way to have good performance as well
+ * The static initialisation is done as a way to have good performance as well
  * as allow flexibility of using multiple integral packages.
  * 
  * @author V.Ganesh
@@ -32,6 +26,12 @@ public final class Integrals {
 	private static NuclearTerm nuclearTerm;
 	private static OneElectronTerm oneElectronTerm;
 	private static TwoElectronTerm twoElectronTerm;
+
+	/**
+	 * No instantiation possible
+	 */
+	private Integrals() {
+	}
 
 	static {
 		nuclearTerm = IntegralsPackageFactory.getInstance().getNuclearTerm();
@@ -53,13 +53,16 @@ public final class Integrals {
 	}
 
 	/**
-	 * No instantiation possible
-	 */
-	private Integrals() {
-	}
-
-	/**
-	 * Overlap matrix element taken form <i> Taken from THO eq. 2.12 <i>
+	 * Overlap matrix element taken form <i> Taken from THO eq. 2.12 </i>
+	 * 
+	 * @param alpha1
+	 * @param power
+	 * @param a
+	 * 
+	 * @param alpha2
+	 * @param power2
+	 * @param b
+	 * @return
 	 */
 	public static double overlap(double alpha1, Power power, Point3D a,
 			double alpha2, Power power2, Point3D b) {
@@ -69,7 +72,16 @@ public final class Integrals {
 	/**
 	 * The Kinetic Energy (KE) component
 	 * 
-	 * <i> Taken from THO eq. 2.12 <i>
+	 * <i> Taken from THO eq. 2.12 </i>
+	 * 
+	 * @param alpha1
+	 * @param power1
+	 * @param a
+	 * 
+	 * @param alpha2
+	 * @param power2
+	 * @param b
+	 * @return
 	 */
 	public static double kinetic(double alpha1, Power power1, Point3D a,
 			double alpha2, Power power2, Point3D b) {
@@ -79,7 +91,18 @@ public final class Integrals {
 	/**
 	 * The nuclear attraction term.
 	 * 
-	 * <i> Taken from THO eq. 2.12 <i>
+	 * <i> Taken from THO eq. 2.12 </i>
+	 * 
+	 * @param a
+	 * @param norm1
+	 * @param power1
+	 * @param alpha1
+	 * @param b
+	 * @param norm2
+	 * @param power2
+	 * @param alpha2
+	 * @param c
+	 * @return
 	 */
 	public static double nuclearAttraction(Point3D a, double norm1,
 			Power power1, double alpha1, Point3D b, double norm2, Power power2,
@@ -91,6 +114,15 @@ public final class Integrals {
 
 	/**
 	 * The nuclear attraction gradient term
+	 * 
+	 * @param a
+	 * @param power1
+	 * @param alpha1
+	 * @param b
+	 * @param power2
+	 * @param alpha2
+	 * @param c
+	 * @return
 	 */
 	public static Vector3D nuclearAttractionGradient(Point3D a, Power power1,
 			double alpha1, Point3D b, Power power2, double alpha2, Point3D c) {
@@ -101,6 +133,17 @@ public final class Integrals {
 
 	/**
 	 * 2E coulomb interactions between 4 contracted Gaussians
+	 * 
+	 * 
+	 * @param a
+	 *            Contracted Gaussian function a.
+	 * @param b
+	 *            Contracted Gaussian function b.
+	 * @param c
+	 *            Contracted Gaussian function c.
+	 * @param d
+	 *            Contracted Gaussian function d.
+	 * @return Two-electron integral.
 	 */
 	public static double coulomb(ContractedGaussian a, ContractedGaussian b,
 			ContractedGaussian c, ContractedGaussian d) {
@@ -109,6 +152,16 @@ public final class Integrals {
 
 	/**
 	 * 2E coulomb interactions between 4 primitive Gaussians
+	 * 
+	 * @param a
+	 *            Primitive Gaussian function a.
+	 * @param b
+	 *            Primitive Gaussian function b.
+	 * @param c
+	 *            Primitive Gaussian function c.
+	 * @param d
+	 *            Primitive Gaussian function d.
+	 * @return Two-electron integral.
 	 */
 	public static double coulomb(PrimitiveGaussian a, PrimitiveGaussian b,
 			PrimitiveGaussian c, PrimitiveGaussian d) {
@@ -119,4 +172,4 @@ public final class Integrals {
 				c.getPowers(), c.getExponent(), d.getOrigin(),
 				d.getNormalization(), d.getPowers(), d.getExponent());
 	}
-} // end of class Integrals
+}
