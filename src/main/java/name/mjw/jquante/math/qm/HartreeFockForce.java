@@ -1,8 +1,3 @@
-/**
- * HartreeFockForce.java
- *
- * Created on Apr 17, 2009
- */
 package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
@@ -26,12 +21,12 @@ import name.mjw.jquante.molecule.Molecule;
  */
 public class HartreeFockForce implements Force {
 
+	private int atomIndex;
+	private SCFMethod scfMethod;
+
 	/** Creates a new instance of HartreeFockForce */
 	public HartreeFockForce() {
 	}
-
-	private int atomIndex;
-	private SCFMethod scfMethod;
 
 	/**
 	 * Compute the total force on the specified atom and return the results as a
@@ -69,10 +64,13 @@ public class HartreeFockForce implements Force {
 
 		AtomInfo ai = AtomInfo.getInstance();
 
-		Atom a = mol.getAtom(atomIndex), b;
+		Atom a = mol.getAtom(atomIndex);
+		Atom b;
 		double aCharge = ai.getAtomicNumber(a.getSymbol());
 		Point3D aCenter = a.getAtomCenterInAU();
-		double ndx = 0.0, ndy = 0.0, ndz = 0.0;
+		double ndx = 0.0;
+		double ndy = 0.0;
+		double ndz = 0.0;
 
 		for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 			if (i != atomIndex) {

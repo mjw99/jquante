@@ -1,8 +1,3 @@
-/**
- * Force.java
- *
- * Created on Apr 17, 2009
- */
 package name.mjw.jquante.math.qm;
 
 import name.mjw.jquante.math.Vector3D;

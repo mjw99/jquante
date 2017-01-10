@@ -85,7 +85,8 @@ public class HartreeFockSCFMethod extends SCFMethod {
 		boolean converged = false;
 		double oldEnergy = 0.0;
 		double nuclearEnergy = nuclearEnergy();
-		double eOne, eTwo;
+		double eOne;
+		double eTwo;
 
 		// init memory for the matrices
 		gMatrix = new GMatrix(hCore.getRowCount());

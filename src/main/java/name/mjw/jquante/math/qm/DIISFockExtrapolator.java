@@ -1,9 +1,3 @@
-/**
- * DIISFockExtrapolator.java
- *
- * Created on 18/01/2010
- */
-
 package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
@@ -14,8 +8,8 @@ import name.mjw.jquante.math.la.GaussianElimination;
 import name.mjw.jquante.math.la.exception.SingularMatrixException;
 
 /**
- * DIIS (Direct Inversion of ierative subspaces) proposed by Peter Pualay for HF
- * convergence acceleration.
+ * DIIS (Direct Inversion of iterative subspaces) proposed by Peter Pualay for
+ * HF convergence acceleration.
  * 
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
@@ -34,8 +28,8 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 	/** Initialize this interpolator */
 	@Override
 	public void init() {
-		fockMatrixList = new ArrayList<Fock>();
-		errorMatrixList = new ArrayList<Vector>();
+		fockMatrixList = new ArrayList<>();
+		errorMatrixList = new ArrayList<>();
 
 		diisStep = 0;
 

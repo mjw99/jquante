@@ -1,9 +1,3 @@
-/**
- * FockExtrapolator.java
- *
- * Created on 18/01/2010
- */
-
 package name.mjw.jquante.math.qm;
 
 /**
@@ -18,7 +12,7 @@ public interface FockExtrapolator {
 	public void init();
 
 	/**
-	 * Get the next exrapolated fock matrix
+	 * Get the next extrapolated fock matrix
 	 * 
 	 * @param currentFock
 	 *            the current fock
@@ -26,7 +20,7 @@ public interface FockExtrapolator {
 	 *            the overlap matrix
 	 * @param density
 	 *            the current density matrix
-	 * @return exrapolated fock
+	 * @return extrapolated fock
 	 */
 	public Fock next(Fock currentFock, Overlap overlap, Density density);
 }

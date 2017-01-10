@@ -1,9 +1,3 @@
-/*
- * DensityGuesser.java
- *
- * Created on August 8, 2004, 8:29 AM
- */
-
 package name.mjw.jquante.math.qm;
 
 /**
@@ -24,4 +18,4 @@ public interface DensityGuesser {
 	 */
 	public Density guessDM(SCFMethod scfMethod);
 
-} // end of interface DensityGuesser
+}

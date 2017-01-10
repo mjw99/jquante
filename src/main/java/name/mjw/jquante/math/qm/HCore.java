@@ -14,6 +14,9 @@ import name.mjw.jquante.math.qm.basis.ContractedGaussian;
  */
 public class HCore extends Matrix {
 
+	protected int atomIndex;
+	private SCFMethod scfMethod;
+
 	/**
 	 * Creates a new instance of NxM Matrix
 	 * 
@@ -46,9 +49,6 @@ public class HCore extends Matrix {
 		super(a);
 	}
 
-	protected int atomIndex;
-	private SCFMethod scfMethod;
-
 	/**
 	 * Compute HCore partial derivative for an atom index.
 	 * 
@@ -64,7 +64,7 @@ public class HCore extends Matrix {
 		this.atomIndex = atomIndex;
 		this.scfMethod = scfMethod;
 
-		ArrayList<HCore> dHCore = new ArrayList<HCore>(3);
+		ArrayList<HCore> dHCore = new ArrayList<>(3);
 
 		int noOfBasisFunctions = this.getRowCount();
 		HCore dHCoreDx = new HCore(noOfBasisFunctions);
@@ -75,7 +75,8 @@ public class HCore extends Matrix {
 		double[][] hdy = dHCoreDy.getMatrix();
 		double[][] hdz = dHCoreDz.getMatrix();
 
-		int i, j;
+		int i;
+		int j;
 		for (i = 0; i < noOfBasisFunctions; i++) {
 			for (j = 0; j < noOfBasisFunctions; j++) {
 				Vector3D dHCoreEle = computeHCoreDerElement(atomIndex, i, j);
@@ -102,9 +103,9 @@ public class HCore extends Matrix {
 		ContractedGaussian cgi = bfs.getBasisFunctions().get(i);
 		ContractedGaussian cgj = bfs.getBasisFunctions().get(j);
 
-		Vector3D hCoreDerEle = cgi.kineticDerivative(atomIndex, cgj).add(
+		return cgi.kineticDerivative(atomIndex, cgj).add(
 				cgi.nuclearAttractionDerivative(scfMethod.getMolecule(),
 						atomIndex, cgj));
-		return hCoreDerEle;
+
 	}
 }

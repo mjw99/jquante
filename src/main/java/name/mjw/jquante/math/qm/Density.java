@@ -1,8 +1,3 @@
-/**
- * Density.java
- *
- * Created on Apr 16, 2009
- */
 package name.mjw.jquante.math.qm;
 
 import name.mjw.jquante.math.Matrix;

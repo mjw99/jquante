@@ -1,9 +1,3 @@
-/*
- * BasisFunctions.java
- *
- * Created on July 26, 2004, 7:04 AM
- */
-
 package name.mjw.jquante.math.qm;
 
 
@@ -129,7 +123,7 @@ public class BasisFunctions {
 		BasisSet basis = BasisReader.getInstance().readBasis(basisName);
 		Iterator<Atom> atoms = molecule.getAtoms();
 
-		basisFunctions = new ArrayList<ContractedGaussian>();
+		basisFunctions = new ArrayList<>();
 
 		Atom atom;
 		AtomicBasis atomicBasis;
@@ -139,7 +133,7 @@ public class BasisFunctions {
 
 			Iterator<Orbital> orbitals = atomicBasis.getOrbitals().iterator();
 			Orbital orbital;
-			ArrayList<ContractedGaussian> atomicFunctions = new ArrayList<ContractedGaussian>();
+			ArrayList<ContractedGaussian> atomicFunctions = new ArrayList<>();
 
 			while (orbitals.hasNext()) { // loop over atom orbitals
 				orbital = orbitals.next();
@@ -199,4 +193,4 @@ public class BasisFunctions {
 
 		molecule.removeMoleculeStateChangeListener(molStateChangeListener);
 	}
-} // end of class BasisFunctions
+}
