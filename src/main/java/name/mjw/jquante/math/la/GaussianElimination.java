@@ -4,7 +4,7 @@ import name.mjw.jquante.math.Matrix;
 import name.mjw.jquante.math.la.exception.SingularMatrixException;
 
 /**
- * The Gaussian elemination solver for A x = B
+ * The Gaussian elimination solver for A x = B
  * 
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)

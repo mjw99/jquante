@@ -1,9 +1,3 @@
-/*
- * DiagonalizerFactory.java
- *
- * Created on August 5, 2004, 7:20 AM
- */
-
 package name.mjw.jquante.math.la;
 
 import java.lang.ref.WeakReference;

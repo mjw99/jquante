@@ -1,9 +1,3 @@
-/**
- * LinearEquationSolver.java
- *
- * Created on 30/01/2010
- */
-
 package name.mjw.jquante.math.la;
 
 import name.mjw.jquante.math.Matrix;

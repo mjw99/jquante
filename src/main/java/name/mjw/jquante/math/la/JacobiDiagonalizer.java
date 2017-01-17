@@ -1,9 +1,3 @@
-/*
- * JacobiDiagonalizer.java
- *
- * Created on August 4, 2004, 8:49 PM
- */
-
 package name.mjw.jquante.math.la;
 
 import name.mjw.jquante.math.Matrix;
