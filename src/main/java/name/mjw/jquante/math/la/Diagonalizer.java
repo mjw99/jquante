@@ -1,9 +1,3 @@
-/*
- * Diagonalizer.java
- *
- * Created on August 4, 2004, 6:42 AM
- */
-
 package name.mjw.jquante.math.la;
 
 import name.mjw.jquante.math.Matrix;
