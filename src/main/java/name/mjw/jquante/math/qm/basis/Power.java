@@ -9,21 +9,30 @@ package name.mjw.jquante.math.qm.basis;
 public class Power implements Cloneable {
 
 	/**
-	 * Holds value of property l.
+	 * Orbital power l.
 	 */
 	private int l;
 
 	/**
-	 * Holds value of property m.
+	 * Orbital power m.
 	 */
 	private int m;
 
 	/**
-	 * Holds value of property n.
+	 * Orbital power n.
 	 */
 	private int n;
 
-	/** Creates a new instance of Power */
+	/**
+	 * Creates a new instance of Power.
+	 * 
+	 * @param l
+	 *            the orbital power l
+	 * @param m
+	 *            the orbital power m
+	 * @param n
+	 *            the orbital power n
+	 */
 	public Power(int l, int m, int n) {
 		this.l = l;
 		this.m = m;
@@ -33,7 +42,7 @@ public class Power implements Cloneable {
 	/**
 	 * Getter for property l.
 	 * 
-	 * @return Value of property l.
+	 * @return orbital power l
 	 */
 	public int getL() {
 		return this.l;
@@ -43,7 +52,7 @@ public class Power implements Cloneable {
 	 * Setter for property l.
 	 * 
 	 * @param l
-	 *            New value of property l.
+	 *            Set orbital power l.
 	 */
 	public void setL(int l) {
 		this.l = l;
@@ -52,7 +61,7 @@ public class Power implements Cloneable {
 	/**
 	 * Getter for property m.
 	 * 
-	 * @return Value of property m.
+	 * @return orbital power m.
 	 */
 	public int getM() {
 		return this.m;
@@ -62,7 +71,7 @@ public class Power implements Cloneable {
 	 * Setter for property m.
 	 * 
 	 * @param m
-	 *            New value of property m.
+	 *            Set orbital power m.
 	 */
 	public void setM(int m) {
 		this.m = m;
@@ -71,7 +80,7 @@ public class Power implements Cloneable {
 	/**
 	 * Getter for property n.
 	 * 
-	 * @return Value of property n.
+	 * @return orbital power n.
 	 */
 	public int getN() {
 		return this.n;
@@ -81,7 +90,7 @@ public class Power implements Cloneable {
 	 * Setter for property n.
 	 * 
 	 * @param n
-	 *            New value of property n.
+	 *            Set orbital power n.
 	 */
 	public void setN(int n) {
 		this.n = n;

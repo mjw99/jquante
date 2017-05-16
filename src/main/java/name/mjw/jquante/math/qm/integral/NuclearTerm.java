@@ -20,6 +20,26 @@ public class NuclearTerm implements IntegralsPackage {
 	 * The nuclear attraction term.
 	 * 
 	 * <i> Taken from THO eq. 2.15 <i>
+	 * 
+	 * @param a
+	 *            the coefficient of primitive Gaussian a.
+	 * @param norm1
+	 *            the normalization factor of primitive Gaussian a.
+	 * @param power1
+	 *            the orbital powers of primitive Gaussian a.
+	 * @param alpha1
+	 *            the coefficient of primitive Gaussian a.
+	 * @param b
+	 *            the coefficient of primitive Gaussian b.
+	 * @param norm2
+	 *            the normalization factor of primitive Gaussian b.
+	 * @param power2
+	 *            the orbital powers of primitive Gaussian b.
+	 * @param alpha2
+	 *            the coefficient of primitive Gaussian b.
+	 * @param c
+	 *            the location of nuclear centre.
+	 * @return the nuclear attraction integral.
 	 */
 	public double nuclearAttraction(Point3D a, double norm1, Power power1,
 			double alpha1, Point3D b, double norm2, Power power2,
@@ -126,6 +146,22 @@ public class NuclearTerm implements IntegralsPackage {
 
 	/**
 	 * The nuclear attraction gradient term
+	 * 
+	 * @param a
+	 *            the coefficient of primitive Gaussian a.
+	 * @param power1
+	 *            the orbital powers of primitive Gaussian a.
+	 * @param alpha1
+	 *            the coefficient of primitive Gaussian a.
+	 * @param b
+	 *            the coefficient of primitive Gaussian b.
+	 * @param power2
+	 *            the orbital powers of primitive Gaussian b.
+	 * @param alpha2
+	 *            the coefficient of primitive Gaussian b.
+	 * @param c
+	 *            the location of nuclear centre.
+	 * @return the nuclear attraction gradient.
 	 */
 	public Vector3D nuclearAttractionGradient(Point3D a, Power power1,
 			double alpha1, Point3D b, Power power2, double alpha2, Point3D c) {
