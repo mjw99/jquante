@@ -9,7 +9,7 @@ import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.math.qm.basis.Power;
 
 /**
- * Two electron integrals using RYS qudrature. The code be based on PyQuante (<a
+ * Two electron integrals using RYS qudrature. The code is based upon PyQuante (<a
  * href="http://pyquante.sf.net"> http://pyquante.sf.net </a>).
  * 
  * @author V.Ganesh
