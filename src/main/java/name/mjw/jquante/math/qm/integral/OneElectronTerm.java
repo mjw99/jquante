@@ -16,8 +16,16 @@ public class OneElectronTerm implements IntegralsPackage {
 	}
 
 	/**
-	 * Overlap matrix element taken form <i> Taken from
-	 * http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.12 </i>
+	 * Overlap matrix element taken from <br>
+	 * <i> Taken from http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.12 </i>
+	 *
+	 * @param alpha1
+	 * @param power
+	 * @param a
+	 * @param alpha2
+	 * @param power2
+	 * @param b
+	 * @return
 	 */
 	public double overlap(double alpha1, Power power, Point3D a, double alpha2,
 			Power power2, Point3D b) {
@@ -39,9 +47,15 @@ public class OneElectronTerm implements IntegralsPackage {
 	}
 
 	/**
-	 * 1D overlap.
-	 * 
+	 * 1D overlap. <br>
 	 * <i> Taken from http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.12 </i>
+	 *
+	 * @param l1
+	 * @param l2
+	 * @param pax
+	 * @param pbx
+	 * @param gamma
+	 * @return
 	 */
 	public double overlap1D(int l1, int l2, double pax, double pbx, double gamma) {
 		double sum = 0.0;
@@ -55,9 +69,16 @@ public class OneElectronTerm implements IntegralsPackage {
 	}
 
 	/**
-	 * The Kinetic Energy (KE) componant
-	 * 
+	 * The Kinetic Energy (KE) component. <br>
 	 * <i> Taken from http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.13 </i>
+	 *
+	 * @param alpha1
+	 * @param power1
+	 * @param a
+	 * @param alpha2
+	 * @param power2
+	 * @param b
+	 * @return
 	 */
 	public double kinetic(double alpha1, Power power1, Point3D a,
 			double alpha2, Power power2, Point3D b) {

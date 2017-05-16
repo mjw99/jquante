@@ -399,8 +399,16 @@ public class TwoElectronIntegrals {
 
 	/**
 	 * 
-	 * Compute an integral centered at <ij|kl>
+	 * Compute an integral centered at &lt;ij&#x7C;kl&gt;
 	 * 
+	 * @param i
+	 *            Index of contracted Gaussian function i.
+	 * @param j
+	 *            Index of contracted Gaussian function j.
+	 * @param k
+	 *            Index of contracted Gaussian function k.
+	 * @param l
+	 *            Index of contracted Gaussian function l.
 	 * @return the value of two integral electron
 	 */
 	public double compute2E(int i, int j, int k, int l) {
@@ -412,9 +420,16 @@ public class TwoElectronIntegrals {
 	}
 
 	/**
+	 * Compute an integral centered at &lt;ij&#x7C;kl&gt;
 	 * 
-	 * Compute an integral centered at <ij|kl>
-	 * 
+	 * @param cgi
+	 *            Contracted Gaussian function i.
+	 * @param cgj
+	 *            Contracted Gaussian function j.
+	 * @param cgk
+	 *            Contracted Gaussian function k.
+	 * @param cgl
+	 *            Contracted Gaussian function l.
 	 * @return the value of two integral electron
 	 */
 	public double compute2E(ContractedGaussian cgi, ContractedGaussian cgj,

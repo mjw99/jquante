@@ -1,9 +1,3 @@
-/*
- * SCFMethodFactory.java
- *
- * Created on August 15, 2004, 2:35 PM
- */
-
 package name.mjw.jquante.math.qm;
 
 import java.lang.ref.WeakReference;
@@ -34,7 +28,7 @@ public class SCFMethodFactory {
 		if (_scfMethodFactory == null) {
 			_scfMethodFactory = new WeakReference<SCFMethodFactory>(
 					new SCFMethodFactory());
-		} // end if
+		}
 
 		SCFMethodFactory scfMethodFactory = _scfMethodFactory.get();
 
@@ -42,7 +36,7 @@ public class SCFMethodFactory {
 			scfMethodFactory = new SCFMethodFactory();
 			_scfMethodFactory = new WeakReference<SCFMethodFactory>(
 					scfMethodFactory);
-		} // end if
+		}
 
 		return scfMethodFactory;
 	}
@@ -58,6 +52,8 @@ public class SCFMethodFactory {
 	 *            2E integrals for this molecule at appropriate basis
 	 * @param type
 	 *            the SCFType instance
+	 * 
+	 * @return the the Self Consistent Field (SCF) method.
 	 */
 	public SCFMethod getSCFMethod(Molecule molecule,
 			OneElectronIntegrals oneEI, TwoElectronIntegrals twoEI, SCFType type) {
@@ -70,6 +66,6 @@ public class SCFMethodFactory {
 		} else {
 			throw new UnsupportedOperationException("The type : " + type
 					+ " has no known implementing class!");
-		} // end if
+		}
 	}
-} // end of class SCFMethodFactory
+}

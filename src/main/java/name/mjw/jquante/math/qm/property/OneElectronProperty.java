@@ -1,9 +1,3 @@
-/**
- * OneElectronProperty.java
- *
- * Created on 28/09/2009
- */
-
 package name.mjw.jquante.math.qm.property;
 
 import name.mjw.jquante.common.Utility;
@@ -23,12 +17,19 @@ import name.mjw.jquante.parallel.SimpleParallelTaskExecuter;
  */
 public abstract class OneElectronProperty {
 
-	/** Creates a new instance of OneElectronProperty */
+	/**
+	 * Creates a new instance of OneElectronProperty
+	 * */
 	public OneElectronProperty() {
 		this.scfMethod = null;
 	}
 
-	/** Creates a new instance of OneElectronProperty */
+	/**
+	 * Creates a new instance of OneElectronProperty.
+	 *
+	 * @param scfMethod
+	 *            the Self Consistent Field (SCF) method.
+	 */
 	public OneElectronProperty(SCFMethod scfMethod) {
 		this.scfMethod = scfMethod;
 	}
@@ -46,7 +47,7 @@ public abstract class OneElectronProperty {
 
 	/**
 	 * Set the value of scfMethod
-	 * 
+	 *
 	 * @param scfMethod
 	 *            new value of scfMethod
 	 */
@@ -71,7 +72,7 @@ public abstract class OneElectronProperty {
 	 * its value at the specified points. <br>
 	 * Note that the unit of Point3D object must be a.u. No attempt is made to
 	 * verify this.
-	 * 
+	 *
 	 * @param points
 	 *            the points of interest
 	 * @return the values of this property at each of the point
@@ -151,9 +152,9 @@ public abstract class OneElectronProperty {
 					z = (zmin + (k * zinc)) / Utility.AU_TO_ANGSTROM_FACTOR;
 
 					points[ii++] = new Point3D(x, y, z);
-				} // end for
-			} // end for
-		} // end for
+				}
+			}
+		}
 
 		gp.setFunctionValues(compute(points));
 	}

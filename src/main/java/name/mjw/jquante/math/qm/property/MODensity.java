@@ -25,7 +25,12 @@ public class MODensity extends OneElectronProperty {
 
 	private ArrayList<ContractedGaussian> bfs;
 
-	/** Creates a new instance of MODensity */
+	/**
+	 * Creates a new instance of MODensity.
+	 *
+	 * @param scfMethod
+	 *            the Self Consistent Field (SCF) method.
+	 */
 	public MODensity(SCFMethod scfMethod) {
 		super(scfMethod);
 
@@ -37,14 +42,30 @@ public class MODensity extends OneElectronProperty {
 		monumber = scfMethod.getMolecule().getNumberOfElectrons() / 2;
 	}
 
-	/** Creates a new instance of MODensity */
+	/**
+	 * Creates a new instance of MODensity.
+	 *
+	 * @param scfMethod
+	 *            the Self Consistent Field (SCF) method.
+	 * @param monumber
+	 *            the number of molecular orbitals.
+	 */
 	public MODensity(SCFMethod scfMethod, int monumber) {
 		this(scfMethod);
 
 		this.monumber = monumber;
 	}
 
-	/** Creates a new instance of MODensity */
+	/**
+	 * Creates a new instance of MODensity.
+	 *
+	 * @param molecule
+	 *            the molecule object.
+	 * @param bfs
+	 *            the basis functions of a given molecule and a basis set.
+	 * @param mos
+	 *            the molecular orbitals as a coefficient matrix.
+	 */
 	public MODensity(Molecule molecule, BasisFunctions bfs,
 			MolecularOrbitals mos) {
 
@@ -54,7 +75,19 @@ public class MODensity extends OneElectronProperty {
 		this.monumber = molecule.getNumberOfElectrons() / 2;
 	}
 
-	/** Creates a new instance of MODensity */
+	/**
+	 * Creates a new instance of MODensity.
+	 *
+	 * @param molecule
+	 *            the molecule.
+	 * @param bfs
+	 *            the basis functions of a given molecule and a basis set.
+	 * @param mos
+	 *            the molecular orbitals as a coefficient matrix.
+	 * @param monumber
+	 *            the number of molecular orbitals.
+	 *
+	 */
 	public MODensity(Molecule molecule, BasisFunctions bfs,
 			MolecularOrbitals mos, int monumber) {
 
@@ -69,7 +102,7 @@ public class MODensity extends OneElectronProperty {
 	 * value at the specified point. <br>
 	 * Note that the unit of Point3D object must be a.u. No attempt is made to
 	 * verify this.
-	 * 
+	 *
 	 * @param point
 	 *            the point of interest
 	 * @return the value of this property at this point
@@ -78,8 +111,11 @@ public class MODensity extends OneElectronProperty {
 	public double compute(Point3D point) {
 		Vector amplitides = new Vector(nbf);
 		double[] amp = amplitides.getVector();
-		double moden = 0.0, amp_m, mos_m;
-		int m, l;
+		double moden = 0.0;
+		double amp_m;
+		double mos_m;
+		int m;
+		int l;
 
 		for (m = 0; m < nbf; m++)
 			amp[m] = bfs.get(m).amplitude(point);
@@ -92,8 +128,8 @@ public class MODensity extends OneElectronProperty {
 
 			for (l = 0; l < nbf; l++) {
 				moden += mos_m * mos[monumber][l] * amp[l] * amp_m;
-			} // end for
-		} // end for
+			}
+		}
 
 		return moden;
 	}

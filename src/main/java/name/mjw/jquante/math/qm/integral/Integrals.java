@@ -53,7 +53,7 @@ public final class Integrals {
 	}
 
 	/**
-	 * Overlap matrix element taken form <i> Taken from THO eq. 2.12 </i>
+	 * Overlap matrix element taken form <i> Taken from THO eq. 2.12 </i> <br>
 	 * 
 	 * @param alpha1
 	 * @param power
@@ -113,7 +113,7 @@ public final class Integrals {
 	}
 
 	/**
-	 * The nuclear attraction gradient term
+	 * The nuclear attraction gradient term.
 	 * 
 	 * @param a
 	 * @param power1

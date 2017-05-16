@@ -1,9 +1,3 @@
-/**
- * ElectronDensity.java
- *
- * Created on 28/09/2009
- */
-
 package name.mjw.jquante.math.qm.property;
 
 import java.util.ArrayList;
@@ -29,7 +23,12 @@ public class ElectronDensity extends OneElectronProperty {
 
 	private double[][] dm;
 
-	/** Creates a new instance of ElectronDensity */
+	/**
+	 * Creates a new instance of ElectronDensity
+	 * 
+	 * @param scfMethod
+	 *            the Self Consistent Field (SCF) method
+	 */
 	public ElectronDensity(SCFMethod scfMethod) {
 		super(scfMethod);
 
@@ -39,7 +38,14 @@ public class ElectronDensity extends OneElectronProperty {
 		dm = scfMethod.getDensity().getMatrix();
 	}
 
-	/** Creates a new instance of ElectronDensity */
+	/**
+	 * Creates a new instance of ElectronDensity
+	 * 
+	 * @param bfs
+	 *            the basis functions of a given molecule and a basis set
+	 * @param den
+	 *            the density matrix
+	 */
 	public ElectronDensity(BasisFunctions bfs, Density den) {
 		this.bfs = bfs.getBasisFunctions();
 		this.nbf = this.bfs.size();

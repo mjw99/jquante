@@ -1,8 +1,3 @@
-/**
- * MolecularOrbitals.java
- *
- * Created on Apr 16, 2009
- */
 package name.mjw.jquante.math.qm;
 
 import name.mjw.jquante.math.Matrix;
@@ -10,8 +5,8 @@ import name.mjw.jquante.math.la.Diagonalizer;
 import name.mjw.jquante.math.la.DiagonalizerFactory;
 
 /**
- * Represents the Moleulear orbitals as coefficient matrix and the corresponding
- * eigenvalues representing the orbital energies.
+ * Represents the Molecular orbitals as a coefficient matrix and the
+ * corresponding eigenvalues representing the orbital energies.
  * 
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
