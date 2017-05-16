@@ -1,6 +1,5 @@
 package name.mjw.jquante.math.qm;
 
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -38,12 +37,15 @@ public class BasisFunctions {
 	private MoleculeStateChangeListener molStateChangeListener;
 
 	/**
-	 * Creates a new instance of BasisFunctions
+	 * Creates a new instance of BasisFunctions.
 	 * 
 	 * @param molecule
-	 *            the Molecule whose basis function is requested
+	 *            the Molecule whose basis function is requested.
 	 * @param basisName
-	 *            the name of the basis set (like sto3g)
+	 *            the name of the basis set (like sto3g).
+	 * @throws Exception
+	 *            the basisName was not found.
+	 *
 	 */
 	public BasisFunctions(Molecule molecule, String basisName) throws Exception {
 		// initialize the basis functions
@@ -64,7 +66,7 @@ public class BasisFunctions {
 				} catch (Exception e) {
 					System.err.println("Unable to update basis function! ");
 					e.printStackTrace();
-				} // end of try .. catch block
+				}
 			}
 		};
 		molecule.addMoleculeStateChangeListener(molStateChangeListener);
@@ -158,8 +160,8 @@ public class BasisFunctions {
 					cg.setIndex(basisFunctions.size()); // send an index
 					basisFunctions.add(cg); // add this CG to list
 					atomicFunctions.add(cg); // add the reference to atom list
-				} // end while
-			} // end while
+				}
+			}
 
 			// save a reference of the basis functions centered on
 			// this atom as a user defined property of the atom
@@ -170,8 +172,8 @@ public class BasisFunctions {
 				UserDefinedAtomProperty up = atom
 						.getUserDefinedAtomProperty("basisFunctions");
 				up.setValue(atomicFunctions);
-			} // end of try .. catch block
-		} // end while
+			}
+		}
 
 		return this.basisFunctions;
 	}
@@ -184,7 +186,7 @@ public class BasisFunctions {
 
 		for (ContractedGaussian cg : basisFunctions) {
 			shellList.addShellPrimitive(cg);
-		} // end for
+		}
 	}
 
 	@Override

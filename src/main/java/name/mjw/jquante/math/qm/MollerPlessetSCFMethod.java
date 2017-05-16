@@ -1,9 +1,3 @@
-/*
- * MollerPlessetSCFMethod.java
- *
- * Created on August 15, 2004, 9:14 AM
- */
-
 package name.mjw.jquante.math.qm;
 
 import name.mjw.jquante.math.Vector;
@@ -32,7 +26,16 @@ public class MollerPlessetSCFMethod extends HartreeFockSCFMethod {
 	 */
 	protected double[] moInts;
 
-	/** Creates a new instance of MollerPlessetSCFMethod */
+	/**
+	 * Creates a new instance of MollerPlessetSCFMethod.
+	 *
+	 * @param molecule
+	 *            the Molecule object.
+	 * @param oneEI
+	 *            the 1E integral driver.
+	 * @param twoEI
+	 *            the 2E integral driver.
+	 */
 	public MollerPlessetSCFMethod(Molecule molecule,
 			OneElectronIntegrals oneEI, TwoElectronIntegrals twoEI) {
 		super(molecule, oneEI, twoEI);
@@ -91,12 +94,19 @@ public class MollerPlessetSCFMethod extends HartreeFockSCFMethod {
 	/**
 	 * O(N^5) 4-index transformation of the two-electron integrals. Only
 	 * transform the ones needed for MP2, which reduces the scaling to O(nN^4),
-	 * where n are the occs (<<N).
+	 * where n are the occs (&lt;&lt;N).
 	 */
 	protected void transformAOIntsToMOInts() {
 		// Start with (mu,nu|sigma,eta)
 		// Unpack AOints and transform sigma -> b
-		int mu, nu, sigma, eta, a, b, i, j;
+		int mu;
+		int nu;
+		int sigma;
+		int eta;
+		int a;
+		int b;
+		int i;
+		int j;
 
 		int noOfBasisFunctions = mos.getRowCount();
 		int noOfMOS = mos.getColumnCount();

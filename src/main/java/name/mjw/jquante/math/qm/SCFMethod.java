@@ -1,9 +1,3 @@
-/*
- * SCFMethod.java
- *
- * Created on August 5, 2004, 10:55 PM
- */
-
 package name.mjw.jquante.math.qm;
 
 import name.mjw.jquante.common.EventListenerList;
@@ -100,7 +94,16 @@ public abstract class SCFMethod implements OptimizerFunction {
 	 */
 	private EventListenerList<SCFEventListener> listenerList = null;
 
-	/** Creates a new instance of SCFMethod */
+	/** Creates a new instance of SCFMethod.
+	 *
+	 *
+	 * @param molecule
+	 *            the Molecule object.
+	 * @param oneEI
+	 *            the 1E integral driver.
+	 * @param twoEI
+	 *            the 2E integral driver.
+	 */
 	public SCFMethod(Molecule molecule, OneElectronIntegrals oneEI,
 			TwoElectronIntegrals twoEI) {
 		this.maxIteration = MAX_ITERATION;

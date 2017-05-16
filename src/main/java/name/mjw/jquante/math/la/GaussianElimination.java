@@ -90,8 +90,9 @@ public class GaussianElimination extends LinearEquationSolver {
 	 * rows.
 	 * 
 	 * @param p
-	 *            - The pth iteration in Gaussian elemination.
+	 *            The pth iteration in Gaussian elemination.
 	 * @throws SingularMatrixException
+	 *             The matrix is singular.
 	 */
 	public void simplePivot(int p) throws SingularMatrixException {
 		int temp = 0;

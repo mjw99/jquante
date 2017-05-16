@@ -93,8 +93,8 @@ public class Matrix implements Cloneable {
 		for (i = 0; i < rowCount; i++) {
 			for (j = 0; j < columnCount; j++) {
 				c.matrix[i][j] = matrix[i][j] + b.matrix[i][j];
-			} // end for
-		} // end for
+			}
+		}
 
 		return c;
 	}
@@ -183,8 +183,8 @@ public class Matrix implements Cloneable {
 		for (i = 0; i < rowCount; i++) {
 			for (j = 0; j < columnCount; j++) {
 				matrixT.matrix[j][i] = matrix[i][j];
-			} // end for
-		} // end for
+			}
+		}
 
 		return matrixT;
 	}
@@ -275,8 +275,8 @@ public class Matrix implements Cloneable {
 		for (i = 0; i < rowCount; i++) {
 			for (j = 0; j < columnCount; j++) {
 				matrix[i][j] = 0.0;
-			} // end for
-		} // end for
+			}
+		}
 	}
 
 	/**
@@ -514,9 +514,9 @@ public class Matrix implements Cloneable {
 			for (int j = 0; j < i; j++) {
 				if (matrix[i][j] != 0) {
 					return false;
-				} // end if
-			} // end for
-		} // end for
+				}
+			}
+		}
 
 		return true;
 	}
@@ -557,8 +557,8 @@ public class Matrix implements Cloneable {
 		for (int i = p; i <= matrix[0].length - 1; i++) {
 			if (matrix[row[p]][i] != 0) {
 				return false;
-			} // end if
-		} // end for
+			}
+		}
 
 		return true;
 	}
