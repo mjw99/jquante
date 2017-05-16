@@ -53,7 +53,7 @@ public final class Integrals {
 	}
 
 	/**
-	 * Overlap intergral taken form <i> Taken from THO eq. 2.12 </i> <br>
+	 * Overlap integral taken form <i> Taken from THO eq. 2.12 </i> <br>
 	 * 
 	 * @param alpha1
 	 *            the coefficient of primitive Gaussian a.
@@ -68,7 +68,7 @@ public final class Integrals {
 	 *            the orbital powers of primitive Gaussian b.
 	 * @param b
 	 *            the location of primitive Gaussian b.
-	 * @return Overlap intergral
+	 * @return the Overlap integral
 	 */
 	public static double overlap(double alpha1, Power power1, Point3D a,
 			double alpha2, Power power2, Point3D b) {
@@ -76,7 +76,7 @@ public final class Integrals {
 	}
 
 	/**
-	 * The Kinetic Energy (KE) intergral.
+	 * The Kinetic Energy (KE) integral.
 	 * 
 	 * <i> Taken from THO eq. 2.13 </i>
 	 * 
@@ -93,7 +93,7 @@ public final class Integrals {
 	 *            the orbital powers of primitive Gaussian b.
 	 * @param b
 	 *            the location of primitive Gaussian b.
-	 * @return the Kinetic Energy intergral
+	 * @return the Kinetic Energy integral
 	 */
 	public static double kinetic(double alpha1, Power power1, Point3D a,
 			double alpha2, Power power2, Point3D b) {
@@ -101,7 +101,7 @@ public final class Integrals {
 	}
 
 	/**
-	 * The nuclear attraction intergral.
+	 * The nuclear attraction integral.
 	 * 
 	 * <i> Taken from THO eq. 2.15 </i>
 	 * 
@@ -123,7 +123,7 @@ public final class Integrals {
 	 *            the coefficient of primitive Gaussian b.
 	 * @param c
 	 *            the location of nuclear centre.
-	 * @return the nuclear attraction intergral.
+	 * @return the nuclear attraction integral.
 	 */
 	public static double nuclearAttraction(Point3D a, double norm1,
 			Power power1, double alpha1, Point3D b, double norm2, Power power2,

@@ -24,14 +24,14 @@ public final class IntegralsUtil {
 	 * the Gaussian product theorem
 	 * 
 	 * @param alpha1
-	 *            exponent of first Gaussian
+	 *            exponent of Gaussian a
 	 * @param a
-	 *            centre of first Gaussian
+	 *            centre of Gaussian a
 	 * @param alpha2
-	 *            exponent of first Gaussian
+	 *            exponent of Gaussian b
 	 * @param b
-	 *            centre of first Gaussian
-	 *
+	 *            centre of Gaussian b
+	 * 
 	 * @return centre of resulting two-centre product Gaussian
 	 */
 	public static Point3D gaussianProductCenter(double alpha1, Point3D a,
@@ -44,7 +44,26 @@ public final class IntegralsUtil {
 	}
 
 	/**
-	 * Indexing (i,j,k,l) into long array.
+	 * 
+	 * Index into the array using ⟨ij|kl⟩.
+	 * 
+	 * The two particle integral ⟨ij|kl⟩ is:
+	 * 
+	 * ⟨ij|kl⟩=∫ψi(x)ψj(x′)ψk(x)ψl(x′)|x−x′|d3xd3x′
+	 * 
+	 * With the following 8 symmetries:
+	 * 
+	 * ⟨ij|kl⟩=⟨ji|lk⟩=⟨kj|il⟩=⟨il|kj⟩=⟨kl|ij⟩=⟨lk|ji⟩=⟨il|kj⟩=⟨kj|il⟩
+	 * 
+	 * @param i
+	 *            the index of Gaussian i
+	 * @param j
+	 *            the index of Gaussian j
+	 * @param k
+	 *            the index of Gaussian k
+	 * @param l
+	 *            the index of Gaussian l
+	 * @return the index into the array
 	 */
 	public static int ijkl2intindex(int i, int j, int k, int l) {
 		int temp;
@@ -74,6 +93,10 @@ public final class IntegralsUtil {
 
 	/**
 	 * Incomplete gamma function
+	 * 
+	 * @param m
+	 * @param x
+	 * @return
 	 */
 	public static double computeFGamma(int m, double x) {
 		x = Math.max(Math.abs(x), SMALL);
@@ -84,6 +107,10 @@ public final class IntegralsUtil {
 	/**
 	 * Incomplete gamma function gamma() computed from Numerical Recipes routine
 	 * gammp.
+	 * 
+	 * @param a
+	 * @param x
+	 * @return
 	 */
 	public static double gammaIncomplete(double a, double x) {
 		double gammap;
@@ -148,6 +175,9 @@ public final class IntegralsUtil {
 
 	/**
 	 * Numerical recipes, section 6.1
+	 * 
+	 * @param x
+	 * @return
 	 */
 	public static double logGamma(double x) {
 		double y = x;

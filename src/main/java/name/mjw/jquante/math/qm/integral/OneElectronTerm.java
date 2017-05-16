@@ -18,27 +18,34 @@ public class OneElectronTerm implements IntegralsPackage {
 	/**
 	 * Overlap matrix element taken from <br>
 	 * <i> Taken from http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.12 </i>
-	 *
+	 * 
 	 * @param alpha1
-	 * @param power
+	 *            the coefficient of primitive Gaussian a.
+	 * @param power1
+	 *            the orbital powers of primitive Gaussian a.
 	 * @param a
+	 *            the location of primitive Gaussian a.
+	 * 
 	 * @param alpha2
+	 *            the coefficient of primitive Gaussian b.
 	 * @param power2
+	 *            the orbital powers of primitive Gaussian b.
 	 * @param b
-	 * @return
+	 *            the location of primitive Gaussian b.
+	 * @return the Overlap integral
 	 */
-	public double overlap(double alpha1, Power power, Point3D a, double alpha2,
-			Power power2, Point3D b) {
+	public double overlap(double alpha1, Power power1, Point3D a,
+			double alpha2, Power power2, Point3D b) {
 		double radiusABSquared = a.distanceSquaredFrom(b);
 		double gamma = alpha1 + alpha2;
 		Point3D product = IntegralsUtil.gaussianProductCenter(alpha1, a,
 				alpha2, b);
 
-		double wx = overlap1D(power.getL(), power2.getL(),
+		double wx = overlap1D(power1.getL(), power2.getL(),
 				product.getX() - a.getX(), product.getX() - b.getX(), gamma);
-		double wy = overlap1D(power.getM(), power2.getM(),
+		double wy = overlap1D(power1.getM(), power2.getM(),
 				product.getY() - a.getY(), product.getY() - b.getY(), gamma);
-		double wz = overlap1D(power.getN(), power2.getN(),
+		double wz = overlap1D(power1.getN(), power2.getN(),
 				product.getZ() - a.getZ(), product.getZ() - b.getZ(), gamma);
 
 		return (Math.pow(Math.PI / gamma, 1.5)
@@ -49,13 +56,18 @@ public class OneElectronTerm implements IntegralsPackage {
 	/**
 	 * 1D overlap. <br>
 	 * <i> Taken from http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.12 </i>
-	 *
+	 * 
 	 * @param l1
+	 *            the angular momentum number of Gaussian 1.
 	 * @param l2
+	 *            the angular momentum number of Gaussian 2.
 	 * @param pax
+	 *            the distance of Gaussian 1 to the product centre.
 	 * @param pbx
+	 *            the distance of Gaussian 2 to the product centre.
 	 * @param gamma
-	 * @return
+	 *            the sum of both Gaussian's exponent.
+	 * @return the 1D overlap.
 	 */
 	public double overlap1D(int l1, int l2, double pax, double pbx, double gamma) {
 		double sum = 0.0;
@@ -70,15 +82,23 @@ public class OneElectronTerm implements IntegralsPackage {
 
 	/**
 	 * The Kinetic Energy (KE) component. <br>
-	 * <i> Taken from http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.13 </i>
-	 *
+	 * 
+	 * <i> Taken from THO eq. 2.13 </i>
+	 * 
 	 * @param alpha1
+	 *            the coefficient of primitive Gaussian a.
 	 * @param power1
+	 *            the orbital powers of primitive Gaussian a.
 	 * @param a
+	 *            the location of primitive Gaussian a.
+	 * 
 	 * @param alpha2
+	 *            the coefficient of primitive Gaussian b.
 	 * @param power2
+	 *            the orbital powers of primitive Gaussian b.
 	 * @param b
-	 * @return
+	 *            the location of primitive Gaussian b.
+	 * @return the Kinetic Energy integral
 	 */
 	public double kinetic(double alpha1, Power power1, Point3D a,
 			double alpha2, Power power2, Point3D b) {
