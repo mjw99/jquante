@@ -4,7 +4,7 @@ import name.mjw.jquante.math.Matrix;
 import name.mjw.jquante.math.la.exception.SingularMatrixException;
 
 /**
- * The Gaussian elemination solver for A x = B
+ * The Gaussian elimination solver for A x = B
  * 
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
@@ -126,10 +126,10 @@ public class GaussianElimination extends LinearEquationSolver {
 
 	/**
 	 * oneScale() - This method makes the a[j][j]th entry at the jth iteration
-	 * close to unity by deviding each element of the jth row by a[j][j].
+	 * close to unity by dividing each element of the jth row by a[j][j].
 	 * 
 	 * @param p
-	 *            - The jth iteration in Gaussian elemination. boolean scale -
+	 *            - The jth iteration in Gaussian elimation. boolean scale -
 	 *            Scale to one or not
 	 */
 	private void oneScale(int p, boolean scale) {

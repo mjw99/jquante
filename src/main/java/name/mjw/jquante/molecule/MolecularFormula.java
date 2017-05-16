@@ -56,7 +56,7 @@ public class MolecularFormula {
 	 */
 	private void makeFormulaString() {
 		// make a hashtable hashed by symbols
-		uniqueSymbols = new LinkedHashMap<String, Integer>(5);
+		uniqueSymbols = new LinkedHashMap<>(5);
 
 		// iterate through each atoms and collect the unique ones and their
 		// counts...
@@ -65,13 +65,13 @@ public class MolecularFormula {
 
 		// TODO: a bit expensive (?) operation, may need optimization
 		while (atoms.hasNext()) {
-			atom = (Atom) atoms.next();
+			atom = atoms.next();
 
 			if (uniqueSymbols.containsKey(atom.getSymbol())) {
 				uniqueSymbols.put(
 						atom.getSymbol(),
-						new Integer(((Integer) uniqueSymbols.get(atom
-								.getSymbol())).intValue() + 1));
+						new Integer((uniqueSymbols.get(atom.getSymbol()))
+								.intValue() + 1));
 			} else {
 				uniqueSymbols.put(atom.getSymbol(), new Integer(1));
 			} // end if
@@ -172,7 +172,7 @@ public class MolecularFormula {
 		MolecularFormula newFormula = new MolecularFormula();
 
 		// make a hashtable hashed by symbols
-		newFormula.uniqueSymbols = new LinkedHashMap<String, Integer>(5);
+		newFormula.uniqueSymbols = new LinkedHashMap<>(5);
 
 		// run through what is common and add/sub them
 		Object[] keys = uniqueSymbols.keySet().toArray();
@@ -209,22 +209,22 @@ public class MolecularFormula {
 	}
 
 	/**
-	 * Add a moleculecular formula and return the result as a new instance.
+	 * Add a molecular formula and return the result as a new instance.
 	 * 
 	 * @param formula
 	 *            - is the formula to be added
-	 * @return the new instance of the moleculecular formula
+	 * @return the new instance of the molecular formula
 	 */
 	public MolecularFormula add(MolecularFormula formula) {
 		return doAddSub(formula, 1);
 	}
 
 	/**
-	 * Subtract a moleculecular formula and return the result as a new instance.
+	 * Subtract a molecular formula and return the result as a new instance.
 	 * 
 	 * @param formula
 	 *            - is the formula to be subtracted
-	 * @return the new instance of the moleculecular formula
+	 * @return the new instance of the molecular formula
 	 */
 	public MolecularFormula sub(MolecularFormula formula) {
 		return doAddSub(formula, -1);
