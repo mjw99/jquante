@@ -19,7 +19,7 @@ public class NuclearTerm implements IntegralsPackage {
 	/**
 	 * The nuclear attraction term.
 	 * 
-	 * <i> Taken from THO eq. 2.12 <i>
+	 * <i> Taken from THO eq. 2.15 <i>
 	 */
 	public double nuclearAttraction(Point3D a, double norm1, Power power1,
 			double alpha1, Point3D b, double norm2, Power power2,
@@ -55,16 +55,16 @@ public class NuclearTerm implements IntegralsPackage {
 							* az[k]
 							* IntegralsUtil.computeFGamma(i + j + k, rCPSquared
 									* gamma);
-				} // end for
-			} // end for
-		} // end for
+				}
+			}
+		}
 
 		return (-norm1 * norm2 * 2.0 * Math.PI / gamma
 				* Math.exp(-alpha1 * alpha2 * rABSquared / gamma) * sum);
 	}
 
 	/**
-	 * <i> "THO eq. 2.18 and 3.1 <i>
+	 * <i> THO eq. 2.18 and 3.1 <i>
 	 */
 	public double[] constructAArray(int l1, int l2, double pa, double pb,
 			double cp, double gamma) {
@@ -80,9 +80,9 @@ public class NuclearTerm implements IntegralsPackage {
 
 					a[index] += constructATerm(i, r, u, l1, l2, pa, pb, cp,
 							gamma);
-				} // end for
-			} // end for
-		} // end for
+				}
+			}
+		}
 
 		return a;
 	}
@@ -103,16 +103,16 @@ public class NuclearTerm implements IntegralsPackage {
 							/ (i - 2.0 * r - 2.0 * u + 1.0)
 							* cp
 							* constructATerm(i, r, u, l1, l2, pa, pb, cp, gamma);
-				} // end for
-			} // end for
-		} // end for
+				}
+			}
+		}
 
 		return a;
 	}
 
 	/**
 	 * the A term <br>
-	 * <i> "THO eq. 2.18 <i>
+	 * <i> THO eq. 2.18 <i>
 	 */
 	public double constructATerm(int i, int r, int u, int l1, int l2,
 			double pax, double pbx, double cpx, double gamma) {
@@ -172,9 +172,9 @@ public class NuclearTerm implements IntegralsPackage {
 					gradX += dax[i] * ay[j] * az[k] * fgamma;
 					gradY += ax[i] * day[j] * az[k] * fgamma;
 					gradZ += ax[i] * ay[j] * daz[k] * fgamma;
-				} // end for
-			} // end for
-		} // end for
+				}
+			}
+		}
 
 		double factor = -4 * Math.PI
 				* Math.exp(-alpha1 * alpha2 * rABSquared / gamma);

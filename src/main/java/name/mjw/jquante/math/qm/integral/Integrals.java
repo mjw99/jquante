@@ -53,35 +53,47 @@ public final class Integrals {
 	}
 
 	/**
-	 * Overlap matrix element taken form <i> Taken from THO eq. 2.12 </i> <br>
+	 * Overlap intergral taken form <i> Taken from THO eq. 2.12 </i> <br>
 	 * 
 	 * @param alpha1
-	 * @param power
+	 *            the coefficient of primitive Gaussian a.
+	 * @param power1
+	 *            the orbital powers of primitive Gaussian a.
 	 * @param a
+	 *            the location of primitive Gaussian a.
 	 * 
 	 * @param alpha2
+	 *            the coefficient of primitive Gaussian b.
 	 * @param power2
+	 *            the orbital powers of primitive Gaussian b.
 	 * @param b
-	 * @return
+	 *            the location of primitive Gaussian b.
+	 * @return Overlap intergral
 	 */
-	public static double overlap(double alpha1, Power power, Point3D a,
+	public static double overlap(double alpha1, Power power1, Point3D a,
 			double alpha2, Power power2, Point3D b) {
-		return oneElectronTerm.overlap(alpha1, power, a, alpha2, power2, b);
+		return oneElectronTerm.overlap(alpha1, power1, a, alpha2, power2, b);
 	}
 
 	/**
-	 * The Kinetic Energy (KE) component
+	 * The Kinetic Energy (KE) intergral.
 	 * 
-	 * <i> Taken from THO eq. 2.12 </i>
+	 * <i> Taken from THO eq. 2.13 </i>
 	 * 
 	 * @param alpha1
+	 *            the coefficient of primitive Gaussian a.
 	 * @param power1
+	 *            the orbital powers of primitive Gaussian a.
 	 * @param a
+	 *            the location of primitive Gaussian a.
 	 * 
 	 * @param alpha2
+	 *            the coefficient of primitive Gaussian b.
 	 * @param power2
+	 *            the orbital powers of primitive Gaussian b.
 	 * @param b
-	 * @return
+	 *            the location of primitive Gaussian b.
+	 * @return the Kinetic Energy intergral
 	 */
 	public static double kinetic(double alpha1, Power power1, Point3D a,
 			double alpha2, Power power2, Point3D b) {
@@ -89,20 +101,29 @@ public final class Integrals {
 	}
 
 	/**
-	 * The nuclear attraction term.
+	 * The nuclear attraction intergral.
 	 * 
-	 * <i> Taken from THO eq. 2.12 </i>
+	 * <i> Taken from THO eq. 2.15 </i>
 	 * 
 	 * @param a
+	 *            the coefficient of primitive Gaussian a.
 	 * @param norm1
+	 *            the normalization factor of primitive Gaussian a.
 	 * @param power1
+	 *            the orbital powers of primitive Gaussian a.
 	 * @param alpha1
+	 *            the coefficient of primitive Gaussian a.
 	 * @param b
+	 *            the coefficient of primitive Gaussian b.
 	 * @param norm2
+	 *            the normalization factor of primitive Gaussian b.
 	 * @param power2
+	 *            the orbital powers of primitive Gaussian b.
 	 * @param alpha2
+	 *            the coefficient of primitive Gaussian b.
 	 * @param c
-	 * @return
+	 *            the location of nuclear centre.
+	 * @return the nuclear attraction intergral.
 	 */
 	public static double nuclearAttraction(Point3D a, double norm1,
 			Power power1, double alpha1, Point3D b, double norm2, Power power2,
@@ -116,13 +137,20 @@ public final class Integrals {
 	 * The nuclear attraction gradient term.
 	 * 
 	 * @param a
+	 *            the coefficient of primitive Gaussian a.
 	 * @param power1
+	 *            the orbital powers of primitive Gaussian a.
 	 * @param alpha1
+	 *            the coefficient of primitive Gaussian a.
 	 * @param b
+	 *            the coefficient of primitive Gaussian b.
 	 * @param power2
+	 *            the orbital powers of primitive Gaussian b.
 	 * @param alpha2
+	 *            the coefficient of primitive Gaussian b.
 	 * @param c
-	 * @return
+	 *            the location of nuclear centre.
+	 * @return the nuclear attraction gradient.
 	 */
 	public static Vector3D nuclearAttractionGradient(Point3D a, Power power1,
 			double alpha1, Point3D b, Power power2, double alpha2, Point3D c) {
