@@ -23,7 +23,7 @@ import name.mjw.fortranformat.FortranFormat;
 @XmlRootElement(name = "basis")
 public class NWChemBasisSetFile {
 	private final static Logger LOG = Logger
-			.getLogger(NWChemToXMLConverter.class);
+			.getLogger(NWChemBasisSetFile.class);
 
 	@XmlAttribute(name = "name")
 	private String basisSetName;
