@@ -29,10 +29,19 @@ public class NWChemBasisSetFile {
 	private String basisSetName;
 
 	@XmlElement(name = "atom")
-	private List<Atom> atoms;
+	private List<Library> atoms;
 
+	/**
+	 * Representation of a NWChem basis file.
+	 * 
+	 * 
+	 * @see <a
+	 *      href="https://github.com/jeffhammond/nwchem/blob/HEAD/src/basis/basis_dox.c">src/basis/basis_dox.c</a>
+	 * 
+	 * 
+	 */
 	public NWChemBasisSetFile() {
-		atoms = new ArrayList<Atom>();
+		atoms = new ArrayList<Library>();
 	}
 
 	/**
@@ -42,13 +51,17 @@ public class NWChemBasisSetFile {
 	 *            Filename of NWChem basis file.
 	 * @throws ParseException
 	 * @throws IOException
+	 * 
+	 * @see <a
+	 *      href="https://github.com/jeffhammond/nwchem/blob/HEAD/src/basis/bas_input.F">src/basis/bas_input.F</a>
+	 * 
+	 * 
 	 */
 	public void read(String fileName) {
 
 		basisSetName = fileName;
 
-		try {
-			BufferedReader in = new BufferedReader(new FileReader(fileName));
+		try (BufferedReader in = new BufferedReader(new FileReader(fileName))) {
 
 			String line;
 
@@ -56,7 +69,7 @@ public class NWChemBasisSetFile {
 
 				if (line.matches("^basis.*")) {
 
-					parseAtomSection(line, in);
+					parseBasisSection(line, in);
 
 				}
 
@@ -72,11 +85,26 @@ public class NWChemBasisSetFile {
 		}
 	}
 
-	void parseAtomSection(String line, BufferedReader br)
+	/**
+	 * Parse the section:
+	 * 
+	 * <pre>
+	 * basis "He_aug-cc-pVTZ" SPHERICAL 
+	 * ... 
+	 * end
+	 * </pre>
+	 * 
+	 * 
+	 * @param line
+	 * @param br
+	 * @throws ParseException
+	 * @throws IOException
+	 */
+	void parseBasisSection(String line, BufferedReader br)
 			throws ParseException, IOException {
 
 		String elementName;
-		String elementBasisSetName;
+		String basisName;
 
 		String words[];
 
@@ -90,28 +118,53 @@ public class NWChemBasisSetFile {
 		}
 
 		elementName = words[1].replace("\"", "").split("_")[0];
-		elementBasisSetName = words[1];
+		basisName = words[1];
 
-		List<Orbital> orbitals = new ArrayList<Orbital>();
-		orbitals.addAll(parseOrbitalSection(br));
+		List<Shell> orbitals = new ArrayList<Shell>();
 
-		Atom atom = new Atom(elementName);
+		// while ((br.readLine()) != null) {
+		//
+		// if (!(line.matches("^end.*"))) {
+		//
+		// orbitals.addAll(parseOrbitalSection(br));
+		//
+		// }
+		//
+		// }
+
+		orbitals.addAll(parseShellSection(br));
+
+		Library atom = new Library(elementName);
 		atom.addOrbitals(orbitals);
 		atoms.add(atom);
-
 	}
 
-	static List<Orbital> parseOrbitalSection(BufferedReader br)
+	/**
+	 * Parse the section:
+	 * 
+	 * <pre>
+	 * H    S
+	 *      33.8700000              0.0060680
+	 *       5.0950000              0.0453080
+	 *       1.1590000              0.2028220
+	 * </pre>
+	 * 
+	 * 
+	 * @param line
+	 * @param br
+	 * @throws ParseException
+	 * @throws IOException
+	 */
+	static List<Shell> parseShellSection(BufferedReader br)
 			throws ParseException, IOException {
 
-		int numberOfOrbitalsToParse = 1;
+		int numberOfShellsToParse = 1;
 		Double exp;
 		Double coeff;
 		String line;
-		ArrayList<Orbital> orbitals = null;
+		ArrayList<Shell> shells = null;
 		ArrayList<Object> lineObjects;
 		final String orbitalFormat = "(1X, E18.7, 9X, 6(E15.7, 8X))";
-		
 
 		DecimalFormat df = new DecimalFormat("0",
 				DecimalFormatSymbols.getInstance(Locale.ENGLISH));
@@ -122,64 +175,45 @@ public class NWChemBasisSetFile {
 		lineObjects = FortranFormat.read(line, "(2A5)");
 
 		String currentElement = (String) lineObjects.get(0);
-		String orbitalType = (String) lineObjects.get(1);
+		String shellType = (String) lineObjects.get(1);
+		//TODO check for a SP shell and ensure 
 
-		// Peek ahead here to work out how many orbitalElement to return now
+		// Peek ahead here to work out how many Shells to return
 		br.mark(5000);
 		line = br.readLine();
 
-		// Hack since FortranFormat does not understand Double-Precision
-		// Exponent
+		// Hack since FortranFormat does not
+		// understand Double-Precision Exponent
 		line = line.replace("D", "E");
 		lineObjects = FortranFormat.read(line, orbitalFormat);
-		numberOfOrbitalsToParse = getNonNullLength(lineObjects) - 1;
+		numberOfShellsToParse = getNonNullLength(lineObjects) - 1;
 
 		br.reset();
 
-		orbitals = new ArrayList<Orbital>(numberOfOrbitalsToParse);
+		shells = new ArrayList<Shell>(numberOfShellsToParse);
 
-		for (int i = 0; i < numberOfOrbitalsToParse; i++) {
-			orbitals.add(new Orbital(orbitalType));
+		for (int i = 0; i < numberOfShellsToParse; i++) {
+			shells.add(new Shell(shellType));
 		}
 
 		while (true) {
 
+			br.mark(5000);
 			line = br.readLine();
 
 			/**
-			 * Time to switch to a new Orbital(orbitalType)
+			 * Time to switch to a new Shell(shellType)
 			 */
 			if (line.contains(currentElement)) {
+				br.reset();
 				break;
-
-//			System.out.println(line);
-//				br.reset();
-//				parseOrbitalSection(br);
-				//return orbitals;
-//				lineObjects = FortranFormat.read(line, "(2A5)");
-//				orbitalType = (String) lineObjects.get(1);
-//				
-//				br.mark(5000);
-//				line = br.readLine();
-//				
-//				
-//				line = line.replace("D", "E");
-//				System.out.println(line);
-//				lineObjects = FortranFormat.read(line, orbitalFormat);
-//				numberOfOrbitalsToParse = getNonNullLength(lineObjects) - 1;
-//				
-//				//Add extra orbitals
-//				for (int i = 0; i < numberOfOrbitalsToParse; i++) {
-//					orbitals.add(new Orbital(orbitalType));
-//				}
-//								continue;
-				
-
-				
 			}
 
+			/**
+			 * Time to switch to a new
+			 */
 			if (line.contains("end")) {
-				break;				
+				break;
 			}
 
 			// Hack since FortranFormat does not understand Double-Precision
@@ -190,19 +224,19 @@ public class NWChemBasisSetFile {
 
 			exp = (Double) lineObjects.get(0);
 
-			for (int i = 0; i < numberOfOrbitalsToParse; i++) {
+			for (int i = 0; i < numberOfShellsToParse; i++) {
 
 				coeff = (Double) lineObjects.get(i + 1);
 
-				orbitals.get(i).addExponentCoefficientPair(df.format(exp),
+				shells.get(i).addExponentCoefficientPair(df.format(exp),
 						df.format(coeff));
 			}
 		}
 
-		return orbitals;
+		return shells;
 	}
 
-	static class Atom {
+	static class Library {
 		@XmlAttribute(name = "symbol")
 		String element;
 
@@ -210,30 +244,28 @@ public class NWChemBasisSetFile {
 		int atomicNumber;
 
 		@XmlElement(name = "orbital")
-		List<Orbital> orbitals;
+		List<Shell> orbitals;
 
-		Atom(String element) {
+		Library(String element) {
 			this.element = element;
-			orbitals = new ArrayList<Orbital>();
+			orbitals = new ArrayList<Shell>();
 		}
 
-		void addOrbitals(List<Orbital> orbitals) {
-
+		void addOrbitals(List<Shell> orbitals) {
 			this.orbitals.addAll(orbitals);
-
 		}
 
 	}
 
-	static class Orbital {
+	static class Shell {
 
 		@XmlAttribute(name = "type")
 		String type;
 
-		@XmlElement(name = "member")
+		@XmlElement(name = "entry")
 		List<exponentCoefficientPair> exponentCoefficientPairs = null;
 
-		Orbital(String type) {
+		Shell(String type) {
 			this.type = type;
 			exponentCoefficientPairs = new ArrayList<exponentCoefficientPair>();
 		}
@@ -258,10 +290,8 @@ public class NWChemBasisSetFile {
 		String coefficient;
 
 		exponentCoefficientPair(String exponent, String coefficient) {
-
 			this.exponent = exponent;
 			this.coefficient = coefficient;
-
 		}
 
 	}
@@ -272,7 +302,7 @@ public class NWChemBasisSetFile {
 	 * @param lineObjects
 	 * @return number of non-null elements
 	 */
-	public static int getNonNullLength(ArrayList<Object> lineObjects) {
+	private static int getNonNullLength(ArrayList<Object> lineObjects) {
 		int count = 0;
 		for (Object el : lineObjects)
 			if (el != null)
