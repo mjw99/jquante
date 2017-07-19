@@ -3,21 +3,22 @@ package name.mjw.jquante.common.resource;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+
 /**
  * 
  * @author mw529
- * Example here: http://www.vogella.com/tutorials/JAXB/article.html
+ * @see <a href="http://www.vogella.com/tutorials/JAXB/article.html">Example
+ *      tutorial</a>
  */
-public class NWChemBasisSetFileWriter {
+public class NWChemBasisSetXMLWriter {
 
 	public static void main(String[] args) throws JAXBException {
 
+		String fileName = "/usr/local/shared/ubuntu-16.04/x86_64/nwchem/6.6/data/libraries/aug-cc-pvtz";
+
 		NWChemBasisSetFile nWChemBasisSetFile = new NWChemBasisSetFile();
 
-		nWChemBasisSetFile
-				.read("/usr/local/shared/ubuntu-16.04/x86_64/nwchem/6.6/data/libraries/aug-cc-pvtz");
-		
-		//nWChemBasisSetFile.read("/tmp/aug-cc-pvtz");
+		nWChemBasisSetFile.read(fileName);
 
 		// create JAXB context and instantiate marshaller
 		JAXBContext context = null;

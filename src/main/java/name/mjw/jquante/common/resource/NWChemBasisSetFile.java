@@ -1,9 +1,15 @@
 package name.mjw.jquante.common.resource;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
@@ -12,6 +18,7 @@ import java.util.Locale;
 
 import java.util.List;
 
+import javax.xml.bind.DatatypeConverter;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -19,6 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.log4j.Logger;
 
 import name.mjw.fortranformat.FortranFormat;
+import name.mjw.jquante.config.impl.AtomInfo;
 
 @XmlRootElement(name = "basis")
 public class NWChemBasisSetFile {
@@ -28,11 +36,14 @@ public class NWChemBasisSetFile {
 	@XmlAttribute(name = "name")
 	private String basisSetName;
 
+	@XmlAttribute(name = "md5sum")
+	private String md5sum;
+
 	@XmlElement(name = "atom")
 	private List<Library> atoms;
 
 	/**
-	 * Representation of a NWChem basis file.
+	 * A representation of a NWChem basis file.
 	 * 
 	 * 
 	 * @see <a
@@ -49,6 +60,7 @@ public class NWChemBasisSetFile {
 	 * 
 	 * @param fileName
 	 *            Filename of NWChem basis file.
+	 * @throws NoSuchAlgorithmException
 	 * @throws ParseException
 	 * @throws IOException
 	 * 
@@ -60,8 +72,19 @@ public class NWChemBasisSetFile {
 	public void read(String fileName) {
 
 		basisSetName = fileName;
+		MessageDigest md = null;
 
-		try (BufferedReader in = new BufferedReader(new FileReader(fileName))) {
+		try {
+			md = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e1) {
+			e1.printStackTrace();
+		}
+
+		// https://stackoverflow.com/questions/304268/getting-a-files-md5-checksum-in-java
+		try (InputStream is = Files.newInputStream(Paths.get(fileName));
+				DigestInputStream dis = new DigestInputStream(is, md);
+				BufferedReader in = new BufferedReader(new InputStreamReader(
+						dis, "UTF-8"))) {
 
 			String line;
 
@@ -75,14 +98,13 @@ public class NWChemBasisSetFile {
 
 			}
 
-			in.close();
+			byte[] digest = md.digest();
+			md5sum = DatatypeConverter.printHexBinary(digest).toLowerCase();
 
-		} catch (IOException e) {
-			e.printStackTrace();
-
-		} catch (ParseException e) {
+		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	/**
@@ -120,22 +142,33 @@ public class NWChemBasisSetFile {
 		elementName = words[1].replace("\"", "").split("_")[0];
 		basisName = words[1];
 
-		List<Shell> orbitals = new ArrayList<Shell>();
-
-		// while ((br.readLine()) != null) {
-		//
-		// if (!(line.matches("^end.*"))) {
-		//
-		// orbitals.addAll(parseOrbitalSection(br));
-		//
-		// }
-		//
-		// }
-
-		orbitals.addAll(parseShellSection(br));
-
 		Library atom = new Library(elementName);
-		atom.addOrbitals(orbitals);
+
+		List<Shell> shells = new ArrayList<Shell>();
+
+		br.mark(5000);
+		while ((line = br.readLine()) != null) {
+
+			if (line.matches("^end.*")) {
+
+				br.reset();
+				break;
+
+			} else {
+
+				LOG.debug("dispatching to parseShellSection() with line ");
+				LOG.debug(line);
+
+				br.reset();
+				shells.addAll(parseShellSection(br, elementName));
+
+			}
+
+			br.mark(5000);
+
+		}
+
+		atom.addShell(shells);
 		atoms.add(atom);
 	}
 
@@ -155,10 +188,10 @@ public class NWChemBasisSetFile {
 	 * @throws ParseException
 	 * @throws IOException
 	 */
-	static List<Shell> parseShellSection(BufferedReader br)
+	static List<Shell> parseShellSection(BufferedReader br, String elementName)
 			throws ParseException, IOException {
 
-		int numberOfShellsToParse = 1;
+		int numberOfContractedShellsToParse = 1;
 		Double exp;
 		Double coeff;
 		String line;
@@ -172,13 +205,17 @@ public class NWChemBasisSetFile {
 											// DecimalFormat.DOUBLE_FRACTION_DIGITS
 
 		line = br.readLine();
+		LOG.debug("");
+		LOG.debug("parseShellSection() is starting on line: ");
+		LOG.debug(line);
+
 		lineObjects = FortranFormat.read(line, "(2A5)");
 
 		String currentElement = (String) lineObjects.get(0);
 		String shellType = (String) lineObjects.get(1);
-		//TODO check for a SP shell and ensure 
+		// TODO check for a SP shell
 
-		// Peek ahead here to work out how many Shells to return
+		// Peek ahead here to work out how many contractedShells to return
 		br.mark(5000);
 		line = br.readLine();
 
@@ -186,34 +223,26 @@ public class NWChemBasisSetFile {
 		// understand Double-Precision Exponent
 		line = line.replace("D", "E");
 		lineObjects = FortranFormat.read(line, orbitalFormat);
-		numberOfShellsToParse = getNonNullLength(lineObjects) - 1;
-
+		numberOfContractedShellsToParse = getNonNullLength(lineObjects) - 1;
 		br.reset();
 
-		shells = new ArrayList<Shell>(numberOfShellsToParse);
+		shells = new ArrayList<Shell>(numberOfContractedShellsToParse);
 
-		for (int i = 0; i < numberOfShellsToParse; i++) {
+		for (int i = 0; i < numberOfContractedShellsToParse; i++) {
 			shells.add(new Shell(shellType));
 		}
 
 		while (true) {
-
-			br.mark(5000);
 			line = br.readLine();
 
-			/**
-			 * Time to switch to a new Shell(shellType)
-			 */
-			if (line.contains(currentElement)) {
-				br.reset();
-				break;
-			}
+			if (line.matches("^" + elementName + ".*") | line.matches("^end.*")) {
 
-			/**
-			 * Time to switch to a new
-			 */
-			if (line.contains("end")) {
-				break;
+				LOG.debug("Seen line: " + line);
+				LOG.debug("New shell time..");
+				LOG.debug("");
+
+				br.reset();
+				return shells;
 			}
 
 			// Hack since FortranFormat does not understand Double-Precision
@@ -221,19 +250,21 @@ public class NWChemBasisSetFile {
 			line = line.replace("D", "E");
 
 			lineObjects = FortranFormat.read(line, orbitalFormat);
+			LOG.debug(lineObjects);
 
 			exp = (Double) lineObjects.get(0);
 
-			for (int i = 0; i < numberOfShellsToParse; i++) {
+			for (int i = 0; i < numberOfContractedShellsToParse; i++) {
 
 				coeff = (Double) lineObjects.get(i + 1);
 
 				shells.get(i).addExponentCoefficientPair(df.format(exp),
 						df.format(coeff));
 			}
+
+			br.mark(5000);
 		}
 
-		return shells;
 	}
 
 	static class Library {
@@ -244,15 +275,16 @@ public class NWChemBasisSetFile {
 		int atomicNumber;
 
 		@XmlElement(name = "orbital")
-		List<Shell> orbitals;
+		List<Shell> shells;
 
 		Library(String element) {
 			this.element = element;
-			orbitals = new ArrayList<Shell>();
+			atomicNumber = AtomInfo.getInstance().getAtomicNumber(element);
+			shells = new ArrayList<Shell>();
 		}
 
-		void addOrbitals(List<Shell> orbitals) {
-			this.orbitals.addAll(orbitals);
+		void addShell(List<Shell> orbitals) {
+			this.shells.addAll(orbitals);
 		}
 
 	}
