@@ -24,7 +24,7 @@ public class BasisFunctionsTest {
 		hydrogen.addAtom(H1);
 
 		try {
-			bf = new BasisFunctions(hydrogen, "sto3g");
+			bf = new BasisFunctions(hydrogen, "sto-3g");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -56,7 +56,7 @@ public class BasisFunctionsTest {
 		BasisFunctions bf = null;
 
 		try {
-			bf = new BasisFunctions(water, "sto3g");
+			bf = new BasisFunctions(water, "sto-3g");
 
 		} catch (Exception e) {
 
