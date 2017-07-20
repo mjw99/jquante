@@ -34,7 +34,7 @@ public class ElectronDensityTest {
 		water.addAtom(H2);
 
 		// Read Basis
-		BasisFunctions basisFunctions = new BasisFunctions(water, "sto3g");
+		BasisFunctions basisFunctions = new BasisFunctions(water, "sto-3g");
 
 		// Compute integrals
 		OneElectronIntegrals oneElectronIntegrals = new OneElectronIntegrals(

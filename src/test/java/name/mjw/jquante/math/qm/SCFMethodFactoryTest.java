@@ -33,7 +33,7 @@ public class SCFMethodFactoryTest {
 		BasisFunctions bf = null;
 
 		try {
-			bf = new BasisFunctions(hydrogen, "sto3g");
+			bf = new BasisFunctions(hydrogen, "sto-3g");
 
 		} catch (Exception e) {
 
@@ -86,7 +86,7 @@ public class SCFMethodFactoryTest {
 		BasisFunctions bf = null;
 
 		try {
-			bf = new BasisFunctions(hydrogenFluoride, "sto3g");
+			bf = new BasisFunctions(hydrogenFluoride, "sto-3g");
 
 		} catch (Exception e) {
 
@@ -144,7 +144,7 @@ public class SCFMethodFactoryTest {
 		BasisFunctions bf = null;
 
 		try {
-			bf = new BasisFunctions(water, "sto3g");
+			bf = new BasisFunctions(water, "sto-3g");
 
 		} catch (Exception e) {
 
