@@ -369,4 +369,8 @@ public class NWChemBasisSetFile {
 			this.value = value;
 		}
 	}
+
+	public String getBasisSetName() {
+		return basisSetName;
+	}
 }
