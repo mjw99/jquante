@@ -31,10 +31,10 @@ import name.mjw.jquante.config.impl.AtomInfo;
 
 @XmlRootElement(name = "basis")
 public class NWChemBasisSetFile {
-	private final static Logger LOG = Logger
+	private static final Logger LOG = Logger
 			.getLogger(NWChemBasisSetFile.class);
 
-	private final static int markLength = 5000;
+	private static final int MARK_LENGTH = 5000;
 
 	@XmlAttribute(name = "name")
 	private String basisSetName;
@@ -57,7 +57,7 @@ public class NWChemBasisSetFile {
 	 * 
 	 */
 	public NWChemBasisSetFile() {
-		atoms = new ArrayList<Library>();
+		atoms = new ArrayList<>();
 	}
 
 	/**
@@ -82,8 +82,8 @@ public class NWChemBasisSetFile {
 
 		try {
 			md = MessageDigest.getInstance("MD5");
-		} catch (NoSuchAlgorithmException e1) {
-			e1.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			LOG.warn(e);
 		}
 
 		// https://stackoverflow.com/questions/304268/getting-a-files-md5-checksum-in-java
@@ -109,7 +109,7 @@ public class NWChemBasisSetFile {
 					.toLowerCase();
 
 		} catch (IOException | ParseException e) {
-			e.printStackTrace();
+			LOG.warn(e);
 		}
 
 	}
@@ -124,20 +124,18 @@ public class NWChemBasisSetFile {
 	 * </pre>
 	 * 
 	 * 
-	 * @param line
+	 * @param inputLine
 	 * @param br
 	 * @throws ParseException
 	 * @throws IOException
 	 */
-	void parseBasisSection(String line, BufferedReader br)
+	void parseBasisSection(String inputLine, BufferedReader br)
 			throws ParseException, IOException {
 
 		String elementName;
-		String basisName;
-
 		String words[];
 
-		words = line.split("\\s+");
+		words = inputLine.split("\\s+");
 
 		// basis "Na_cc-pVTZ" SPHERICAL
 		LOG.debug(words[0] + " " + words[1] + " " + words[2]);
@@ -147,16 +145,15 @@ public class NWChemBasisSetFile {
 		}
 
 		elementName = words[1].replace("\"", "").split("_")[0];
-		basisName = words[1];
 
 		Library atom = new Library(elementName);
 
-		List<Shell> shells = new ArrayList<Shell>();
+		List<Shell> shells = new ArrayList<>();
 
-		br.mark(markLength);
-		while ((line = br.readLine()) != null) {
+		br.mark(MARK_LENGTH);
+		while ((inputLine = br.readLine()) != null) {
 
-			if (line.matches("^end.*")) {
+			if (inputLine.matches("^end.*")) {
 
 				br.reset();
 				break;
@@ -164,14 +161,14 @@ public class NWChemBasisSetFile {
 			} else {
 
 				LOG.debug("dispatching to parseShellSection() with line ");
-				LOG.debug(line);
+				LOG.debug(inputLine);
 
 				br.reset();
 				shells.addAll(parseShellSection(br, elementName));
 
 			}
 
-			br.mark(markLength);
+			br.mark(MARK_LENGTH);
 
 		}
 
@@ -218,11 +215,10 @@ public class NWChemBasisSetFile {
 
 		lineObjects = FortranFormat.read(line, "(2A5)");
 
-		String currentElement = (String) lineObjects.get(0);
 		String shellType = (String) lineObjects.get(1);
 
 		// Peek ahead here to work out how many contractedShells to return
-		br.mark(markLength);
+		br.mark(MARK_LENGTH);
 		line = br.readLine();
 
 		// Hack since FortranFormat does not
@@ -232,7 +228,7 @@ public class NWChemBasisSetFile {
 		numberOfContractedShellsToParse = getNonNullLength(lineObjects) - 1;
 		br.reset();
 
-		shells = new ArrayList<Shell>(numberOfContractedShellsToParse);
+		shells = new ArrayList<>(numberOfContractedShellsToParse);
 
 		// For the basis sets in which s- and p-type functions share the same
 		// exponents, the term SP-shell is used.
@@ -253,7 +249,7 @@ public class NWChemBasisSetFile {
 		while (true) {
 			line = br.readLine();
 
-			if (line.matches("^" + elementName + ".*") | line.matches("^end.*")) {
+			if (line.matches("^" + elementName + ".*") || line.matches("^end.*")) {
 
 				LOG.debug("Seen line: " + line);
 				LOG.debug("New shell time..");
@@ -280,7 +276,7 @@ public class NWChemBasisSetFile {
 						df.format(coeff));
 			}
 
-			br.mark(markLength);
+			br.mark(MARK_LENGTH);
 		}
 
 	}
@@ -298,7 +294,7 @@ public class NWChemBasisSetFile {
 		Library(String element) {
 			this.element = element;
 			atomicNumber = AtomInfo.getInstance().getAtomicNumber(element);
-			shells = new ArrayList<Shell>();
+			shells = new ArrayList<>();
 		}
 
 		void addShell(List<Shell> orbitals) {
@@ -313,16 +309,16 @@ public class NWChemBasisSetFile {
 		String type;
 
 		@XmlElement(name = "entry")
-		List<exponentCoefficientPair> exponentCoefficientPairs = null;
+		List<ExponentCoefficientPair> exponentCoefficientPairs = null;
 
 		Shell(String type) {
 			this.type = type;
-			exponentCoefficientPairs = new ArrayList<exponentCoefficientPair>();
+			exponentCoefficientPairs = new ArrayList<>();
 		}
 
 		void addExponentCoefficientPair(String exponent, String coefficient) {
 
-			exponentCoefficientPair pair = new exponentCoefficientPair(
+			ExponentCoefficientPair pair = new ExponentCoefficientPair(
 					exponent, coefficient);
 
 			exponentCoefficientPairs.add(pair);
@@ -331,7 +327,7 @@ public class NWChemBasisSetFile {
 
 	}
 
-	static class exponentCoefficientPair {
+	static class ExponentCoefficientPair {
 
 		@XmlAttribute(name = "exp")
 		String exponent;
@@ -339,7 +335,7 @@ public class NWChemBasisSetFile {
 		@XmlAttribute(name = "coeff")
 		String coefficient;
 
-		exponentCoefficientPair(String exponent, String coefficient) {
+		ExponentCoefficientPair(String exponent, String coefficient) {
 			this.exponent = exponent;
 			this.coefficient = coefficient;
 		}
