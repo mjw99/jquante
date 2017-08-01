@@ -133,7 +133,7 @@ public class HartreeFockSCFMethod extends SCFMethod {
 			energy = eOne + eTwo + nuclearEnergy;
 
 			LOG.debug("SCF iteration: " + scfIteration + "\tEnergy is : "
-					+ energy + "\tdelta_E: " + Math.abs(energy - oldEnergy));
+					+ energy + "\tdelta_E: " + (energy - oldEnergy));
 
 			// fire the SCF event notification
 			scfEvent.setType(SCFEvent.INFO_EVENT);
