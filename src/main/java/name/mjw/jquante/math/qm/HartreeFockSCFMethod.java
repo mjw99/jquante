@@ -25,7 +25,7 @@ public class HartreeFockSCFMethod extends SCFMethod {
 			.getLogger(HartreeFockSCFMethod.class);
 
 	/**
-	 * Represents an event in sn SCF cycle
+	 * Represents an event in an SCF cycle
 	 */
 	protected SCFEvent scfEvent;
 
