@@ -1,5 +1,7 @@
 package name.mjw.jquante.math.qm;
 
+import org.apache.log4j.Logger;
+
 import name.mjw.jquante.math.Matrix;
 import name.mjw.jquante.math.Vector3D;
 import name.mjw.jquante.math.qm.event.SCFEvent;
@@ -17,6 +19,12 @@ import name.mjw.jquante.molecule.UserDefinedAtomProperty;
 public class HartreeFockSCFMethod extends SCFMethod {
 
 	/**
+	 * Logger object
+	 */
+	private static final Logger LOG = Logger
+			.getLogger(HartreeFockSCFMethod.class);
+
+	/**
 	 * Represents an event in sn SCF cycle
 	 */
 	protected SCFEvent scfEvent;
@@ -30,7 +38,7 @@ public class HartreeFockSCFMethod extends SCFMethod {
 
 	/**
 	 * Creates a new instance of HartreeFockSCFMethod
-	 *
+	 * 
 	 * @param molecule
 	 *            The molecule under consideration.
 	 * @param oneEI
@@ -74,10 +82,9 @@ public class HartreeFockSCFMethod extends SCFMethod {
 		int noOfOccupancies = noOfElectrons / 2;
 
 		if (noOfElectrons % 2 != 0) {
-			// its open shell ... we do not support this
 			throw new UnsupportedOperationException("Open shell systems are"
 					+ " not currently supported.");
-		} // end if
+		}
 
 		HCore hCore = oneEI.getHCore();
 		Overlap overlap = oneEI.getOverlap();
@@ -125,13 +132,16 @@ public class HartreeFockSCFMethod extends SCFMethod {
 
 			energy = eOne + eTwo + nuclearEnergy;
 
+			LOG.debug("SCF iteration: " + scfIteration + "\tEnergy is : "
+					+ energy + "\tdelta_E: " + Math.abs(energy - oldEnergy));
+
 			// fire the SCF event notification
 			scfEvent.setType(SCFEvent.INFO_EVENT);
 			scfEvent.setCurrentIteration(scfIteration);
 			scfEvent.setCurrentEnergy(energy);
 			fireSCFEventListenerScfEventOccured(scfEvent);
 
-			// ckeck for convergence
+			// check for convergence
 			if (Math.abs(energy - oldEnergy) < energyTolerance) {
 				converged = true;
 				scfEvent.setType(SCFEvent.CONVERGED_EVENT);
@@ -139,7 +149,7 @@ public class HartreeFockSCFMethod extends SCFMethod {
 				scfEvent.setCurrentEnergy(energy);
 				fireSCFEventListenerScfEventOccured(scfEvent);
 				break;
-			} // end if
+			}
 
 			oldEnergy = energy;
 		} // end of SCF iteration
@@ -150,7 +160,7 @@ public class HartreeFockSCFMethod extends SCFMethod {
 			scfEvent.setCurrentIteration(scfIteration);
 			scfEvent.setCurrentEnergy(energy);
 			fireSCFEventListenerScfEventOccured(scfEvent);
-		} // end if
+		}
 	}
 
 	/**
@@ -170,10 +180,10 @@ public class HartreeFockSCFMethod extends SCFMethod {
 			if (atmForce == null) {
 				atmForce = new UserDefinedAtomProperty("force", force);
 				atom.addUserDefinedAtomProperty(atmForce);
-			} // end if
+			}
 
 			atmForce.setValue(force);
-		} // end for
+		}
 
 		isDerivativeComputed = true;
 	}
