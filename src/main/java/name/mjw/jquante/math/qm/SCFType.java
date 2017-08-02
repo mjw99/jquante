@@ -1,9 +1,3 @@
-/*
- * SCFType.java
- *
- * Created on August 5, 2004, 10:58 PM
- */
-
 package name.mjw.jquante.math.qm;
 
 /**
@@ -90,4 +84,4 @@ public class SCFType {
 		hash = 37 * hash + this.type;
 		return hash;
 	}
-} // end of class SCFType
+}
