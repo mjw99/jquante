@@ -75,7 +75,7 @@ public class OneElectronIntegrals {
 		for (i = 0; i < atomicNumbers.length; i++) {
 			atomicNumbers[i] = ai.getAtomicNumber(molecule.getAtom(i)
 					.getSymbol());
-		} // end for
+		}
 
 		SimpleParallelTaskExecuter pTaskExecuter = new SimpleParallelTaskExecuter();
 
@@ -113,9 +113,9 @@ public class OneElectronIntegrals {
 					hCore[i][j] += atomicNumbers[k]
 							* bfi.nuclear(bfj, molecule.getAtom(k)
 									.getAtomCenterInAU());
-				} // end for
-			} // end for
-		} // end for
+				}
+			}
+		}
 	}
 
 	/**
@@ -167,14 +167,12 @@ public class OneElectronIntegrals {
 			setTaskName("OneElectronIntegralEvaluater Thread");
 		}
 
-		/** overridden run() */
 		@Override
 		public void run() {
 			compute1E(startBasisFunction, endBasisFunction, overlap, hCore,
 					atomicNumbers, bfs);
 		}
 
-		/** Overridden init() */
 		@Override
 		public SimpleParallelTask init(int startItem, int endItem) {
 			return new OneElectronIntegralEvaluaterThread(startItem, endItem,
@@ -182,6 +180,6 @@ public class OneElectronIntegrals {
 					OneElectronIntegrals.this.hCore.getMatrix(),
 					this.atomicNumbers, basisFunctions.getBasisFunctions());
 		}
-	} // end of class OneElectronIntegralEvaluaterThread
+	}
 
-} // emd of class OneElectronIntegrals
+}
