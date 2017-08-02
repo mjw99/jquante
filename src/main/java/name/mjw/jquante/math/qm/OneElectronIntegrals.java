@@ -1,9 +1,3 @@
-/*
- * OneElectronIntegrals.java
- *
- * Created on July 28, 2004, 7:03 AM
- */
-
 package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
@@ -24,12 +18,13 @@ import name.mjw.jquante.parallel.SimpleParallelTaskExecuter;
 public class OneElectronIntegrals {
 
 	/**
-	 * Holds value of property overlap.
+	 * The overlap S matrix.
 	 */
 	private Overlap overlap;
 
 	/**
-	 * Holds value of property hCore.
+	 * The core Hamiltonian matrix contains integrals that represent the kinetic
+	 * energy of an electron (T) and electron-nuclear potential energy (V).
 	 */
 	private HCore hCore;
 
@@ -42,7 +37,7 @@ public class OneElectronIntegrals {
 	 * @param basisFunctions
 	 *            the basis functions to be used
 	 * @param mol
-	 *            the Molecule object, of whose 1E integrals are to be evaliated
+	 *            the Molecule object, of whose 1E integrals are to be evaluated
 	 */
 	public OneElectronIntegrals(BasisFunctions basisFunctions, Molecule mol) {
 		this.basisFunctions = basisFunctions;

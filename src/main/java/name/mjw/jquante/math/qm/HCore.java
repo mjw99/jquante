@@ -7,7 +7,10 @@ import name.mjw.jquante.math.Vector3D;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 
 /**
- * Represents the HCore matrix.
+ * The HCore matrix. The core Hamiltonian matrix contains integrals that
+ * represent the kinetic energy of an electron (T) and electron-nuclear
+ * potential energy (V).
+ * 
  * 
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)

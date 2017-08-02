@@ -1,8 +1,3 @@
-/**
- * Overlap.java
- *
- * Created on Apr 16, 2009
- */
 package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
@@ -12,7 +7,7 @@ import name.mjw.jquante.math.Vector3D;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 
 /**
- * Represents the Overlap matrix.
+ * Represents the Overlap matrix (S).
  * 
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
@@ -103,8 +98,8 @@ public class Overlap extends Matrix {
 				hdx[i][j] = dOvrEle.getI();
 				hdy[i][j] = dOvrEle.getJ();
 				hdz[i][j] = dOvrEle.getK();
-			} // end for
-		} // end for
+			}
+		}
 
 		dOverlap.add(dOverlapDx);
 		dOverlap.add(dOverlapDy);

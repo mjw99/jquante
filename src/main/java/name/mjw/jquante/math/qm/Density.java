@@ -3,7 +3,7 @@ package name.mjw.jquante.math.qm;
 import name.mjw.jquante.math.Matrix;
 
 /**
- * Represents the P matrix or the charge order bond density matrix.
+ * Represents the Density P matrix or the charge order bond density matrix (DM).
  * 
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
@@ -63,8 +63,8 @@ public class Density extends Matrix {
 			if (densityGuesser != null) {
 				this.setMatrix(densityGuesser.guessDM(scfMethod).getMatrix());
 				return;
-			} // end if
-		} // end if
+			}
+		}
 
 		// else construct it from the MOs .. C*C'
 		Matrix dVector = new Matrix(noOfOccupancies, mos.getRowCount());
