@@ -391,16 +391,16 @@ public class Matrix implements Cloneable {
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 
-		DecimalFormat df = new DecimalFormat("#.#######");
+		DecimalFormat df = new DecimalFormat("+#,##0.00;-#");
 		df.setMinimumFractionDigits(8);
 
 		int i, j;
 		for (i = 0; i < rowCount; i++) {
 			for (j = 0; j < columnCount; j++) {
 				sb.append(df.format(matrix[i][j]) + " ");
-			} // end for
+			}
 			sb.append('\n');
-		} // end for
+		}
 
 		return sb.toString();
 	}
