@@ -135,8 +135,8 @@ public class SCFMethodFactoryTest {
 				-0.478993));
 
 		Molecule water = new MoleculeImpl("water");
-		water.addAtom(H1);
 		water.addAtom(O);
+		water.addAtom(H1);
 		water.addAtom(H2);
 
 		long t1 = System.currentTimeMillis();
