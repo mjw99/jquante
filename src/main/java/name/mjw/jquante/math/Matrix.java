@@ -228,7 +228,7 @@ public class Matrix implements Cloneable {
 	/**
 	 * Symmetric orthogonalization of the real symmetric matrix X (this). This
 	 * is given by <code>U'(1/sqrt(lambda))U</code>, where lambda, U are the
-	 * eigenvalues/vectors
+	 * eigenvalues, vectors.
 	 * 
 	 * @return a matrix object U'(1/sqrt(lambda))U
 	 */
@@ -245,7 +245,7 @@ public class Matrix implements Cloneable {
 		sHalf.makeIdentity();
 		for (int i = 0; i < rowCount; i++) {
 			sHalf.matrix[i][i] /= Math.sqrt(eigenValues[i]);
-		} // end for
+		}
 
 		return (sHalf.similarityTransformT(eigenVectors));
 	}

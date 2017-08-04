@@ -51,13 +51,13 @@ public class Density extends Matrix {
 	 *            Do a guess for DM?
 	 * @param densityGuesser
 	 *            Is there any special way to make the guess?
-	 * @param noOfOccupancies
-	 *            Occupied electrons
+	 * @param noOfOccupiedMOs
+	 *            Number of molecular orbitals occupied by electrons
 	 * @param mos
-	 *            the MolecularOrbitals needed to actually compute the DM
+	 *            the MolecularOrbitals, needed to compute the DM
 	 */
 	public void compute(SCFMethod scfMethod, boolean guessInitialDM,
-			DensityGuesser densityGuesser, int noOfOccupancies,
+			DensityGuesser densityGuesser, int noOfOccupiedMOs,
 			MolecularOrbitals mos) {
 		if (guessInitialDM) {
 			if (densityGuesser != null) {
@@ -67,12 +67,12 @@ public class Density extends Matrix {
 		}
 
 		// else construct it from the MOs .. C*C'
-		Matrix dVector = new Matrix(noOfOccupancies, mos.getRowCount());
+		Matrix dVector = new Matrix(noOfOccupiedMOs, mos.getRowCount());
 		double[][] d = dVector.getMatrix();
 		double[][] c = mos.getMatrix();
 
 		int i, j;
-		for (i = 0; i < noOfOccupancies; i++)
+		for (i = 0; i < noOfOccupiedMOs; i++)
 			for (j = 0; j < c.length; j++)
 				d[i][j] = c[i][j];
 
