@@ -51,7 +51,7 @@ public class Overlap extends Matrix {
 	/**
 	 * Get the S^1/2 matrix
 	 * 
-	 * @return return the S half matrix
+	 * @return return the symmetric orthogonalization matrix (S half)
 	 */
 	public Matrix getSHalf() {
 		if (sHalf == null)
