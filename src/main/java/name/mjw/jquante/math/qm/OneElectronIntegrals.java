@@ -2,6 +2,8 @@ package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import name.mjw.jquante.config.impl.AtomInfo;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.molecule.Molecule;
@@ -16,6 +18,8 @@ import name.mjw.jquante.parallel.SimpleParallelTaskExecuter;
  * @version 2.0 (Part of MeTA v2.0)
  */
 public class OneElectronIntegrals {
+
+	private final Logger LOG = Logger.getLogger(OneElectronIntegrals.class);
 
 	/**
 	 * The overlap S matrix.
@@ -93,6 +97,9 @@ public class OneElectronIntegrals {
 	private void compute1E(int startBasisFunction, int endBasisFunction,
 			double[][] overlap, double[][] hCore, int[] atomicNumbers,
 			ArrayList<ContractedGaussian> bfs) {
+
+		LOG.debug("startBasisFunction: " + startBasisFunction
+				+ " endBasisFunction: " + endBasisFunction);
 
 		int noOfBasisFunctions = bfs.size();
 		int i, j, k;
