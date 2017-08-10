@@ -43,7 +43,8 @@ public class Density extends Matrix {
 	}
 
 	/**
-	 * Compute the density matrix
+	 * Compute the density matrix. It is computed using the number of occupied
+	 * orbitals and the molecular oribitals coefficient matrix.
 	 * 
 	 * @param scfMethod
 	 *            The SCF method for which the density is to be formed
@@ -68,14 +69,15 @@ public class Density extends Matrix {
 
 		// else construct it from the MOs .. C*C'
 		Matrix dVector = new Matrix(noOfOccupiedMOs, mos.getRowCount());
+
 		double[][] d = dVector.getMatrix();
 		double[][] c = mos.getMatrix();
 
-		int i, j;
-		for (i = 0; i < noOfOccupiedMOs; i++)
-			for (j = 0; j < c.length; j++)
+		for (int i = 0; i < noOfOccupiedMOs; i++)
+			for (int j = 0; j < c.length; j++)
 				d[i][j] = c[i][j];
 
 		this.setMatrix(dVector.transpose().mul(dVector).getMatrix());
+
 	}
 }
