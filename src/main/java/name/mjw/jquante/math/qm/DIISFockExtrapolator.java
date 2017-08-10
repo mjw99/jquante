@@ -2,6 +2,8 @@ package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import name.mjw.jquante.math.Matrix;
 import name.mjw.jquante.math.Vector;
 import name.mjw.jquante.math.la.GaussianElimination;
@@ -15,6 +17,12 @@ import name.mjw.jquante.math.la.exception.SingularMatrixException;
  * @version 2.0 (Part of MeTA v2.0)
  */
 public class DIISFockExtrapolator implements FockExtrapolator {
+
+	/**
+	 * Logger object
+	 */
+	private static final Logger LOG = Logger
+			.getLogger(DIISFockExtrapolator.class);
 
 	private ArrayList<Fock> fockMatrixList;
 	private ArrayList<Vector> errorMatrixList;
@@ -76,8 +84,8 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 				oldFock = currentFock;
 
 				return newFock;
-			} // end if
-		} // end if
+			}
+		}
 
 		errorMatrixList.add(errorMatrix);
 		fockMatrixList.add(currentFock);
@@ -116,7 +124,7 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 			gele.findSolution();
 			double[] solVec = gele.getVectorX().getVector();
 
-			// System.out.println("Sol found: " + gele.getVectorX());
+			LOG.debug("Solution found: " + gele.getVectorX());
 
 			for (int i = 0; i < noOfIterations; i++) {
 				double[][] prevFockMat = fockMatrixList.get(i).getMatrix();
@@ -129,7 +137,7 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 
 			oldFock = currentFock;
 		} catch (SingularMatrixException ignored) {
-			// System.out.println("No sol: " + diisStep);
+			LOG.debug("No solution: " + diisStep);
 			// ignored.printStackTrace();
 
 			// no solution could be found, so return the current Fock as is
