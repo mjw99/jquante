@@ -12,9 +12,13 @@ import name.mjw.jquante.molecule.UserDefinedAtomProperty;
 /**
  * Implements the Hartree-Fock (HF) SCF method for single point energy
  * evaluation of a molecule.
- * 
+ *
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
+ *
+ * @see https://en.wikipedia.org/wiki/Hartree%E2%80%93Fock_method
+ * @see http://sirius.chem.vt.edu/~crawdad/programming/scf.pdf
+ * @see http://sirius.chem.vt.edu/wiki/doku.php?id=crawdad:programming:project3
  */
 public class HartreeFockSCFMethod extends SCFMethod {
 
@@ -86,8 +90,11 @@ public class HartreeFockSCFMethod extends SCFMethod {
 					+ " not currently supported.");
 		}
 
-		HCore hCore = oneEI.getHCore();
 		Overlap overlap = oneEI.getOverlap();
+		LOG.debug("Initial overlap\n" + overlap);
+
+		HCore hCore = oneEI.getHCore();
+		LOG.debug("Initial hCore\n" + hCore);
 
 		boolean converged = false;
 		double oldEnergy = 0.0;
@@ -103,13 +110,19 @@ public class HartreeFockSCFMethod extends SCFMethod {
 
 		// compute initial MOs
 		mos.compute(hCore, overlap);
+		LOG.debug("Initial computed MO coefficient matrix as: \n" + mos);
 
 		FockExtrapolator diis = new DIISFockExtrapolator();
 
 		diis.init();
 
+		LOG.debug("Initial density matrix \n" + density);
+
 		// start the SCF cycle
 		for (scfIteration = 0; scfIteration < maxIteration; scfIteration++) {
+
+			LOG.debug("");
+			LOG.debug("SCF iteration: " + scfIteration);
 			// make or guess density
 			density.compute(this, guessInitialDM && (scfIteration == 0),
 					densityGuesser, noOfOccupancies, mos);
@@ -132,8 +145,8 @@ public class HartreeFockSCFMethod extends SCFMethod {
 
 			energy = eOne + eTwo + nuclearEnergy;
 
-			LOG.debug("SCF iteration: " + scfIteration + "\tEnergy is : "
-					+ energy + "\tdelta_E: " + (energy - oldEnergy));
+			LOG.debug("Energy is : " + energy + "\tdelta_E: "
+					+ (energy - oldEnergy));
 
 			// fire the SCF event notification
 			scfEvent.setType(SCFEvent.INFO_EVENT);
