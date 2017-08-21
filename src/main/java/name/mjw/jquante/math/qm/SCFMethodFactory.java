@@ -26,16 +26,14 @@ public class SCFMethodFactory {
 	 */
 	public static SCFMethodFactory getInstance() {
 		if (_scfMethodFactory == null) {
-			_scfMethodFactory = new WeakReference<SCFMethodFactory>(
-					new SCFMethodFactory());
+			_scfMethodFactory = new WeakReference<>(new SCFMethodFactory());
 		}
 
 		SCFMethodFactory scfMethodFactory = _scfMethodFactory.get();
 
 		if (scfMethodFactory == null) {
 			scfMethodFactory = new SCFMethodFactory();
-			_scfMethodFactory = new WeakReference<SCFMethodFactory>(
-					scfMethodFactory);
+			_scfMethodFactory = new WeakReference<>(scfMethodFactory);
 		}
 
 		return scfMethodFactory;
@@ -55,8 +53,8 @@ public class SCFMethodFactory {
 	 * 
 	 * @return the the Self Consistent Field (SCF) method.
 	 */
-	public SCFMethod getSCFMethod(Molecule molecule,
-			OneElectronIntegrals oneEI, TwoElectronIntegrals twoEI, SCFType type) {
+	public SCFMethod getSCFMethod(Molecule molecule, OneElectronIntegrals oneEI, TwoElectronIntegrals twoEI,
+			SCFType type) {
 		if (type.equals(SCFType.HARTREE_FOCK)) {
 			return new RestrictedHartreeFockMethod(molecule, oneEI, twoEI);
 		} else if (type.equals(SCFType.HARTREE_FOCK_DIRECT)) {
@@ -64,8 +62,7 @@ public class SCFMethodFactory {
 		} else if (type.equals(SCFType.MOLLER_PLESSET)) {
 			return new MollerPlessetSCFMethod(molecule, oneEI, twoEI);
 		} else {
-			throw new UnsupportedOperationException("The type : " + type
-					+ " has no known implementing class!");
+			throw new UnsupportedOperationException("The type : " + type + " has no known implementing class!");
 		}
 	}
 }
