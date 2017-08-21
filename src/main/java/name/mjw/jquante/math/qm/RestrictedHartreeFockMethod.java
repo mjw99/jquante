@@ -20,13 +20,13 @@ import name.mjw.jquante.molecule.UserDefinedAtomProperty;
  * @see http://sirius.chem.vt.edu/~crawdad/programming/scf.pdf
  * @see http://sirius.chem.vt.edu/wiki/doku.php?id=crawdad:programming:project3
  */
-public class HartreeFockSCFMethod extends SCFMethod {
+public class RestrictedHartreeFockMethod extends SCFMethod {
 
 	/**
 	 * Logger object
 	 */
 	private static final Logger LOG = Logger
-			.getLogger(HartreeFockSCFMethod.class);
+			.getLogger(RestrictedHartreeFockMethod.class);
 
 	/**
 	 * Represents an event in an SCF cycle
@@ -50,7 +50,7 @@ public class HartreeFockSCFMethod extends SCFMethod {
 	 * @param twoEI
 	 *            The two electron integrals of the system
 	 */
-	public HartreeFockSCFMethod(Molecule molecule, OneElectronIntegrals oneEI,
+	public RestrictedHartreeFockMethod(Molecule molecule, OneElectronIntegrals oneEI,
 			TwoElectronIntegrals twoEI) {
 		this(molecule, oneEI, twoEI, SCFType.HARTREE_FOCK);
 	}
@@ -67,7 +67,7 @@ public class HartreeFockSCFMethod extends SCFMethod {
 	 * @param scfType
 	 *            Type of SCF Calculation.
 	 */
-	public HartreeFockSCFMethod(Molecule molecule, OneElectronIntegrals oneEI,
+	public RestrictedHartreeFockMethod(Molecule molecule, OneElectronIntegrals oneEI,
 			TwoElectronIntegrals twoEI, SCFType scfType) {
 		super(molecule, oneEI, twoEI);
 

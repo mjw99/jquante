@@ -58,9 +58,9 @@ public class SCFMethodFactory {
 	public SCFMethod getSCFMethod(Molecule molecule,
 			OneElectronIntegrals oneEI, TwoElectronIntegrals twoEI, SCFType type) {
 		if (type.equals(SCFType.HARTREE_FOCK)) {
-			return new HartreeFockSCFMethod(molecule, oneEI, twoEI);
+			return new RestrictedHartreeFockMethod(molecule, oneEI, twoEI);
 		} else if (type.equals(SCFType.HARTREE_FOCK_DIRECT)) {
-			return new HartreeFockSCFMethod(molecule, oneEI, twoEI, type);
+			return new RestrictedHartreeFockMethod(molecule, oneEI, twoEI, type);
 		} else if (type.equals(SCFType.MOLLER_PLESSET)) {
 			return new MollerPlessetSCFMethod(molecule, oneEI, twoEI);
 		} else {

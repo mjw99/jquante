@@ -14,7 +14,7 @@ import name.mjw.jquante.molecule.Molecule;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class MollerPlessetSCFMethod extends HartreeFockSCFMethod {
+public class MollerPlessetSCFMethod extends RestrictedHartreeFockMethod {
 
 	/**
 	 * Holds value of property mpLevel.
