@@ -9,7 +9,7 @@ import name.mjw.jquante.molecule.Molecule;
  * Moller Plesset Perturbation Theory as an extension of HF method. One of the
  * first and the most popular post HF methods. <br>
  * This class only implements second order perturbation (MP2), but may be
- * modified later to provide heigher order perturbation.
+ * modified later to provide higher order perturbation.
  * 
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
@@ -36,16 +36,15 @@ public class MollerPlessetSCFMethod extends RestrictedHartreeFockMethod {
 	 * @param twoEI
 	 *            the 2E integral driver.
 	 */
-	public MollerPlessetSCFMethod(Molecule molecule,
-			OneElectronIntegrals oneEI, TwoElectronIntegrals twoEI) {
+	public MollerPlessetSCFMethod(Molecule molecule, OneElectronIntegrals oneEI, TwoElectronIntegrals twoEI) {
 		super(molecule, oneEI, twoEI);
 
 		mpLevel = 2; // second level correction (MP2) is default
 	}
 
 	/**
-	 * Perform the SCF optimization of the molecular wave function until the
-	 * energy converges.
+	 * Perform the SCF optimisation of the molecular wave function until the energy
+	 * converges.
 	 */
 	@Override
 	public void scf() {
@@ -64,7 +63,8 @@ public class MollerPlessetSCFMethod extends RestrictedHartreeFockMethod {
 		int a, b, r, s;
 
 		double mp2Energy = 0.0;
-		double arbs, asbr;
+		double arbs;
+		double asbr;
 		double[] orbE = mos.getOrbitalEnergies();
 
 		for (a = 0; a < noOfOccupancies; a++) {
@@ -74,12 +74,11 @@ public class MollerPlessetSCFMethod extends RestrictedHartreeFockMethod {
 						arbs = moInts[IntegralsUtil.ijkl2intindex(a, r, b, s)];
 						asbr = moInts[IntegralsUtil.ijkl2intindex(a, s, b, r)];
 
-						mp2Energy += arbs * (2.0 * arbs - asbr)
-								/ (orbE[a] + orbE[b] - orbE[r] - orbE[s]);
-					} // end s
-				} // end r
-			} // end b
-		} // end a
+						mp2Energy += arbs * (2.0 * arbs - asbr) / (orbE[a] + orbE[b] - orbE[r] - orbE[s]);
+					}
+				}
+			}
+		}
 
 		System.out.println(mp2Energy);
 
@@ -92,9 +91,9 @@ public class MollerPlessetSCFMethod extends RestrictedHartreeFockMethod {
 	}
 
 	/**
-	 * O(N^5) 4-index transformation of the two-electron integrals. Only
-	 * transform the ones needed for MP2, which reduces the scaling to O(nN^4),
-	 * where n are the occs (&lt;&lt;N).
+	 * O(N^5) 4-index transformation of the two-electron integrals. Only transform
+	 * the ones needed for MP2, which reduces the scaling to O(nN^4), where n are
+	 * the occs (&lt;&lt;N).
 	 */
 	protected void transformAOIntsToMOInts() {
 		// Start with (mu,nu|sigma,eta)
@@ -124,12 +123,10 @@ public class MollerPlessetSCFMethod extends RestrictedHartreeFockMethod {
 				for (eta = 0; eta < noOfBasisFunctions; eta++) {
 					for (b = 0; b < noOfOccupancies; b++) {
 						for (sigma = 0; sigma < noOfBasisFunctions; sigma++) {
-							tempvec[sigma] = aoints[IntegralsUtil
-									.ijkl2intindex(mu, nu, sigma, eta)];
+							tempvec[sigma] = aoints[IntegralsUtil.ijkl2intindex(mu, nu, sigma, eta)];
 						} // end sigma
 
-						temp[mu][nu][b][eta] = mos.getRowVector(b).dot(
-								tempVector);
+						temp[mu][nu][b][eta] = mos.getRowVector(b).dot(tempVector);
 					} // end b
 				} // end eta
 			} // end nu
@@ -145,8 +142,7 @@ public class MollerPlessetSCFMethod extends RestrictedHartreeFockMethod {
 							tempvec[i] = temp[i][nu][b][eta];
 						} // end i
 
-						temp2[a][nu][b][eta] = mos.getRowVector(a).dot(
-								tempVector);
+						temp2[a][nu][b][eta] = mos.getRowVector(a).dot(tempVector);
 					} // end a
 				} // end b
 			} // end eta
@@ -181,14 +177,12 @@ public class MollerPlessetSCFMethod extends RestrictedHartreeFockMethod {
 							tempvec[sigma] = temp[a][sigma][b][j];
 						} // end sigma
 
-						moInts[IntegralsUtil.ijkl2intindex(a, i, b, j)] = mos
-								.getRowVector(i).dot(tempVector);
+						moInts[IntegralsUtil.ijkl2intindex(a, i, b, j)] = mos.getRowVector(i).dot(tempVector);
 					} // end i
 				} // end b
 			} // end j
 		} // end a
 
-		temp = null;
 	}
 
 	/**
@@ -210,4 +204,4 @@ public class MollerPlessetSCFMethod extends RestrictedHartreeFockMethod {
 		this.mpLevel = mpLevel;
 	}
 
-} // end of class MollerPlessetSCFMethod
+}

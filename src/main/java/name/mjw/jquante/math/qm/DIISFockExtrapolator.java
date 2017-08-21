@@ -38,8 +38,8 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 	public void init() {
 		fockMatrixList = new ArrayList<>();
 		errorMatrixList = new ArrayList<>();
-
 		diisStep = 0;
+		
 
 		errorThreshold = 0.1;
 		diisStarted = false;
@@ -56,7 +56,7 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 	 *            the overlap matrix
 	 * @param density
 	 *            the current density matrix
-	 * @return exrapolated fock
+	 * @return extrapolated fock
 	 */
 	@Override
 	public Fock next(Fock currentFock, Overlap overlap, Density density) {
