@@ -30,8 +30,6 @@ public class BasisReader {
 	private AtomicBasis atomicBasis;
 	private Orbital orbital;
 
-	private String element = new String("element");
-
 	/** Creates a new instance of BasisReader */
 	private BasisReader() {
 	}
@@ -66,13 +64,12 @@ public class BasisReader {
 	 * @throw SAXException
 	 * @throws ParserConfigurationExceptio
 	 */
-	public BasisSet readBasis(String basisName)
-			throws ParserConfigurationException, SAXException, IOException {
+	public BasisSet readBasis(String basisName) throws ParserConfigurationException, SAXException, IOException {
 		StringResource strings = StringResource.getInstance();
 
 		// read the XML config file
-		Document basisDoc = Utility.parseXML(getClass().getResourceAsStream(
-				strings.getBasisLibraryPath() + basisName + ".xml"));
+		Document basisDoc = Utility
+				.parseXML(getClass().getResourceAsStream(strings.getBasisLibraryPath() + basisName + ".xml"));
 
 		// and save the basis info. properly
 		saveIt(basisDoc);
@@ -93,8 +90,7 @@ public class BasisReader {
 	public BasisSet readExternalBasis(String basisFileName)
 			throws ParserConfigurationException, SAXException, IOException {
 		// read the XML config file
-		Document basisDoc = Utility.parseXML(getClass().getResourceAsStream(
-				basisFileName));
+		Document basisDoc = Utility.parseXML(getClass().getResourceAsStream(basisFileName));
 
 		// and save the basis info. properly
 		saveIt(basisDoc);
@@ -103,8 +99,8 @@ public class BasisReader {
 	}
 
 	/**
-	 * Recursive routine save DOM tree nodes ... and hoping that it reads the
-	 * basis properly
+	 * Recursive routine save DOM tree nodes ... and hoping that it reads the basis
+	 * properly
 	 */
 	private void saveIt(Node n) {
 		int type = n.getNodeType(); // get node type
@@ -120,15 +116,14 @@ public class BasisReader {
 
 			break;
 		case Node.ELEMENT_NODE:
-			element = n.getNodeName();
+			String element = n.getNodeName();
 
 			NamedNodeMap atts = n.getAttributes();
 
 			if ("atom".equals(element)) {
 				// a new atomic basis
-				atomicBasis = new AtomicBasis(atts.getNamedItem("symbol")
-						.getNodeValue(), Integer.parseInt(atts.getNamedItem(
-						"atomicNumber").getNodeValue()));
+				atomicBasis = new AtomicBasis(atts.getNamedItem("symbol").getNodeValue(),
+						Integer.parseInt(atts.getNamedItem("atomicNumber").getNodeValue()));
 				basisSet.addAtomicBasis(atomicBasis);
 			} else if ("orbital".equals(element)) {
 				// a orbital entry for atomic basis
@@ -136,9 +131,8 @@ public class BasisReader {
 				atomicBasis.addOrbital(orbital);
 			} else if ("entry".equals(element)) {
 				// a orbital (coefficient, exponent) entry
-				orbital.addEntry(Double.parseDouble(atts.getNamedItem("coeff")
-						.getNodeValue()), Double.parseDouble(atts.getNamedItem(
-						"exp").getNodeValue()));
+				orbital.addEntry(Double.parseDouble(atts.getNamedItem("coeff").getNodeValue()),
+						Double.parseDouble(atts.getNamedItem("exp").getNodeValue()));
 			} else {
 				if (atts == null)
 					return;
@@ -155,8 +149,7 @@ public class BasisReader {
 		} // end switch..case
 
 		// save children if any
-		for (Node child = n.getFirstChild(); child != null; child = child
-				.getNextSibling()) {
+		for (Node child = n.getFirstChild(); child != null; child = child.getNextSibling()) {
 			saveIt(child);
 		} // end for
 	}
