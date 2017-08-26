@@ -1,5 +1,7 @@
 package name.mjw.jquante.math.qm;
 
+import org.apache.log4j.Logger;
+
 import name.mjw.jquante.math.Vector;
 import name.mjw.jquante.math.qm.event.SCFEvent;
 import name.mjw.jquante.math.qm.integral.IntegralsUtil;
@@ -15,6 +17,8 @@ import name.mjw.jquante.molecule.Molecule;
  * @version 2.0 (Part of MeTA v2.0)
  */
 public class MollerPlessetSCFMethod extends RestrictedHartreeFockMethod {
+
+	private static final Logger LOG = Logger.getLogger(MollerPlessetSCFMethod.class);
 
 	/**
 	 * Holds value of property mpLevel.
@@ -60,17 +64,16 @@ public class MollerPlessetSCFMethod extends RestrictedHartreeFockMethod {
 		int noOfOccupancies = noOfElectrons / 2;
 		int noOfVirtualOrbitals = noOfBasisFunctions - noOfOccupancies;
 		int noOfUnOccupied = noOfOccupancies + noOfVirtualOrbitals;
-		int a, b, r, s;
 
 		double mp2Energy = 0.0;
 		double arbs;
 		double asbr;
 		double[] orbE = mos.getOrbitalEnergies();
 
-		for (a = 0; a < noOfOccupancies; a++) {
-			for (b = 0; b < noOfOccupancies; b++) {
-				for (r = noOfOccupancies; r < noOfUnOccupied; r++) {
-					for (s = noOfOccupancies; s < noOfUnOccupied; s++) {
+		for (int a = 0; a < noOfOccupancies; a++) {
+			for (int b = 0; b < noOfOccupancies; b++) {
+				for (int r = noOfOccupancies; r < noOfUnOccupied; r++) {
+					for (int s = noOfOccupancies; s < noOfUnOccupied; s++) {
 						arbs = moInts[IntegralsUtil.ijkl2intindex(a, r, b, s)];
 						asbr = moInts[IntegralsUtil.ijkl2intindex(a, s, b, r)];
 
@@ -80,7 +83,7 @@ public class MollerPlessetSCFMethod extends RestrictedHartreeFockMethod {
 			}
 		}
 
-		System.out.println(mp2Energy);
+		LOG.debug(mp2Energy);
 
 		energy += mp2Energy;
 
@@ -163,8 +166,6 @@ public class MollerPlessetSCFMethod extends RestrictedHartreeFockMethod {
 				} // end b
 			} // end eta
 		} // end nu
-
-		temp2 = null;
 
 		moInts = new double[aoints.length];
 
