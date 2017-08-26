@@ -122,8 +122,8 @@ public class ContractedGaussian {
 		primitives.add(new PrimitiveGaussian(origin, powers, exponent,
 				coefficient));
 
-		exponents.add(new Double(exponent));
-		coefficients.add(new Double(coefficient));
+		exponents.add(exponent);
+		coefficients.add(coefficient);
 	}
 
 	/**
@@ -222,33 +222,33 @@ public class ContractedGaussian {
 	}
 
 	/**
-	 * Getter for property normalization.
+	 * Getter for property normalisation.
 	 * 
-	 * @return Value of property normalization.
+	 * @return Value of property normalisation.
 	 */
 	public double getNormalization() {
 		return this.normalization;
 	}
 
 	/**
-	 * Setter for property normalization.
+	 * Setter for property normalisation.
 	 * 
 	 * @param normalization
-	 *            New value of property normalization.
+	 *            New value of property normalisation.
 	 */
 	public void setNormalization(double normalization) {
 		this.normalization = normalization;
 	}
 
 	/**
-	 * Normalize this basis function.
+	 * Normalise this basis function.
 	 * 
 	 */
 	public void normalize() {
 		normalization = 1.0 / Math.sqrt(this.overlap(this));
 
 		for (int i = 0; i < primitives.size(); i++) {
-			primNorms.add(new Double((primitives.get(i)).getNormalization()));
+			primNorms.add(primitives.get(i).getNormalization());
 		}
 	}
 
@@ -262,13 +262,12 @@ public class ContractedGaussian {
 	 */
 	public double overlap(ContractedGaussian cg) {
 		double sij = 0.0;
-		int i, j;
 
 		ArrayList<PrimitiveGaussian> cgPrimitives = cg.getPrimitives();
 
-		for (i = 0; i < primitives.size(); i++) {
+		for (int i = 0; i < primitives.size(); i++) {
 			PrimitiveGaussian iPG = primitives.get(i);
-			for (j = 0; j < cgPrimitives.size(); j++) {
+			for (int j = 0; j < cgPrimitives.size(); j++) {
 				PrimitiveGaussian jPG = cgPrimitives.get(j);
 
 				sij += iPG.getCoefficient() * jPG.getCoefficient()
@@ -296,17 +295,17 @@ public class ContractedGaussian {
 			for (PrimitiveGaussian jPG : cg.primitives) {
 				for (PrimitiveGaussian iPG : primitives) {
 					overlapDerivativeHelper(iPG, jPG, origin, ovrDer);
-				} // end for
-			} // end for
-		} // end if
+				}
+			}
+		}
 
 		// case 2: atomIndex is centered on the other CG
 		if (cg.centeredAtom.getIndex() == atomIndex) {
 			for (PrimitiveGaussian iPG : primitives) {
 				for (PrimitiveGaussian jPG : cg.primitives) {
 					overlapDerivativeHelper(jPG, iPG, cg.origin, ovrDer);
-				} // end for
-			} // end for
+				}
+			}
 		} // end if
 
 		// case 3: is atomIndex is not centered on any of the CGs, then
@@ -379,13 +378,11 @@ public class ContractedGaussian {
 	 */
 	public double kinetic(ContractedGaussian cg) {
 		double tij = 0.0;
-		int i, j;
-
 		ArrayList<PrimitiveGaussian> cgPrimitives = cg.getPrimitives();
 
-		for (i = 0; i < primitives.size(); i++) {
+		for (int i = 0; i < primitives.size(); i++) {
 			PrimitiveGaussian iPG = primitives.get(i);
-			for (j = 0; j < cgPrimitives.size(); j++) {
+			for (int j = 0; j < cgPrimitives.size(); j++) {
 				PrimitiveGaussian jPG = cgPrimitives.get(j);
 
 				tij += iPG.getCoefficient() * jPG.getCoefficient()
@@ -537,7 +534,7 @@ public class ContractedGaussian {
 			for (PrimitiveGaussian jPG : cg.primitives) {
 				for (PrimitiveGaussian iPG : primitives) {
 					nuclearDerivativeHelper(mol, iPG, jPG, origin, nder);
-				} // end for
+				}
 			} // end for
 		} // end if
 
@@ -546,11 +543,11 @@ public class ContractedGaussian {
 			for (PrimitiveGaussian iPG : primitives) {
 				for (PrimitiveGaussian jPG : cg.primitives) {
 					nuclearDerivativeHelper(mol, jPG, iPG, cg.origin, nder);
-				} // end for
-			} // end for
-		} // end if
+				}
+			}
+		}
 
-		double factor = 0.0;
+		double factor;
 		double atno = AtomInfo.getInstance().getAtomicNumber(
 				centeredAtom.getSymbol());
 		for (PrimitiveGaussian iPG : primitives) {
@@ -558,8 +555,8 @@ public class ContractedGaussian {
 				factor = iPG.getCoefficient() * jPG.getCoefficient() * atno;
 				nder = nder.add(jPG.nuclearAttractionGradient(iPG,
 						centeredAtom.getAtomCenter()).mul(factor));
-			} // end for
-		} // end for
+			}
+		}
 
 		return nder;
 	}
