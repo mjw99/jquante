@@ -71,7 +71,7 @@ public class Overlap extends Matrix {
 	 *            evaluated
 	 * @param scfMethod
 	 *            the reference to the SCFMethod
-	 * @return three element array of Overlap elements represeting partial
+	 * @return three element array of Overlap elements representing partial
 	 *         derivatives with respect to x, y and z of atom position
 	 */
 	public ArrayList<Overlap> computeDerivative(int atomIndex,
@@ -79,7 +79,7 @@ public class Overlap extends Matrix {
 		this.scfMethod = scfMethod;
 		this.atomIndex = atomIndex;
 
-		ArrayList<Overlap> dOverlap = new ArrayList<Overlap>(3);
+		ArrayList<Overlap> dOverlap = new ArrayList<>(3);
 
 		int noOfBasisFunctions = this.getRowCount();
 		Overlap dOverlapDx = new Overlap(noOfBasisFunctions);
@@ -90,9 +90,8 @@ public class Overlap extends Matrix {
 		double[][] hdy = dOverlapDy.getMatrix();
 		double[][] hdz = dOverlapDz.getMatrix();
 
-		int i, j;
-		for (i = 0; i < noOfBasisFunctions; i++) {
-			for (j = 0; j < noOfBasisFunctions; j++) {
+		for (int i = 0; i < noOfBasisFunctions; i++) {
+			for (int j = 0; j < noOfBasisFunctions; j++) {
 				Vector3D dOvrEle = computeOverlapDerElement(i, j);
 
 				hdx[i][j] = dOvrEle.getI();
