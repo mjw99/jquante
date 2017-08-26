@@ -149,22 +149,22 @@ public class GMatrix extends Matrix {
 			// collect the result and sum the partial contributions
 			this.makeZero();
 			double[][] gMatrix = this.getMatrix();
-			int N = this.getRowCount();
+			int n = this.getRowCount();
 
 			// sum up the partial results
 			for (GMatrix pgMat : partialGMatrixList) {
 				double[][] pgm = pgMat.getMatrix();
 
-				for (int i = 0; i < N; i++) {
-					for (int j = 0; j < N; j++) {
+				for (int i = 0; i < n; i++) {
+					for (int j = 0; j < n; j++) {
 						gMatrix[i][j] += pgm[i][j];
 					} // end for
 				} // end for
 			} // end for
 
 			// half the elements
-			for (int i = 0; i < N; i++) {
-				for (int j = 0; j < N; j++) {
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < n; j++) {
 					gMatrix[i][j] *= 0.5;
 				} // end for
 			} // end for
@@ -188,7 +188,7 @@ public class GMatrix extends Matrix {
 	 */
 	public ArrayList<GMatrix> computeDerivative(int atomIndex,
 			SCFMethod scfMethod) {
-		ArrayList<GMatrix> gDer = new ArrayList<GMatrix>(3);
+		ArrayList<GMatrix> gDer = new ArrayList<>(3);
 
 		scfMethod.getTwoEI().compute2EDerivatives(atomIndex, scfMethod);
 		ArrayList<double[]> twoEDers = scfMethod.getTwoEI().getTwoEDer();
@@ -288,7 +288,7 @@ public class GMatrix extends Matrix {
 			return new GMatrixFormationThread(startItem, endItem);
 		}
 
-		/** function to facilitate mulithreaded direct formation of GMatrix */
+		/** function to facilitate multi-threaded direct formation of GMatrix */
 		private void makeGMatrixDirect(int startBasisFunction,
 				int endBasisFunction) {
 			int noOfBasisFunctions = density.getRowCount();
