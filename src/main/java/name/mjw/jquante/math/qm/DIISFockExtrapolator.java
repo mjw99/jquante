@@ -63,10 +63,10 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 		Fock newFock = new Fock(((Matrix) currentFock.clone()).getMatrix());
 		double[][] newFockMat = newFock.getMatrix();
 
-		Matrix FPS = currentFock.mul(density).mul(overlap);
-		Matrix SPF = overlap.mul(density).mul(currentFock);
+		Matrix fPS = currentFock.mul(density).mul(overlap);
+		Matrix sPF = overlap.mul(density).mul(currentFock);
 
-		Vector errorMatrix = new Vector(FPS.sub(SPF));
+		Vector errorMatrix = new Vector(fPS.sub(sPF));
 		double mxerr = errorMatrix.maxNorm();
 
 		if (mxerr < errorThreshold && !diisStarted) {
@@ -93,13 +93,13 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 		newFock.makeZero();
 
 		int noOfIterations = errorMatrixList.size();
-		int N1 = noOfIterations + 1;
+		int n1 = noOfIterations + 1;
 
-		Matrix A = new Matrix(N1);
-		Vector B = new Vector(N1);
+		Matrix a = new Matrix(n1);
+		Vector b = new Vector(n1);
 
-		double[][] aMatrix = A.getMatrix();
-		double[] bVector = B.getVector();
+		double[][] aMatrix = a.getMatrix();
+		double[] bVector = b.getVector();
 
 		// set up A x = B to be solved
 		for (int i = 0; i < noOfIterations; i++) {
@@ -118,8 +118,8 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 		bVector[noOfIterations] = -1.0;
 
 		GaussianElimination gele = new GaussianElimination();
-		gele.setMatrixA(A);
-		gele.setVectorX(B);
+		gele.setMatrixA(a);
+		gele.setVectorX(b);
 		try {
 			gele.findSolution();
 			double[] solVec = gele.getVectorX().getVector();
@@ -137,10 +137,8 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 
 			oldFock = currentFock;
 		} catch (SingularMatrixException ignored) {
-			LOG.debug("No solution: " + diisStep);
-			// ignored.printStackTrace();
-
 			// no solution could be found, so return the current Fock as is
+			LOG.debug("No solution: " + diisStep);
 			diisStep++;
 			return currentFock;
 		}
