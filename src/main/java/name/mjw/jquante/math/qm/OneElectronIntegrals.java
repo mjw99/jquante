@@ -19,7 +19,7 @@ import name.mjw.jquante.parallel.SimpleParallelTaskExecuter;
  */
 public class OneElectronIntegrals {
 
-	private final Logger LOG = Logger.getLogger(OneElectronIntegrals.class);
+	private static final Logger LOG = Logger.getLogger(OneElectronIntegrals.class);
 
 	/**
 	 * The overlap S matrix.
@@ -77,52 +77,16 @@ public class OneElectronIntegrals {
 		AtomInfo ai = AtomInfo.getInstance();
 
 		for (i = 0; i < atomicNumbers.length; i++) {
-			atomicNumbers[i] = ai.getAtomicNumber(molecule.getAtom(i)
-					.getSymbol());
+			atomicNumbers[i] = ai.getAtomicNumber(molecule.getAtom(i).getSymbol());
 		}
 
 		SimpleParallelTaskExecuter pTaskExecuter = new SimpleParallelTaskExecuter();
 
-		OneElectronIntegralEvaluaterThread tThread = new OneElectronIntegralEvaluaterThread(
-				atomicNumbers);
+		OneElectronIntegralEvaluaterThread tThread = new OneElectronIntegralEvaluaterThread(atomicNumbers);
 		tThread.setTaskName("OneElectronIntegralEvaluater Thread");
 		tThread.setTotalItems(noOfBasisFunctions);
 
 		pTaskExecuter.execute(tThread);
-	}
-
-	/**
-	 * method to actually compute 1E integrals
-	 */
-	private void compute1E(int startBasisFunction, int endBasisFunction,
-			double[][] overlap, double[][] hCore, int[] atomicNumbers,
-			ArrayList<ContractedGaussian> bfs) {
-
-		LOG.debug("startBasisFunction: " + startBasisFunction
-				+ " endBasisFunction: " + endBasisFunction);
-
-		int noOfBasisFunctions = bfs.size();
-		int i, j, k;
-
-		ContractedGaussian bfi, bfj;
-
-		// set up the S matrix and the hCore h
-		for (i = startBasisFunction; i < endBasisFunction; i++) {
-			bfi = (ContractedGaussian) bfs.get(i);
-
-			for (j = 0; j < noOfBasisFunctions; j++) {
-				bfj = (ContractedGaussian) bfs.get(j);
-
-				overlap[i][j] = bfi.overlap(bfj); // the overlap matrix
-				hCore[i][j] = bfi.kinetic(bfj); // KE matrix elements
-
-				for (k = 0; k < atomicNumbers.length; k++) {
-					hCore[i][j] += atomicNumbers[k]
-							* bfi.nuclear(bfj, molecule.getAtom(k)
-									.getAtomCenterInAU());
-				}
-			}
-		}
 	}
 
 	/**
@@ -145,23 +109,23 @@ public class OneElectronIntegrals {
 
 	/**
 	 * Class encapsulating the way to compute 1E electrons in a way useful for
-	 * utilizing multi core (processor) systems.
+	 * utilising multicore (processor) systems.
 	 */
-	protected class OneElectronIntegralEvaluaterThread extends
-			AbstractSimpleParallelTask {
+	protected class OneElectronIntegralEvaluaterThread extends AbstractSimpleParallelTask {
 
-		private int startBasisFunction, endBasisFunction;
+		private int startBasisFunction;
+		private int endBasisFunction;
 		private ArrayList<ContractedGaussian> bfs;
-		private double[][] overlap, hCore;
+		private double[][] overlap; 
+		private double[][] hCore;
 		private int[] atomicNumbers;
 
 		public OneElectronIntegralEvaluaterThread(int[] atomicNumbers) {
 			this.atomicNumbers = atomicNumbers;
 		}
 
-		public OneElectronIntegralEvaluaterThread(int startBasisFunction,
-				int endBasisFunction, double[][] overlap, double[][] hCore,
-				int[] atomicNumbers, ArrayList<ContractedGaussian> bfs) {
+		public OneElectronIntegralEvaluaterThread(int startBasisFunction, int endBasisFunction, double[][] overlap,
+				double[][] hCore, int[] atomicNumbers, ArrayList<ContractedGaussian> bfs) {
 			this.startBasisFunction = startBasisFunction;
 			this.endBasisFunction = endBasisFunction;
 
@@ -176,16 +140,44 @@ public class OneElectronIntegrals {
 
 		@Override
 		public void run() {
-			compute1E(startBasisFunction, endBasisFunction, overlap, hCore,
-					atomicNumbers, bfs);
+			compute1E(startBasisFunction, endBasisFunction, overlap, hCore, atomicNumbers, bfs);
 		}
 
 		@Override
 		public SimpleParallelTask init(int startItem, int endItem) {
 			return new OneElectronIntegralEvaluaterThread(startItem, endItem,
-					OneElectronIntegrals.this.overlap.getMatrix(),
-					OneElectronIntegrals.this.hCore.getMatrix(),
+					OneElectronIntegrals.this.overlap.getMatrix(), OneElectronIntegrals.this.hCore.getMatrix(),
 					this.atomicNumbers, basisFunctions.getBasisFunctions());
+		}
+
+		/**
+		 * method to actually compute 1E integrals
+		 */
+		private void compute1E(int startBasisFunction, int endBasisFunction, double[][] overlap, double[][] hCore,
+				int[] atomicNumbers, ArrayList<ContractedGaussian> bfs) {
+
+			LOG.debug("startBasisFunction: " + startBasisFunction + " endBasisFunction: " + endBasisFunction);
+
+			int noOfBasisFunctions = bfs.size();
+
+			ContractedGaussian bfi;
+			ContractedGaussian bfj;
+
+			// set up the S matrix and the hCore h
+			for (int i = startBasisFunction; i < endBasisFunction; i++) {
+				bfi = bfs.get(i);
+
+				for (int j = 0; j < noOfBasisFunctions; j++) {
+					bfj = bfs.get(j);
+
+					overlap[i][j] = bfi.overlap(bfj); // the overlap matrix
+					hCore[i][j] = bfi.kinetic(bfj); // KE matrix elements
+
+					for (int k = 0; k < atomicNumbers.length; k++) {
+						hCore[i][j] += atomicNumbers[k] * bfi.nuclear(bfj, molecule.getAtom(k).getAtomCenterInAU());
+					}
+				}
+			}
 		}
 	}
 
