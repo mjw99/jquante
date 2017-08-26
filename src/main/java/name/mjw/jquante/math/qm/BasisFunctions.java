@@ -3,6 +3,8 @@ package name.mjw.jquante.math.qm;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.apache.log4j.Logger;
+
 import name.mjw.jquante.math.qm.basis.AtomicBasis;
 import name.mjw.jquante.math.qm.basis.BasisReader;
 import name.mjw.jquante.math.qm.basis.BasisSet;
@@ -25,6 +27,8 @@ import name.mjw.jquante.molecule.event.MoleculeStateChangeListener;
  */
 public class BasisFunctions {
 
+	private static final Logger LOG = Logger.getLogger(BasisFunctions.class);
+
 	/**
 	 * Holds value of property basisFunctions.
 	 */
@@ -44,28 +48,26 @@ public class BasisFunctions {
 	 * @param basisName
 	 *            the name of the basis set (like sto3g).
 	 * @throws Exception
-	 *            the basisName was not found.
+	 *             the basisName was not found.
 	 *
 	 */
 	public BasisFunctions(Molecule molecule, String basisName) throws Exception {
-		// initialize the basis functions
+		// initialise the basis functions
 		getBasisFunctions(molecule, basisName);
 		this.basisName = basisName;
 		this.molecule = molecule;
 
-		// and initialize the shell list
+		// and initialise the shell list
 		initShellList();
 
 		molStateChangeListener = new MoleculeStateChangeListener() {
 			@Override
 			public void moleculeChanged(MoleculeStateChangeEvent event) {
 				try {
-					getBasisFunctions(BasisFunctions.this.molecule,
-							BasisFunctions.this.basisName);
+					getBasisFunctions(BasisFunctions.this.molecule, BasisFunctions.this.basisName);
 					initShellList();
 				} catch (Exception e) {
-					System.err.println("Unable to update basis function! ");
-					e.printStackTrace();
+					LOG.error("Unable to update basis function! ");
 				}
 			}
 		};
@@ -120,8 +122,7 @@ public class BasisFunctions {
 	 *            the name of the basis set (like sto3g)
 	 * @return Value of property basisFunctions.
 	 */
-	private ArrayList<ContractedGaussian> getBasisFunctions(Molecule molecule,
-			String basisName) throws Exception {
+	private ArrayList<ContractedGaussian> getBasisFunctions(Molecule molecule, String basisName) throws Exception {
 		BasisSet basis = BasisReader.getInstance().readBasis(basisName);
 		Iterator<Atom> atoms = molecule.getAtoms();
 
@@ -130,7 +131,7 @@ public class BasisFunctions {
 		Atom atom;
 		AtomicBasis atomicBasis;
 		while (atoms.hasNext()) { // loop over atoms
-			atom = (Atom) atoms.next();
+			atom = atoms.next();
 			atomicBasis = basis.getAtomicBasis(atom.getSymbol());
 
 			Iterator<Orbital> orbitals = atomicBasis.getOrbitals().iterator();
@@ -140,20 +141,17 @@ public class BasisFunctions {
 			while (orbitals.hasNext()) { // loop over atom orbitals
 				orbital = orbitals.next();
 
-				Iterator<Power> pList = PowerList.getInstance().getPowerList(
-						orbital.getType());
+				Iterator<Power> pList = PowerList.getInstance().getPowerList(orbital.getType());
 				Power power;
 				while (pList.hasNext()) { // and the power list, sp2 etc..
 					power = pList.next();
 
 					ContractedGaussian cg = new ContractedGaussian(atom, power);
-					Iterator<Double> coeff = orbital.getCoefficients()
-							.iterator();
+					Iterator<Double> coeff = orbital.getCoefficients().iterator();
 					Iterator<Double> exp = orbital.getExponents().iterator();
 
 					while (coeff.hasNext()) { // build the CG from PGs
-						cg.addPrimitive(exp.next().doubleValue(), coeff.next()
-								.doubleValue());
+						cg.addPrimitive(exp.next().doubleValue(), coeff.next().doubleValue());
 					} // end while
 
 					cg.normalize();
@@ -166,11 +164,9 @@ public class BasisFunctions {
 			// save a reference of the basis functions centered on
 			// this atom as a user defined property of the atom
 			try {
-				atom.addUserDefinedAtomProperty(new UserDefinedAtomProperty(
-						"basisFunctions", atomicFunctions));
+				atom.addUserDefinedAtomProperty(new UserDefinedAtomProperty("basisFunctions", atomicFunctions));
 			} catch (UnsupportedOperationException e) {
-				UserDefinedAtomProperty up = atom
-						.getUserDefinedAtomProperty("basisFunctions");
+				UserDefinedAtomProperty up = atom.getUserDefinedAtomProperty("basisFunctions");
 				up.setValue(atomicFunctions);
 			}
 		}
@@ -179,7 +175,7 @@ public class BasisFunctions {
 	}
 
 	/**
-	 * Initialize the shell list
+	 * Initialise the shell list
 	 */
 	private void initShellList() {
 		shellList = new ShellList();
@@ -189,10 +185,4 @@ public class BasisFunctions {
 		}
 	}
 
-	@Override
-	protected void finalize() throws Throwable {
-		super.finalize();
-
-		molecule.removeMoleculeStateChangeListener(molStateChangeListener);
-	}
 }
