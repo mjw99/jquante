@@ -2,6 +2,8 @@ package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import name.mjw.jquante.config.impl.AtomInfo;
 import name.mjw.jquante.math.Matrix;
 import name.mjw.jquante.math.Vector;
@@ -14,25 +16,23 @@ import name.mjw.jquante.molecule.Molecule;
  * Force calculations for the Hartree-Fock method. This gradient (or Force)
  * calculation is based on Appendix C of Modern Quantum Chemistry by Szabo and
  * Ostland, which describes computing analytic gradients and geometry
- * optimization.
+ * optimisation.
  * 
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
 public class HartreeFockForce implements Force {
 
+	private static final Logger LOG = Logger.getLogger(HartreeFockForce.class);
+
 	private int atomIndex;
 	private SCFMethod scfMethod;
 
-	/** Creates a new instance of HartreeFockForce */
-	public HartreeFockForce() {
-	}
-
 	/**
 	 * Compute the total force on the specified atom and return the results as a
-	 * Vector3D object. Note that the SCF calculations should have been over
-	 * before calling this method. This method in no way guarantees to check if
-	 * the SCF was performed prior to calling this method.
+	 * Vector3D object. Note that the SCF calculations should have been over before
+	 * calling this method. This method in no way guarantees to check if the SCF was
+	 * performed prior to calling this method.
 	 * 
 	 * @param atomIndex
 	 *            the atom index for which the force is to be computed
@@ -46,13 +46,13 @@ public class HartreeFockForce implements Force {
 		this.scfMethod = scfMethod;
 
 		Vector3D force = computeNuclearDerivative();
-		System.out.println("Nuclear /dr: " + force);
+		LOG.debug("Nuclear /dr: " + force);
 		force = force.add(computeDensityMatrixDerivative().mul(2.0));
-		System.out.println("Density /dr: " + force);
+		LOG.debug("Density /dr: " + force);
 		force = force.add(computeOneElectronDerivative().mul(2.0));
-		System.out.println("1E /dr: " + force);
+		LOG.debug("1E /dr: " + force);
 		force = force.add(computeTwoElectronDerivative());
-		System.out.println("2E /dr: " + force);
+		LOG.debug("2E /dr: " + force);
 
 		return force.mul(-1);
 	}
@@ -60,7 +60,7 @@ public class HartreeFockForce implements Force {
 	/** Compute the nuclear derivative contribution */
 	private Vector3D computeNuclearDerivative() {
 		Molecule mol = scfMethod.getMolecule();
-		double nDer = 0.0;
+		double nDer;
 
 		AtomInfo ai = AtomInfo.getInstance();
 
@@ -94,8 +94,7 @@ public class HartreeFockForce implements Force {
 		Vector3D oneEDer = new Vector3D();
 		HCore hCore = scfMethod.getOneEI().getHCore();
 		Density dens = scfMethod.getDensity();
-		ArrayList<HCore> hCoreDer = hCore.computeDerivative(atomIndex,
-				scfMethod);
+		ArrayList<HCore> hCoreDer = hCore.computeDerivative(atomIndex, scfMethod);
 
 		oneEDer.setI(dens.mul(hCoreDer.get(0)).trace());
 		oneEDer.setJ(dens.mul(hCoreDer.get(1)).trace());
@@ -109,8 +108,7 @@ public class HartreeFockForce implements Force {
 		Vector3D denDer = new Vector3D();
 		Overlap overlap = scfMethod.getOneEI().getOverlap();
 		Density dens = scfMethod.getDensity();
-		ArrayList<Overlap> overlapDer = overlap.computeDerivative(atomIndex,
-				scfMethod);
+		ArrayList<Overlap> overlapDer = overlap.computeDerivative(atomIndex, scfMethod);
 		Matrix eMat = new Matrix(new Vector(scfMethod.getOrbE()));
 		Matrix qMat = dens.mul(eMat.mul(dens.transpose()));
 
@@ -125,8 +123,7 @@ public class HartreeFockForce implements Force {
 	private Vector3D computeTwoElectronDerivative() {
 		Vector3D twoEDer = new Vector3D();
 
-		ArrayList<GMatrix> gDer = scfMethod.getGMatrix().computeDerivative(
-				atomIndex, scfMethod);
+		ArrayList<GMatrix> gDer = scfMethod.getGMatrix().computeDerivative(atomIndex, scfMethod);
 		Density density = scfMethod.getDensity();
 
 		twoEDer.setI(density.mul(gDer.get(0)).trace());

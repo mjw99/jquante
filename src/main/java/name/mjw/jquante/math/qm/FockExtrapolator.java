@@ -8,7 +8,7 @@ package name.mjw.jquante.math.qm;
  */
 public interface FockExtrapolator {
 
-	/** Initialize this interpolator */
+	/** Initialise this interpolator */
 	public void init();
 
 	/**
