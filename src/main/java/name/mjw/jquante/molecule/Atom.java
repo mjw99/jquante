@@ -314,7 +314,7 @@ public class Atom implements Cloneable {
 
 		while (keys.hasMoreElements()) {
 			key = keys.nextElement();
-			theClonedConnection.put(new Integer(key.intValue()),
+			theClonedConnection.put(Integer.valueOf(key.intValue()),
 					connectedList.get(key));
 		} // end while
 
@@ -344,7 +344,7 @@ public class Atom implements Cloneable {
 	 *            the bond type
 	 */
 	public void addConnection(int atomIndex, BondType bondType) {
-		Integer key = new Integer(atomIndex);
+		Integer key = Integer.valueOf(atomIndex);
 
 		if (bondType.equals(BondType.NO_BOND) && connectedList.containsKey(key)) {
 			connectedList.remove(key);
@@ -363,7 +363,7 @@ public class Atom implements Cloneable {
 	 *            the index of atom to be disconnected
 	 */
 	public void removeConnection(int atomIndex) {
-		connectedList.remove(new Integer(atomIndex));
+		connectedList.remove(Integer.valueOf(atomIndex));
 	}
 
 	/**
@@ -403,7 +403,7 @@ public class Atom implements Cloneable {
 	 *         status.
 	 */
 	public boolean isConnected(int atomIndex) {
-		return (connectedList.containsKey(new Integer(atomIndex)));
+		return (connectedList.containsKey(Integer.valueOf(atomIndex)));
 	}
 
 	/**
@@ -415,7 +415,7 @@ public class Atom implements Cloneable {
 	 */
 	public BondType getConnectivity(int atomIndex) {
 		if (isConnected(atomIndex)) {
-			return (BondType) connectedList.get(new Integer(atomIndex));
+			return (BondType) connectedList.get(Integer.valueOf(atomIndex));
 		} else {
 			return BondType.NO_BOND;
 		} // end if
