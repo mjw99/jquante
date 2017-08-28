@@ -769,7 +769,7 @@ public class MoleculeImpl extends Molecule {
 		ArrayList<Integer> visited = new ArrayList<Integer>(atomList.size());
 
 		// push the current index
-		visited.add(new Integer(atomIndex));
+		visited.add(Integer.valueOf(atomIndex));
 
 		// then traverse others and record
 		traverseAndRecordBFS(atomIndex, visited);
@@ -829,7 +829,7 @@ public class MoleculeImpl extends Molecule {
 				continue;
 
 			// push the current index
-			visited.add(new Integer(toVisit));
+			visited.add(Integer.valueOf(toVisit));
 
 			// avoid visit of "dead-end" atom
 			if (atomList.get(toVisit).getDegree() < 2)
