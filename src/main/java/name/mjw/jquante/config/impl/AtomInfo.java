@@ -255,25 +255,25 @@ public class AtomInfo implements Configuration {
 				originalNameTable.put(symbol, n.getNodeValue());
 			} else if (nodeName.equals("atomicNumber")) {
 				originalAtomicNumberTable.put(symbol,
-						new Integer(n.getNodeValue()));
+						Integer.valueOf(n.getNodeValue()));
 			} else if (nodeName.equals("atomicWeight")) {
 				originalAtomicWeightTable.put(symbol,
-						new Double(n.getNodeValue()));
+						Double.valueOf(n.getNodeValue()));
 			} else if (nodeName.equals("covalentRadius")) {
 				originalCovalentRadiusTable.put(symbol,
-						new Double(n.getNodeValue()));
+						Double.valueOf(n.getNodeValue()));
 			} else if (nodeName.equals("vdwRadius")) {
 				originalVdwRadiusTable
-						.put(symbol, new Double(n.getNodeValue()));
+						.put(symbol, Double.valueOf(n.getNodeValue()));
 			} else if (nodeName.equals("defaultValency")) {
 				originalDefaultValencyTable.put(symbol,
-						new Integer(n.getNodeValue()));
+						Integer.valueOf(n.getNodeValue()));
 			} else if (nodeName.equals("weakBondAngle")) {
 				originalWeakBondAngleTable.put(symbol,
-						new Double(n.getNodeValue()));
+						Double.valueOf(n.getNodeValue()));
 			} else if (nodeName.equals("doubleBondOverlap")) {
 				originalDoubleBondOverlapTable.put(symbol,
-						new Double(n.getNodeValue()));
+						Double.valueOf(n.getNodeValue()));
 			} // end if
 
 			break;
@@ -332,20 +332,20 @@ public class AtomInfo implements Configuration {
 			if (nodeName.equals("name")) {
 				nameTable.put(symbol, n.getNodeValue());
 			} else if (nodeName.equals("atomicNumber")) {
-				atomicNumberTable.put(symbol, new Integer(n.getNodeValue()));
+				atomicNumberTable.put(symbol, Integer.valueOf(n.getNodeValue()));
 			} else if (nodeName.equals("atomicWeight")) {
-				atomicWeightTable.put(symbol, new Double(n.getNodeValue()));
+				atomicWeightTable.put(symbol, Double.valueOf(n.getNodeValue()));
 			} else if (nodeName.equals("covalentRadius")) {
-				covalentRadiusTable.put(symbol, new Double(n.getNodeValue()));
+				covalentRadiusTable.put(symbol, Double.valueOf(n.getNodeValue()));
 			} else if (nodeName.equals("vdwRadius")) {
-				vdwRadiusTable.put(symbol, new Double(n.getNodeValue()));
+				vdwRadiusTable.put(symbol, Double.valueOf(n.getNodeValue()));
 			} else if (nodeName.equals("defaultValency")) {
-				defaultValencyTable.put(symbol, new Integer(n.getNodeValue()));
+				defaultValencyTable.put(symbol, Integer.valueOf(n.getNodeValue()));
 			} else if (nodeName.equals("weakBondAngle")) {
-				weakBondAngleTable.put(symbol, new Double(n.getNodeValue()));
+				weakBondAngleTable.put(symbol, Double.valueOf(n.getNodeValue()));
 			} else if (nodeName.equals("doubleBondOverlap")) {
 				doubleBondOverlapTable
-						.put(symbol, new Double(n.getNodeValue()));
+						.put(symbol, Double.valueOf(n.getNodeValue()));
 			} // end if
 
 			break;
@@ -521,13 +521,13 @@ public class AtomInfo implements Configuration {
 
 		// change to new value
 		nameTable.put(key, ap.getName());
-		atomicNumberTable.put(key, new Integer(ap.getAtomicNumber()));
-		atomicWeightTable.put(key, new Double(ap.getAtomicWeight()));
-		defaultValencyTable.put(key, new Integer(ap.getDefaultValency()));
-		covalentRadiusTable.put(key, new Double(ap.getCovalentRadius()));
-		vdwRadiusTable.put(key, new Double(ap.getVdwRadius()));
-		weakBondAngleTable.put(key, new Double(ap.getWeakBondAngle()));
-		doubleBondOverlapTable.put(key, new Double(ap.getDoubleBondOverlap()));
+		atomicNumberTable.put(key, Integer.valueOf(ap.getAtomicNumber()));
+		atomicWeightTable.put(key, Double.valueOf(ap.getAtomicWeight()));
+		defaultValencyTable.put(key, Integer.valueOf(ap.getDefaultValency()));
+		covalentRadiusTable.put(key, Double.valueOf(ap.getCovalentRadius()));
+		vdwRadiusTable.put(key, Double.valueOf(ap.getVdwRadius()));
+		weakBondAngleTable.put(key, Double.valueOf(ap.getWeakBondAngle()));
+		doubleBondOverlapTable.put(key, Double.valueOf(ap.getDoubleBondOverlap()));
 		colorTable.put(key, ap.getColor());
 
 		// fire the event!
@@ -876,9 +876,9 @@ public class AtomInfo implements Configuration {
 		changeEvent.setAtomSymbol(symbol);
 		changeEvent.setOldValue(atomicNumberTable.get(symbol));
 
-		atomicNumberTable.put(symbol, new Integer(atomicNumber));
+		atomicNumberTable.put(symbol, Integer.valueOf(atomicNumber));
 
-		changeEvent.setNewValue(new Integer(atomicNumber));
+		changeEvent.setNewValue(Integer.valueOf(atomicNumber));
 
 		fireAtomInfoChangeListenerAtomInfoChanged(changeEvent);
 	}
@@ -913,9 +913,9 @@ public class AtomInfo implements Configuration {
 		changeEvent.setAtomSymbol(symbol);
 		changeEvent.setOldValue(atomicWeightTable.get(symbol));
 
-		atomicWeightTable.put(symbol, new Double(atomicWeight));
+		atomicWeightTable.put(symbol, Double.valueOf(atomicWeight));
 
-		changeEvent.setNewValue(new Double(atomicWeight));
+		changeEvent.setNewValue(Double.valueOf(atomicWeight));
 
 		fireAtomInfoChangeListenerAtomInfoChanged(changeEvent);
 	}
@@ -950,9 +950,9 @@ public class AtomInfo implements Configuration {
 		changeEvent.setAtomSymbol(symbol);
 		changeEvent.setOldValue(defaultValencyTable.get(symbol));
 
-		defaultValencyTable.put(symbol, new Integer(defaultValency));
+		defaultValencyTable.put(symbol, Integer.valueOf(defaultValency));
 
-		changeEvent.setNewValue(new Integer(defaultValency));
+		changeEvent.setNewValue(Integer.valueOf(defaultValency));
 
 		fireAtomInfoChangeListenerAtomInfoChanged(changeEvent);
 	}
@@ -987,9 +987,9 @@ public class AtomInfo implements Configuration {
 		changeEvent.setAtomSymbol(symbol);
 		changeEvent.setOldValue(covalentRadiusTable.get(symbol));
 
-		covalentRadiusTable.put(symbol, new Double(covalentRadius));
+		covalentRadiusTable.put(symbol, Double.valueOf(covalentRadius));
 
-		changeEvent.setNewValue(new Double(covalentRadius));
+		changeEvent.setNewValue(Double.valueOf(covalentRadius));
 
 		fireAtomInfoChangeListenerAtomInfoChanged(changeEvent);
 	}
@@ -1024,9 +1024,9 @@ public class AtomInfo implements Configuration {
 		changeEvent.setAtomSymbol(symbol);
 		changeEvent.setOldValue(vdwRadiusTable.get(symbol));
 
-		vdwRadiusTable.put(symbol, new Double(vdwRadius));
+		vdwRadiusTable.put(symbol, Double.valueOf(vdwRadius));
 
-		changeEvent.setNewValue(new Double(vdwRadius));
+		changeEvent.setNewValue(Double.valueOf(vdwRadius));
 
 		fireAtomInfoChangeListenerAtomInfoChanged(changeEvent);
 	}
@@ -1061,9 +1061,9 @@ public class AtomInfo implements Configuration {
 		changeEvent.setAtomSymbol(symbol);
 		changeEvent.setOldValue(weakBondAngleTable.get(symbol));
 
-		weakBondAngleTable.put(symbol, new Double(weakBondAngle));
+		weakBondAngleTable.put(symbol, Double.valueOf(weakBondAngle));
 
-		changeEvent.setNewValue(new Double(weakBondAngle));
+		changeEvent.setNewValue(Double.valueOf(weakBondAngle));
 
 		fireAtomInfoChangeListenerAtomInfoChanged(changeEvent);
 	}
@@ -1177,9 +1177,9 @@ public class AtomInfo implements Configuration {
 		changeEvent.setAtomSymbol(symbol);
 		changeEvent.setOldValue(doubleBondOverlapTable.get(symbol));
 
-		doubleBondOverlapTable.put(symbol, new Double(doubleBondOverlap));
+		doubleBondOverlapTable.put(symbol, Double.valueOf(doubleBondOverlap));
 
-		changeEvent.setNewValue(new Double(doubleBondOverlap));
+		changeEvent.setNewValue(Double.valueOf(doubleBondOverlap));
 
 		fireAtomInfoChangeListenerAtomInfoChanged(changeEvent);
 	}
