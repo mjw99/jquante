@@ -162,16 +162,6 @@ public class DefaultAtomGroup implements AtomGroup {
 	}
 
 	/**
-	 * overridden finalize
-	 */
-	@Override
-	protected void finalize() throws Throwable {
-		groupAtoms = null;
-
-		super.finalize();
-	}
-
-	/**
 	 * checks if two atom groups are equal
 	 */
 	@Override
