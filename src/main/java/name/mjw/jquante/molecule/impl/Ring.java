@@ -48,7 +48,7 @@ public class Ring implements AtomGroup {
 	 *            is an atom index to be added to the current ring
 	 */
 	public void addAtomIndex(int atomIndex) {
-		ringAtoms.add(new Integer(atomIndex));
+		ringAtoms.add(Integer.valueOf(atomIndex));
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class Ring implements AtomGroup {
 	 *            is an atom index to be removed from current ring
 	 */
 	public void removeAtomIndex(int atomIndex) {
-		ringAtoms.remove(new Integer(atomIndex));
+		ringAtoms.remove(Integer.valueOf(atomIndex));
 	}
 
 	/**
