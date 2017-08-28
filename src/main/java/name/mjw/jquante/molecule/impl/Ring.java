@@ -226,13 +226,4 @@ public class Ring implements AtomGroup {
 		return ((ringAtoms.equals(((Ring) obj).ringAtoms)) && (planar == ((Ring) obj).planar));
 	}
 
-	/**
-	 * overridden finalize
-	 */
-	protected void finalize() throws Throwable {
-		ringAtoms = null;
-
-		super.finalize();
-	}
-
-} // end of class Ring
+}
