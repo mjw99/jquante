@@ -542,7 +542,7 @@ public class GridProperty {
 		for (int i = 0; i < functionValues.length; i++) {
 			if ((functionValues[i] >= lowerLimit)
 					&& (functionValues[i] <= upperLimit)) {
-				fVals.add(new Double(functionValues[i]));
+				fVals.add(Double.valueOf(functionValues[i]));
 			} // end if
 		} // end for
 
