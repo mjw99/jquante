@@ -29,7 +29,7 @@ public class DefaultAtomGroup implements AtomGroup {
 	 */
 	@Override
 	public void addAtomIndex(int atomIndex) {
-		groupAtoms.add(new Integer(atomIndex));
+		groupAtoms.add(Integer.valueOf(atomIndex));
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class DefaultAtomGroup implements AtomGroup {
 	 */
 	@Override
 	public void removeAtomIndex(int atomIndex) {
-		groupAtoms.remove(new Integer(atomIndex));
+		groupAtoms.remove(Integer.valueOf(atomIndex));
 	}
 
 	/**
