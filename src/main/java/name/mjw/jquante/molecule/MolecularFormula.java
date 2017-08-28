@@ -70,10 +70,10 @@ public class MolecularFormula {
 			if (uniqueSymbols.containsKey(atom.getSymbol())) {
 				uniqueSymbols.put(
 						atom.getSymbol(),
-						new Integer((uniqueSymbols.get(atom.getSymbol()))
+						Integer.valueOf((uniqueSymbols.get(atom.getSymbol()))
 								.intValue() + 1));
 			} else {
-				uniqueSymbols.put(atom.getSymbol(), new Integer(1));
+				uniqueSymbols.put(atom.getSymbol(), Integer.valueOf(1));
 			} // end if
 		} // end while
 
