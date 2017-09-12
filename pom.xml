@@ -54,12 +54,28 @@
 		<url>https://bitbucket.org/mjw99/jquante</url>
 	</scm>
 
-	<prerequisites>
-		<maven>${maven.min-version}</maven>
-	</prerequisites>
-
 	<build>
 		<plugins>
+                        <plugin>
+                                <artifactId>maven-enfercer-plugin</artifactId>
+                                <version>3.0.0-M1</version>
+			        <executions>
+			          <execution>
+			            <id>enforce-maven</id>
+			            <goals>
+			              <goal>enforce</goal>
+			            </goals>
+			            <configuration>
+			              <rules>
+			                <requireMavenVersion>
+			                  <version>${maven.min-version}</version>
+			                </requireMavenVersion>
+			              </rules>
+			            </configuration>
+			          </execution>
+			        </executions>
+                        </plugin>
+
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.6.1</version>
