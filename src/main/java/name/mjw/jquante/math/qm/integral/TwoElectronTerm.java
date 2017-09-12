@@ -31,8 +31,31 @@ public abstract class TwoElectronTerm implements IntegralsPackage {
 			ContractedGaussian c, ContractedGaussian d);
 
 	/**
-	 * The coulomb repulsion term between four centered Gaussians.
+	 * 2E coulomb interactions between four contracted Gaussians.
 	 * 
+	 * @param a
+	 *            Contracted Gaussian function a.
+	 * @param b
+	 *            Contracted Gaussian function b.
+	 * @param c
+	 *            Contracted Gaussian function c.
+	 * @param d
+	 *            Contracted Gaussian function d.
+	 * @param density
+	 *            Density matrix.
+	 * @param jMat
+	 *            J matrix.
+	 * @param kMat
+	 *            K matrix.
+	 * @return Two-electron integral.
+	 */
+	public abstract double coulomb(ContractedGaussian a, ContractedGaussian b,
+			ContractedGaussian c, ContractedGaussian d, Density density,
+			Matrix jMat, Matrix kMat);
+
+	/**
+	 * The coulomb repulsion term between four centered Gaussians.
+	 *
 	 * @param a
 	 *            Center of contracted Gaussian function a.
 	 * @param aNorm
@@ -71,28 +94,5 @@ public abstract class TwoElectronTerm implements IntegralsPackage {
 			Power aPower, double aAlpha, Point3D b, double bNorm, Power bPower,
 			double bAlpha, Point3D c, double cNorm, Power cPower,
 			double cAlpha, Point3D d, double dNorm, Power dPower, double dAlpha);
-
-	/**
-	 * 2E coulomb interactions between four contracted Gaussians.
-	 * 
-	 * @param a
-	 *            Contracted Gaussian function a.
-	 * @param b
-	 *            Contracted Gaussian function b.
-	 * @param c
-	 *            Contracted Gaussian function c.
-	 * @param d
-	 *            Contracted Gaussian function d.
-	 * @param density
-	 *            Density matrix.
-	 * @param jMat
-	 *            J matrix.
-	 * @param kMat
-	 *            K matrix.
-	 * @return Two-electron integral.
-	 */
-	public abstract double coulomb(ContractedGaussian a, ContractedGaussian b,
-			ContractedGaussian c, ContractedGaussian d, Density density,
-			Matrix jMat, Matrix kMat);
 
 }
