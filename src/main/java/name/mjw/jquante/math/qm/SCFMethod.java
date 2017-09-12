@@ -23,6 +23,38 @@ public abstract class SCFMethod implements OptimizerFunction {
 	private static final double DENSITY_TOLERANCE = 1.0e-4;
 
 	/**
+	 * The one electron integrals of the system. Provides Hcore and Overlap
+	 * matrix.
+	 */
+	protected OneElectronIntegrals oneEI;
+
+	/**
+	 * The two electron integrals of the system.
+	 */
+	protected TwoElectronIntegrals twoEI;
+
+	/**
+	 * The Density matrix.
+	 */
+	protected Density density;
+
+	/**
+	 * The Molecular Orbitals (coefficient) matrix.
+	 */
+	protected MolecularOrbitals mos;
+
+	/**
+	 * Preamble to Fock matrix construction; contains the contribution from the
+	 * two electron integrals and the density matrix.
+	 */
+	protected GMatrix gMatrix;
+
+	/**
+	 * Holds value of property fock - the Fock matrix.
+	 */
+	protected Fock fock;
+
+	/**
 	 * Holds value of property energyTolerance.
 	 */
 	protected double energyTolerance;
@@ -33,34 +65,9 @@ public abstract class SCFMethod implements OptimizerFunction {
 	protected double densityTolerance;
 
 	/**
-	 * Holds value of property maxIteration.
-	 */
-	protected int maxIteration;
-
-	/**
 	 * The molecule under consideration
 	 */
 	protected Molecule molecule;
-
-	/**
-	 * The one electron integrals of the system
-	 */
-	protected OneElectronIntegrals oneEI;
-
-	/**
-	 * The two electron integrals of the system
-	 */
-	protected TwoElectronIntegrals twoEI;
-
-	/**
-	 * Holds value of property density - the Density Matrix.
-	 */
-	protected Density density;
-
-	/**
-	 * Holds value of property mos - Molecular Orbitals.
-	 */
-	protected MolecularOrbitals mos;
 
 	/**
 	 * Holds value of property scfIteration.
@@ -68,9 +75,9 @@ public abstract class SCFMethod implements OptimizerFunction {
 	protected int scfIteration;
 
 	/**
-	 * Holds value of property densityGuesser.
+	 * Holds value of property maxIteration.
 	 */
-	protected DensityGuesser densityGuesser;
+	protected int maxIteration;
 
 	/**
 	 * Holds value of property guessInitialDM.
@@ -78,24 +85,22 @@ public abstract class SCFMethod implements OptimizerFunction {
 	protected boolean guessInitialDM;
 
 	/**
-	 * Holds value of property fock - the Fock matrix.
+	 * Holds value of property densityGuesser.
 	 */
-	protected Fock fock;
+	protected DensityGuesser densityGuesser;
 
 	/**
 	 * Holds value of property energy.
 	 */
 	protected double energy;
 
-	protected GMatrix gMatrix;
-
 	/**
 	 * Utility field used by event firing mechanism.
 	 */
 	private EventListenerList<SCFEventListener> listenerList = null;
 
-	/** Creates a new instance of SCFMethod.
-	 *
+	/**
+	 * Creates a new instance of SCFMethod.
 	 *
 	 * @param molecule
 	 *            the Molecule object.

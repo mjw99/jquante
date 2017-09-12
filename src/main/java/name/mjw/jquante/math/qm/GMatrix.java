@@ -10,7 +10,8 @@ import name.mjw.jquante.parallel.SimpleParallelTask;
 import name.mjw.jquante.parallel.SimpleParallelTaskExecuter;
 
 /**
- * Represents the G Matrix used to form the Fock matrix
+ * Represents the G Matrix used to form the Fock matrix. Contains the
+ * contribution from the two electron integrals and the density matrix.
  * 
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)

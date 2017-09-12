@@ -12,13 +12,14 @@ import name.mjw.jquante.molecule.UserDefinedAtomProperty;
 /**
  * Implements the Hartree-Fock (HF) SCF method for single point energy
  * evaluation of a molecule.
- *
+ * 
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
- *
+ * 
  * @see https://en.wikipedia.org/wiki/Hartree%E2%80%93Fock_method
  * @see http://sirius.chem.vt.edu/~crawdad/programming/scf.pdf
  * @see http://sirius.chem.vt.edu/wiki/doku.php?id=crawdad:programming:project3
+ * @see http://www.theoretical-physics.net/dev/quantum/hf.html
  */
 public class RestrictedHartreeFockMethod extends SCFMethod {
 
@@ -50,8 +51,8 @@ public class RestrictedHartreeFockMethod extends SCFMethod {
 	 * @param twoEI
 	 *            The two electron integrals of the system
 	 */
-	public RestrictedHartreeFockMethod(Molecule molecule, OneElectronIntegrals oneEI,
-			TwoElectronIntegrals twoEI) {
+	public RestrictedHartreeFockMethod(Molecule molecule,
+			OneElectronIntegrals oneEI, TwoElectronIntegrals twoEI) {
 		this(molecule, oneEI, twoEI, SCFType.HARTREE_FOCK);
 	}
 
@@ -67,8 +68,9 @@ public class RestrictedHartreeFockMethod extends SCFMethod {
 	 * @param scfType
 	 *            Type of SCF Calculation.
 	 */
-	public RestrictedHartreeFockMethod(Molecule molecule, OneElectronIntegrals oneEI,
-			TwoElectronIntegrals twoEI, SCFType scfType) {
+	public RestrictedHartreeFockMethod(Molecule molecule,
+			OneElectronIntegrals oneEI, TwoElectronIntegrals twoEI,
+			SCFType scfType) {
 		super(molecule, oneEI, twoEI);
 
 		scfEvent = new SCFEvent(this);
@@ -91,7 +93,9 @@ public class RestrictedHartreeFockMethod extends SCFMethod {
 		}
 
 		Overlap overlap = oneEI.getOverlap();
-		LOG.debug("Initial overlap\n" + overlap);
+		LOG.debug("Initial S matrix\n" + overlap);
+
+		LOG.debug("S^-1/2 matrix\n" + overlap.symmetricOrthogonalization());
 
 		HCore hCore = oneEI.getHCore();
 		LOG.debug("Initial hCore\n" + hCore);
@@ -126,6 +130,8 @@ public class RestrictedHartreeFockMethod extends SCFMethod {
 			// make or guess density
 			density.compute(this, guessInitialDM && (scfIteration == 0),
 					densityGuesser, noOfOccupancies, mos);
+
+			LOG.debug("Density matrix:\n" + density);
 
 			// make the G matrix
 			gMatrix.compute(scfType, twoEI, density);
