@@ -50,7 +50,7 @@
 	</developers>
 
 	<scm>
-		<connection>scm:hg:https://bitbucket.org/mjw99/jquante</connection>
+		<connection>scm:git:https://bitbucket.org/mjw99/jquante</connection>
 		<url>https://bitbucket.org/mjw99/jquante</url>
 	</scm>
 
