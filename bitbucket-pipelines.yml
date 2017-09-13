@@ -3,7 +3,7 @@
 # Only use spaces to indent your .yml configuration.
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: maven:3.5.0-jdk-9
+image: maven:3.5.0-jdk-9-slim
 
 clone:           # the 'clone' section 
   depth: 5       # the depth, in this case the clone will contain last five commits
@@ -14,5 +14,4 @@ pipelines:
         caches:
           - maven
         script: # Modify the commands below to build your repository.
-          - mvn -X dependency:tree
           - mvn -B clean test package
