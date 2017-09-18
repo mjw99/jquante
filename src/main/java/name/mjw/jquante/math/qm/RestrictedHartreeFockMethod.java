@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 
 import name.mjw.jquante.math.Matrix;
 import name.mjw.jquante.math.Vector3D;
+import name.mjw.jquante.math.optimizer.OptimizerFunction;
 import name.mjw.jquante.math.qm.event.SCFEvent;
 import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
@@ -16,12 +17,20 @@ import name.mjw.jquante.molecule.UserDefinedAtomProperty;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  * 
- * @see https://en.wikipedia.org/wiki/Hartree%E2%80%93Fock_method
- * @see http://sirius.chem.vt.edu/~crawdad/programming/scf.pdf
- * @see http://sirius.chem.vt.edu/wiki/doku.php?id=crawdad:programming:project3
- * @see http://www.theoretical-physics.net/dev/quantum/hf.html
+ *
+ * @see <a href="https://en.wikipedia.org/wiki/Hartree%E2%80%93Fock_method">
+ *      https://en.wikipedia.org/wiki/Hartree%E2%80%93Fock_method</a>
+ * @see <a
+ *      href="http://sirius.chem.vt.edu/~crawdad/programming/scf.pdf">http://sirius.chem.vt.edu/~crawdad/programming/scf.pdf</a>
+ * @see<a href=
+ *        "http://sirius.chem.vt.edu/wiki/doku.php?id=crawdad:programming:project3"
+ *        >http://sirius.chem.vt.edu/wiki/doku.php?id=crawdad:programming:
+ *        project3</a >
+ * @see <a href="http://www.theoretical-physics.net/dev/quantum/hf.html">
+ *      http://www.theoretical-physics.net/dev/quantum/hf.html</a>
  */
-public class RestrictedHartreeFockMethod extends SCFMethod {
+public class RestrictedHartreeFockMethod extends SCFMethod implements
+		OptimizerFunction {
 
 	/**
 	 * Logger object
