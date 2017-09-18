@@ -65,9 +65,6 @@ public class NWChemBasisSetFile {
 	 * 
 	 * @param fileName
 	 *            Filename of NWChem basis file.
-	 * @throws NoSuchAlgorithmException
-	 * @throws ParseException
-	 * @throws IOException
 	 * 
 	 * @see <a
 	 *      href="https://github.com/jeffhammond/nwchem/blob/HEAD/src/basis/bas_input.F">src/basis/bas_input.F</a>
