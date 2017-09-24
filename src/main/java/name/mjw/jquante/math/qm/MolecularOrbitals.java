@@ -66,16 +66,6 @@ public class MolecularOrbitals extends Matrix {
 	}
 
 	/**
-	 * Set the value of orbitalEnergies
-	 * 
-	 * @param orbitalEnergies
-	 *            new value of orbitalEnergies
-	 */
-	public void setOrbitalEnergies(double[] orbitalEnergies) {
-		this.orbitalEnergies = orbitalEnergies;
-	}
-
-	/**
 	 * Compute the MO coefficients and the orbital energies
 	 * 
 	 * @param hCore
