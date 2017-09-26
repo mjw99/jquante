@@ -22,4 +22,4 @@ public interface SCFEventListener extends java.util.EventListener {
 	 */
 	public void scfEventOccured(SCFEvent scfEvent);
 
-} // end of interface SCFEventListener
+}
