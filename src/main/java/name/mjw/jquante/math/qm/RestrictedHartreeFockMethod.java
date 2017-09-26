@@ -127,8 +127,6 @@ public class RestrictedHartreeFockMethod extends SCFMethod implements
 
 		FockExtrapolator diis = new DIISFockExtrapolator();
 
-		diis.init();
-
 		LOG.debug("Initial density matrix \n" + density);
 
 		// start the SCF cycle
