@@ -34,6 +34,26 @@
 	</licenses>
 
 	<developers>
+                <developer>
+                        <name>V. Ganesh</name>
+                        <email>tovganesh@gmail.com</email>
+                        <url>http://tovganesh.blogspot.co.uk/</url>
+                        <roles>
+                                <role>Founder</role>
+                                <role>Java Developer</role>
+                        </roles>
+                </developer>
+
+                <developer>
+                        <name>Josh Milthorpe</name>
+                        <email>jjmiltho@us.ibm.com</email>
+                        <url>http://www.milthorpe.org/</url>
+			<organization>Australian National University Research School of Computer Science</organization>
+                        <roles>
+                                <role>Java Developer</role>
+                        </roles>
+                </developer>
+
 		<developer>
 			<id>mjw99</id>
 			<name>Mark J. Williamson</name>
@@ -42,7 +62,6 @@
 			<organization>Cambridge University</organization>
 			<organizationUrl>http://www.cam.ac.uk</organizationUrl>
 			<roles>
-				<role>Founder</role>
 				<role>Java Developer</role>
 			</roles>
 			<timezone>Europe/London</timezone>
