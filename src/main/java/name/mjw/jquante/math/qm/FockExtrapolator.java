@@ -8,9 +8,6 @@ package name.mjw.jquante.math.qm;
  */
 public interface FockExtrapolator {
 
-	/** Initialise this interpolator */
-	public void init();
-
 	/**
 	 * Get the next extrapolated fock matrix
 	 * 

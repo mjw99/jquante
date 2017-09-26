@@ -24,28 +24,14 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 	private static final Logger LOG = Logger
 			.getLogger(DIISFockExtrapolator.class);
 
-	private ArrayList<Fock> fockMatrixList;
-	private ArrayList<Vector> errorMatrixList;
+	private ArrayList<Fock> fockMatrixList = new ArrayList<>();
+	private ArrayList<Vector> errorMatrixList = new ArrayList<>();
 
 	protected int diisStep = 0;
 
-	private boolean diisStarted = false;
+	private boolean isDiisStarted = false;
 
 	private Fock oldFock = null;
-
-	/** Initialize this interpolator */
-	@Override
-	public void init() {
-		fockMatrixList = new ArrayList<>();
-		errorMatrixList = new ArrayList<>();
-		diisStep = 0;
-		
-
-		errorThreshold = 0.1;
-		diisStarted = false;
-
-		oldFock = null;
-	}
 
 	/**
 	 * Get the next extrapolated fock matrix
@@ -69,11 +55,11 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 		Vector errorMatrix = new Vector(fPS.sub(sPF));
 		double mxerr = errorMatrix.maxNorm();
 
-		if (mxerr < errorThreshold && !diisStarted) {
-			diisStarted = true;
+		if (mxerr < errorThreshold && !isDiisStarted) {
+			isDiisStarted = true;
 		}
 
-		if (!diisStarted) {
+		if (!isDiisStarted) {
 			if (oldFock == null) {
 				oldFock = currentFock;
 

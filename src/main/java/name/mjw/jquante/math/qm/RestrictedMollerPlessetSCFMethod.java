@@ -16,9 +16,9 @@ import name.mjw.jquante.molecule.Molecule;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class MollerPlessetSCFMethod extends RestrictedHartreeFockMethod {
+public class RestrictedMollerPlessetSCFMethod extends RestrictedHartreeFockMethod {
 
-	private static final Logger LOG = Logger.getLogger(MollerPlessetSCFMethod.class);
+	private static final Logger LOG = Logger.getLogger(RestrictedMollerPlessetSCFMethod.class);
 
 	/**
 	 * Holds value of property mpLevel.
@@ -40,7 +40,7 @@ public class MollerPlessetSCFMethod extends RestrictedHartreeFockMethod {
 	 * @param twoEI
 	 *            the 2E integral driver.
 	 */
-	public MollerPlessetSCFMethod(Molecule molecule, OneElectronIntegrals oneEI, TwoElectronIntegrals twoEI) {
+	public RestrictedMollerPlessetSCFMethod(Molecule molecule, OneElectronIntegrals oneEI, TwoElectronIntegrals twoEI) {
 		super(molecule, oneEI, twoEI);
 
 		mpLevel = 2; // second level correction (MP2) is default
