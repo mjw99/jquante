@@ -26,15 +26,15 @@ This will compile and install the Jquante to the Debian based OS.
     git clone https://bitbucket.org/mjw99/jquante.git
     cd jquante ; mvn clean install
 
-## [Mac OS 10.13] High Sierra
+## [Mac OS 10.13](https://www.apple.com/macos/high-sierra/)
 
 1) Install the needed packages and configure Java.
    
-   a) Install Java SDK : http://www.oracle.com/technetwork/java/javase/downloads/index.html
-   b) Install maven, follow instructions at: https://maven.apache.org/install.html
+    a) Install Java SDK : http://www.oracle.com/technetwork/java/javase/downloads/index.html
+    b) Install maven, follow instructions at: https://maven.apache.org/install.html
 
 2) Clone, build and install locally
 
-   git clone https://bitbucket.org/mjw99/jquante.git
-   cd jquante ; mvn clean install
+    git clone https://bitbucket.org/mjw99/jquante.git
+    cd jquante ; mvn clean install
    
