@@ -105,12 +105,12 @@ public final class IntegralsUtil {
 	}
 
 	/**
-	 * Incomplete gamma function gamma() computed from Numerical Recipes routine
+	 * Incomplete gamma function P(a,x) computed from Numerical Recipes routine
 	 * gammp.
 	 * 
 	 * @param a
 	 * @param x
-	 * @return
+	 * @return the incomplete gamma function P(a,x)
 	 */
 	public static double gammaIncomplete(double a, double x) {
 		double gammap;

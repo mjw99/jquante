@@ -81,11 +81,11 @@ public class BasisReader {
 	 * Read a particular basis for the basis library (XML)
 	 * 
 	 * @param basisFileName
-	 *            the name of external basis file name
-	 * @return BasisSet object, representing the requested basis set
-	 * @throws IOException
-	 * @throws SAXException
-	 * @throws ParserConfigurationException
+	 *            the name of external basis file name.
+	 * @return BasisSet object, representing the requested basis set.
+	 * @throws IOException if stream from basisFileName cannot be read.
+	 * @throws SAXException if there was a problem with parsing the XML.
+	 * @throws ParserConfigurationException if there is a serious configuration error. 
 	 */
 	public BasisSet readExternalBasis(String basisFileName)
 			throws ParserConfigurationException, SAXException, IOException {

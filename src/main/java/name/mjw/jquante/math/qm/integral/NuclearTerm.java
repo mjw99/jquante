@@ -19,7 +19,7 @@ public class NuclearTerm implements IntegralsPackage {
 	/**
 	 * The nuclear attraction term.
 	 * 
-	 * <i> Taken from THO eq. 2.15 <i>
+	 * <i> Taken from THO eq. 2.15 </i>
 	 * 
 	 * @param a
 	 *            the coefficient of primitive Gaussian a.
@@ -84,7 +84,7 @@ public class NuclearTerm implements IntegralsPackage {
 	}
 
 	/**
-	 * <i> THO eq. 2.18 and 3.1 <i>
+	 * <i> THO eq. 2.18 and 3.1 </i>
 	 */
 	public double[] constructAArray(int l1, int l2, double pa, double pb,
 			double cp, double gamma) {
@@ -132,7 +132,7 @@ public class NuclearTerm implements IntegralsPackage {
 
 	/**
 	 * the A term <br>
-	 * <i> THO eq. 2.18 <i>
+	 * <i> THO eq. 2.18 </i>
 	 */
 	public double constructATerm(int i, int r, int u, int l1, int l2,
 			double pax, double pbx, double cpx, double gamma) {
