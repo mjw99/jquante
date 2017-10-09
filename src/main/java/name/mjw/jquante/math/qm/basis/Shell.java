@@ -14,7 +14,12 @@ public class Shell {
 
 	protected ArrayList<ContractedGaussian> shellPrimitives;
 
-	/** Creates a new instance of Shell */
+	/**
+	 * Creates a new instance of Shell
+	 *
+	 * @param angularMomentum
+	 *		the angular momentum value of the Gaussian Shell.
+	 */
 	public Shell(int angularMomentum) {
 		this.angularMomentum = angularMomentum;
 

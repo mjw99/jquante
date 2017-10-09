@@ -19,7 +19,7 @@ public class NuclearTerm implements IntegralsPackage {
 	/**
 	 * The nuclear attraction term.
 	 * 
-	 * <i> Taken from THO eq. 2.15 </i>
+	 * <i> Taken from http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.15 </i>
 	 * 
 	 * @param a
 	 *            the coefficient of primitive Gaussian a.
@@ -84,10 +84,24 @@ public class NuclearTerm implements IntegralsPackage {
 	}
 
 	/**
-	 * <i> THO eq. 2.18 and 3.1 </i>
+	 * <i> http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.18 and 3.1 </i>
+	 * 
+	 * @param l1
+	 *            the angular momentum number of Gaussian 1.
+	 * @param l2
+	 *            the angular momentum number of Gaussian 2.
+	 * @param pa
+	 *            the distance of Gaussian 1 to the product centre.
+	 * @param pb
+	 *            the distance of Gaussian 2 to the product centre.
+	 * @param pc
+	 *            the distance of the nucleus to the product centre.
+	 * @param gamma
+	 *            the sum of both Gaussians' exponent.
+	 * @return the nuclear attraction integral.
 	 */
 	public double[] constructAArray(int l1, int l2, double pa, double pb,
-			double cp, double gamma) {
+			double pc, double gamma) {
 		int iMax = l1 + l2 + 1;
 		double[] a = new double[iMax];
 
@@ -98,7 +112,7 @@ public class NuclearTerm implements IntegralsPackage {
 				for (u = 0; u < ((int) (Math.floor((i - 2.0 * r) / 2.0) + 1.0)); u++) {
 					index = i - 2 * r - u;
 
-					a[index] += constructATerm(i, r, u, l1, l2, pa, pb, cp,
+					a[index] += constructATerm(i, r, u, l1, l2, pa, pb, pc,
 							gamma);
 				}
 			}
@@ -108,7 +122,7 @@ public class NuclearTerm implements IntegralsPackage {
 	}
 
 	public double[] constructGradAArray(int l1, int l2, double pa, double pb,
-			double cp, double gamma) {
+			double pc, double gamma) {
 		int iMax = l1 + l2 + 1;
 		double[] a = new double[iMax];
 
@@ -121,8 +135,8 @@ public class NuclearTerm implements IntegralsPackage {
 
 					a[index] += (i - 2.0 * r + 1.0)
 							/ (i - 2.0 * r - 2.0 * u + 1.0)
-							* cp
-							* constructATerm(i, r, u, l1, l2, pa, pb, cp, gamma);
+							* pc
+							* constructATerm(i, r, u, l1, l2, pa, pb, pc, gamma);
 				}
 			}
 		}
@@ -131,15 +145,35 @@ public class NuclearTerm implements IntegralsPackage {
 	}
 
 	/**
-	 * the A term <br>
-	 * <i> THO eq. 2.18 </i>
+	 * The A term <br>
+	 * <i> http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.18 </i>
+	 * 
+	 * @param i
+	 *            index i.
+	 * @param r
+	 *            index r.
+	 * @param u
+	 *            index u.
+	 * @param l1
+	 *            the angular momentum number of Gaussian 1.
+	 * @param l2
+	 *            the angular momentum number of Gaussian 2.
+	 * @param pax
+	 *            the distance of Gaussian 1 to the product centre.
+	 * @param pbx
+	 *            the distance of Gaussian 2 to the product centre.
+	 * @param pcx
+	 *            the distance of the nucleus to the product centre.
+	 * @param gamma
+	 *            the sum of both Gaussians' exponent.
+	 * @return the A term for index i,r,u.
 	 */
 	public double constructATerm(int i, int r, int u, int l1, int l2,
-			double pax, double pbx, double cpx, double gamma) {
+			double pax, double pbx, double pcx, double gamma) {
 		return (Math.pow(-1.0, i)
 				* MathUtil.binomialPrefactor(i, l1, l2, pax, pbx)
 				* Math.pow(-1.0, u) * MathUtil.factorial(i)
-				* Math.pow(cpx, i - 2 * r - 2 * u)
+				* Math.pow(pcx, i - 2 * r - 2 * u)
 				* Math.pow(0.25 / gamma, r + u) / MathUtil.factorial(r)
 				/ MathUtil.factorial(u) / MathUtil.factorial(i - 2 * r - 2 * u));
 	}

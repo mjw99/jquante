@@ -58,11 +58,11 @@ public class BasisReader {
 	 * Read a particular basis for the basis library (XML)
 	 * 
 	 * @param basisName
-	 *            the name of basis
-	 * @return BasisSet object, representing the requested basis set
-	 * @throws IOException
-	 * @throw SAXException
-	 * @throws ParserConfigurationExceptio
+	 *            the name of basis.
+	 * @return BasisSet object, representing the requested basis set.
+	 * @throws IOException if stream from basisName cannot be read.
+	 * @throws SAXException if there was a problem with parsing the XML.
+	 * @throws ParserConfigurationException if there is a serious configuration error.
 	 */
 	public BasisSet readBasis(String basisName) throws ParserConfigurationException, SAXException, IOException {
 		StringResource strings = StringResource.getInstance();
