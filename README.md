@@ -37,4 +37,19 @@ This will compile and install the Jquante to the Debian based OS.
 
     git clone https://bitbucket.org/mjw99/jquante.git
     cd jquante ; mvn clean install
+
+## [Windows](https://www.microsoft.com/en-in/windows/)
+
+1) Install the needed packages and configure Java.
    
+    a) Install Java SDK : http://www.oracle.com/technetwork/java/javase/downloads/index.html
+    b) Install maven, follow instructions at: https://maven.apache.org/install.html
+    c) Install git: https://git-scm.com/download/win
+    d) Ensure Java path is set to JDK and not JRE
+
+2) Clone, build and install locally
+
+    git clone https://bitbucket.org/mjw99/jquante.git
+    cd jquante ; mvn clean install
+
+
