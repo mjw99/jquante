@@ -12,7 +12,7 @@ import javax.xml.bind.Marshaller;
  * 
  * @author mw529
  * @see <a href="http://www.vogella.com/tutorials/JAXB/article.html">Example
- *      tutorial</a>
+ *      JAXB tutorial</a>
  */
 public class NWChemBasisSetXMLWriter {
 
