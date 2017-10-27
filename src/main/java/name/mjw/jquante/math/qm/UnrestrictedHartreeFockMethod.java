@@ -36,7 +36,7 @@ public class UnrestrictedHartreeFockMethod extends SCFMethod implements
 	 * Logger object
 	 */
 	private static final Logger LOG = Logger
-			.getLogger(RestrictedHartreeFockMethod.class);
+			.getLogger(UnrestrictedHartreeFockMethod.class);
 
 	/**
 	 * Represents an event in an SCF cycle
