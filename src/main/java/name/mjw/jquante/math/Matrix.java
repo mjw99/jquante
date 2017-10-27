@@ -1,6 +1,8 @@
 package name.mjw.jquante.math;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.stream.IntStream;
 
 import name.mjw.jquante.math.la.Diagonalizer;
 import name.mjw.jquante.math.la.DiagonalizerFactory;
@@ -38,6 +40,14 @@ public class Matrix implements Cloneable {
 	 */
 	public Matrix(int n, int m) {
 		matrix = new double[n][m];
+
+		rowCount = n;
+		columnCount = m;
+	}
+
+	private Matrix(int n, int m, boolean allocateStorage) {
+		if (allocateStorage)
+			matrix = new double[n][m];
 
 		rowCount = n;
 		columnCount = m;
@@ -128,21 +138,28 @@ public class Matrix implements Cloneable {
 	 * @return the result Cij = Sum(Aik*Bkj)
 	 */
 	public Matrix mul(Matrix b) {
-		Matrix c = new Matrix(rowCount, b.columnCount);
+		Matrix c = new Matrix(rowCount, b.columnCount, false);
 
-		int i;
-		int j;
-		int k;
-		double cij;
-		for (i = 0; i < rowCount; i++) {
-			for (j = 0; j < b.columnCount; j++) {
-				cij = 0.0;
-				for (k = 0; k < b.rowCount; k++) {
-					cij += matrix[i][k] * b.matrix[k][j];
-				} // end for
-				c.matrix[i][j] = cij;
-			} // end for
-		} // end for
+		c.matrix = Arrays.stream(matrix)
+				.map(r -> IntStream.range(0, b.matrix[0].length)
+						.mapToDouble(
+								i -> IntStream.range(0, b.matrix.length).mapToDouble(j -> r[j] * b.matrix[j][i]).sum())
+						.toArray())
+				.toArray(double[][]::new);
+
+		// int i;
+		// int j;
+		// int k;
+		// double cij;
+		// for (i = 0; i < rowCount; i++) {
+		// 	for (j = 0; j < b.columnCount; j++) {
+		// 		cij = 0.0;
+		// 		for (k = 0; k < b.rowCount; k++) {
+		// 			cij += matrix[i][k] * b.matrix[k][j];
+		// 		} // end for
+		// 		c.matrix[i][j] = cij;
+		// 	} // end for
+		// } // end for
 
 		return c;
 	}
@@ -233,8 +250,7 @@ public class Matrix implements Cloneable {
 	 * @return a matrix object U'(1/sqrt(lambda))U
 	 */
 	public Matrix symmetricOrthogonalization() {
-		Diagonalizer diag = DiagonalizerFactory.getInstance()
-				.getDefaultDiagonalizer();
+		Diagonalizer diag = DiagonalizerFactory.getInstance().getDefaultDiagonalizer();
 
 		diag.diagonalize(this);
 
@@ -551,8 +567,7 @@ public class Matrix implements Cloneable {
 	 */
 	public boolean isSingular(int p, int[] row) {
 		if (row.length != matrix[row[p]].length)
-			throw new UnsupportedOperationException(
-					"Size of row index and matrix do no match!");
+			throw new UnsupportedOperationException("Size of row index and matrix do no match!");
 
 		for (int i = p; i <= matrix[0].length - 1; i++) {
 			if (matrix[row[p]][i] != 0) {
