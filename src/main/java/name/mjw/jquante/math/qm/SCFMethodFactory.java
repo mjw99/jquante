@@ -61,6 +61,8 @@ public class SCFMethodFactory {
 			return new RestrictedHartreeFockMethod(molecule, oneEI, twoEI, type);
 		} else if (type.equals(SCFType.MOLLER_PLESSET)) {
 			return new RestrictedMollerPlessetSCFMethod(molecule, oneEI, twoEI);
+		} else if (type.equals(SCFType.UNRESTRICTED_HARTREE_FOCK_DIRECT)) {
+			return new UnrestrictedHartreeFockMethod(molecule, oneEI, twoEI);
 		} else {
 			throw new UnsupportedOperationException("The type : " + type + " has no known implementing class!");
 		}

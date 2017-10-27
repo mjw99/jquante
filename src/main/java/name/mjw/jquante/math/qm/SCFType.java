@@ -28,6 +28,11 @@ public class SCFType {
 	 */
 	public static final SCFType MOLLER_PLESSET = new SCFType(3);
 
+	/**
+	 * The Unrestricted Hartree Fock method (UHF)
+	 */
+	public static final SCFType UNRESTRICTED_HARTREE_FOCK_DIRECT = new SCFType(3);
+
 	/** Creates a new instance of SCFType */
 	private SCFType(int type) {
 		this.type = type;
@@ -57,6 +62,8 @@ public class SCFType {
 			description = "Hartree Fock Method (direct SCF)";
 		} else if (this.equals(MOLLER_PLESSET)) {
 			description = "Moller Plesset Method (in core)";
+		} else if (this.equals(UNRESTRICTED_HARTREE_FOCK_DIRECT)) {
+			description = "Unrestricted Hartree Fock method (UHF)";
 		} else {
 			description = "No description available";
 		} // end if
