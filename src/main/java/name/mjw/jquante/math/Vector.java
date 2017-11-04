@@ -5,6 +5,8 @@
  */
 
 package name.mjw.jquante.math;
+import java.util.Arrays;
+import java.util.stream.IntStream;
 
 /**
  * Defines an R^n space vector.
@@ -135,9 +137,11 @@ public class Vector implements Cloneable {
 
 		Vector result = new Vector(vector.length);
 
-		for (int i = 0; i < vector.length; i++) {
-			result.vector[i] = this.vector[i] + b.vector[i];
-		} // end for
+		IntStream.range(0, result.vector.length).parallel().forEach(id -> result.vector[id] = this.vector[id] + b.vector[id]);
+
+		// for (int i = 0; i < vector.length; i++) {
+		// 	result.vector[i] = this.vector[i] + b.vector[i];
+		// } // end for
 
 		return result;
 	}
@@ -156,9 +160,11 @@ public class Vector implements Cloneable {
 
 		Vector result = new Vector(vector.length);
 
-		for (int i = 0; i < vector.length; i++) {
-			result.vector[i] = this.vector[i] - b.vector[i];
-		} // end for
+		IntStream.range(0, result.vector.length).parallel().forEach(id -> result.vector[id] = this.vector[id] - b.vector[id]);
+		
+		// for (int i = 0; i < vector.length; i++) {
+		// 	result.vector[i] = this.vector[i] - b.vector[i];
+		// } // end for
 
 		return result;
 	}
@@ -173,9 +179,11 @@ public class Vector implements Cloneable {
 	public Vector mul(double k) {
 		Vector result = new Vector(vector.length);
 
-		for (int i = 0; i < vector.length; i++) {
-			result.vector[i] = this.vector[i] * k;
-		} // end for
+		IntStream.range(0, result.vector.length).parallel().forEach(id -> result.vector[id] = this.vector[id] * k);
+		
+		// for (int i = 0; i < vector.length; i++) {
+		// 	result.vector[i] = this.vector[i] * k;
+		// } // end for
 
 		return result;
 	}
@@ -194,9 +202,11 @@ public class Vector implements Cloneable {
 
 		double result = 0.0;
 
-		for (int i = 0; i < vector.length; i++) {
-			result += this.vector[i] * b.vector[i];
-		} // end for
+		result = IntStream.range(0, vector.length).parallel().mapToDouble(id -> this.vector[id] * b.vector[id]).reduce(0, Double::sum);
+
+		// for (int i = 0; i < vector.length; i++) {
+		// 	result += this.vector[i] * b.vector[i];
+		// } // end for
 
 		return result;
 	}

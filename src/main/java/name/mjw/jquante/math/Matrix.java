@@ -142,6 +142,7 @@ public class Matrix implements Cloneable {
 
 		c.matrix = Arrays.stream(matrix)
 				.map(r -> IntStream.range(0, b.matrix[0].length)
+					    .parallel()
 						.mapToDouble(
 								i -> IntStream.range(0, b.matrix.length).mapToDouble(j -> r[j] * b.matrix[j][i]).sum())
 						.toArray())
@@ -151,11 +152,13 @@ public class Matrix implements Cloneable {
 		// int j;
 		// int k;
 		// double cij;
+
 		// for (i = 0; i < rowCount; i++) {
 		// 	for (j = 0; j < b.columnCount; j++) {
 		// 		cij = 0.0;
+		// 		final double [] row = matrix[i];
 		// 		for (k = 0; k < b.rowCount; k++) {
-		// 			cij += matrix[i][k] * b.matrix[k][j];
+		// 			cij += row[k] * b.matrix[k][j];
 		// 		} // end for
 		// 		c.matrix[i][j] = cij;
 		// 	} // end for
