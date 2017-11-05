@@ -1,11 +1,9 @@
 package name.mjw.jquante.math;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import name.mjw.jquante.common.Utility;
 import name.mjw.jquante.math.geom.Point3D;
-import name.mjw.jquante.math.geom.Point3DI;
 import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
 
@@ -541,24 +539,6 @@ public class Matrix3D implements Cloneable {
 	}
 
 	/**
-	 * A special method to transform Point3DI object
-	 * 
-	 * @param point
-	 *            - the point to be transformed
-	 * @return Point3DI - the transformed point
-	 */
-	public Point3DI transform(Point3DI point) {
-		double x, y, z;
-
-		x = point.getX();
-		y = point.getY();
-		z = point.getZ();
-
-		return new Point3DI((x * a00 + y * a01 + z * a02 + a03), (x * a10 + y
-				* a11 + z * a12 + a13), (x * a20 + y * a21 + z * a22 + a23));
-	}
-
-	/**
 	 * A special method to transform Vector3D object
 	 * 
 	 * @param vec
@@ -599,59 +579,6 @@ public class Matrix3D implements Cloneable {
 			yp[i] = x * a10 + y * a11 + z * a12 + a13;
 			zp[i] = x * a20 + y * a21 + z * a22 + a23;
 		} // end if
-	}
-
-	/**
-	 * A special method to transform Point3DI objects
-	 * 
-	 * @param thePoints
-	 *            - an array list of Point3DI s which will be transformed
-	 *            according to current transformation matrix.
-	 */
-	public void transformPoints(ArrayList<Point3DI> thePoints) {
-		transformPoints(thePoints.iterator());
-	}
-
-	/**
-	 * A special method to transform Point3DI objects
-	 * 
-	 * @param points
-	 *            - an Iterator of Point3DI s which will be transformed
-	 *            according to current transformation matrix.
-	 */
-	public void transformPoints(Iterator<Point3DI> points) {
-		Point3DI point;
-		double x, y, z;
-
-		while (points.hasNext()) {
-			point = points.next();
-
-			x = point.getX();
-			y = point.getY();
-			z = point.getZ();
-
-			point.setCurrentX((int) (x * a00 + y * a01 + z * a02 + a03));
-			point.setCurrentY((int) (x * a10 + y * a11 + z * a12 + a13));
-			point.setCurrentZ((int) (x * a20 + y * a21 + z * a22 + a23));
-		} // end for
-	}
-
-	/**
-	 * A special method to transform Point3DI object
-	 * 
-	 * @param point
-	 *            - the point (I) component that need to be transformed
-	 */
-	public void transformPoint(Point3DI point) {
-		double x, y, z;
-
-		x = point.getX();
-		y = point.getY();
-		z = point.getZ();
-
-		point.setCurrentX((int) (x * a00 + y * a01 + z * a02 + a03));
-		point.setCurrentY((int) (x * a10 + y * a11 + z * a12 + a13));
-		point.setCurrentZ((int) (x * a20 + y * a21 + z * a22 + a23));
 	}
 
 	/**
