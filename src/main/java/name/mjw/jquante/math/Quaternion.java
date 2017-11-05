@@ -44,14 +44,13 @@ public class Quaternion {
 	 * Creates a new instance of Quaternion
 	 * 
 	 * @param zRotationAngle
-	 *            z component of roation angle.
+	 *            z component of rotation angle.
 	 * @param yRotationAngle
-	 *            x component of roation angle.
+	 *            x component of rotation angle.
 	 * @param xRotationAngle
-	 *            y component of roation angle.
+	 *            y component of rotation angle.
 	 */
-	public Quaternion(double zRotationAngle, double yRotationAngle,
-			double xRotationAngle) {
+	public Quaternion(double zRotationAngle, double yRotationAngle, double xRotationAngle) {
 		double c1 = Math.cos(zRotationAngle / 2);
 		double s1 = Math.sin(zRotationAngle / 2);
 		double c2 = Math.cos(yRotationAngle / 2);
@@ -61,8 +60,8 @@ public class Quaternion {
 		double c1c2 = c1 * c2;
 		double s1s2 = s1 * s2;
 		this.rotationAngle = c1c2 * c3 + s1s2 * s3;
-		this.rotationAxis = new Vector3D(c1c2 * s3 - s1s2 * c3, c1 * s2 * c3
-				+ s1 * c2 * s3, s1 * c2 * c3 - c1 * s2 * s3);
+		this.rotationAxis = new Vector3D(c1c2 * s3 - s1s2 * c3, c1 * s2 * c3 + s1 * c2 * s3,
+				s1 * c2 * c3 - c1 * s2 * s3);
 
 		codingType = Coding.QUATERNION;
 	}
@@ -136,22 +135,19 @@ public class Quaternion {
 		double y = point.getY();
 		double z = point.getZ();
 
-		newPoint.setX(wh * wh * x + 2 * yh * wh * z - 2 * zh * wh * y + xh * xh
-				* x + 2 * yh * xh * y + 2 * zh * xh * z - zh * zh * x - yh * yh
-				* x);
-		newPoint.setY(2 * xh * yh * x + yh * yh * y + 2 * zh * yh * z + 2 * wh
-				* zh * x - zh * zh * y + wh * wh * y - 2 * xh * wh * z - xh
-				* xh * y);
-		newPoint.setZ(2 * xh * zh * x + 2 * yh * zh * y + zh * zh * z - 2 * wh
-				* yh * x - yh * yh * z + 2 * wh * xh * y - xh * xh * z + wh
-				* wh * z);
+		newPoint.setX(wh * wh * x + 2 * yh * wh * z - 2 * zh * wh * y + xh * xh * x + 2 * yh * xh * y + 2 * zh * xh * z
+				- zh * zh * x - yh * yh * x);
+		newPoint.setY(2 * xh * yh * x + yh * yh * y + 2 * zh * yh * z + 2 * wh * zh * x - zh * zh * y + wh * wh * y
+				- 2 * xh * wh * z - xh * xh * y);
+		newPoint.setZ(2 * xh * zh * x + 2 * yh * zh * y + zh * zh * z - 2 * wh * yh * x - yh * yh * z + 2 * wh * xh * y
+				- xh * xh * z + wh * wh * z);
 
 		return newPoint;
 	}
 
 	/**
-	 * Multiply this Quaternion with the argument, and return the result as a
-	 * new Quaternion object. This operation essentially combines effect of two
+	 * Multiply this Quaternion with the argument, and return the result as a new
+	 * Quaternion object. This operation essentially combines effect of two
 	 * Quaternion objects.
 	 * 
 	 * @param q

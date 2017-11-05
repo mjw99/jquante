@@ -8,7 +8,7 @@ import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
 
 /**
- * A simple matrix class optimized to perform 3D transformations on point(s).
+ * A simple matrix class optimised to perform 3D transformations on point(s).
  * 
  * Note: Most of the operations defined in the class perform the operations on
  * the current instance of the class.
@@ -25,7 +25,7 @@ public class Matrix3D implements Cloneable {
 
 	/** Creates a new instance of Matrix3D */
 	public Matrix3D() {
-		// initilize matrix
+		// initialise matrix
 		a00 = a01 = a02 = a03 = 0.0;
 		a10 = a11 = a12 = a13 = 0.0;
 		a20 = a21 = a22 = a23 = 0.0;

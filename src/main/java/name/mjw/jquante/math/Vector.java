@@ -1,10 +1,5 @@
-/*
- * Vector.java
- *
- * Created on November 16, 2003, 10:58 AM
- */
-
 package name.mjw.jquante.math;
+
 import java.util.stream.IntStream;
 
 /**
@@ -54,8 +49,8 @@ public class Vector implements Cloneable {
 			for (j = 0; j < matrix.length; j++) {
 				this.vector[ii] = matrix[i][j];
 				ii++;
-			} // end for
-		} // end for
+			}
+		}
 	}
 
 	/**
@@ -136,34 +131,28 @@ public class Vector implements Cloneable {
 
 		Vector result = new Vector(vector.length);
 
-		IntStream.range(0, result.vector.length).parallel().forEach(id -> result.vector[id] = this.vector[id] + b.vector[id]);
-
-		// for (int i = 0; i < vector.length; i++) {
-		// 	result.vector[i] = this.vector[i] + b.vector[i];
-		// } // end for
+		IntStream.range(0, result.vector.length).parallel()
+				.forEach(id -> result.vector[id] = this.vector[id] + b.vector[id]);
 
 		return result;
 	}
 
 	/**
-	 * substraction of two vectors (this - b)
+	 * Subtraction of two vectors (this - b)
 	 * 
 	 * @param b
-	 *            the vector to be substracted from the current vector
+	 *            the vector to be subtracted from the current vector
 	 * @return the addition of two vector or null if that is not possible
 	 */
 	public Vector sub(Vector b) {
 		if (this.vector.length != b.vector.length) {
 			return null;
-		} // end if
+		}
 
 		Vector result = new Vector(vector.length);
 
-		IntStream.range(0, result.vector.length).parallel().forEach(id -> result.vector[id] = this.vector[id] - b.vector[id]);
-		
-		// for (int i = 0; i < vector.length; i++) {
-		// 	result.vector[i] = this.vector[i] - b.vector[i];
-		// } // end for
+		IntStream.range(0, result.vector.length).parallel()
+				.forEach(id -> result.vector[id] = this.vector[id] - b.vector[id]);
 
 		return result;
 	}
@@ -179,10 +168,6 @@ public class Vector implements Cloneable {
 		Vector result = new Vector(vector.length);
 
 		IntStream.range(0, result.vector.length).parallel().forEach(id -> result.vector[id] = this.vector[id] * k);
-		
-		// for (int i = 0; i < vector.length; i++) {
-		// 	result.vector[i] = this.vector[i] * k;
-		// } // end for
 
 		return result;
 	}
@@ -201,12 +186,9 @@ public class Vector implements Cloneable {
 
 		double result = 0.0;
 
-		result = IntStream.range(0, vector.length).parallel().mapToDouble(id -> this.vector[id] * b.vector[id]).reduce(0, Double::sum);
-
-		// for (int i = 0; i < vector.length; i++) {
-		// 	result += this.vector[i] * b.vector[i];
-		// } // end for
-
+		result = IntStream.range(0, vector.length).parallel().mapToDouble(id -> this.vector[id] * b.vector[id])
+				.reduce(0, Double::sum);
+		
 		return result;
 	}
 
@@ -222,15 +204,15 @@ public class Vector implements Cloneable {
 
 		for (int i = 0; i < vector.length; i++) {
 			length += vector[i] * vector[i];
-		} // end for
+		}
 
 		return Math.sqrt(length);
 	}
 
 	/**
-	 * get the normalized form of this vector
+	 * get the normalised form of this vector
 	 * 
-	 * @return the normalized form of this vector
+	 * @return the normalised form of this vector
 	 */
 	public Vector normalize() {
 		double magnitude = magnitude();
@@ -239,8 +221,8 @@ public class Vector implements Cloneable {
 
 		for (int i = 0; i < vector.length; i++) {
 			n.vector[i] = vector[i] / magnitude;
-		} // end for
-
+		}
+		
 		return n;
 	}
 
@@ -270,7 +252,7 @@ public class Vector implements Cloneable {
 
 		for (int i = 0; i < vector.length; i++) {
 			theCopy.vector[i] = vector[i];
-		} // end for
+		}
 
 		return theCopy;
 	}
@@ -285,7 +267,7 @@ public class Vector implements Cloneable {
 		for (int i = 0; i < vector.length; i++) {
 			sb.append(vector[i]);
 			sb.append("\n");
-		} // end for
+		}
 
 		return sb.toString();
 	}
@@ -304,4 +286,4 @@ public class Vector implements Cloneable {
 
 		return mx;
 	}
-} // end of class Vector
+}
