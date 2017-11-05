@@ -182,14 +182,9 @@ public class Vector implements Cloneable {
 	public double dot(Vector b) {
 		if (this.vector.length != b.vector.length) {
 			return Double.NaN;
-		} // end if
-
-		double result = 0.0;
-
-		result = IntStream.range(0, vector.length).parallel().mapToDouble(id -> this.vector[id] * b.vector[id])
-				.reduce(0, Double::sum);
-		
-		return result;
+		}
+		return IntStream.range(0, vector.length).parallel().mapToDouble(id -> this.vector[id] * b.vector[id]).reduce(0,
+				Double::sum);
 	}
 
 	/**
@@ -222,7 +217,7 @@ public class Vector implements Cloneable {
 		for (int i = 0; i < vector.length; i++) {
 			n.vector[i] = vector[i] / magnitude;
 		}
-		
+
 		return n;
 	}
 
