@@ -52,15 +52,14 @@ public class TriLinearInterpolater extends Interpolater {
 	 * </code>
 	 * 
 	 * @param y
-	 *            the Y values (results of fuction evaluation)
+	 *            the Y values (results of function evaluation)
 	 * @param x
-	 *            the X values at fuction evaluation is performed or is expected
+	 *            the X values at function evaluation is performed or is expected
 	 * @return the interpolated value depending upon the interpolation formula
 	 */
 	@Override
 	public double interpolate(double[] y, double[] x) {
-		double[] delta = new double[] { (x[3] - x[0]) / x[6],
-				(x[4] - x[1]) / x[7], (x[5] - x[2]) / x[8] };
+		double[] delta = new double[] { (x[3] - x[0]) / x[6], (x[4] - x[1]) / x[7], (x[5] - x[2]) / x[8] };
 		double i1, i2, j1, j2, w1, w2;
 
 		i1 = y[0] * (1.0 - delta[2]) + y[1] * delta[2];

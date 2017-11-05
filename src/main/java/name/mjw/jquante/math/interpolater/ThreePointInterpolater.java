@@ -24,9 +24,9 @@ public class ThreePointInterpolater extends Interpolater {
 	 * individual point interpolation. Default sub-interpolater is Linear
 	 * interpolater.
 	 * 
-	 * Note: It is the reposibility of the caller to ensure that only one point
-	 * interpolater(s) are set as sub-interpolater. Else this routine will fail
-	 * to operate.
+	 * Note: It is the responsibility of the caller to ensure that only one point
+	 * interpolater(s) are set as sub-interpolater. Else this routine will fail to
+	 * operate.
 	 * 
 	 * @param y
 	 *            the Y values (results of fuction evaluation)

@@ -19,9 +19,9 @@ public abstract class Interpolater {
 	 * Interpolate value at X depending upon value at Y
 	 * 
 	 * @param y
-	 *            the Y values (results of fuction evaluation)
+	 *            the Y values (results of function evaluation)
 	 * @param x
-	 *            the X values at fuction evaluation is performed or is expected
+	 *            the X values at function evaluation is performed or is expected
 	 * @return the interpolated value depending upon the interpolation formula
 	 */
 	public abstract double interpolate(double[] y, double[] x);
@@ -63,4 +63,4 @@ public abstract class Interpolater {
 	public void setSubInterpolater(Interpolater subInterpolater) {
 		this.subInterpolater = subInterpolater;
 	}
-} // end of interface Interpolater
+}
