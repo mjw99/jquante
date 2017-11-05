@@ -5,7 +5,6 @@
  */
 
 package name.mjw.jquante.math;
-import java.util.Arrays;
 import java.util.stream.IntStream;
 
 /**
