@@ -74,6 +74,10 @@
 		<url>https://bitbucket.org/mjw99/jquante</url>
 	</scm>
 
+        <prerequisites>
+                <maven>${maven.min-version}</maven>
+        </prerequisites>
+
 	<build>
 		<plugins>
                         <plugin>
