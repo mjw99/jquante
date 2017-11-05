@@ -16,8 +16,8 @@ This will compile and install the Jquante to the Debian based OS.
 
 1) Install the needed packages and configure Java.
 
-    sudo apt-get install git maven openjdk-7-jdk
-    # Ensure java7 is selected
+    sudo apt-get install git maven openjdk-8-jdk
+    # Ensure java8 is selected
     sudo update-alternatives --config java
     sudo update-alternatives --config javac
 
