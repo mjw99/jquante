@@ -1,9 +1,3 @@
-/*
- * GlobalConfiguration.java
- *
- * Created on June 22, 2003, 7:25 PM
- */
-
 package name.mjw.jquante.config;
 
 /**
@@ -14,4 +8,4 @@ package name.mjw.jquante.config;
  */
 public interface GlobalConfiguration extends Configuration {
 
-} // end of interface GlobalConfiguration
+}

@@ -3,9 +3,9 @@ package name.mjw.jquante.config;
 /**
  * Interface defines the way new parameters can be added to a Configuration
  * object. <br>
- * Follwoing the interface also means that the acceptance/ rejection of a new
- * property value is done at runtimes only... does not follow the static
- * constrained property definition of Java Beans. Thus each implimentation of
+ * Following the interface also means that the acceptance/ rejection of a new
+ * property value is done at runtime only... does not follow the static
+ * constrained property definition of Java Beans. Thus each implementation of
  * Parameter interface has its own ways of handling incompatible property
  * values.
  * 
