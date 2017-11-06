@@ -1,9 +1,3 @@
-/*
- * StringResource.java
- *
- * Created on June 15, 2003, 7:43 PM
- */
-
 package name.mjw.jquante.common.resource;
 
 import java.io.File;
