@@ -39,7 +39,7 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 					a.getOrigin(), a.getPowers(), a.getCoefficients(),
 					a.getExponents(), a.getPrimNorms(), b.getOrigin(),
 					b.getPowers(), b.getCoefficients(), b.getExponents(),
-					b.getPrimNorms(), c.getOrigin(), b.getPowers(),
+					b.getPrimNorms(), c.getOrigin(), c.getPowers(),
 					c.getCoefficients(), c.getExponents(), c.getPrimNorms(),
 					d.getOrigin(), d.getPowers(), d.getCoefficients(),
 					d.getExponents(), d.getPrimNorms()));
