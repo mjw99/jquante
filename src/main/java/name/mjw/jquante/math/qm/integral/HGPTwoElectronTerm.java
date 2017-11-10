@@ -506,44 +506,44 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 		} else if (ma > 0) {
 			Power newAPower = new Power(la, ma - 1, na);
 			val = (p.getY() - a.getY())
-					* vrr(a, aNorm, newAPower, aAlpha, b, aNorm, aAlpha, c,
-							aNorm, cPower, cAlpha, d, aNorm, dAlpha, m)
+					* vrr(a, aNorm, newAPower, aAlpha, b, bNorm, bAlpha, c,
+							cNorm, cPower, cAlpha, d, dNorm, dAlpha, m)
 					+ (w.getY() - p.getY())
-					* vrr(a, aNorm, newAPower, aAlpha, b, aNorm, aAlpha, c,
-							aNorm, cPower, cAlpha, d, aNorm, dAlpha, m + 1);
+					* vrr(a, aNorm, newAPower, aAlpha, b, bNorm, bAlpha, c,
+							cNorm, cPower, cAlpha, d, dNorm, dAlpha, m + 1);
 
 			if (ma > 1) {
 				Power newAPower1 = new Power(la, ma - 2, na);
 				val += 0.5
 						* (ma - 1)
 						/ zeta
-						* (vrr(a, aNorm, newAPower1, aAlpha, b, aNorm, aAlpha,
-								c, aNorm, cPower, cAlpha, d, aNorm, dAlpha, m) - etaByZetaPlusEta
-								* vrr(a, aNorm, newAPower1, aAlpha, b, aNorm,
-										aAlpha, c, aNorm, cPower, cAlpha, d,
-										aNorm, dAlpha, m + 1));
+						* (vrr(a, aNorm, newAPower1, aAlpha, b, bNorm, bAlpha,
+								c, cNorm, cPower, cAlpha, d, dNorm, dAlpha, m) - etaByZetaPlusEta
+								* vrr(a, aNorm, newAPower1, aAlpha, b, bNorm,
+										bAlpha, c, cNorm, cPower, cAlpha, d,
+										dNorm, dAlpha, m + 1));
 			} // end if
 
 			return val;
 		} else if (la > 0) {
 			Power newAPower = new Power(la - 1, ma, na);
 			val = (p.getX() - a.getX())
-					* vrr(a, aNorm, newAPower, aAlpha, b, aNorm, aAlpha, c,
-							aNorm, cPower, cAlpha, d, aNorm, dAlpha, m)
+					* vrr(a, aNorm, newAPower, aAlpha, b, bNorm, bAlpha, c,
+							cNorm, cPower, cAlpha, d, dNorm, dAlpha, m)
 					+ (w.getX() - p.getX())
-					* vrr(a, aNorm, newAPower, aAlpha, b, aNorm, aAlpha, c,
-							aNorm, cPower, cAlpha, d, aNorm, dAlpha, m + 1);
+					* vrr(a, aNorm, newAPower, aAlpha, b, bNorm, bAlpha, c,
+							cNorm, cPower, cAlpha, d, dNorm, dAlpha, m + 1);
 
 			if (la > 1) {
 				Power newAPower1 = new Power(la - 2, ma, na);
 				val += 0.5
 						* (la - 1)
 						/ zeta
-						* (vrr(a, aNorm, newAPower1, aAlpha, b, aNorm, aAlpha,
-								c, aNorm, cPower, cAlpha, d, aNorm, dAlpha, m) - etaByZetaPlusEta
-								* vrr(a, aNorm, newAPower1, aAlpha, b, aNorm,
-										aAlpha, c, aNorm, cPower, cAlpha, d,
-										aNorm, dAlpha, m + 1));
+						* (vrr(a, aNorm, newAPower1, aAlpha, b, bNorm, bAlpha,
+								c, cNorm, cPower, cAlpha, d, dNorm, dAlpha, m) - etaByZetaPlusEta
+								* vrr(a, aNorm, newAPower1, aAlpha, b, bNorm,
+										bAlpha, c, cNorm, cPower, cAlpha, d,
+										dNorm, dAlpha, m + 1));
 			} // end if
 
 			return val;
