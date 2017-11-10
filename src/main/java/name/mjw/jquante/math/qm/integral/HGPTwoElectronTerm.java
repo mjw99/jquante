@@ -590,7 +590,7 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 
 		double[] fGammaTerms = new double[mtot + 1];
 
-		int i, j, k, pp, qp, r, s, im;
+		int i, j, k, qp, r, s, im;
 
 		double px = p.getX(), py = p.getY(), pz = p.getZ();
 		double qx = q.getX(), qy = q.getY(), qz = q.getZ();
