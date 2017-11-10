@@ -359,7 +359,7 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 			double cNorm, Power cPower, double cAlpha, Point3D d, double dNorm,
 			double dAlpha, int m) {
 
-		return vrrNonRecursive(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c,
+		return vrr(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c,
 				cNorm, cPower, cAlpha, d, dNorm, dAlpha, m);
 	}
 
