@@ -1,7 +1,6 @@
 package name.mjw.jquante.math.qm.integral;
 
 import java.util.ArrayList;
-
 import name.mjw.jquante.math.Matrix;
 import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.math.qm.Density;
@@ -407,7 +406,7 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 								* vrr(a, aNorm, aPower, aAlpha, b, bNorm,
 										bAlpha, c, cNorm, newCPower1, cAlpha,
 										d, dNorm, dAlpha, m + 1));
-			} // end if
+			}
 
 			if (na > 0) {
 				val += 0.5
@@ -416,7 +415,7 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 						* vrr(a, aNorm, new Power(la, ma, na - 1), aAlpha, b,
 								bNorm, bAlpha, c, cNorm, newCPower, cAlpha, d,
 								dNorm, dAlpha, m + 1);
-			} // end if
+			}
 
 			return val;
 		} else if (mc > 0) {
@@ -438,7 +437,7 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 								* vrr(a, aNorm, aPower, aAlpha, b, bNorm,
 										bAlpha, c, cNorm, newCPower1, cAlpha,
 										d, dNorm, dAlpha, m + 1));
-			} // end if
+			}
 
 			if (ma > 0) {
 				val += 0.5
@@ -447,7 +446,7 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 						* vrr(a, aNorm, new Power(la, ma - 1, na), aAlpha, b,
 								bNorm, bAlpha, c, cNorm, newCPower, cAlpha, d,
 								dNorm, dAlpha, m + 1);
-			} // end if
+			}
 
 			return val;
 		} else if (lc > 0) {
@@ -469,7 +468,7 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 								* vrr(a, aNorm, aPower, aAlpha, b, bNorm,
 										bAlpha, c, cNorm, newCPower1, cAlpha,
 										d, dNorm, dAlpha, m + 1));
-			} // end if
+			}
 
 			if (la > 0) {
 				val += 0.5
@@ -478,7 +477,7 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 						* vrr(a, aNorm, new Power(la - 1, ma, na), aAlpha, b,
 								bNorm, bAlpha, c, cNorm, newCPower, cAlpha, d,
 								dNorm, dAlpha, m + 1);
-			} // end if
+			}
 
 			return val;
 		} else if (na > 0) {
@@ -500,7 +499,7 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 								* vrr(a, aNorm, newAPower1, aAlpha, b, bNorm,
 										bAlpha, c, cNorm, cPower, cAlpha, d,
 										dNorm, dAlpha, m + 1));
-			} // end if
+			}
 
 			return val;
 		} else if (ma > 0) {
@@ -522,7 +521,7 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 								* vrr(a, aNorm, newAPower1, aAlpha, b, bNorm,
 										bAlpha, c, cNorm, cPower, cAlpha, d,
 										dNorm, dAlpha, m + 1));
-			} // end if
+			}
 
 			return val;
 		} else if (la > 0) {
@@ -544,10 +543,10 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 								* vrr(a, aNorm, newAPower1, aAlpha, b, bNorm,
 										bAlpha, c, cNorm, cPower, cAlpha, d,
 										dNorm, dAlpha, m + 1));
-			} // end if
+			}
 
 			return val;
-		} // end if
+		}
 
 		double rab2 = a.distanceSquaredFrom(b);
 		double Kab = sqrt2PI / zeta * Math.exp(-aAlpha * bAlpha / zeta * rab2);
