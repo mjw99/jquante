@@ -195,11 +195,8 @@ public class Vector implements Cloneable {
 	public double magnitude() {
 		double length;
 
-		length = 0.0;
-
-		for (int i = 0; i < vector.length; i++) {
-			length += vector[i] * vector[i];
-		}
+		length = IntStream.range(0, vector.length).parallel().mapToDouble(id -> this.vector[id] * this.vector[id])
+				.reduce(0, Double::sum);
 
 		return Math.sqrt(length);
 	}
@@ -214,9 +211,7 @@ public class Vector implements Cloneable {
 
 		Vector n = new Vector(vector.length);
 
-		for (int i = 0; i < vector.length; i++) {
-			n.vector[i] = vector[i] / magnitude;
-		}
+		IntStream.range(0, vector.length).parallel().mapToDouble(id -> n.vector[id] = this.vector[id] / magnitude);
 
 		return n;
 	}
@@ -229,9 +224,11 @@ public class Vector implements Cloneable {
 	public Vector negate() {
 		Vector n = new Vector(vector.length);
 
-		for (int i = 0; i < vector.length; i++) {
-			n.vector[i] = -vector[i];
-		} // end for
+		IntStream.range(0, vector.length).parallel().mapToDouble(id -> n.vector[id] = -this.vector[id]);
+
+		// for (int i = 0; i < vector.length; i++) {
+		// 	n.vector[i] = -vector[i];
+		// } // end for
 
 		return n;
 	}
@@ -275,9 +272,11 @@ public class Vector implements Cloneable {
 	public double maxNorm() {
 		double mx = Math.abs(vector[0]);
 
-		for (int i = 0; i < vector.length; i++)
-			if (mx < Math.abs(vector[i]))
-				mx = Math.abs(vector[i]);
+		mx = IntStream.range(0, vector.length).parallel().mapToDouble(id -> this.vector[id]).reduce(0, Double::max);
+
+		// for (int i = 0; i < vector.length; i++)
+		// 	if (mx < Math.abs(vector[i]))
+		// 		mx = Math.abs(vector[i]);
 
 		return mx;
 	}
