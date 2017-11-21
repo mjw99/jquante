@@ -34,13 +34,10 @@ public final class IntegralsUtil {
 	 * 
 	 * @return centre of resulting two-centre product Gaussian
 	 */
-	public static Point3D gaussianProductCenter(double alpha1, Point3D a,
-			double alpha2, Point3D b) {
+	public static Point3D gaussianProductCenter(double alpha1, Point3D a, double alpha2, Point3D b) {
 		double gamma = alpha1 + alpha2;
 		return new Point3D((alpha1 * a.getX() + alpha2 * b.getX()) / gamma,
-				(alpha1 * a.getY() + alpha2 * b.getY()) / gamma, (alpha1
-						* a.getZ() + alpha2 * b.getZ())
-						/ gamma);
+				(alpha1 * a.getY() + alpha2 * b.getY()) / gamma, (alpha1 * a.getZ() + alpha2 * b.getZ()) / gamma);
 	}
 
 	/**
@@ -95,8 +92,10 @@ public final class IntegralsUtil {
 	 * Incomplete gamma function
 	 * 
 	 * @param m
+	 *            The parameter of the integral
 	 * @param x
-	 * @return
+	 *            The upper bound for the interval of integration
+	 * @return &Gamma;
 	 */
 	public static double computeFGamma(int m, double x) {
 		x = Math.max(Math.abs(x), SMALL);
@@ -105,11 +104,14 @@ public final class IntegralsUtil {
 	}
 
 	/**
-	 * Incomplete gamma function P(a,x) computed from Numerical Recipes routine
-	 * gammp.
+	 * Computes the lower incomplete gamma function, &gamma;(a,x)= integral from
+	 * zero to x of (exp(-t)t^(a-1))dt.
+	 * <p>
 	 * 
 	 * @param a
+	 *            The parameter of the integral
 	 * @param x
+	 *            The upper bound for the interval of integration
 	 * @return the incomplete gamma function P(a,x)
 	 */
 	public static double gammaIncomplete(double a, double x) {
@@ -119,7 +121,8 @@ public final class IntegralsUtil {
 		gln = logGamma(a);
 
 		if (x < (a + 1.0)) {
-			// Series representation of Gamma. NumRec sect 6.1.
+			// Computes the incomplete Gamma function by using the series representation.
+			// See NumRec sect 6.1.
 			if (x != 0.0) {
 				double ap = a;
 				double sum;
@@ -138,7 +141,8 @@ public final class IntegralsUtil {
 				gammap = 0.0;
 			}
 		} else {
-			// Continued fraction representation of Gamma. NumRec sect 6.1
+			// Computes the incomplete Gamma function by using the continued fraction
+			// representation. See NumRec sect 6.1
 			double b = (x + 1.0) - a;
 			double c = 1.0 / FPMIN;
 			double d = 1.0 / b;
@@ -174,10 +178,11 @@ public final class IntegralsUtil {
 	}
 
 	/**
-	 * Numerical recipes, section 6.1
+	 * Computes the value of ln(gamma(x)) Numerical recipes, section 6.1
 	 * 
 	 * @param x
-	 * @return
+	 *            Value
+	 * @return the complete Gamma(x) function
 	 */
 	public static double logGamma(double x) {
 		double y = x;
