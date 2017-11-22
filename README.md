@@ -49,5 +49,6 @@ This will compile and install the Jquante to the Debian based OS.
 2) Clone, build and install locally
 ```
     git clone https://github.com/mjw99/jquante.git
-    cd jquante ; mvn clean install
+    cd jquante 
+    mvn clean install
 ```
