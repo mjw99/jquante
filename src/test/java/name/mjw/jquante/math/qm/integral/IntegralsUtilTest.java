@@ -11,63 +11,63 @@ public class IntegralsUtilTest {
 	private final double delta = 0.00001;
 
 	@Test
-	public void testGaussianProductCenterOne() {
+	public void gaussianProductCenterOne() {
 
 		assertEquals(new Point3D(0.0, 0.0, 0.0),
 				IntegralsUtil.gaussianProductCenter(1.0, new Point3D(0, 0, 0), 1.0, new Point3D(0, 0, 0)));
 	}
 
 	@Test
-	public void testGaussianProductCenterTwo() {
+	public void gaussianProductCenterTwo() {
 
 		assertEquals(new Point3D(0.5, 0.5, 0.5),
 				IntegralsUtil.gaussianProductCenter(1.0, new Point3D(0, 0, 0), 1.0, new Point3D(1, 1, 1)));
 	}
 
 	@Test
-	public void testIjkl2intindex0000() {
+	public void ijkl2intindex0000() {
 
 		assertEquals(0, IntegralsUtil.ijkl2intindex(0, 0, 0, 0));
 	}
 
 	@Test
-	public void testIjkl2intindex1000() {
+	public void ijkl2intindex1000() {
 
 		assertEquals(1, IntegralsUtil.ijkl2intindex(1, 0, 0, 0));
 	}
 
 	@Test
-	public void testIjkl2intindex0100() {
+	public void ijkl2intindex0100() {
 
 		assertEquals(1, IntegralsUtil.ijkl2intindex(0, 1, 0, 0));
 	}
 
 	@Test
-	public void testIjkl2intindex0010() {
+	public void ijkl2intindex0010() {
 
 		assertEquals(1, IntegralsUtil.ijkl2intindex(0, 0, 1, 0));
 	}
 
 	@Test
-	public void testIjkl2intindex0001() {
+	public void ijkl2intindex0001() {
 
 		assertEquals(1, IntegralsUtil.ijkl2intindex(0, 0, 0, 1));
 	}
 
 	@Test
-	public void testIjkl2intindex1001() {
+	public void ijkl2intindex1001() {
 
 		assertEquals(2, IntegralsUtil.ijkl2intindex(1, 0, 0, 1));
 	}
 
 	@Test
-	public void testIjkl2intindex1100() {
+	public void ijkl2intindex1100() {
 
 		assertEquals(3, IntegralsUtil.ijkl2intindex(1, 1, 0, 0));
 	}
 
 	@Test
-	public void testIjkl2intindex0011() {
+	public void ijkl2intindex0011() {
 
 		assertEquals(3, IntegralsUtil.ijkl2intindex(0, 0, 1, 1));
 	}

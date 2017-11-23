@@ -14,7 +14,7 @@ public class BasisFunctionsTest {
 	double diff = 0.00001;
 
 	@Test
-	public void testOne() {
+	public void one() {
 
 		BasisFunctions bf = null;
 
@@ -41,7 +41,7 @@ public class BasisFunctionsTest {
 	}
 
 	@Test
-	public void testTwo() {
+	public void two() {
 
 		Atom H1 = new Atom("H", 1.0, new Point3D(0.752510, -0.454585, 0.000000));
 		Atom O = new Atom("O", 6.0, new Point3D(0.000000, 0.113671, 0.000000));

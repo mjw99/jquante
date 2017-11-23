@@ -12,7 +12,7 @@ public class PrimitiveGaussianTest {
 	private final double delta = 0.000001;
 
 	@Test
-	public void testOne() {
+	public void s() {
 		PrimitiveGaussian gto = new PrimitiveGaussian(new Point3D(0, 0, 0),
 				new Power(0, 0, 0), 1.0, 1.0);
 
@@ -21,7 +21,7 @@ public class PrimitiveGaussianTest {
 	}
 
 	@Test
-	public void testTwo() {
+	public void d() {
 		PrimitiveGaussian gto = new PrimitiveGaussian(new Point3D(0, 0, 0),
 				new Power(1, 0, 1), 1.0, 1.0);
 

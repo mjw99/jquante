@@ -37,17 +37,17 @@ public class HuzinagaTwoElectronTermTest {
 	}
 
 	@Test
-	public void testSS00() {
+	public void ss00() {
 		assertEquals(1.1283791633342477, e2.coulomb(cgtoS0, cgtoS0, cgtoS0, cgtoS0), delta);
 	}
 
 	@Test
-	public void testSS01() {
+	public void ss01() {
 		assertEquals(0.8427007900292194, e2.coulomb(cgtoS0, cgtoS0, cgtoS1, cgtoS1), delta);
 	}
 
 	@Test
-	public void testSP00() {
+	public void sp00() {
 		assertEquals(0.9403159699467084, e2.coulomb(cgtoS0, cgtoS0, cgtoP0, cgtoP0), delta);
 	}
 }

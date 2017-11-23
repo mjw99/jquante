@@ -14,19 +14,19 @@ public class OneElectronTermTest {
 	OneElectronTerm oneElectronTerm = new OneElectronTerm();
 
 	@Test
-	public void kineticTest() {
+	public void kinetic() {
 		assertEquals(2.953052, oneElectronTerm.kinetic(1, new Power(0, 0, 0), new Point3D(0, 0, 0), 1,
 				new Power(0, 0, 0), new Point3D(0, 0, 0)), delta);
 	}
 
 	@Test
-	public void overlapTest() {
+	public void overlap() {
 		assertEquals(1.968701, oneElectronTerm.overlap(1, new Power(0, 0, 0), new Point3D(0, 0, 0), 1,
 				new Power(0, 0, 0), new Point3D(0, 0, 0)), delta);
 	}
 
 	@Test
-	public void overlap1DTest() {
+	public void overlap1D() {
 		assertEquals(1.0, oneElectronTerm.overlap1D(0, 0, 0, 0, 1), delta);
 	}
 
