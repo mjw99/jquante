@@ -49,4 +49,49 @@ public class HGPTwoElectronTermTest {
 	public void sp00() {
 		assertEquals(0.9403159699467084, e2.coulomb(cgtoS0, cgtoS0, cgtoP0, cgtoP0), delta);
 	}
+
+	@Test
+	public void vrrS0000() {
+		assertEquals(4.37335456733, e2.vrrWrapper(
+				new Point3D(0, 0, 0), 1.0, new Power(0, 0, 0), 1.0,
+				new Point3D(0, 0, 0), 1.0, 1.0,
+				new Point3D(0, 0, 0), 1.0, new Power(0, 0, 0), 1.0,
+				new Point3D(0, 0, 0), 1.0, 1.0, 0), delta);
+	}
+
+	@Test
+	public void vrrP0000() {
+		assertEquals(0.182223107579, e2.vrrWrapper(
+						new Point3D(0, 0, 0), 1.0, new Power(1, 0, 0), 1.0,
+						new Point3D(0, 0, 0), 1.0, 1.0,
+						new Point3D(0, 0, 0), 1.0, new Power(1, 0, 0), 1.0,
+						new Point3D(0, 0, 0), 1.0, 1.0, 0), delta);
+	}
+
+	@Test
+	public void vrrD0000() {
+		assertEquals(0.223223306785, e2.vrrWrapper(
+						new Point3D(0, 0, 0), 1.0, new Power(2, 0, 0), 1.0,
+						new Point3D(0, 0, 0), 1.0, 1.0,
+						new Point3D(0, 0, 0), 1.0, new Power(2, 0, 0), 1.0,
+						new Point3D(0, 0, 0), 1.0, 1.0, 0), delta);
+	}
+
+	@Test
+	public void vrrP1000() {
+		assertEquals(-5.63387712455e-06, e2.vrrWrapper(
+						new Point3D(1, 2, 3), 1.0, new Power(1, 0, 0), 1.0,
+						new Point3D(0, 0, 0), 1.0, 1.0,
+						new Point3D(0, 0, 0), 1.0, new Power(1, 0, 0), 1.0,
+						new Point3D(0, 0, 0), 1.0, 1.0, 0), delta);
+	}
+
+	@Test
+	public void vrrD1000() {
+		assertEquals(0.00022503308545040895, e2.vrrWrapper(
+						new Point3D(1, 2, 3), 1.0, new Power(2, 0, 0), 1.0,
+						new Point3D(0, 0, 0), 1.0, 1.0,
+						new Point3D(0, 0, 0), 1.0, new Power(2, 0, 0), 1.0, 
+						new Point3D(0, 0, 0), 1.0, 1.0, 0), delta);
+	}
 }
