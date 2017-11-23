@@ -12,7 +12,7 @@ public class ContractedGaussianTest {
 	private final double delta = 0.000001;
 
 	@Test
-	public void testOne() {
+	public void s() {
 		ContractedGaussian cgto = new ContractedGaussian(new Point3D(0, 0, 0),
 				new Power(0, 0, 0));
 
@@ -24,7 +24,7 @@ public class ContractedGaussianTest {
 	}
 
 	@Test
-	public void testSTO_3G_1S_H() {
+	public void sTO_3G_1S_H() {
 		// https://bse.pnl.gov/bse/portal
 
 		ContractedGaussian cgto = new ContractedGaussian(new Point3D(0, 0, 0),

@@ -10,13 +10,6 @@ import name.mjw.jquante.math.geom.Point3D;
  */
 public final class IntegralsUtil {
 
-	// for gammaIncomplete method
-	private static final double SMALL = 0.00000001;
-	private static final double EPS = 3.0e-7;
-	private static final double FPMIN = 1.0e-30;
-
-	private static final int MAX_ITERATION = 100;
-
 	private IntegralsUtil() {
 	}
 
@@ -98,6 +91,8 @@ public final class IntegralsUtil {
 	 * @return &Gamma;
 	 */
 	public static double computeFGamma(int m, double x) {
+		final double SMALL = 0.00000001;
+
 		x = Math.max(Math.abs(x), SMALL);
 
 		return (0.5 * Math.pow(x, -m - 0.5) * gammaIncomplete(m + 0.5, x));
@@ -115,6 +110,10 @@ public final class IntegralsUtil {
 	 * @return the incomplete gamma function P(a,x)
 	 */
 	public static double gammaIncomplete(double a, double x) {
+		final double EPS = 3.0e-7;
+		final double FPMIN = 1.0e-30;
+		final int MAX_ITERATION = 100;
+
 		double gammap;
 		double gln;
 
