@@ -140,7 +140,7 @@ public final class Utility {
 	 */
 	public static synchronized Molecule createMoleculeObject() {
 		try {
-			return (Molecule) getDefaultImplFor(Molecule.class).newInstance();
+			return (Molecule) getDefaultImplFor(Molecule.class).getDeclaredConstructor().newInstance();
 		} catch (Exception ignored) {
 			return null;
 		}
@@ -339,7 +339,7 @@ public final class Utility {
 		try {
 			MoleculeFileReaderFactory mfr = (MoleculeFileReaderFactory) (Utility
 					.getDefaultImplFor(MoleculeFileReaderFactory.class)
-					.newInstance());
+					.getDeclaredConstructor().newInstance());
 
 			String type = fileName.substring(fileName.lastIndexOf('.') + 1,
 					fileName.length());
@@ -376,7 +376,7 @@ public final class Utility {
 		try {
 			MoleculeFileReaderFactory mfr = (MoleculeFileReaderFactory) (Utility
 					.getDefaultImplFor(MoleculeFileReaderFactory.class)
-					.newInstance());
+					.getDeclaredConstructor().newInstance());
 
 			String type = fileName.substring(fileName.lastIndexOf('.') + 1,
 					fileName.length());

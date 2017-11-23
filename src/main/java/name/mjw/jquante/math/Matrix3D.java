@@ -301,7 +301,7 @@ public class Matrix3D implements Cloneable {
 	public Molecule rotate(Molecule molecule, Vector3D axis, double theta)
 			throws Exception {
 		Molecule newMolecule = (Molecule) ((Utility
-				.getDefaultImplFor(Molecule.class)).newInstance());
+				.getDefaultImplFor(Molecule.class)).getDeclaredConstructor().newInstance());
 
 		newMolecule.setTitle(molecule.getTitle());
 
@@ -329,7 +329,7 @@ public class Matrix3D implements Cloneable {
 	public Molecule transform(Molecule molecule, Quaternion quat)
 			throws Exception {
 		Molecule newMolecule = (Molecule) ((Utility
-				.getDefaultImplFor(Molecule.class)).newInstance());
+				.getDefaultImplFor(Molecule.class)).getDeclaredConstructor().newInstance());
 
 		newMolecule.setTitle(molecule.getTitle());
 
@@ -361,7 +361,7 @@ public class Matrix3D implements Cloneable {
 	public Molecule rotate(Molecule molecule, double xAngle, double yAngle,
 			double zAngle) throws Exception {
 		Molecule newMolecule = (Molecule) ((Utility
-				.getDefaultImplFor(Molecule.class)).newInstance());
+				.getDefaultImplFor(Molecule.class)).getDeclaredConstructor().newInstance());
 
 		newMolecule.setTitle(molecule.getTitle());
 
@@ -476,7 +476,7 @@ public class Matrix3D implements Cloneable {
 	 */
 	public Molecule transform(Molecule molecule) throws Exception {
 		Molecule newMolecule = (Molecule) ((Utility
-				.getDefaultImplFor(Molecule.class)).newInstance());
+				.getDefaultImplFor(Molecule.class)).getDeclaredConstructor().newInstance());
 
 		newMolecule.setTitle(molecule.getTitle());
 
