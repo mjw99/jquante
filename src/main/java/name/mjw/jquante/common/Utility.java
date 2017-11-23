@@ -6,7 +6,6 @@ import name.mjw.jquante.common.resource.StringResource;
 import name.mjw.jquante.config.GlobalConfiguration;
 import name.mjw.jquante.config.impl.DefaultConfiguration;
 import name.mjw.jquante.molecule.Molecule;
-import name.mjw.jquante.molecule.MoleculeBuilder;
 import name.mjw.jquante.moleculereader.MoleculeFileReader;
 import name.mjw.jquante.moleculereader.MoleculeFileReaderFactory;
 
@@ -142,22 +141,6 @@ public final class Utility {
 	public static synchronized Molecule createMoleculeObject() {
 		try {
 			return (Molecule) getDefaultImplFor(Molecule.class).newInstance();
-		} catch (Exception ignored) {
-			return null;
-		}
-	}
-
-	/**
-	 * Get new instance of a molecule builder object using default
-	 * implementation
-	 * 
-	 * @return the instance of Molecule object, a null if this method failed to
-	 *         do so
-	 */
-	public static synchronized MoleculeBuilder createMoleculeBuilderObject() {
-		try {
-			return (MoleculeBuilder) getDefaultImplFor(MoleculeBuilder.class)
-					.newInstance();
 		} catch (Exception ignored) {
 			return null;
 		}
