@@ -1,0 +1,33 @@
+package name.mjw.jquante.math.qm.integral;
+
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
+import name.mjw.jquante.math.geom.Point3D;
+import name.mjw.jquante.math.qm.basis.Power;
+
+public class OneElectronTermTest {
+
+	private final double delta = 0.000001;
+
+	OneElectronTerm oneElectronTerm = new OneElectronTerm();
+
+	@Test
+	public void kineticTest() {
+		assertEquals(2.953052, oneElectronTerm.kinetic(1, new Power(0, 0, 0), new Point3D(0, 0, 0), 1,
+				new Power(0, 0, 0), new Point3D(0, 0, 0)), delta);
+	}
+
+	@Test
+	public void overlapTest() {
+		assertEquals(1.968701, oneElectronTerm.overlap(1, new Power(0, 0, 0), new Point3D(0, 0, 0), 1,
+				new Power(0, 0, 0), new Point3D(0, 0, 0)), delta);
+	}
+
+	@Test
+	public void overlap1DTest() {
+		assertEquals(1.0, oneElectronTerm.overlap1D(0, 0, 0, 0, 1), delta);
+	}
+
+}
