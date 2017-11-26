@@ -2,7 +2,8 @@ package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import name.mjw.jquante.config.impl.AtomInfo;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
@@ -19,7 +20,7 @@ import name.mjw.jquante.parallel.SimpleParallelTaskExecuter;
  */
 public class OneElectronIntegrals {
 
-	private static final Logger LOG = Logger.getLogger(OneElectronIntegrals.class);
+	private static final Logger LOG = LogManager.getLogger(OneElectronIntegrals.class);
 
 	/**
 	 * The overlap S matrix.

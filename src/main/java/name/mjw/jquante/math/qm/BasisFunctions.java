@@ -3,7 +3,8 @@ package name.mjw.jquante.math.qm;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import name.mjw.jquante.math.qm.basis.AtomicBasis;
 import name.mjw.jquante.math.qm.basis.BasisReader;
@@ -27,7 +28,7 @@ import name.mjw.jquante.molecule.event.MoleculeStateChangeListener;
  */
 public class BasisFunctions {
 
-	private static final Logger LOG = Logger.getLogger(BasisFunctions.class);
+	private static final Logger LOG = LogManager.getLogger(BasisFunctions.class);
 
 	/**
 	 * Holds value of property basisFunctions.

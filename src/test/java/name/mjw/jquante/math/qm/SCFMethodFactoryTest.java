@@ -6,12 +6,13 @@ import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
 import name.mjw.jquante.molecule.impl.MoleculeImpl;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
 public class SCFMethodFactoryTest {
 
-	private final Logger LOG = Logger.getLogger(SCFMethodFactoryTest.class);
+	private final Logger LOG = LogManager.getLogger(SCFMethodFactoryTest.class);
 
 	double diff = 0.00001;
 

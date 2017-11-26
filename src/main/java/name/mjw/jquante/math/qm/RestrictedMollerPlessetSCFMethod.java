@@ -1,6 +1,7 @@
 package name.mjw.jquante.math.qm;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import name.mjw.jquante.math.Vector;
 import name.mjw.jquante.math.qm.event.SCFEvent;
@@ -18,7 +19,7 @@ import name.mjw.jquante.molecule.Molecule;
  */
 public class RestrictedMollerPlessetSCFMethod extends RestrictedHartreeFockMethod {
 
-	private static final Logger LOG = Logger.getLogger(RestrictedMollerPlessetSCFMethod.class);
+	private static final Logger LOG = LogManager.getLogger(RestrictedMollerPlessetSCFMethod.class);
 
 	/**
 	 * Holds value of property mpLevel.

@@ -2,7 +2,8 @@ package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import name.mjw.jquante.math.Matrix;
 import name.mjw.jquante.math.Vector;
@@ -21,7 +22,7 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 	/**
 	 * Logger object
 	 */
-	private static final Logger LOG = Logger
+	private static final Logger LOG = LogManager
 			.getLogger(DIISFockExtrapolator.class);
 
 	private ArrayList<Fock> fockMatrixList = new ArrayList<>();

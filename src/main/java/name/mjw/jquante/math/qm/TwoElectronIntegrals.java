@@ -2,7 +2,8 @@ package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import name.mjw.jquante.math.Vector3D;
 import name.mjw.jquante.math.geom.Point3D;
@@ -23,7 +24,7 @@ import name.mjw.jquante.parallel.SimpleParallelTaskExecuter;
  * @version 2.0 (Part of MeTA v2.0)
  */
 public class TwoElectronIntegrals {
-	private static final Logger LOG = Logger.getLogger(TwoElectronIntegrals.class);
+	private static final Logger LOG = LogManager.getLogger(TwoElectronIntegrals.class);
 
 	private BasisFunctions basisFunctions;
 

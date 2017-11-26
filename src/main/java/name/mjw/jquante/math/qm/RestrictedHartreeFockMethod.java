@@ -1,6 +1,7 @@
 package name.mjw.jquante.math.qm;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import name.mjw.jquante.math.Matrix;
 import name.mjw.jquante.math.Vector3D;
@@ -35,7 +36,7 @@ public class RestrictedHartreeFockMethod extends SCFMethod implements
 	/**
 	 * Logger object
 	 */
-	private static final Logger LOG = Logger
+	private static final Logger LOG = LogManager
 			.getLogger(RestrictedHartreeFockMethod.class);
 
 	/**
