@@ -23,11 +23,6 @@ import name.mjw.jquante.math.qm.basis.Power;
  * @version 2.0 (Part of MeTA v2.0)
  */
 public class HuzinagaTwoElectronTerm extends TwoElectronTerm {
-
-	/** Creates instance of HuzinagaTwoElectronTerm */
-	public HuzinagaTwoElectronTerm() {
-	}
-
 	/**
 	 * 2E coulomb interactions between four contracted Gaussians
 	 */

@@ -25,10 +25,6 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 
 	private final double sqrt2PI = Math.sqrt(2.0) * Math.pow(Math.PI, 1.25);
 
-	/** Creates a new instance of HGPTwoElectronTerm */
-	public HGPTwoElectronTerm() {
-	}
-
 	/**
 	 * 2E coulomb interactions between four contracted Gaussians.
 	 */

@@ -16,11 +16,6 @@ import name.mjw.jquante.math.qm.basis.Power;
  * @version 2.0 (Part of MeTA v2.0)
  */
 public class RysTwoElectronTerm extends TwoElectronTerm {
-
-	/** Creates an instance of RysTwoElectronTerm */
-	public RysTwoElectronTerm() {
-	}
-
 	/**
 	 * 2E coulomb interactions between 4 contracted Gaussians
 	 */
