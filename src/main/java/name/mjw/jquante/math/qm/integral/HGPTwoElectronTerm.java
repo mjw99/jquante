@@ -14,9 +14,9 @@ import java.util.stream.IntStream;
  * 
  * The code is based upon PyQuante (<a href="http://pyquante.sf.net">
  * http://pyquante.sf.net </a>). See 'A method for two‐electron Gaussian
- * integral and integral derivative evaluation using recurrence relations' <a
- * href="http://dx.doi.org/10.1063/1.455553"> M. Head-Gordon and J. A. Pople, J.
- * Chem. Phys. <b>89</b>, 5777 (1988)</a> for more details.
+ * integral and integral derivative evaluation using recurrence relations'
+ * <a href="http://dx.doi.org/10.1063/1.455553"> M. Head-Gordon and J. A. Pople,
+ * J. Chem. Phys. <b>89</b>, 5777 (1988)</a> for more details.
  * 
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
@@ -57,11 +57,10 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 	 * @param aCoeff
 	 *            Coefficients of primitives in contracted Gaussian function a.
 	 * @param aExps
-	 *            Orbital exponents of primitives in contracted Gaussian
-	 *            function a.
+	 *            Orbital exponents of primitives in contracted Gaussian function a.
 	 * @param aNorms
-	 *            Primitive normalisation coefficients of primitives in
-	 *            contracted Gaussian function a.
+	 *            Primitive normalisation coefficients of primitives in contracted
+	 *            Gaussian function a.
 	 * 
 	 * @param b
 	 *            Center of contracted Gaussian function b.
@@ -70,11 +69,10 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 	 * @param bCoeff
 	 *            Coefficients of primitives in contracted Gaussian function b.
 	 * @param bExps
-	 *            Orbital exponents of primitives in contracted Gaussian
-	 *            function b.
+	 *            Orbital exponents of primitives in contracted Gaussian function b.
 	 * @param bNorms
-	 *            Primitive normalisation coefficients of primitives in
-	 *            contracted Gaussian function b.
+	 *            Primitive normalisation coefficients of primitives in contracted
+	 *            Gaussian function b.
 	 * @param c
 	 *            Center of contracted Gaussian function c.
 	 * @param cPower
@@ -82,11 +80,10 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 	 * @param cCoeff
 	 *            Coefficients of primitives in contracted Gaussian function c.
 	 * @param cExps
-	 *            Orbital exponents of primitives in contracted Gaussian
-	 *            function c.
+	 *            Orbital exponents of primitives in contracted Gaussian function c.
 	 * @param cNorms
-	 *            Primitive normalisation coefficients of primitives in
-	 *            contracted Gaussian function c.
+	 *            Primitive normalisation coefficients of primitives in contracted
+	 *            Gaussian function c.
 	 * @param d
 	 *            Center of contracted Gaussian function d.
 	 * @param dPower
@@ -94,11 +91,10 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 	 * @param dCoeff
 	 *            Coefficients of primitives in contracted Gaussian function d.
 	 * @param dExps
-	 *            Orbital exponents of primitives in contracted Gaussian
-	 *            function d.
+	 *            Orbital exponents of primitives in contracted Gaussian function d.
 	 * @param dNorms
-	 *            Primitive normalisation coefficients of primitives in
-	 *            contracted Gaussian function d.
+	 *            Primitive normalisation coefficients of primitives in contracted
+	 *            Gaussian function d.
 	 * 
 	 * @return Contribution to Horizontal Recurrence Relation.
 	 */
@@ -176,22 +172,20 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 	 * @param aCoeff
 	 *            Coefficients of primitives in contracted Gaussian function a.
 	 * @param aExps
-	 *            Orbital exponents of primitives in contracted Gaussian
-	 *            function a.
+	 *            Orbital exponents of primitives in contracted Gaussian function a.
 	 * @param aNorms
-	 *            Primitive normalisation coefficients of primitives in
-	 *            contracted Gaussian function a.
+	 *            Primitive normalisation coefficients of primitives in contracted
+	 *            Gaussian function a.
 	 * 
 	 * @param b
 	 *            Center of contracted Gaussian function b. *
 	 * @param bCoeff
 	 *            Coefficients of primitives in contracted Gaussian function b.
 	 * @param bExps
-	 *            Orbital exponents of primitives in contracted Gaussian
-	 *            function b.
+	 *            Orbital exponents of primitives in contracted Gaussian function b.
 	 * @param bNorms
-	 *            Primitive normalisation coefficients of primitives in
-	 *            contracted Gaussian function b.
+	 *            Primitive normalisation coefficients of primitives in contracted
+	 *            Gaussian function b.
 	 * 
 	 * @param c
 	 *            Center of contracted Gaussian function c.
@@ -200,22 +194,20 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 	 * @param cCoeff
 	 *            Coefficients of primitives in contracted Gaussian function c.
 	 * @param cExps
-	 *            Orbital exponents of primitives in contracted Gaussian
-	 *            function c.
+	 *            Orbital exponents of primitives in contracted Gaussian function c.
 	 * @param cNorms
-	 *            Primitive normalisation coefficients of primitives in
-	 *            contracted Gaussian function c.
+	 *            Primitive normalisation coefficients of primitives in contracted
+	 *            Gaussian function c.
 	 * 
 	 * @param d
 	 *            Center of contracted Gaussian function d. *
 	 * @param dCoeff
 	 *            Coefficients of primitives in contracted Gaussian function d.
 	 * @param dExps
-	 *            Orbital exponents of primitives in contracted Gaussian
-	 *            function d.
+	 *            Orbital exponents of primitives in contracted Gaussian function d.
 	 * @param dNorms
-	 *            Primitive normalisation coefficients of primitives in
-	 *            contracted Gaussian function d.
+	 *            Primitive normalisation coefficients of primitives in contracted
+	 *            Gaussian function d.
 	 * 
 	 * @return Contribution to Vertical Recurrence Relation.
 	 */
@@ -246,58 +238,62 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 		double kcCoef;
 		double kcNorm;
 
-		value = IntStream.range(0, aExps.size()).parallel().mapToDouble(id -> IntStream.range(0, bExps.size())
-				.mapToDouble(jd -> IntStream.range(0, cExps.size()).mapToDouble(kd -> IntStream.range(0, dExps.size()).mapToDouble(ld -> {
-					double iaExp1;
-					double iaCoef1;
-					double iaNorm1;
-			
-					double jbExp1;
-					double jbCoef1;
-					double jbNorm1;
-			
-					double kcExp1;
-					double kcCoef1;
-					double kcNorm1;
+		value = IntStream.range(0, aExps.size()).parallel()
+				.mapToDouble(id -> IntStream.range(0, bExps.size()).mapToDouble(jd -> IntStream.range(0, cExps.size())
+						.mapToDouble(kd -> IntStream.range(0, dExps.size()).mapToDouble(ld -> {
+							double iaExp1;
+							double iaCoef1;
+							double iaNorm1;
 
-					iaCoef1 = aCoeff.get(id);
-					iaExp1 = aExps.get(id);
-					iaNorm1 = aNorms.get(id);
+							double jbExp1;
+							double jbCoef1;
+							double jbNorm1;
 
-					jbCoef1 = bCoeff.get(jd);
-					jbExp1 = bExps.get(jd);
-					jbNorm1 = bNorms.get(jd);
+							double kcExp1;
+							double kcCoef1;
+							double kcNorm1;
 
-					kcCoef1 = cCoeff.get(kd);
-					kcExp1 = cExps.get(kd);
-					kcNorm1 = cNorms.get(kd);
+							iaCoef1 = aCoeff.get(id);
+							iaExp1 = aExps.get(id);
+							iaNorm1 = aNorms.get(id);
 
-					double v = iaCoef1 * jbCoef1 * kcCoef1 * dCoeff.get(ld) * vrrWrapper(a, iaNorm1, aPower, iaExp1, b,
-					jbNorm1, jbExp1, c, kcNorm1, cPower, kcExp1, d, dNorms.get(ld), dExps.get(ld), 0);
-					return v;
-				}).sum()).sum()).sum()).sum();
+							jbCoef1 = bCoeff.get(jd);
+							jbExp1 = bExps.get(jd);
+							jbNorm1 = bNorms.get(jd);
+
+							kcCoef1 = cCoeff.get(kd);
+							kcExp1 = cExps.get(kd);
+							kcNorm1 = cNorms.get(kd);
+
+							double v = iaCoef1 * jbCoef1 * kcCoef1 * dCoeff.get(ld)
+									* vrrWrapper(a, iaNorm1, aPower, iaExp1, b, jbNorm1, jbExp1, c, kcNorm1, cPower,
+											kcExp1, d, dNorms.get(ld), dExps.get(ld), 0);
+							return v;
+						}).sum()).sum()).sum())
+				.sum();
 
 		// for (i = 0; i < aExps.size(); i++) {
-		// 	iaCoef = aCoeff.get(i);
-		// 	iaExp = aExps.get(i);
-		// 	iaNorm = aNorms.get(i);
+		// iaCoef = aCoeff.get(i);
+		// iaExp = aExps.get(i);
+		// iaNorm = aNorms.get(i);
 
-		// 	for (j = 0; j < bExps.size(); j++) {
-		// 		jbCoef = bCoeff.get(j);
-		// 		jbExp = bExps.get(j);
-		// 		jbNorm = bNorms.get(j);
+		// for (j = 0; j < bExps.size(); j++) {
+		// jbCoef = bCoeff.get(j);
+		// jbExp = bExps.get(j);
+		// jbNorm = bNorms.get(j);
 
-		// 		for (k = 0; k < cExps.size(); k++) {
-		// 			kcCoef = cCoeff.get(k);
-		// 			kcExp = cExps.get(k);
-		// 			kcNorm = cNorms.get(k);
+		// for (k = 0; k < cExps.size(); k++) {
+		// kcCoef = cCoeff.get(k);
+		// kcExp = cExps.get(k);
+		// kcNorm = cNorms.get(k);
 
-		// 			for (l = 0; l < dExps.size(); l++) {
-		// 				value += iaCoef * jbCoef * kcCoef * dCoeff.get(l) * vrrWrapper(a, iaNorm, aPower, iaExp, b,
-		// 						jbNorm, jbExp, c, kcNorm, cPower, kcExp, d, dNorms.get(l), dExps.get(l), 0);
-		// 			}
-		// 		}
-		// 	}
+		// for (l = 0; l < dExps.size(); l++) {
+		// value += iaCoef * jbCoef * kcCoef * dCoeff.get(l) * vrrWrapper(a, iaNorm,
+		// aPower, iaExp, b,
+		// jbNorm, jbExp, c, kcNorm, cPower, kcExp, d, dNorms.get(l), dExps.get(l), 0);
+		// }
+		// }
+		// }
 		// }
 
 		return value;
