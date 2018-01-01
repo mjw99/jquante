@@ -81,7 +81,7 @@ public class UnrestrictedHartreeFockMethod extends SCFMethod implements
 	public UnrestrictedHartreeFockMethod(Molecule molecule,
 			OneElectronIntegrals oneEI, TwoElectronIntegrals twoEI,
 			SCFType scfType) {
-		super(molecule, oneEI, twoEI);
+		super(molecule, oneEI, twoEI, true);
 
 		scfEvent = new SCFEvent(this);
 		this.scfType = scfType;
@@ -112,18 +112,22 @@ public class UnrestrictedHartreeFockMethod extends SCFMethod implements
 		double eTwo;
 
 		// init memory for the matrices
-		gMatrix = new GMatrix(hCore.getRowCount());
-		mos = new MolecularOrbitals(hCore.getRowCount());
-		density = new Density(hCore.getRowCount());
-		fock = new Fock(hCore.getRowCount());
+		gMatrixList.set(0, new GMatrix(hCore.getRowCount()));  // A
+		gMatrixList.set(1, new GMatrix(hCore.getRowCount()));  // B
+		mosList.set(0, new MolecularOrbitals(hCore.getRowCount()));
+		mosList.set(1, new MolecularOrbitals(hCore.getRowCount()));
+		densityList.set(0, new Density(hCore.getRowCount()));
+		densityList.set(1, new Density(hCore.getRowCount()));
+		fockList.set(0, new Fock(hCore.getRowCount()));
+		fockList.set(1, new Fock(hCore.getRowCount()));
 
-		// compute initial MOs
-		mos.compute(hCore, overlap);
-		LOG.debug("Initial computed MO coefficient matrix as: \n" + mos);
+		// TODO: compute initial MOs
+		mosList.get(0).compute(hCore, overlap);
+		LOG.debug("Initial computed MO coefficient matrix as: \n" + mosList.get(0));
 
 		FockExtrapolator diis = new DIISFockExtrapolator();
 
-		LOG.debug("Initial density matrix \n" + density);
+		LOG.debug("Initial density matrix \n" + densityList.get(0));
 
 		// start the SCF cycle
 		for (scfIteration = 0; scfIteration < maxIteration; scfIteration++) {
@@ -132,30 +136,34 @@ public class UnrestrictedHartreeFockMethod extends SCFMethod implements
 			LOG.debug("SCF iteration: " + scfIteration);
             // make or guess density
             // TODO: will have two parts Da and Db
-			density.compute(this, guessInitialDM && (scfIteration == 0),
-					densityGuesser, noOfOccupancies, mos);
+			densityList.get(0).compute(this, guessInitialDM && (scfIteration == 0),
+					densityGuesser, noOfOccupancies, mosList.get(0));
 
 			LOG.debug("Density matrix:\n" + density);
 
             // make the G matrix
             // TODO: G will have two parts Ga = Ja+Jb-Ka and Gb = Ja+Jb-Kb 
-			gMatrix.compute(scfType, twoEI, density);
+			gMatrixList.get(0).compute(scfType, twoEI, densityList.get(0));
+			gMatrixList.get(1).compute(scfType, twoEI, densityList.get(1));
 
             // make fock matrix
             // TODO: F will have two parts Fa = h+Ga and Fb = h+Gb
-			fock.compute(hCore, gMatrix);
+			fockList.get(0).compute(hCore, gMatrixList.get(0));
+			fockList.get(1).compute(hCore, gMatrixList.get(1));
 
 			// apply DIIS
-			fock = diis.next(fock, overlap, density);
+			// TODO : diis needs to be rewritten to take care of Fa and Fb
+			// fock = diis.next(fock, overlap, density);
 
             // compute the new MOs
             // TODO: two set of orbitals, mosA, mosB
-			mos.compute(fock, overlap);
+			mosList.get(0).compute(fockList.get(0), overlap);
+			mosList.get(1).compute(fockList.get(0), overlap);
 
             // compute the total energy at this point
-            // TODO: eTwo (fock energy) will have two parts
-			eOne = density.mul(hCore).trace();
-			eTwo = density.mul(fock).trace();
+            // TODO: eTwo (fock energy) will have two parts - this eqn needs to change
+			eOne = densityList.get(0).mul(hCore).trace();
+			eTwo = densityList.get(0).mul(fock).trace();
 
 			energy = eOne + eTwo + nuclearEnergy;
 

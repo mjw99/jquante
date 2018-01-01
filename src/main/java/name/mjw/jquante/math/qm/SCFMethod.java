@@ -1,5 +1,7 @@
 package name.mjw.jquante.math.qm;
 
+import java.util.ArrayList;
+
 import name.mjw.jquante.common.EventListenerList;
 import name.mjw.jquante.config.impl.AtomInfo;
 import name.mjw.jquante.math.optimizer.OptimizerFunction;
@@ -37,22 +39,26 @@ public abstract class SCFMethod implements OptimizerFunction {
 	 * The Density matrix.
 	 */
 	protected Density density;
+	protected ArrayList<Density> densityList;
 
 	/**
 	 * The Molecular Orbitals (coefficient) matrix.
 	 */
 	protected MolecularOrbitals mos;
+	protected ArrayList<MolecularOrbitals> mosList;
 
 	/**
 	 * Preamble to Fock matrix construction; contains the contribution from the
 	 * two electron integrals and the density matrix.
 	 */
 	protected GMatrix gMatrix;
+	protected ArrayList<GMatrix> gMatrixList;
 
 	/**
 	 * Holds value of property fock - the Fock matrix.
 	 */
 	protected Fock fock;
+	protected ArrayList<Fock> fockList;
 
 	/**
 	 * Holds value of property energyTolerance.
@@ -100,7 +106,12 @@ public abstract class SCFMethod implements OptimizerFunction {
 	private EventListenerList<SCFEventListener> listenerList = null;
 
 	/**
-	 * Creates a new instance of SCFMethod.
+	 * Is this an open shell SCF method? 
+	 */
+	private boolean openShell;
+
+	/**
+	 * Creates a new instance of SCFMethod (closed shell).
 	 *
 	 * @param molecule
 	 *            the Molecule object.
@@ -109,8 +120,25 @@ public abstract class SCFMethod implements OptimizerFunction {
 	 * @param twoEI
 	 *            the 2E integral driver.
 	 */
-	public SCFMethod(Molecule molecule, OneElectronIntegrals oneEI,
-			TwoElectronIntegrals twoEI) {
+	public SCFMethod(Molecule molecule, OneElectronIntegrals oneEI, 
+	                 TwoElectronIntegrals twoEI) {
+		this(molecule, oneEI, twoEI, false);
+	}
+
+	/**
+	 * Creates a new instance of SCFMethod.
+	 *
+	 * @param molecule
+	 *            the Molecule object.
+	 * @param oneEI
+	 *            the 1E integral driver.
+	 * @param twoEI
+	 *            the 2E integral driver.
+	 * @param openShell
+	 * 	          is this a closed shell setup?
+	 */
+	public SCFMethod(Molecule molecule, OneElectronIntegrals oneEI, 
+	                 TwoElectronIntegrals twoEI, boolean openShell) {
 		this.maxIteration = MAX_ITERATION;
 
 		this.energyTolerance = ENERGY_TOLERANCE;
@@ -121,6 +149,14 @@ public abstract class SCFMethod implements OptimizerFunction {
 		this.twoEI = twoEI;
 
 		this.guessInitialDM = false;
+		this.openShell = openShell;
+
+		if (this.openShell) {
+			this.densityList = new ArrayList<Density>(2);
+			this.mosList = new ArrayList<MolecularOrbitals>(2);
+			this.gMatrixList = new ArrayList<GMatrix>(2);
+			this.fockList = new ArrayList<Fock>(2);
+		}
 	}
 
 	/**
@@ -147,8 +183,7 @@ public abstract class SCFMethod implements OptimizerFunction {
 		AtomInfo ai = AtomInfo.getInstance();
 
 		for (i = 0; i < noOfAtoms; i++) {
-			atomicNumbers[i] = ai.getAtomicNumber(molecule.getAtom(i)
-					.getSymbol());
+			atomicNumbers[i] = ai.getAtomicNumber(molecule.getAtom(i).getSymbol());
 		}
 
 		// compute nuclear energy
@@ -157,10 +192,8 @@ public abstract class SCFMethod implements OptimizerFunction {
 			for (j = 0; j < i; j++) {
 				atomJ = molecule.getAtom(j);
 
-				eNuke += atomicNumbers[i]
-						* atomicNumbers[j]
-						/ atomI.getAtomCenterInAU().distanceFrom(
-								atomJ.getAtomCenterInAU());
+				eNuke += atomicNumbers[i] * atomicNumbers[j]
+						/ atomI.getAtomCenterInAU().distanceFrom(atomJ.getAtomCenterInAU());
 			}
 		}
 
@@ -234,6 +267,21 @@ public abstract class SCFMethod implements OptimizerFunction {
 	}
 
 	/**
+	 * Getter for property density.
+	 * 
+	 * @param denNo - 0 is A, 1 is B in case of open shell systems 
+	 * 
+	 * @return Value of property density.
+	 */
+	public Density getDensity(int denNo) {
+		if (this.openShell) {
+			return this.densityList.get(denNo);
+		} else {
+			return this.density;
+		}
+	}
+
+	/**
 	 * Getter for property mos.
 	 * 
 	 * @return Value of property mos.
@@ -243,12 +291,42 @@ public abstract class SCFMethod implements OptimizerFunction {
 	}
 
 	/**
+	 * Getter for property mos.
+	 * 
+	 * @param mosNo - 0 is A, 1 is B in case of open shell systems 
+	 * 
+	 * @return Value of property mos.
+	 */
+	public MolecularOrbitals getMos(int mosNo) {
+		if (this.openShell) {
+			return this.mosList.get(mosNo);
+		} else {
+			return this.mos;
+		}
+	}
+
+	/**
 	 * Getter for property orbE.
 	 * 
 	 * @return Value of property orbE.
 	 */
 	public double[] getOrbE() {
 		return this.mos.getOrbitalEnergies();
+	}
+
+	/**
+	 * Getter for property orbE.
+	 * 
+	 * @param mosNo - 0 is A, 1 is B in case of open shell systems 
+	 * 
+	 * @return Value of property orbE.
+	 */
+	public double[] getOrbE(int mosNo) {
+		if (this.openShell) {
+			return this.mosList.get(mosNo).getOrbitalEnergies();
+		} else {
+			return this.mos.getOrbitalEnergies();
+		}
 	}
 
 	/**
@@ -335,12 +413,42 @@ public abstract class SCFMethod implements OptimizerFunction {
 	}
 
 	/**
+	 * Getter for property fock.
+	 * 
+	 * @param fckNo - 0 is A, 1 is B in case of open shell systems 
+	 * 
+	 * @return Value of property fock.
+	 */
+	public Fock getFock(int fckNo) {
+		if (this.openShell) {
+			return this.fockList.get(fckNo);
+		} else {
+			return this.fock;
+		}
+	}
+
+	/**
 	 * Get the value of gMatrix
 	 * 
 	 * @return the value of gMatrix
 	 */
 	public GMatrix getGMatrix() {
 		return gMatrix;
+	}
+
+	/**
+	 * Get the value of gMatrix
+	 * 
+	 * @param gmatNo - 0 is A, 1 is B in case of open shell systems 
+	 * 
+	 * @return the value of gMatrix
+	 */
+	public GMatrix getGMatrix(int gmatNo) {
+		if (this.openShell) {
+			return this.gMatrixList.get(gmatNo);
+		} else {
+			return gMatrix;
+		}
 	}
 
 	/**
