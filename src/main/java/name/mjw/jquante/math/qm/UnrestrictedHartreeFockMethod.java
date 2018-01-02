@@ -138,8 +138,10 @@ public class UnrestrictedHartreeFockMethod extends SCFMethod implements
             // TODO: will have two parts Da and Db
 			densityList.get(0).compute(this, guessInitialDM && (scfIteration == 0),
 					densityGuesser, noOfOccupancies, mosList.get(0));
+			densityList.get(1).compute(this, guessInitialDM && (scfIteration == 0),
+					densityGuesser, noOfOccupancies, mosList.get(1));
 
-			LOG.debug("Density matrix:\n" + density);
+			LOG.debug("Density matrix:\n" + densityList);
 
             // make the G matrix
             // TODO: G will have two parts Ga = Ja+Jb-Ka and Gb = Ja+Jb-Kb 
