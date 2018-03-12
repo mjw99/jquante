@@ -20,19 +20,21 @@ public class Vector3D implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/** Null vector in 3 dimensional space */
-	public final static Vector3D NULL_VECTOR = new Vector3D(0.0, 0.0, 0.0);
+	public static final Vector3D NULL_VECTOR = new Vector3D(0.0, 0.0, 0.0);
 
 	/** Unit vector along X in 3 dimensional space */
-	public final static Vector3D UX = new Vector3D(1.0, 0.0, 0.0);
+	public static final Vector3D UX = new Vector3D(1.0, 0.0, 0.0);
 
 	/** Unit vector along Y in 3 dimensional space */
-	public final static Vector3D UY = new Vector3D(0.0, 1.0, 0.0);
+	public static final Vector3D UY = new Vector3D(0.0, 1.0, 0.0);
 
 	/** Unit vector along Z in 3 dimensional space */
-	public final static Vector3D UZ = new Vector3D(0.0, 0.0, 1.0);
+	public static final Vector3D UZ = new Vector3D(0.0, 0.0, 1.0);
 
-	/** the componanats of this vector */
-	private double i, j, k;
+	/** the components of this vector */
+	private double i;
+	private double j;
+	private double k;
 
 	/** hash code cached here */
 	private volatile int hashCode = 0;
@@ -90,22 +92,22 @@ public class Vector3D implements Serializable {
 	}
 
 	/**
-	 * substraction of two vectors (this - b)
+	 * Subtraction of two vectors (this - b)
 	 * 
 	 * @param b
-	 *            the Vector3D to be substracted from the current vector
-	 * @return the substraction of two vector
+	 *            the Vector3D to be subtracted from the current vector
+	 * @return the subtraction of two vector
 	 */
 	public Vector3D sub(Vector3D b) {
 		return new Vector3D(this.i - b.i, this.j - b.j, this.k - b.k);
 	}
 
 	/**
-	 * substraction of a point as a vector
+	 * Subtraction of a point as a vector
 	 * 
 	 * @param b
-	 *            the Point3D to be substracted to the current vector
-	 * @return the substraction of point (as vector) and this vector
+	 *            the Point3D to be subtracted to the current vector
+	 * @return the subtraction of point (as vector) and this vector
 	 */
 	public Vector3D sub(Point3D b) {
 		return sub(new Vector3D(b));
@@ -133,8 +135,7 @@ public class Vector3D implements Serializable {
 	 * The dot product of two vectors (a.b), point considered as vector.
 	 * 
 	 * @param b
-	 *            the vector (Point3D) with which the dot product is to be
-	 *            evaluated
+	 *            the vector (Point3D) with which the dot product is to be evaluated
 	 * @return a double value which is the result of the dot product
 	 */
 	public double dot(Point3D b) {
@@ -142,16 +143,15 @@ public class Vector3D implements Serializable {
 	}
 
 	/**
-	 * The cross product of two vectors (a.b). The corss product is only valid
-	 * if both the vectors are in R^3 space.
+	 * The cross product of two vectors (a.b). The cross product is only valid if
+	 * both the vectors are in R^3 space.
 	 * 
 	 * @param b
 	 *            the vector with which the cross product is to be evaluated
 	 * @return the result of the cross product
 	 */
 	public Vector3D cross(Vector3D b) {
-		return new Vector3D(j * b.k - k * b.j, k * b.i - i * b.k, i * b.j - j
-				* b.i);
+		return new Vector3D(j * b.k - k * b.j, k * b.i - i * b.k, i * b.j - j * b.i);
 	}
 
 	/**
@@ -212,9 +212,9 @@ public class Vector3D implements Serializable {
 	}
 
 	/**
-	 * get the normalized form of this vector
+	 * get the normalised form of this vector
 	 * 
-	 * @return the normalized form of this vector
+	 * @return the normalised form of this vector
 	 */
 	public Vector3D normalize() {
 		double magnitude = magnitude();
@@ -264,7 +264,7 @@ public class Vector3D implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
 		sb.append(i + " i + ");
 		sb.append(j + " j + ");
@@ -291,7 +291,7 @@ public class Vector3D implements Serializable {
 	}
 
 	/**
-	 * overriden hashCode() method
+	 * Overridden hashCode() method
 	 * 
 	 * @return int - the hashCode
 	 */
@@ -311,7 +311,7 @@ public class Vector3D implements Serializable {
 			result = 37 * result + (int) (c ^ (c >>> 32));
 
 			hashCode = result;
-		} // end if
+		}
 
 		return hashCode;
 	}
@@ -379,4 +379,4 @@ public class Vector3D implements Serializable {
 		this.k = k;
 	}
 
-} // end of class Vector3D
+}
