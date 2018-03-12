@@ -13,17 +13,13 @@ public class GaussianElimination extends LinearEquationSolver {
 
 	private int[] row;
 	private double[][] a;
-	private double[] x;
-
-	/** Creates a new instance of GaussianElimination */
-	public GaussianElimination() {
-	}
-
-	private int n, n1;
+	private int n;
+	private int n1;
 
 	@Override
 	public void findSolution() throws SingularMatrixException {
 		int N = matrixA.getRowCount();
+		double[] x;
 		Matrix m = new Matrix(N, N + 1);
 		a = m.getMatrix();
 		x = vectorX.getVector();
@@ -41,53 +37,52 @@ public class GaussianElimination extends LinearEquationSolver {
 
 		row = new int[a.length];
 
-		// initilize row vector
+		// Initialise row vector
 		for (int j = 1; j <= n; j++)
 			row[j] = j;
 
 		// first make the the matrix upper triangular
-		upperTriangularize(true);
+		upperTriangularize(false);
 
 		// now use back substitution to get the solution
 		// first solution from back :)
 		x[n] = a[row[n]][n1] / a[row[n]][n];
 
-		double sum = 0.0;
+		double sum;
 		for (int k = (n - 1); k >= 0; k--) {
 			sum = 0.0;
 			for (int c = (k + 1); c <= n; c++) {
 				sum += (a[row[k]][c] * x[c]); // compute next solutions
-			} // end of inner loop
+			}
 
 			// the actual next solution
 			x[k] = (a[row[k]][n1] - sum) / a[row[k]][k];
-		} // end outer for
+
+		}
 	}
 
 	/** Upper triangularize the matrix */
-	private void upperTriangularize(boolean doOneScale)
-			throws SingularMatrixException {
+	private void upperTriangularize(boolean doOneScale) throws SingularMatrixException {
 		// check if matrix is already upper triangular
 		// this check may be removed in future
 		if (matrixA.isUpperTriangular()) {
 			return;
-		} // end if
+		}
 
 		for (int p = 0; p <= n1; p++) {
 			simplePivot(p); // apply simple pivoting
 			oneScale(p, doOneScale); // apply simple 1-scaling
-		} // end for
+		}
 
 		if (matrixA.isSingular(n, row)) {
 			throw new SingularMatrixException(); // if singular
-		} // end if
+		}
 	}
 
 	/**
-	 * simplePivot() - This method does simple pivoting if the a[j][j]th element
-	 * is zero. It first finds the a[i][j]th element which is numerically
-	 * greater than a[j][j] and i&gt;j and then interchanges the ith and jth
-	 * rows.
+	 * This method does simple pivoting if the a[j][j]th element is zero. It first
+	 * finds the a[i][j]th element which is numerically greater than a[j][j] and
+	 * i&gt;j and then interchanges the ith and jth rows.
 	 * 
 	 * @param p
 	 *            The pth iteration in Gaussian elemination.
@@ -115,25 +110,25 @@ public class GaussianElimination extends LinearEquationSolver {
 				temp = row[p];
 				row[p] = row[k];
 				row[k] = temp;
-			} // end if
-		} // end for
+			}
+		}
 
 		// check if singular
 		if (matrixA.isSingular(p, row)) {
 			throw new SingularMatrixException(); // if singular
 		}
-	} // end of method simplePivot()
+	}
 
 	/**
-	 * oneScale() - This method makes the a[j][j]th entry at the jth iteration
-	 * close to unity by dividing each element of the jth row by a[j][j].
+	 * This method makes the a[j][j]th entry at the jth iteration close to unity by
+	 * dividing each element of the jth row by a[j][j].
 	 * 
 	 * @param p
-	 *            - The jth iteration in Gaussian elimation. boolean scale -
-	 *            Scale to one or not
+	 *            - The jth iteration in Gaussian elimation. boolean scale - Scale
+	 *            to one or not
 	 */
 	private void oneScale(int p, boolean scale) {
-		double m = 0.0;
+		double m;
 
 		if (p >= row.length) {
 			return;
@@ -145,17 +140,17 @@ public class GaussianElimination extends LinearEquationSolver {
 
 			for (int c = (p + 1); c <= n1; c++) {
 				a[row[k]][c] -= (m * a[row[p]][c]);
-			} // end inner for
+			}
 
 			a[row[k]][p] = m;
-		} // end outer for
+		}
 
 		if (scale) {
 			a[row[p]][p] = 1.0; // diagonal element is now 1
-		} // end if
+		}
 
 		for (int c = (p + 1); c <= n; c++) {
 			a[row[c]][p] = 0.0; // all entries below diagonal are 0
-		} // end for
-	} // end of method oneScale()
+		}
+	}
 }
