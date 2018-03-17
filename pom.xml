@@ -17,6 +17,7 @@
 		<log4j.version>2.10.0</log4j.version>
 		<fortranformat.version>1.1.1</fortranformat.version>
 		<jaxb.version>2.3.0</jaxb.version>
+		<commons-math3.version>3.6.1</commons-math3.version>
 	</properties>
 
 	<description>JQuante is essentially a JAVA QM toolkit that was inspired by PyQuante.</description>
@@ -195,6 +196,12 @@
                     <artifactId>jaxb-api</artifactId>
                     <version>${jaxb.version}</version>
                 </dependency>
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-math3</artifactId>
+		    <version>${commons-math3.version}</version>
+		</dependency>
+
 
 	</dependencies>
 </project>
