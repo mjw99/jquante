@@ -87,12 +87,12 @@ public class GMatrix extends Matrix {
 			return;
 		} // end if
 
-		int noOfBasisFunctions = density.getRowCount();
+		int noOfBasisFunctions = density.getRowDimension();
 		Matrix theGMatrix = this;
 		Vector densityOneD = new Vector(density); // form 1D vector of density
 		Vector tempVector = new Vector(noOfBasisFunctions * noOfBasisFunctions);
 
-		double[][] gMatrix = theGMatrix.getMatrix();
+		double[][] gMatrix = theGMatrix.getData();
 		double[] ints = twoEI.getTwoEIntegrals();
 		double[] temp = tempVector.getVector();
 
@@ -142,19 +142,19 @@ public class GMatrix extends Matrix {
 		// start the threads
 		GMatrixFormationThread tThread = new GMatrixFormationThread();
 		tThread.setTaskName("GMatrixFormationThread Thread");
-		tThread.setTotalItems(density.getRowCount());
+		tThread.setTotalItems(density.getRowDimension());
 
 		pTaskExecuter.execute(tThread);
 
 		if (!partialGMatrixList.isEmpty()) {
 			// collect the result and sum the partial contributions
 			this.makeZero();
-			double[][] gMatrix = this.getMatrix();
-			int n = this.getRowCount();
+			double[][] gMatrix = this.getData();
+			int n = this.getRowDimension();
 
 			// sum up the partial results
 			for (GMatrix pgMat : partialGMatrixList) {
-				double[][] pgm = pgMat.getMatrix();
+				double[][] pgm = pgMat.getData();
 
 				for (int i = 0; i < n; i++) {
 					for (int j = 0; j < n; j++) {
@@ -198,7 +198,7 @@ public class GMatrix extends Matrix {
 		double[] d2IntsDza = twoEDers.get(2);
 
 		density = scfMethod.getDensity();
-		int noOfBasisFunctions = density.getRowCount();
+		int noOfBasisFunctions = density.getRowDimension();
 		Vector densityOneD = new Vector(density); // form 1D vector of density
 
 		GMatrix gdx = new GMatrix(noOfBasisFunctions);
@@ -292,12 +292,12 @@ public class GMatrix extends Matrix {
 		/** function to facilitate multi-threaded direct formation of GMatrix */
 		private void makeGMatrixDirect(int startBasisFunction,
 				int endBasisFunction) {
-			int noOfBasisFunctions = density.getRowCount();
+			int noOfBasisFunctions = density.getRowDimension();
 			GMatrix theGMatrix = new GMatrix(noOfBasisFunctions);
 			theGMatrix.makeZero();
 
-			double[][] gMatrix = theGMatrix.getMatrix();
-			double[][] dMatrix = density.getMatrix();
+			double[][] gMatrix = theGMatrix.getData();
+			double[][] dMatrix = density.getData();
 
 			int i;
 			int j;

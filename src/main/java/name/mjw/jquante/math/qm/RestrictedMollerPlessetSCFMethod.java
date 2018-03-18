@@ -60,7 +60,7 @@ public class RestrictedMollerPlessetSCFMethod extends RestrictedHartreeFockMetho
 		transformAOIntsToMOInts();
 
 		// now compute MP2 energy and then compute the total energy
-		int noOfBasisFunctions = mos.getRowCount();
+		int noOfBasisFunctions = mos.getRowDimension();
 		int noOfElectrons = molecule.getNumberOfElectrons();
 		int noOfOccupancies = noOfElectrons / 2;
 		int noOfVirtualOrbitals = noOfBasisFunctions - noOfOccupancies;
@@ -111,8 +111,8 @@ public class RestrictedMollerPlessetSCFMethod extends RestrictedHartreeFockMetho
 		int i;
 		int j;
 
-		int noOfBasisFunctions = mos.getRowCount();
-		int noOfMOS = mos.getColumnCount();
+		int noOfBasisFunctions = mos.getRowDimension();
+		int noOfMOS = mos.getColumnDimension();
 		int noOfElectrons = molecule.getNumberOfElectrons();
 		int noOfOccupancies = noOfElectrons / 2;
 

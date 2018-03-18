@@ -81,14 +81,14 @@ public class Overlap extends Matrix {
 
 		ArrayList<Overlap> dOverlap = new ArrayList<>(3);
 
-		int noOfBasisFunctions = this.getRowCount();
+		int noOfBasisFunctions = this.getRowDimension();
 		Overlap dOverlapDx = new Overlap(noOfBasisFunctions);
 		Overlap dOverlapDy = new Overlap(noOfBasisFunctions);
 		Overlap dOverlapDz = new Overlap(noOfBasisFunctions);
 
-		double[][] hdx = dOverlapDx.getMatrix();
-		double[][] hdy = dOverlapDy.getMatrix();
-		double[][] hdz = dOverlapDz.getMatrix();
+		double[][] hdx = dOverlapDx.getData();
+		double[][] hdy = dOverlapDy.getData();
+		double[][] hdz = dOverlapDz.getData();
 
 		for (int i = 0; i < noOfBasisFunctions; i++) {
 			for (int j = 0; j < noOfBasisFunctions; j++) {

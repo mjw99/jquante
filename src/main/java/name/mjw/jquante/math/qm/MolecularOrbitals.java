@@ -51,7 +51,7 @@ public class MolecularOrbitals extends Matrix {
 	 * @return the coefficient matrix
 	 */
 	public double[][] getCoefficients() {
-		return getMatrix();
+		return getData();
 	}
 
 	protected double[] orbitalEnergies;
@@ -98,6 +98,6 @@ public class MolecularOrbitals extends Matrix {
 		diag.diagonalize(a);
 
 		orbitalEnergies = diag.getEigenValues();
-		this.setMatrix(diag.getEigenVectors().mul(x).getMatrix());
+		this.setMatrix(diag.getEigenVectors().mul(x).getData());
 	}
 }

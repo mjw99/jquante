@@ -18,13 +18,13 @@ public class GaussianElimination extends LinearEquationSolver {
 
 	@Override
 	public void findSolution() throws SingularMatrixException {
-		int N = matrixA.getRowCount();
+		int N = matrixA.getRowDimension();
 		double[] x;
 		Matrix m = new Matrix(N, N + 1);
-		a = m.getMatrix();
+		a = m.getData();
 		x = vectorX.getVector();
 
-		double[][] ta = matrixA.getMatrix();
+		double[][] ta = matrixA.getData();
 		for (int i = 0; i < N; i++)
 			for (int j = 0; j < N; j++)
 				a[i][j] = ta[i][j];

@@ -117,10 +117,10 @@ public class RestrictedHartreeFockMethod extends SCFMethod implements
 		double eTwo;
 
 		// init memory for the matrices
-		gMatrix = new GMatrix(hCore.getRowCount());
-		mos = new MolecularOrbitals(hCore.getRowCount());
-		density = new Density(hCore.getRowCount());
-		fock = new Fock(hCore.getRowCount());
+		gMatrix = new GMatrix(hCore.getRowDimension());
+		mos = new MolecularOrbitals(hCore.getRowDimension());
+		density = new Density(hCore.getRowDimension());
+		fock = new Fock(hCore.getRowDimension());
 
 		// compute initial MOs
 		mos.compute(hCore, overlap);

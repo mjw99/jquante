@@ -147,7 +147,7 @@ public class OneElectronIntegrals {
 		@Override
 		public SimpleParallelTask init(int startItem, int endItem) {
 			return new OneElectronIntegralEvaluaterThread(startItem, endItem,
-					OneElectronIntegrals.this.overlap.getMatrix(), OneElectronIntegrals.this.hCore.getMatrix(),
+					OneElectronIntegrals.this.overlap.getData(), OneElectronIntegrals.this.hCore.getData(),
 					this.atomicNumbers, basisFunctions.getBasisFunctions());
 		}
 

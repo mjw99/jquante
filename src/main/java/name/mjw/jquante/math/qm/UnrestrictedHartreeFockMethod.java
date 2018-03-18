@@ -112,14 +112,14 @@ public class UnrestrictedHartreeFockMethod extends SCFMethod implements
 		double eTwo;
 
 		// init memory for the matrices
-		gMatrixList.set(0, new GMatrix(hCore.getRowCount()));  // A
-		gMatrixList.set(1, new GMatrix(hCore.getRowCount()));  // B
-		mosList.set(0, new MolecularOrbitals(hCore.getRowCount()));
-		mosList.set(1, new MolecularOrbitals(hCore.getRowCount()));
-		densityList.set(0, new Density(hCore.getRowCount()));
-		densityList.set(1, new Density(hCore.getRowCount()));
-		fockList.set(0, new Fock(hCore.getRowCount()));
-		fockList.set(1, new Fock(hCore.getRowCount()));
+		gMatrixList.set(0, new GMatrix(hCore.getRowDimension()));  // A
+		gMatrixList.set(1, new GMatrix(hCore.getRowDimension()));  // B
+		mosList.set(0, new MolecularOrbitals(hCore.getRowDimension()));
+		mosList.set(1, new MolecularOrbitals(hCore.getRowDimension()));
+		densityList.set(0, new Density(hCore.getRowDimension()));
+		densityList.set(1, new Density(hCore.getRowDimension()));
+		fockList.set(0, new Fock(hCore.getRowDimension()));
+		fockList.set(1, new Fock(hCore.getRowDimension()));
 
 		// TODO: compute initial MOs
 		mosList.get(0).compute(hCore, overlap);

@@ -35,7 +35,7 @@ public class ElectronDensity extends OneElectronProperty {
 		bfs = scfMethod.getOneEI().getBasisFunctions().getBasisFunctions();
 		nbf = bfs.size();
 
-		dm = scfMethod.getDensity().getMatrix();
+		dm = scfMethod.getDensity().getData();
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class ElectronDensity extends OneElectronProperty {
 		this.bfs = bfs.getBasisFunctions();
 		this.nbf = this.bfs.size();
 
-		this.dm = den.getMatrix();
+		this.dm = den.getData();
 	}
 
 	/**

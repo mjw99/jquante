@@ -38,14 +38,14 @@ public class JacobiDiagonalizer extends Diagonalizer {
 		int j, ip, iq;
 
 		// initilize 'v' as identity matrix
-		eigenVectors = new Matrix(matrix.getRowCount());
+		eigenVectors = new Matrix(matrix.getRowDimension());
 
 		eigenVectors.makeIdentity();
 
-		v = eigenVectors.getMatrix();
+		v = eigenVectors.getData();
 
 		Matrix A = (Matrix) matrix.clone();
-		a = A.getMatrix();
+		a = A.getData();
 
 		int n = a.length;
 

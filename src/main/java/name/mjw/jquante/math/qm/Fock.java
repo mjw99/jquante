@@ -51,6 +51,6 @@ public class Fock extends Matrix {
 	 *            the GMatrix
 	 */
 	public void compute(HCore hCore, GMatrix gMatrix) {
-		setMatrix(hCore.add(gMatrix).getMatrix());
+		setMatrix(hCore.add(gMatrix).getData());
 	}
 }

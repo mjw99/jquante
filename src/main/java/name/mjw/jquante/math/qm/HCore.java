@@ -73,14 +73,14 @@ public class HCore extends Matrix {
 
 		ArrayList<HCore> dHCore = new ArrayList<>(3);
 
-		int noOfBasisFunctions = this.getRowCount();
+		int noOfBasisFunctions = this.getRowDimension();
 		HCore dHCoreDx = new HCore(noOfBasisFunctions);
 		HCore dHCoreDy = new HCore(noOfBasisFunctions);
 		HCore dHCoreDz = new HCore(noOfBasisFunctions);
 
-		double[][] hdx = dHCoreDx.getMatrix();
-		double[][] hdy = dHCoreDy.getMatrix();
-		double[][] hdz = dHCoreDz.getMatrix();
+		double[][] hdx = dHCoreDx.getData();
+		double[][] hdy = dHCoreDy.getData();
+		double[][] hdz = dHCoreDz.getData();
 
 		int i;
 		int j;

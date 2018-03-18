@@ -47,8 +47,8 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 	 */
 	@Override
 	public Fock next(Fock currentFock, Overlap overlap, Density density) {
-		Fock newFock = new Fock(((Matrix) currentFock.clone()).getMatrix());
-		double[][] newFockMat = newFock.getMatrix();
+		Fock newFock = new Fock(((Matrix) currentFock.clone()).getData());
+		double[][] newFockMat = newFock.getData();
 
 		Matrix fPS = currentFock.mul(density).mul(overlap);
 		Matrix sPF = overlap.mul(density).mul(currentFock);
@@ -67,7 +67,7 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 				return currentFock;
 			} else {
 				newFockMat = oldFock.mul(0.5).add(currentFock.mul(0.5))
-						.getMatrix();
+						.getData();
 				oldFock = currentFock;
 
 				return newFock;
@@ -85,7 +85,7 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 		Matrix a = new Matrix(n1);
 		Vector b = new Vector(n1);
 
-		double[][] aMatrix = a.getMatrix();
+		double[][] aMatrix = a.getData();
 		double[] bVector = b.getVector();
 
 		// set up A x = B to be solved
@@ -114,7 +114,7 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 			LOG.debug("Solution found: " + gele.getVectorX());
 
 			for (int i = 0; i < noOfIterations; i++) {
-				double[][] prevFockMat = fockMatrixList.get(i).getMatrix();
+				double[][] prevFockMat = fockMatrixList.get(i).getData();
 				for (int j = 0; j < newFockMat.length; j++) {
 					for (int k = 0; k < newFockMat.length; k++) {
 						newFockMat[j][k] += solVec[i] * prevFockMat[j][k];

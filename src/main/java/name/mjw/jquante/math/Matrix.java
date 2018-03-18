@@ -311,7 +311,7 @@ public class Matrix implements Cloneable {
 	 * 
 	 * @return Value of property matrix.
 	 */
-	public double[][] getMatrix() {
+	public double[][] getData() {
 		return this.values;
 	}
 
@@ -455,7 +455,7 @@ public class Matrix implements Cloneable {
 	 * 
 	 * @return Value of property rowCount.
 	 */
-	public int getRowCount() {
+	public int getRowDimension() {
 		return this.rowCount;
 	}
 
@@ -474,7 +474,7 @@ public class Matrix implements Cloneable {
 	 * 
 	 * @return Value of property columnCount.
 	 */
-	public int getColumnCount() {
+	public int getColumnDimension() {
 		return this.columnCount;
 	}
 

@@ -40,7 +40,7 @@ public class Vector implements Cloneable {
 	 *            the square matrix from which this vector will be made
 	 */
 	public Vector(Matrix a) {
-		double[][] matrix = a.getMatrix();
+		double[][] matrix = a.getData();
 
 		this.values = new double[matrix.length * matrix.length];
 

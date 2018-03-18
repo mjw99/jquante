@@ -60,21 +60,21 @@ public class Density extends Matrix {
 	public void compute(SCFMethod scfMethod, boolean guessInitialDM, DensityGuesser densityGuesser, int noOfOccupiedMOs,
 			MolecularOrbitals mos) {
 		if (guessInitialDM && densityGuesser != null) {
-			this.setMatrix(densityGuesser.guessDM(scfMethod).getMatrix());
+			this.setMatrix(densityGuesser.guessDM(scfMethod).getData());
 			return;
 		}
 
 		// else construct it from the MOs .. C*C'
-		Matrix dVector = new Matrix(noOfOccupiedMOs, mos.getRowCount());
+		Matrix dVector = new Matrix(noOfOccupiedMOs, mos.getRowDimension());
 
-		double[][] d = dVector.getMatrix();
-		double[][] c = mos.getMatrix();
+		double[][] d = dVector.getData();
+		double[][] c = mos.getData();
 
 		for (int i = 0; i < noOfOccupiedMOs; i++)
 			for (int j = 0; j < c.length; j++)
 				d[i][j] = c[i][j];
 
-		this.setMatrix(dVector.transpose().mul(dVector).getMatrix());
+		this.setMatrix(dVector.transpose().mul(dVector).getData());
 
 	}
 }
