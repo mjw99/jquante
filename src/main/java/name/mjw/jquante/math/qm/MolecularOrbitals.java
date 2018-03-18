@@ -14,18 +14,6 @@ import name.mjw.jquante.math.la.DiagonalizerFactory;
 public class MolecularOrbitals extends Matrix {
 
 	/**
-	 * Creates a new instance of NxM Matrix
-	 * 
-	 * @param n
-	 *            the first dimension
-	 * @param m
-	 *            the second dimension
-	 */
-	public MolecularOrbitals(int n, int m) {
-		super(n, m);
-	}
-
-	/**
 	 * Creates a new instance of square (NxN) Matrix
 	 * 
 	 * @param n
@@ -33,16 +21,6 @@ public class MolecularOrbitals extends Matrix {
 	 */
 	public MolecularOrbitals(int n) {
 		super(n, n);
-	}
-
-	/**
-	 * Creates a new instance of Matrix, based on already allocated 2D array
-	 * 
-	 * @param a
-	 *            the 2D array
-	 */
-	public MolecularOrbitals(double[][] a) {
-		super(a);
 	}
 
 	/**

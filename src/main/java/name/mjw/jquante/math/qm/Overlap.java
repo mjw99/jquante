@@ -15,18 +15,6 @@ import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 public class Overlap extends Matrix {
 
 	/**
-	 * Creates a new instance of NxM Matrix
-	 * 
-	 * @param n
-	 *            the first dimension
-	 * @param m
-	 *            the second dimension
-	 */
-	public Overlap(int n, int m) {
-		super(n, m);
-	}
-
-	/**
 	 * Creates a new instance of square (NxN) Matrix
 	 * 
 	 * @param n
@@ -34,16 +22,6 @@ public class Overlap extends Matrix {
 	 */
 	public Overlap(int n) {
 		super(n, n);
-	}
-
-	/**
-	 * Creates a new instance of Matrix, based on already allocated 2D array
-	 * 
-	 * @param a
-	 *            the 2D array
-	 */
-	public Overlap(double[][] a) {
-		super(a);
 	}
 
 	private Matrix sHalf = null;

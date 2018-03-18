@@ -23,18 +23,6 @@ public class HCore extends Matrix {
 	private ArrayList<ContractedGaussian> cgs;
 
 	/**
-	 * Creates a new instance of NxM Matrix
-	 * 
-	 * @param n
-	 *            the first dimension
-	 * @param m
-	 *            the second dimension
-	 */
-	public HCore(int n, int m) {
-		super(n, m);
-	}
-
-	/**
 	 * Creates a new instance of square (NxN) Matrix
 	 * 
 	 * @param n
@@ -43,17 +31,6 @@ public class HCore extends Matrix {
 	public HCore(int n) {
 		super(n, n);
 	}
-
-	/**
-	 * Creates a new instance of Matrix, based on already allocated 2D array
-	 * 
-	 * @param a
-	 *            the 2D array
-	 */
-	public HCore(double[][] a) {
-		super(a);
-	}
-
 	/**
 	 * Compute HCore partial derivative for an atom index.
 	 * 

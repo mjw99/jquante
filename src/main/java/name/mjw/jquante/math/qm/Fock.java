@@ -11,18 +11,6 @@ import name.mjw.jquante.math.Matrix;
 public class Fock extends Matrix {
 
 	/**
-	 * Creates a new instance of NxM Matrix
-	 * 
-	 * @param n
-	 *            the first dimension
-	 * @param m
-	 *            the second dimension
-	 */
-	public Fock(int n, int m) {
-		super(n, m);
-	}
-
-	/**
 	 * Creates a new instance of square (NxN) Matrix
 	 * 
 	 * @param n
