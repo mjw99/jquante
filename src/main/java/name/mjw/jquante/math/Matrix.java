@@ -4,6 +4,8 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
+import org.apache.commons.math3.linear.DiagonalMatrix;
+
 import name.mjw.jquante.math.la.Diagonalizer;
 import name.mjw.jquante.math.la.DiagonalizerFactory;
 
@@ -18,7 +20,7 @@ public class Matrix implements Cloneable {
 	/**
 	 * Holds value of property matrix.
 	 */
-	protected double[][] values;
+	protected double[][] data;
 
 	/**
 	 * Holds value of property rowCount.
@@ -39,7 +41,7 @@ public class Matrix implements Cloneable {
 	 *            the second dimension
 	 */
 	public Matrix(int n, int m) {
-		values = new double[n][m];
+		data = new double[n][m];
 
 		rowCount = n;
 		columnCount = m;
@@ -47,7 +49,7 @@ public class Matrix implements Cloneable {
 
 	private Matrix(int n, int m, boolean allocateStorage) {
 		if (allocateStorage)
-			values = new double[n][m];
+			data = new double[n][m];
 
 		rowCount = n;
 		columnCount = m;
@@ -70,7 +72,7 @@ public class Matrix implements Cloneable {
 	 *            the 2D array
 	 */
 	public Matrix(double[][] a) {
-		values = a;
+		data = a;
 
 		rowCount = a.length;
 		columnCount = a[0].length;
@@ -85,8 +87,8 @@ public class Matrix implements Cloneable {
 	public Matrix(Vector vec) {
 		this(vec.getSize());
 
-		for (int i = 0; i < values.length; i++)
-			values[i][i] = vec.getVector(i);
+		for (int i = 0; i < data.length; i++)
+			data[i][i] = vec.getVector(i);
 	}
 
 	/**
@@ -101,7 +103,7 @@ public class Matrix implements Cloneable {
 
 		for (int i = 0; i < rowCount; i++) {
 			for (int j = 0; j < columnCount; j++) {
-				c.values[i][j] = values[i][j] + b.values[i][j];
+				c.data[i][j] = data[i][j] + b.data[i][j];
 			}
 		}
 
@@ -120,7 +122,7 @@ public class Matrix implements Cloneable {
 
 		for (int i = 0; i < rowCount; i++) {
 			for (int j = 0; j < columnCount; j++) {
-				c.values[i][j] = values[i][j] - b.values[i][j];
+				c.data[i][j] = data[i][j] - b.data[i][j];
 			}
 		}
 
@@ -137,10 +139,10 @@ public class Matrix implements Cloneable {
 	public Matrix mul(Matrix b) {
 		Matrix c = new Matrix(rowCount, b.columnCount, false);
 
-		c.values = Arrays.stream(values)
-				.map(r -> IntStream.range(0, b.values[0].length).parallel()
+		c.data = Arrays.stream(data)
+				.map(r -> IntStream.range(0, b.data[0].length).parallel()
 						.mapToDouble(
-								i -> IntStream.range(0, b.values.length).mapToDouble(j -> r[j] * b.values[j][i]).sum())
+								i -> IntStream.range(0, b.data.length).mapToDouble(j -> r[j] * b.data[j][i]).sum())
 						.toArray())
 				.toArray(double[][]::new);
 
@@ -161,7 +163,7 @@ public class Matrix implements Cloneable {
 
 		for (int i = 0; i < rowCount; i++) {
 			for (int j = 0; j < columnCount; j++) {
-				res += values[i][j] * b.values[i][j];
+				res += data[i][j] * b.data[i][j];
 			}
 		}
 
@@ -178,7 +180,7 @@ public class Matrix implements Cloneable {
 
 		for (int i = 0; i < rowCount; i++) {
 			for (int j = 0; j < columnCount; j++) {
-				matrixT.values[j][i] = values[i][j];
+				matrixT.data[j][i] = data[i][j];
 			}
 		}
 
@@ -194,7 +196,7 @@ public class Matrix implements Cloneable {
 		double tr = 0.0;
 
 		for (int i = 0; i < rowCount; i++)
-			tr += values[i][i];
+			tr += data[i][i];
 
 		return tr;
 	}
@@ -239,7 +241,7 @@ public class Matrix implements Cloneable {
 
 		sHalf.makeIdentity();
 		for (int i = 0; i < rowCount; i++) {
-			sHalf.values[i][i] /= Math.sqrt(eigenValues[i]);
+			sHalf.data[i][i] /= Math.sqrt(eigenValues[i]);
 		}
 
 		return (sHalf.similarityTransformT(eigenVectors));
@@ -253,9 +255,9 @@ public class Matrix implements Cloneable {
 	public void makeIdentity() {
 		for (int i = 0; i < rowCount; i++) {
 			for (int j = 0; j < i; j++) {
-				values[i][j] = values[j][i] = 0.0;
+				data[i][j] = data[j][i] = 0.0;
 			}
-			values[i][i] = 1.0;
+			data[i][i] = 1.0;
 		}
 	}
 
@@ -265,7 +267,7 @@ public class Matrix implements Cloneable {
 	public void makeZero() {
 		for (int i = 0; i < rowCount; i++) {
 			for (int j = 0; j < columnCount; j++) {
-				values[i][j] = 0.0;
+				data[i][j] = 0.0;
 			}
 		}
 	}
@@ -281,7 +283,7 @@ public class Matrix implements Cloneable {
 		double sum = 0.0;
 
 		for (int i = 0; i < rowCount; i++) {
-			sum += values[i][i] * values[i][i]; // sum of squares
+			sum += data[i][i] * data[i][i]; // sum of squares
 		}
 
 		return Math.sqrt(sum / rowCount);
@@ -299,7 +301,7 @@ public class Matrix implements Cloneable {
 
 		for (i = 0; i < rowCount - 1; i++) {
 			for (j = i + 1; j < rowCount; j++) {
-				sum += Math.abs(values[i][j]);
+				sum += Math.abs(data[i][j]);
 			}
 		}
 
@@ -312,7 +314,7 @@ public class Matrix implements Cloneable {
 	 * @return Value of property matrix.
 	 */
 	public double[][] getData() {
-		return this.values;
+		return this.data;
 	}
 
 	/**
@@ -326,7 +328,7 @@ public class Matrix implements Cloneable {
 	 * @return Value of property matrix.
 	 */
 	public double getMatrixAt(int i, int j) {
-		return this.values[i][j];
+		return this.data[i][j];
 	}
 
 	/**
@@ -336,7 +338,7 @@ public class Matrix implements Cloneable {
 	 *            New value of property matrix.
 	 */
 	public void setMatrix(double[][] matrix) {
-		this.values = matrix;
+		this.data = matrix;
 
 		rowCount = matrix.length;
 		columnCount = matrix[0].length;
@@ -353,7 +355,7 @@ public class Matrix implements Cloneable {
 	 *            the new value
 	 */
 	public void setMatrixAt(int i, int j, double value) {
-		this.values[i][j] = value;
+		this.data[i][j] = value;
 	}
 
 	/**
@@ -368,7 +370,7 @@ public class Matrix implements Cloneable {
 
 		for (int i = 0; i < rowCount; i++)
 			for (int j = 0; j < columnCount; j++)
-				vecval[ii++] = this.values[i][j];
+				vecval[ii++] = this.data[i][j];
 
 		return vec;
 	}
@@ -385,7 +387,7 @@ public class Matrix implements Cloneable {
 
 		for (int i = 0; i < rowCount; i++) {
 			for (int j = 0; j < columnCount; j++) {
-				sb.append(df.format(values[i][j]) + " ");
+				sb.append(df.format(data[i][j]) + " ");
 			}
 			sb.append('\n');
 		}
@@ -404,7 +406,7 @@ public class Matrix implements Cloneable {
 
 		for (int i = 0; i < rowCount; i++) {
 			for (int j = 0; j < columnCount; j++) {
-				theCopy.values[i][j] = values[i][j];
+				theCopy.data[i][j] = data[i][j];
 			}
 		}
 
@@ -427,7 +429,7 @@ public class Matrix implements Cloneable {
 		double[] r = row.getVector();
 
 		for (int i = 0; i < columnCount; i++)
-			r[i] = values[rowIndex][i];
+			r[i] = data[rowIndex][i];
 
 		return row;
 	}
@@ -445,7 +447,7 @@ public class Matrix implements Cloneable {
 		double[] c = column.getVector();
 
 		for (int i = 0; i < rowCount; i++)
-			c[i] = values[i][colIndex];
+			c[i] = data[i][colIndex];
 
 		return column;
 	}
@@ -497,9 +499,9 @@ public class Matrix implements Cloneable {
 		if (this.columnCount != this.rowCount)
 			return false;
 
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 0; i < data.length; i++) {
 			for (int j = 0; j < i; j++) {
-				if (values[i][j] != 0) {
+				if (data[i][j] != 0) {
 					return false;
 				}
 			}
@@ -517,8 +519,8 @@ public class Matrix implements Cloneable {
 	 * @return boolean - true if the matrix is singular - false otherwise
 	 */
 	public boolean isSingular(int p) {
-		for (int i = p; i <= values[p].length; i++) {
-			if (values[p][i] != 0) {
+		for (int i = p; i <= data[p].length; i++) {
+			if (data[p][i] != 0) {
 				return false;
 			}
 		}
@@ -537,11 +539,11 @@ public class Matrix implements Cloneable {
 	 * @return boolean - true if the matrix is singular - false otherwise
 	 */
 	public boolean isSingular(int p, int[] row) {
-		if (row.length != values[row[p]].length)
+		if (row.length != data[row[p]].length)
 			throw new UnsupportedOperationException("Size of row index and matrix do no match!");
 
-		for (int i = p; i <= values[0].length - 1; i++) {
-			if (values[row[p]][i] != 0) {
+		for (int i = p; i <= data[0].length - 1; i++) {
+			if (data[row[p]][i] != 0) {
 				return false;
 			}
 		}
@@ -555,12 +557,12 @@ public class Matrix implements Cloneable {
 	 * @return max(abs(matrix))
 	 */
 	public double maxNorm() {
-		double mx = Math.abs(values[0][0]);
+		double mx = Math.abs(data[0][0]);
 
 		for (int i = 0; i < rowCount; i++)
 			for (int j = 0; j < columnCount; j++)
-				if (mx < Math.abs(values[i][j]))
-					mx = Math.abs(values[i][j]);
+				if (mx < Math.abs(data[i][j]))
+					mx = Math.abs(data[i][j]);
 
 		return mx;
 	}
@@ -578,7 +580,7 @@ public class Matrix implements Cloneable {
 
 		for (int i = 0; i < rowCount; i++)
 			for (int j = 0; j < columnCount; j++)
-				res.values[i][j] = scaleFactor * values[i][j];
+				res.data[i][j] = scaleFactor * data[i][j];
 
 		return res;
 	}

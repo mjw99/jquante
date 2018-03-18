@@ -220,9 +220,9 @@ public class GMatrix extends Matrix {
 					} // end for
 				} // end for
 
-				gdx.values[i][j] = gdx.values[j][i] = xvec.dot(densityOneD);
-				gdy.values[i][j] = gdy.values[j][i] = yvec.dot(densityOneD);
-				gdz.values[i][j] = gdz.values[j][i] = zvec.dot(densityOneD);
+				gdx.data[i][j] = gdx.data[j][i] = xvec.dot(densityOneD);
+				gdy.data[i][j] = gdy.data[j][i] = yvec.dot(densityOneD);
+				gdz.data[i][j] = gdz.data[j][i] = zvec.dot(densityOneD);
 			} // end for
 		} // end for
 

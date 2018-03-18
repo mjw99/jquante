@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 public class Vector implements Cloneable {
 
 	/** Holds value of property vector. */
-	protected double[] values;
+	protected double[] data;
 
 	/**
 	 * Creates a new instance of Vector
@@ -20,7 +20,7 @@ public class Vector implements Cloneable {
 	 *            the vector.length of this vector
 	 */
 	public Vector(int size) {
-		values = new double[size];
+		data = new double[size];
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class Vector implements Cloneable {
 	 *            the array from which this vector will be made
 	 */
 	public Vector(double[] array) {
-		this.values = array;
+		this.data = array;
 	}
 
 	/**
@@ -42,12 +42,12 @@ public class Vector implements Cloneable {
 	public Vector(Matrix a) {
 		double[][] matrix = a.getData();
 
-		this.values = new double[matrix.length * matrix.length];
+		this.data = new double[matrix.length * matrix.length];
 
 		int ii = 0;
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix.length; j++) {
-				this.values[ii] = matrix[i][j];
+				this.data[ii] = matrix[i][j];
 				ii++;
 			}
 		}
@@ -60,7 +60,7 @@ public class Vector implements Cloneable {
 	 * 
 	 */
 	public int getSize() {
-		return this.values.length;
+		return this.data.length;
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class Vector implements Cloneable {
 	 * 
 	 */
 	public double getVector(int index) {
-		return this.values[index];
+		return this.data[index];
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class Vector implements Cloneable {
 	 * 
 	 */
 	public double[] getVector() {
-		return this.values;
+		return this.data;
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class Vector implements Cloneable {
 	 * 
 	 */
 	public void setVector(int index, double vector) {
-		this.values[index] = vector;
+		this.data[index] = vector;
 	}
 
 	/**
@@ -106,14 +106,14 @@ public class Vector implements Cloneable {
 	 * 
 	 */
 	public void setVector(double[] vector) {
-		this.values = vector;
+		this.data = vector;
 	}
 
 	/**
 	 * Make this vector a Null vector
 	 */
 	public void makeZero() {
-		IntStream.range(0, values.length).parallel().forEach(id -> values[id] = 0.0);
+		IntStream.range(0, data.length).parallel().forEach(id -> data[id] = 0.0);
 	}
 
 	/**
@@ -124,14 +124,14 @@ public class Vector implements Cloneable {
 	 * @return the addition of two vector or null if that is not possible
 	 */
 	public Vector add(Vector b) {
-		if (this.values.length != b.values.length) {
+		if (this.data.length != b.data.length) {
 			return null;
 		}
 
-		Vector result = new Vector(values.length);
+		Vector result = new Vector(data.length);
 
-		IntStream.range(0, result.values.length).parallel()
-				.forEach(id -> result.values[id] = this.values[id] + b.values[id]);
+		IntStream.range(0, result.data.length).parallel()
+				.forEach(id -> result.data[id] = this.data[id] + b.data[id]);
 
 		return result;
 	}
@@ -144,14 +144,14 @@ public class Vector implements Cloneable {
 	 * @return the addition of two vector or null if that is not possible
 	 */
 	public Vector sub(Vector b) {
-		if (this.values.length != b.values.length) {
+		if (this.data.length != b.data.length) {
 			return null;
 		}
 
-		Vector result = new Vector(values.length);
+		Vector result = new Vector(data.length);
 
-		IntStream.range(0, result.values.length).parallel()
-				.forEach(id -> result.values[id] = this.values[id] - b.values[id]);
+		IntStream.range(0, result.data.length).parallel()
+				.forEach(id -> result.data[id] = this.data[id] - b.data[id]);
 
 		return result;
 	}
@@ -164,9 +164,9 @@ public class Vector implements Cloneable {
 	 * @return the result !
 	 */
 	public Vector mul(double k) {
-		Vector result = new Vector(values.length);
+		Vector result = new Vector(data.length);
 
-		IntStream.range(0, result.values.length).parallel().forEach(id -> result.values[id] = this.values[id] * k);
+		IntStream.range(0, result.data.length).parallel().forEach(id -> result.data[id] = this.data[id] * k);
 
 		return result;
 	}
@@ -179,10 +179,10 @@ public class Vector implements Cloneable {
 	 * @return a double value which is the result of the dot product
 	 */
 	public double dot(Vector b) {
-		if (this.values.length != b.values.length) {
+		if (this.data.length != b.data.length) {
 			return Double.NaN;
 		}
-		return IntStream.range(0, values.length).parallel().mapToDouble(id -> this.values[id] * b.values[id]).reduce(0,
+		return IntStream.range(0, data.length).parallel().mapToDouble(id -> this.data[id] * b.data[id]).reduce(0,
 				Double::sum);
 	}
 
@@ -194,7 +194,7 @@ public class Vector implements Cloneable {
 	public double magnitude() {
 		double length;
 
-		length = IntStream.range(0, values.length).parallel().mapToDouble(id -> this.values[id] * this.values[id])
+		length = IntStream.range(0, data.length).parallel().mapToDouble(id -> this.data[id] * this.data[id])
 				.reduce(0, Double::sum);
 
 		return Math.sqrt(length);
@@ -208,9 +208,9 @@ public class Vector implements Cloneable {
 	public Vector normalize() {
 		double magnitude = magnitude();
 
-		Vector n = new Vector(values.length);
+		Vector n = new Vector(data.length);
 
-		IntStream.range(0, values.length).parallel().mapToDouble(id -> n.values[id] = this.values[id] / magnitude);
+		IntStream.range(0, data.length).parallel().mapToDouble(id -> n.data[id] = this.data[id] / magnitude);
 
 		return n;
 	}
@@ -221,9 +221,9 @@ public class Vector implements Cloneable {
 	 * @return the reverse vector
 	 */
 	public Vector negate() {
-		Vector n = new Vector(values.length);
+		Vector n = new Vector(data.length);
 
-		IntStream.range(0, values.length).parallel().mapToDouble(id -> n.values[id] = -this.values[id]);
+		IntStream.range(0, data.length).parallel().mapToDouble(id -> n.data[id] = -this.data[id]);
 
 		return n;
 	}
@@ -235,10 +235,10 @@ public class Vector implements Cloneable {
 	 */
 	@Override
 	public Object clone() {
-		Vector theCopy = new Vector(values.length);
+		Vector theCopy = new Vector(data.length);
 
-		for (int i = 0; i < values.length; i++) {
-			theCopy.values[i] = values[i];
+		for (int i = 0; i < data.length; i++) {
+			theCopy.data[i] = data[i];
 		}
 
 		return theCopy;
@@ -251,8 +251,8 @@ public class Vector implements Cloneable {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 
-		for (int i = 0; i < values.length; i++) {
-			sb.append(values[i]);
+		for (int i = 0; i < data.length; i++) {
+			sb.append(data[i]);
 			sb.append("\n");
 		}
 
@@ -266,7 +266,7 @@ public class Vector implements Cloneable {
 	 */
 	public double maxNorm() {
 
-		return IntStream.range(0, values.length).parallel().mapToDouble(id -> this.values[id]).reduce(0, Double::max);
+		return IntStream.range(0, data.length).parallel().mapToDouble(id -> this.data[id]).reduce(0, Double::max);
 
 	}
 }
