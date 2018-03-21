@@ -197,29 +197,6 @@ public class Matrix implements Cloneable {
 	}
 
 	/**
-	 * Similarity Transform : <code> XAX' :: x * this * x' </code>
-	 * 
-	 * @param x
-	 *            the pre multiplier
-	 * @return XAX'
-	 */
-	public Matrix similarityTransform(Matrix x) {
-		return x.multiply(this).multiply(x.transpose());
-	}
-
-	/**
-	 * Similarity Transform : <code> X'AX :: x' * this * x </code>
-	 * 
-	 * @param x
-	 *            the post multiplier
-	 * @return X'AX
-	 */
-	public Matrix similarityTransformT(Matrix x) {
-		return x.transpose().multiply(this).multiply(x);
-	}
-
-
-	/**
 	 * make the current matrix an identity matrix, all diagonals as 1.0 and
 	 * non-diagonals zero<br>
 	 * only sensible if a square matrix

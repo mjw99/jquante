@@ -54,7 +54,7 @@ public class Overlap extends Matrix {
 				sHalf.setMatrixAt(i, i, (sHalf.getMatrixAt(i, i) / Math.sqrt(eigenValues[i])));
 			}
 
-			this.sHalf = this.sHalf.similarityTransformT(eigenVectors);
+			this.sHalf = eigenVectors.transpose().multiply(sHalf).multiply(eigenVectors);
 		}
 
 		return this.sHalf;

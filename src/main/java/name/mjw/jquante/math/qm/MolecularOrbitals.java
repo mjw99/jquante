@@ -67,10 +67,11 @@ public class MolecularOrbitals extends Matrix {
 		compute((Matrix) fock, overlap);
 	}
 
-	/** The actual computation is irrelavant of the type of matrix */
+	/** The actual computation is irrelevant of the type of matrix */
 	private void compute(Matrix theMat, Overlap overlap) {
 		Matrix x = overlap.getSHalf();
-		Matrix a = theMat.similarityTransform(x);
+		Matrix a = x.multiply(theMat).multiply(x.transpose());
+
 		Diagonalizer diag = DiagonalizerFactory.getInstance()
 				.getDefaultDiagonalizer();
 		diag.diagonalize(a);
