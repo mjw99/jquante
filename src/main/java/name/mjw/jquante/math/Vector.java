@@ -163,7 +163,7 @@ public class Vector implements Cloneable {
 	 *            the scalar to be multiplied to this vector
 	 * @return the result !
 	 */
-	public Vector mul(double k) {
+	public Vector multiply(double k) {
 		Vector result = new Vector(data.length);
 
 		IntStream.range(0, result.data.length).parallel().forEach(id -> result.data[id] = this.data[id] * k);
@@ -178,7 +178,7 @@ public class Vector implements Cloneable {
 	 *            the vector with which the dot product is to be evaluated
 	 * @return a double value which is the result of the dot product
 	 */
-	public double dot(Vector b) {
+	public double dotProduct(Vector b) {
 		if (this.data.length != b.data.length) {
 			return Double.NaN;
 		}

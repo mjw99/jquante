@@ -158,7 +158,7 @@ public class Matrix implements Cloneable {
 	 *            the matrix to do a dot product
 	 * @return the value of dot product
 	 */
-	public double dot(Matrix b) {
+	public double dotProduct(Matrix b) {
 		double res = 0.0;
 
 		for (int i = 0; i < rowCount; i++) {
@@ -192,7 +192,7 @@ public class Matrix implements Cloneable {
 	 * 
 	 * @return the trace of this matrix
 	 */
-	public double trace() {
+	public double getTrace() {
 		double tr = 0.0;
 
 		for (int i = 0; i < rowCount; i++)
@@ -575,7 +575,7 @@ public class Matrix implements Cloneable {
 	 *            the scale factor with which each element is multiplied
 	 * @return the scaled instance of the current matrix
 	 */
-	public Matrix mul(double scaleFactor) {
+	public Matrix multiply(double scaleFactor) {
 		Matrix res = new Matrix(rowCount, columnCount);
 
 		for (int i = 0; i < rowCount; i++)

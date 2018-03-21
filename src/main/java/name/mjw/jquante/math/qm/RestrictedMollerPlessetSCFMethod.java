@@ -130,7 +130,7 @@ public class RestrictedMollerPlessetSCFMethod extends RestrictedHartreeFockMetho
 							tempvec[sigma] = aoints[IntegralsUtil.ijkl2intindex(mu, nu, sigma, eta)];
 						} // end sigma
 
-						temp[mu][nu][b][eta] = mos.getRowVector(b).dot(tempVector);
+						temp[mu][nu][b][eta] = mos.getRowVector(b).dotProduct(tempVector);
 					} // end b
 				} // end eta
 			} // end nu
@@ -146,7 +146,7 @@ public class RestrictedMollerPlessetSCFMethod extends RestrictedHartreeFockMetho
 							tempvec[i] = temp[i][nu][b][eta];
 						} // end i
 
-						temp2[a][nu][b][eta] = mos.getRowVector(a).dot(tempVector);
+						temp2[a][nu][b][eta] = mos.getRowVector(a).dotProduct(tempVector);
 					} // end a
 				} // end b
 			} // end eta
@@ -162,7 +162,7 @@ public class RestrictedMollerPlessetSCFMethod extends RestrictedHartreeFockMetho
 							tempvec[i] = temp2[a][nu][b][i];
 						} // end i
 
-						temp[a][nu][b][j] = mos.getRowVector(j).dot(tempVector);
+						temp[a][nu][b][j] = mos.getRowVector(j).dotProduct(tempVector);
 					} // end a
 				} // end b
 			} // end eta
@@ -179,7 +179,7 @@ public class RestrictedMollerPlessetSCFMethod extends RestrictedHartreeFockMetho
 							tempvec[sigma] = temp[a][sigma][b][j];
 						} // end sigma
 
-						moInts[IntegralsUtil.ijkl2intindex(a, i, b, j)] = mos.getRowVector(i).dot(tempVector);
+						moInts[IntegralsUtil.ijkl2intindex(a, i, b, j)] = mos.getRowVector(i).dotProduct(tempVector);
 					} // end i
 				} // end b
 			} // end j

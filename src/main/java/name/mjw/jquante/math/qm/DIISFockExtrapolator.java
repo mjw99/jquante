@@ -66,7 +66,7 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 
 				return currentFock;
 			} else {
-				newFockMat = oldFock.mul(0.5).add(currentFock.mul(0.5))
+				newFockMat = oldFock.multiply(0.5).add(currentFock.multiply(0.5))
 						.getData();
 				oldFock = currentFock;
 
@@ -91,7 +91,7 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 		// set up A x = B to be solved
 		for (int i = 0; i < noOfIterations; i++) {
 			for (int j = 0; j < noOfIterations; j++) {
-				aMatrix[i][j] = errorMatrixList.get(i).dot(
+				aMatrix[i][j] = errorMatrixList.get(i).dotProduct(
 						errorMatrixList.get(j));
 			}
 		}

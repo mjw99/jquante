@@ -99,7 +99,7 @@ public class GMatrix extends Matrix {
 					} // end l loop
 				} // end k loop
 
-				gMatrix[i][j] = gMatrix[j][i] = tempVector.dot(densityOneD);
+				gMatrix[i][j] = gMatrix[j][i] = tempVector.dotProduct(densityOneD);
 			} // end j loop
 		} // end i loop
 	}
@@ -220,9 +220,9 @@ public class GMatrix extends Matrix {
 					} // end for
 				} // end for
 
-				gdx.data[i][j] = gdx.data[j][i] = xvec.dot(densityOneD);
-				gdy.data[i][j] = gdy.data[j][i] = yvec.dot(densityOneD);
-				gdz.data[i][j] = gdz.data[j][i] = zvec.dot(densityOneD);
+				gdx.data[i][j] = gdx.data[j][i] = xvec.dotProduct(densityOneD);
+				gdy.data[i][j] = gdy.data[j][i] = yvec.dotProduct(densityOneD);
+				gdz.data[i][j] = gdz.data[j][i] = zvec.dotProduct(densityOneD);
 			} // end for
 		} // end for
 

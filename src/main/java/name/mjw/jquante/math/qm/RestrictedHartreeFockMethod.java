@@ -154,8 +154,8 @@ public class RestrictedHartreeFockMethod extends SCFMethod implements
 			mos.compute(fock, overlap);
 
 			// compute the total energy at this point
-			eOne = density.mul(hCore).trace();
-			eTwo = density.mul(fock).trace();
+			eOne = density.mul(hCore).getTrace();
+			eTwo = density.mul(fock).getTrace();
 
 			energy = eOne + eTwo + nuclearEnergy;
 
