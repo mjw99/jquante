@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import name.mjw.jquante.math.Matrix;
 import name.mjw.jquante.math.Vector3D;
+import name.mjw.jquante.math.la.Diagonalizer;
+import name.mjw.jquante.math.la.DiagonalizerFactory;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 
 /**
@@ -29,13 +31,33 @@ public class Overlap extends Matrix {
 	/**
 	 * Get the S^1/2 matrix
 	 * 
+	 * Symmetric orthogonalization of the real symmetric matrix X (this). This is
+	 * given by <code>U'(1/sqrt(lambda))U</code>, where lambda, U are the
+	 * eigenvalues, vectors.
+	 *
+	 *
 	 * @return return the symmetric orthogonalization matrix (S half)
 	 */
 	public Matrix getSHalf() {
-		if (sHalf == null)
-			sHalf = this.symmetricOrthogonalization();
+		if (sHalf == null) {
+			Diagonalizer diag = DiagonalizerFactory.getInstance().getDefaultDiagonalizer();
 
-		return sHalf;
+			diag.diagonalize(this);
+
+			double[] eigenValues = diag.getEigenValues();
+			Matrix eigenVectors = diag.getEigenVectors();
+
+			this.sHalf = new Matrix(this.rowCount);
+
+			this.sHalf.makeIdentity();
+			for (int i = 0; i < rowCount; i++) {
+				sHalf.setMatrixAt(i, i, (sHalf.getMatrixAt(i, i) / Math.sqrt(eigenValues[i])));
+			}
+
+			this.sHalf = this.sHalf.similarityTransformT(eigenVectors);
+		}
+
+		return this.sHalf;
 	}
 
 	private SCFMethod scfMethod;
@@ -52,8 +74,7 @@ public class Overlap extends Matrix {
 	 * @return three element array of Overlap elements representing partial
 	 *         derivatives with respect to x, y and z of atom position
 	 */
-	public ArrayList<Overlap> computeDerivative(int atomIndex,
-			SCFMethod scfMethod) {
+	public ArrayList<Overlap> computeDerivative(int atomIndex, SCFMethod scfMethod) {
 		this.scfMethod = scfMethod;
 		this.atomIndex = atomIndex;
 
@@ -86,8 +107,7 @@ public class Overlap extends Matrix {
 	}
 
 	/**
-	 * Compute one of the Overlap derivative elements, with respect to an
-	 * atomIndex
+	 * Compute one of the Overlap derivative elements, with respect to an atomIndex
 	 */
 	private Vector3D computeOverlapDerElement(int i, int j) {
 		BasisFunctions bfs = scfMethod.getOneEI().getBasisFunctions();

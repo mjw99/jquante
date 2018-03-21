@@ -100,7 +100,7 @@ public class UnrestrictedHartreeFockMethod extends SCFMethod implements
 		Overlap overlap = oneEI.getOverlap();
 		LOG.debug("Initial S matrix\n" + overlap);
 
-		LOG.debug("S^-1/2 matrix\n" + overlap.symmetricOrthogonalization());
+		LOG.debug("S^-1/2 matrix\n" + overlap.getSHalf());
 
 		HCore hCore = oneEI.getHCore();
 		LOG.debug("Initial hCore\n" + hCore);

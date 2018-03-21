@@ -4,11 +4,6 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-import org.apache.commons.math3.linear.DiagonalMatrix;
-
-import name.mjw.jquante.math.la.Diagonalizer;
-import name.mjw.jquante.math.la.DiagonalizerFactory;
-
 /**
  * A general NxM real matrix.
  * 
@@ -223,29 +218,6 @@ public class Matrix implements Cloneable {
 		return x.transpose().mul(this).mul(x);
 	}
 
-	/**
-	 * Symmetric orthogonalization of the real symmetric matrix X (this). This is
-	 * given by <code>U'(1/sqrt(lambda))U</code>, where lambda, U are the
-	 * eigenvalues, vectors.
-	 * 
-	 * @return a matrix object U'(1/sqrt(lambda))U
-	 */
-	public Matrix symmetricOrthogonalization() {
-		Diagonalizer diag = DiagonalizerFactory.getInstance().getDefaultDiagonalizer();
-
-		diag.diagonalize(this);
-
-		double[] eigenValues = diag.getEigenValues();
-		Matrix eigenVectors = diag.getEigenVectors();
-		Matrix sHalf = new Matrix(rowCount);
-
-		sHalf.makeIdentity();
-		for (int i = 0; i < rowCount; i++) {
-			sHalf.data[i][i] /= Math.sqrt(eigenValues[i]);
-		}
-
-		return (sHalf.similarityTransformT(eigenVectors));
-	}
 
 	/**
 	 * make the current matrix an identity matrix, all diagonals as 1.0 and
