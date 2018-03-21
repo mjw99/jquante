@@ -50,8 +50,8 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 		Fock newFock = new Fock(((Matrix) currentFock.clone()).getData());
 		double[][] newFockMat = newFock.getData();
 
-		Matrix fPS = currentFock.mul(density).mul(overlap);
-		Matrix sPF = overlap.mul(density).mul(currentFock);
+		Matrix fPS = currentFock.multiply(density).multiply(overlap);
+		Matrix sPF = overlap.multiply(density).multiply(currentFock);
 
 		Vector errorMatrix = new Vector(fPS.sub(sPF));
 		double mxerr = errorMatrix.maxNorm();

@@ -164,8 +164,8 @@ public class UnrestrictedHartreeFockMethod extends SCFMethod implements
 
             // compute the total energy at this point
             // TODO: eTwo (fock energy) will have two parts - this eqn needs to change
-			eOne = densityList.get(0).mul(hCore).getTrace();
-			eTwo = densityList.get(0).mul(fock).getTrace();
+			eOne = densityList.get(0).multiply(hCore).getTrace();
+			eTwo = densityList.get(0).multiply(fock).getTrace();
 
 			energy = eOne + eTwo + nuclearEnergy;
 

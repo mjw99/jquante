@@ -76,6 +76,6 @@ public class MolecularOrbitals extends Matrix {
 		diag.diagonalize(a);
 
 		orbitalEnergies = diag.getEigenValues();
-		this.setMatrix(diag.getEigenVectors().mul(x).getData());
+		this.setMatrix(diag.getEigenVectors().multiply(x).getData());
 	}
 }

@@ -131,7 +131,7 @@ public class Matrix implements Cloneable {
 	 *            the matrix to which to multiply
 	 * @return the result Cij = Sum(Aik*Bkj)
 	 */
-	public Matrix mul(Matrix b) {
+	public Matrix multiply(Matrix b) {
 		Matrix c = new Matrix(rowCount, b.columnCount, false);
 
 		c.data = Arrays.stream(data)
@@ -204,7 +204,7 @@ public class Matrix implements Cloneable {
 	 * @return XAX'
 	 */
 	public Matrix similarityTransform(Matrix x) {
-		return x.mul(this).mul(x.transpose());
+		return x.multiply(this).multiply(x.transpose());
 	}
 
 	/**
@@ -215,7 +215,7 @@ public class Matrix implements Cloneable {
 	 * @return X'AX
 	 */
 	public Matrix similarityTransformT(Matrix x) {
-		return x.transpose().mul(this).mul(x);
+		return x.transpose().multiply(this).multiply(x);
 	}
 
 

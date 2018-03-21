@@ -97,9 +97,9 @@ public class HartreeFockForce implements Force {
 		Density dens = scfMethod.getDensity();
 		ArrayList<HCore> hCoreDer = hCore.computeDerivative(atomIndex, scfMethod);
 
-		oneEDer.setI(dens.mul(hCoreDer.get(0)).getTrace());
-		oneEDer.setJ(dens.mul(hCoreDer.get(1)).getTrace());
-		oneEDer.setK(dens.mul(hCoreDer.get(2)).getTrace());
+		oneEDer.setI(dens.multiply(hCoreDer.get(0)).getTrace());
+		oneEDer.setJ(dens.multiply(hCoreDer.get(1)).getTrace());
+		oneEDer.setK(dens.multiply(hCoreDer.get(2)).getTrace());
 
 		return oneEDer;
 	}
@@ -111,11 +111,11 @@ public class HartreeFockForce implements Force {
 		Density dens = scfMethod.getDensity();
 		ArrayList<Overlap> overlapDer = overlap.computeDerivative(atomIndex, scfMethod);
 		Matrix eMat = new Matrix(new Vector(scfMethod.getOrbE()));
-		Matrix qMat = dens.mul(eMat.mul(dens.transpose()));
+		Matrix qMat = dens.multiply(eMat.multiply(dens.transpose()));
 
-		denDer.setI(qMat.mul(overlapDer.get(0)).getTrace());
-		denDer.setJ(qMat.mul(overlapDer.get(1)).getTrace());
-		denDer.setK(qMat.mul(overlapDer.get(2)).getTrace());
+		denDer.setI(qMat.multiply(overlapDer.get(0)).getTrace());
+		denDer.setJ(qMat.multiply(overlapDer.get(1)).getTrace());
+		denDer.setK(qMat.multiply(overlapDer.get(2)).getTrace());
 
 		return denDer;
 	}
@@ -127,9 +127,9 @@ public class HartreeFockForce implements Force {
 		ArrayList<GMatrix> gDer = scfMethod.getGMatrix().computeDerivative(atomIndex, scfMethod);
 		Density density = scfMethod.getDensity();
 
-		twoEDer.setI(density.mul(gDer.get(0)).getTrace());
-		twoEDer.setJ(density.mul(gDer.get(1)).getTrace());
-		twoEDer.setK(density.mul(gDer.get(2)).getTrace());
+		twoEDer.setI(density.multiply(gDer.get(0)).getTrace());
+		twoEDer.setJ(density.multiply(gDer.get(1)).getTrace());
+		twoEDer.setK(density.multiply(gDer.get(2)).getTrace());
 
 		return twoEDer;
 	}

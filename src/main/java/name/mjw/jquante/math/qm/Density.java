@@ -53,7 +53,7 @@ public class Density extends Matrix {
 			for (int j = 0; j < c.length; j++)
 				d[i][j] = c[i][j];
 
-		this.setMatrix(dVector.transpose().mul(dVector).getData());
+		this.setMatrix(dVector.transpose().multiply(dVector).getData());
 
 	}
 }
