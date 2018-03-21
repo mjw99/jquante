@@ -77,8 +77,6 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 		errorMatrixList.add(errorMatrix);
 		fockMatrixList.add(currentFock);
 
-		newFock.makeZero();
-
 		int noOfIterations = errorMatrixList.size();
 		int n1 = noOfIterations + 1;
 

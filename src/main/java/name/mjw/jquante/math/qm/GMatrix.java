@@ -85,7 +85,6 @@ public class GMatrix extends Matrix {
 		for (i = 0; i < noOfBasisFunctions; i++) {
 			for (j = 0; j < i + 1; j++) {
 
-				tempVector.makeZero();
 				kl = 0;
 
 				for (k = 0; k < noOfBasisFunctions; k++) {
@@ -126,7 +125,6 @@ public class GMatrix extends Matrix {
 
 		if (!partialGMatrixList.isEmpty()) {
 			// collect the result and sum the partial contributions
-			this.makeZero();
 			double[][] gMatrix = this.getData();
 			int n = this.getRowDimension();
 
@@ -198,9 +196,6 @@ public class GMatrix extends Matrix {
 		for (i = 0; i < noOfBasisFunctions; i++) {
 			for (j = 0; j < i + 1; j++) {
 				kl = 0;
-				xvec.makeZero();
-				yvec.makeZero();
-				zvec.makeZero();
 				double[] xtemp = xvec.getVector();
 				double[] ytemp = xvec.getVector();
 				double[] ztemp = xvec.getVector();
@@ -272,7 +267,6 @@ public class GMatrix extends Matrix {
 				int endBasisFunction) {
 			int noOfBasisFunctions = density.getRowDimension();
 			GMatrix theGMatrix = new GMatrix(noOfBasisFunctions);
-			theGMatrix.makeZero();
 
 			double[][] gMatrix = theGMatrix.getData();
 			double[][] dMatrix = density.getData();

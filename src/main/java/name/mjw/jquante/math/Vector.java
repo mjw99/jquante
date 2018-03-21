@@ -110,13 +110,6 @@ public class Vector implements Cloneable {
 	}
 
 	/**
-	 * Make this vector a Null vector
-	 */
-	public void makeZero() {
-		IntStream.range(0, data.length).parallel().forEach(id -> data[id] = 0.0);
-	}
-
-	/**
 	 * addition of two vectors
 	 * 
 	 * @param b

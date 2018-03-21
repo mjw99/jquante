@@ -262,17 +262,6 @@ public class Matrix implements Cloneable {
 	}
 
 	/**
-	 * init the current matrix to zero
-	 */
-	public void makeZero() {
-		for (int i = 0; i < rowCount; i++) {
-			for (int j = 0; j < columnCount; j++) {
-				data[i][j] = 0.0;
-			}
-		}
-	}
-
-	/**
 	 * rootMeanSquare() - method to compute the root mean square of elements of a
 	 * diagonal. This is one type of matrix norm.
 	 * <code>sqrt(sum(A<sub>ii</sub>))</code>.
