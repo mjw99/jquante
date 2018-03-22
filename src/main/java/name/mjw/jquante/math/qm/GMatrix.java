@@ -42,15 +42,15 @@ public class GMatrix extends Matrix {
 	 * @param density
 	 *            the Density matrix
 	 */
-	public void compute(SCFType scfType, TwoElectronIntegrals twoEI,
-			Density density) {
+	public void compute(SCFType scfType, TwoElectronIntegrals twoEI, Density density) {
 		this.twoEI = twoEI;
 		this.density = density;
 
-		if (scfType == SCFType.HARTREE_FOCK_DIRECT)
+		if (scfType == SCFType.HARTREE_FOCK_DIRECT) {
 			makeGMatrixDirect();
-		else
+		} else {
 			makeGMatrix();
+		}
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class GMatrix extends Matrix {
 		if (twoEI.isOnTheFly()) {
 			makeGMatrixDirect();
 			return;
-		} // end if
+		}
 
 		int noOfBasisFunctions = density.getRowDimension();
 		Matrix theGMatrix = this;
@@ -92,23 +92,22 @@ public class GMatrix extends Matrix {
 						indexJ = IntegralsUtil.ijkl2intindex(i, j, k, l);
 						indexK1 = IntegralsUtil.ijkl2intindex(i, k, j, l);
 						indexK2 = IntegralsUtil.ijkl2intindex(i, l, k, j);
-						temp[kl] = 2.0 * ints[indexJ] - 0.5 * ints[indexK1]
-								- 0.5 * ints[indexK2];
+						temp[kl] = 2.0 * ints[indexJ] - 0.5 * ints[indexK1] - 0.5 * ints[indexK2];
 						kl++;
-					} // end l loop
-				} // end k loop
+					}
+				}
 
 				gMatrix[i][j] = gMatrix[j][i] = tempVector.dotProduct(densityOneD);
-			} // end j loop
-		} // end i loop
+			}
+		}
 	}
 
 	/**
 	 * Make the G matrix <br>
 	 * i.e. Form the 2J-K integrals corresponding to a density matrix
 	 * 
-	 * This computes integrals on the fly rather than read in from a
-	 * pre-calculated storage.
+	 * This computes integrals on the fly rather than read in from a pre-calculated
+	 * storage.
 	 */
 	protected void makeGMatrixDirect() {
 		SimpleParallelTaskExecuter pTaskExecuter = new SimpleParallelTaskExecuter();
@@ -135,17 +134,17 @@ public class GMatrix extends Matrix {
 				for (int i = 0; i < n; i++) {
 					for (int j = 0; j < n; j++) {
 						gMatrix[i][j] += pgm[i][j];
-					} // end for
-				} // end for
-			} // end for
+					}
+				}
+			}
 
 			// half the elements
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {
 					gMatrix[i][j] *= 0.5;
-				} // end for
-			} // end for
-		} // end if
+				}
+			}
+		}
 
 		// enable garbage collection
 		partialGMatrixList.clear();
@@ -163,8 +162,7 @@ public class GMatrix extends Matrix {
 	 * @return three element array of GMatrix elements representing partial
 	 *         derivatives with respect to x, y and z of atom position
 	 */
-	public ArrayList<GMatrix> computeDerivative(int atomIndex,
-			SCFMethod scfMethod) {
+	public ArrayList<GMatrix> computeDerivative(int atomIndex, SCFMethod scfMethod) {
 		ArrayList<GMatrix> gDer = new ArrayList<>(3);
 
 		scfMethod.getTwoEI().compute2EDerivatives(atomIndex, scfMethod);
@@ -205,21 +203,18 @@ public class GMatrix extends Matrix {
 						indexK1 = IntegralsUtil.ijkl2intindex(i, k, j, l);
 						indexK2 = IntegralsUtil.ijkl2intindex(i, l, k, j);
 
-						xtemp[kl] = 2. * d2IntsDxa[indexJ] - 0.5
-								* d2IntsDxa[indexK1] - 0.5 * d2IntsDxa[indexK2];
-						ytemp[kl] = 2. * d2IntsDya[indexJ] - 0.5
-								* d2IntsDya[indexK1] - 0.5 * d2IntsDya[indexK2];
-						ztemp[kl] = 2. * d2IntsDza[indexJ] - 0.5
-								* d2IntsDza[indexK1] - 0.5 * d2IntsDza[indexK2];
+						xtemp[kl] = 2. * d2IntsDxa[indexJ] - 0.5 * d2IntsDxa[indexK1] - 0.5 * d2IntsDxa[indexK2];
+						ytemp[kl] = 2. * d2IntsDya[indexJ] - 0.5 * d2IntsDya[indexK1] - 0.5 * d2IntsDya[indexK2];
+						ztemp[kl] = 2. * d2IntsDza[indexJ] - 0.5 * d2IntsDza[indexK1] - 0.5 * d2IntsDza[indexK2];
 						kl++;
-					} // end for
-				} // end for
+					}
+				}
 
 				gdx.data[i][j] = gdx.data[j][i] = xvec.dotProduct(densityOneD);
 				gdy.data[i][j] = gdy.data[j][i] = yvec.dotProduct(densityOneD);
 				gdz.data[i][j] = gdz.data[j][i] = zvec.dotProduct(densityOneD);
-			} // end for
-		} // end for
+			}
+		}
 
 		gDer.add(gdx);
 		gDer.add(gdy);
@@ -229,8 +224,8 @@ public class GMatrix extends Matrix {
 	}
 
 	/**
-	 * Class encapsulating the way for forming GMatrix in a way useful for
-	 * Utilising multi core (processor) systems.
+	 * Class encapsulating the way for forming GMatrix in a way useful for Utilising
+	 * multi core (processor) systems.
 	 */
 	protected class GMatrixFormationThread extends AbstractSimpleParallelTask {
 
@@ -240,8 +235,7 @@ public class GMatrix extends Matrix {
 		public GMatrixFormationThread() {
 		}
 
-		public GMatrixFormationThread(int startBasisFunction,
-				int endBasisFunction) {
+		public GMatrixFormationThread(int startBasisFunction, int endBasisFunction) {
 			this.startBasisFunction = startBasisFunction;
 			this.endBasisFunction = endBasisFunction;
 
@@ -263,8 +257,7 @@ public class GMatrix extends Matrix {
 		}
 
 		/** function to facilitate multi-threaded direct formation of GMatrix */
-		private void makeGMatrixDirect(int startBasisFunction,
-				int endBasisFunction) {
+		private void makeGMatrixDirect(int startBasisFunction, int endBasisFunction) {
 			int noOfBasisFunctions = density.getRowDimension();
 			GMatrix theGMatrix = new GMatrix(noOfBasisFunctions);
 
@@ -327,8 +320,7 @@ public class GMatrix extends Matrix {
 								twoEIntVal2 = twoEIntVal + twoEIntVal;
 								twoEIntValHalf = 0.5 * twoEIntVal;
 
-								setGMatrixElements(gMatrix, dMatrix, i, j, k,
-										l, twoEIntVal2, twoEIntValHalf);
+								setGMatrixElements(gMatrix, dMatrix, i, j, k, l, twoEIntVal2, twoEIntValHalf);
 
 								// special case
 								if ((i | j | k | l) == 0)
@@ -355,30 +347,27 @@ public class GMatrix extends Matrix {
 								validIdx[7] = true;
 
 								// filter unique elements
-								filterUniqueElements(idx, jdx, kdx, ldx,
-										validIdx);
+								filterUniqueElements(idx, jdx, kdx, ldx, validIdx);
 
 								// and evaluate them
 								for (m = 1; m < 8; m++) {
 									if (validIdx[m]) {
-										setGMatrixElements(gMatrix, dMatrix,
-												idx[m], jdx[m], kdx[m], ldx[m],
+										setGMatrixElements(gMatrix, dMatrix, idx[m], jdx[m], kdx[m], ldx[m],
 												twoEIntVal2, twoEIntValHalf);
-									} // end if
-								} // end for
-							} // end if
-						} // end l loop
-					} // end k loop
-				} // end j loop
-			} // end i loop
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 
 			partialGMatrixList.add(theGMatrix);
 		}
 
 		/** Set the GMatrix value for a given combination */
-		private void setGMatrixElements(double[][] gMatrix, double[][] dMatrix,
-				int i, int j, int k, int l, double twoEIntVal2,
-				double twoEIntValHalf) {
+		private void setGMatrixElements(double[][] gMatrix, double[][] dMatrix, int i, int j, int k, int l,
+				double twoEIntVal2, double twoEIntValHalf) {
 			gMatrix[i][j] += dMatrix[k][l] * twoEIntVal2;
 			gMatrix[k][l] += dMatrix[i][j] * twoEIntVal2;
 			gMatrix[i][k] -= dMatrix[j][l] * twoEIntValHalf;
@@ -388,8 +377,7 @@ public class GMatrix extends Matrix {
 		}
 
 		/** find unique elements and mark the ones that are not */
-		private void filterUniqueElements(int[] idx, int[] jdx, int[] kdx,
-				int[] ldx, boolean[] validIdx) {
+		private void filterUniqueElements(int[] idx, int[] jdx, int[] kdx, int[] ldx, boolean[] validIdx) {
 			int i;
 			int j;
 			int k;
@@ -403,11 +391,10 @@ public class GMatrix extends Matrix {
 				k = kdx[m];
 				l = ldx[m];
 				for (n = m + 1; n < 8; n++) {
-					if (i == idx[n] && j == jdx[n] && k == kdx[n]
-							&& l == ldx[n])
+					if (i == idx[n] && j == jdx[n] && k == kdx[n] && l == ldx[n])
 						validIdx[n] = false;
-				} // end for
-			} // end for
+				}
+			}
 		}
 	}
 }
