@@ -112,7 +112,7 @@ public class Matrix implements Cloneable {
 	 *            the matrix to which to subtract
 	 * @return the result Cij = (Aij - Bij)
 	 */
-	public Matrix sub(Matrix b) {
+	public Matrix subtract(Matrix b) {
 		Matrix c = new Matrix(rowCount);
 
 		for (int i = 0; i < rowCount; i++) {
@@ -265,7 +265,7 @@ public class Matrix implements Cloneable {
 	 * 
 	 * @return Value of property matrix.
 	 */
-	public double getMatrixAt(int i, int j) {
+	public double getEntry(int i, int j) {
 		return this.data[i][j];
 	}
 
@@ -283,7 +283,7 @@ public class Matrix implements Cloneable {
 	}
 
 	/**
-	 * Getter for property matrix.
+	 * Setter for property matrix.
 	 * 
 	 * @param i
 	 *            index i
@@ -292,7 +292,7 @@ public class Matrix implements Cloneable {
 	 * @param value
 	 *            the new value
 	 */
-	public void setMatrixAt(int i, int j, double value) {
+	public void setEntry(int i, int j, double value) {
 		this.data[i][j] = value;
 	}
 
