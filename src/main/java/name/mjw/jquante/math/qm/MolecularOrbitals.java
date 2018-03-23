@@ -1,5 +1,8 @@
 package name.mjw.jquante.math.qm;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import name.mjw.jquante.math.Matrix;
 import name.mjw.jquante.math.la.Diagonalizer;
 import name.mjw.jquante.math.la.DiagonalizerFactory;
@@ -12,6 +15,8 @@ import name.mjw.jquante.math.la.DiagonalizerFactory;
  * @version 2.0 (Part of MeTA v2.0)
  */
 public class MolecularOrbitals extends Matrix {
+
+	private static final Logger LOG = LogManager.getLogger(MolecularOrbitals.class);
 
 	/**
 	 * Creates a new instance of square (NxN) Matrix
@@ -72,9 +77,13 @@ public class MolecularOrbitals extends Matrix {
 		Matrix x = overlap.getSHalf();
 		Matrix a = x.multiply(theMat).multiply(x.transpose());
 
-		Diagonalizer diag = DiagonalizerFactory.getInstance()
-				.getDefaultDiagonalizer();
+		LOG.debug("Matrix x \n" + x);
+		LOG.debug("Matrix a \n" + a);
+
+		Diagonalizer diag = DiagonalizerFactory.getInstance().getDefaultDiagonalizer();
 		diag.diagonalize(a);
+
+		LOG.debug("diag.getEigenVectors() \n" + diag.getEigenVectors());
 
 		orbitalEnergies = diag.getEigenValues();
 		this.setMatrix(diag.getEigenVectors().multiply(x).getData());
