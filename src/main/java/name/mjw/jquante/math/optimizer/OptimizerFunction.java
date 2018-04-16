@@ -1,6 +1,6 @@
 package name.mjw.jquante.math.optimizer;
 
-import name.mjw.jquante.math.Matrix;
+import org.apache.commons.math3.linear.RealMatrix;
 
 /**
  * The interface for defining a function to be optimized.
@@ -68,6 +68,6 @@ public interface OptimizerFunction {
 	 * 
 	 * @return Value of property hessian.
 	 */
-	public Matrix getHessian();
+	public RealMatrix getHessian();
 
 }

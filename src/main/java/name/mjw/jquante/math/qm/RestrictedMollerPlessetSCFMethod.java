@@ -1,9 +1,10 @@
 package name.mjw.jquante.math.qm;
 
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.RealVector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import name.mjw.jquante.math.Vector;
 import name.mjw.jquante.math.qm.event.SCFEvent;
 import name.mjw.jquante.math.qm.integral.IntegralsUtil;
 import name.mjw.jquante.molecule.Molecule;
@@ -116,8 +117,8 @@ public class RestrictedMollerPlessetSCFMethod extends RestrictedHartreeFockMetho
 		int noOfElectrons = molecule.getNumberOfElectrons();
 		int noOfOccupancies = noOfElectrons / 2;
 
-		Vector tempVector = new Vector(noOfBasisFunctions);
-		double[] tempvec = tempVector.getVector();
+		RealVector tempVector = new ArrayRealVector(noOfBasisFunctions);
+		double[] tempvec = tempVector.toArray();
 		double[] aoints = twoEI.getTwoEIntegrals();
 
 		double[][][][] temp = new double[noOfBasisFunctions][noOfBasisFunctions][noOfOccupancies][noOfBasisFunctions];

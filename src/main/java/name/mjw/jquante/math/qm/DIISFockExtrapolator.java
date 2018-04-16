@@ -2,6 +2,9 @@ package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
 
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.RealVector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,11 +25,10 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 	/**
 	 * Logger object
 	 */
-	private static final Logger LOG = LogManager
-			.getLogger(DIISFockExtrapolator.class);
+	private static final Logger LOG = LogManager.getLogger(DIISFockExtrapolator.class);
 
 	private ArrayList<Fock> fockMatrixList = new ArrayList<>();
-	private ArrayList<Vector> errorMatrixList = new ArrayList<>();
+	private ArrayList<RealVector> errorMatrixList = new ArrayList<>();
 
 	protected int diisStep = 0;
 
@@ -47,14 +49,15 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 	 */
 	@Override
 	public Fock next(Fock currentFock, Overlap overlap, Density density) {
-		Fock newFock = new Fock(((Matrix) currentFock.clone()).getData());
+		Fock newFock = new Fock(currentFock.getData());
 		double[][] newFockMat = newFock.getData();
 
-		Matrix fPS = currentFock.multiply(density).multiply(overlap);
-		Matrix sPF = overlap.multiply(density).multiply(currentFock);
+		Array2DRowRealMatrix fPS = currentFock.multiply(density).multiply(overlap);
+		Array2DRowRealMatrix sPF = overlap.multiply(density).multiply(currentFock);
 
-		Vector errorMatrix = new Vector(fPS.subtract(sPF));
-		double mxerr = errorMatrix.maxNorm();
+		//RealVector errorMatrix = new ArrayRealVector( fPS.subtract(sPF).getDataRef() );
+		RealVector errorMatrix = new ArrayRealVector();
+		double mxerr = errorMatrix.getNorm();
 
 		if (mxerr < errorThreshold && !isDiisStarted) {
 			isDiisStarted = true;
@@ -66,8 +69,7 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 
 				return currentFock;
 			} else {
-				newFockMat = oldFock.multiply(0.5).add(currentFock.multiply(0.5))
-						.getData();
+				//newFockMat = oldFock.multiply(0.5).add(currentFock.multiply(0.5)).getData();
 				oldFock = currentFock;
 
 				return newFock;
@@ -89,8 +91,7 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 		// set up A x = B to be solved
 		for (int i = 0; i < noOfIterations; i++) {
 			for (int j = 0; j < noOfIterations; j++) {
-				aMatrix[i][j] = errorMatrixList.get(i).dotProduct(
-						errorMatrixList.get(j));
+				aMatrix[i][j] = errorMatrixList.get(i).dotProduct(errorMatrixList.get(j));
 			}
 		}
 

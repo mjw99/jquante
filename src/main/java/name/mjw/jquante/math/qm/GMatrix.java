@@ -2,8 +2,12 @@ package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
 
-import name.mjw.jquante.math.Matrix;
-import name.mjw.jquante.math.Vector;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.RealVector;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import name.mjw.jquante.math.qm.integral.IntegralsUtil;
 import name.mjw.jquante.parallel.AbstractSimpleParallelTask;
 import name.mjw.jquante.parallel.SimpleParallelTask;
@@ -16,8 +20,11 @@ import name.mjw.jquante.parallel.SimpleParallelTaskExecuter;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class GMatrix extends Matrix {
+public class GMatrix extends Array2DRowRealMatrix {
 
+	private static final Logger LOG = LogManager.getLogger(GMatrix.class);
+
+	private static final long serialVersionUID = -6555277318704252665L;
 	private TwoElectronIntegrals twoEI;
 	private Density density;
 	private ArrayList<GMatrix> partialGMatrixList;
@@ -58,6 +65,7 @@ public class GMatrix extends Matrix {
 	 * i.e. Form the 2J-K integrals corresponding to a density matrix
 	 */
 	protected void makeGMatrix() {
+		LOG.debug("makeGMatrix() called");
 		// make sure if this is really the case
 		// just if in case TwoElectronIntegrals class decided other wise
 		if (twoEI.isOnTheFly()) {
@@ -66,13 +74,11 @@ public class GMatrix extends Matrix {
 		}
 
 		int noOfBasisFunctions = density.getRowDimension();
-		Matrix theGMatrix = this;
-		Vector densityOneD = new Vector(density); // form 1D vector of density
-		Vector tempVector = new Vector(noOfBasisFunctions * noOfBasisFunctions);
 
-		double[][] gMatrix = theGMatrix.getData();
+		RealVector densityOneD = density.toRealVector(); // form 1D vector of density
+		RealVector tempVector = new ArrayRealVector(noOfBasisFunctions * noOfBasisFunctions);
+
 		double[] ints = twoEI.getTwoEIntegrals();
-		double[] temp = tempVector.getVector();
 
 		int i;
 		int j;
@@ -92,14 +98,18 @@ public class GMatrix extends Matrix {
 						indexJ = IntegralsUtil.ijkl2intindex(i, j, k, l);
 						indexK1 = IntegralsUtil.ijkl2intindex(i, k, j, l);
 						indexK2 = IntegralsUtil.ijkl2intindex(i, l, k, j);
-						temp[kl] = 2.0 * ints[indexJ] - 0.5 * ints[indexK1] - 0.5 * ints[indexK2];
+
+						tempVector.setEntry(kl, (2.0 * ints[indexJ] - 0.5 * ints[indexK1] - 0.5 * ints[indexK2]));
+
 						kl++;
 					}
 				}
 
-				gMatrix[i][j] = gMatrix[j][i] = tempVector.dotProduct(densityOneD);
+				this.setEntry(i, j, tempVector.dotProduct(densityOneD));
+				this.setEntry(j, i, tempVector.dotProduct(densityOneD));
 			}
 		}
+		LOG.debug("GMatrix is :" + this);
 	}
 
 	/**
@@ -110,6 +120,7 @@ public class GMatrix extends Matrix {
 	 * storage.
 	 */
 	protected void makeGMatrixDirect() {
+		LOG.debug("makeGMatrixDirect() called");
 		SimpleParallelTaskExecuter pTaskExecuter = new SimpleParallelTaskExecuter();
 
 		// allocate memory for partial GMatrices
@@ -173,15 +184,15 @@ public class GMatrix extends Matrix {
 
 		density = scfMethod.getDensity();
 		int noOfBasisFunctions = density.getRowDimension();
-		Vector densityOneD = new Vector(density); // form 1D vector of density
+		RealVector densityOneD = density.toRealVector(); // form 1D vector of density
 
 		GMatrix gdx = new GMatrix(noOfBasisFunctions);
 		GMatrix gdy = new GMatrix(noOfBasisFunctions);
 		GMatrix gdz = new GMatrix(noOfBasisFunctions);
 
-		Vector xvec = new Vector(noOfBasisFunctions * noOfBasisFunctions);
-		Vector yvec = new Vector(noOfBasisFunctions * noOfBasisFunctions);
-		Vector zvec = new Vector(noOfBasisFunctions * noOfBasisFunctions);
+		RealVector xvec = new ArrayRealVector(noOfBasisFunctions * noOfBasisFunctions);
+		RealVector yvec = new ArrayRealVector(noOfBasisFunctions * noOfBasisFunctions);
+		RealVector zvec = new ArrayRealVector(noOfBasisFunctions * noOfBasisFunctions);
 
 		int i;
 		int j;
@@ -194,9 +205,9 @@ public class GMatrix extends Matrix {
 		for (i = 0; i < noOfBasisFunctions; i++) {
 			for (j = 0; j < i + 1; j++) {
 				kl = 0;
-				double[] xtemp = xvec.getVector();
-				double[] ytemp = xvec.getVector();
-				double[] ztemp = xvec.getVector();
+				double[] xtemp = xvec.toArray();
+				double[] ytemp = xvec.toArray();
+				double[] ztemp = xvec.toArray();
 				for (k = 0; k < noOfBasisFunctions; k++) {
 					for (l = 0; l < noOfBasisFunctions; l++) {
 						indexJ = IntegralsUtil.ijkl2intindex(i, j, k, l);
@@ -210,9 +221,15 @@ public class GMatrix extends Matrix {
 					}
 				}
 
-				gdx.data[i][j] = gdx.data[j][i] = xvec.dotProduct(densityOneD);
-				gdy.data[i][j] = gdy.data[j][i] = yvec.dotProduct(densityOneD);
-				gdz.data[i][j] = gdz.data[j][i] = zvec.dotProduct(densityOneD);
+				gdx.setEntry(i, j, xvec.dotProduct(densityOneD));
+				gdx.setEntry(j, i, xvec.dotProduct(densityOneD));
+
+				gdy.setEntry(i, j, yvec.dotProduct(densityOneD));
+				gdy.setEntry(j, i, yvec.dotProduct(densityOneD));
+
+				gdz.setEntry(i, j, zvec.dotProduct(densityOneD));
+				gdz.setEntry(j, i, zvec.dotProduct(densityOneD));
+
 			}
 		}
 

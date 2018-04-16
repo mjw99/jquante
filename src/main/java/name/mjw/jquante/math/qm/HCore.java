@@ -2,7 +2,8 @@ package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
 
-import name.mjw.jquante.math.Matrix;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+
 import name.mjw.jquante.math.Vector3D;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 
@@ -15,8 +16,9 @@ import name.mjw.jquante.math.qm.basis.ContractedGaussian;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class HCore extends Matrix {
+public class HCore extends Array2DRowRealMatrix {
 
+	private static final long serialVersionUID = 290891895527849860L;
 	protected int atomIndex;
 	private SCFMethod scfMethod;
 	private BasisFunctions bfs;

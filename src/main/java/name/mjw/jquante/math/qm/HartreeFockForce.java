@@ -6,8 +6,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import name.mjw.jquante.config.impl.AtomInfo;
-import name.mjw.jquante.math.Matrix;
 import name.mjw.jquante.math.Vector;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import name.mjw.jquante.math.Vector3D;
 import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.molecule.Atom;
@@ -110,8 +111,8 @@ public class HartreeFockForce implements Force {
 		Overlap overlap = scfMethod.getOneEI().getOverlap();
 		Density dens = scfMethod.getDensity();
 		ArrayList<Overlap> overlapDer = overlap.computeDerivative(atomIndex, scfMethod);
-		Matrix eMat = new Matrix(new Vector(scfMethod.getOrbE()));
-		Matrix qMat = dens.multiply(eMat.multiply(dens.transpose()));
+		RealMatrix eMat = new Array2DRowRealMatrix(scfMethod.getOrbE());
+		RealMatrix qMat = dens.multiply(eMat.multiply(dens.transpose()));
 
 		denDer.setI(qMat.multiply(overlapDer.get(0)).getTrace());
 		denDer.setJ(qMat.multiply(overlapDer.get(1)).getTrace());

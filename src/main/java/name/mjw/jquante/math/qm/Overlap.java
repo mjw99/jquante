@@ -2,10 +2,14 @@ package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
 
-import name.mjw.jquante.math.Matrix;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.EigenDecomposition;
+import org.apache.commons.math3.linear.MatrixUtils;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import name.mjw.jquante.math.Vector3D;
-import name.mjw.jquante.math.la.Diagonalizer;
-import name.mjw.jquante.math.la.DiagonalizerFactory;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 
 /**
@@ -14,7 +18,11 @@ import name.mjw.jquante.math.qm.basis.ContractedGaussian;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class Overlap extends Matrix {
+public class Overlap extends Array2DRowRealMatrix {
+
+	private static final Logger LOG = LogManager.getLogger(Overlap.class);
+
+	private static final long serialVersionUID = 5209272241805533800L;
 
 	/**
 	 * Creates a new instance of square (NxN) Matrix
@@ -26,7 +34,7 @@ public class Overlap extends Matrix {
 		super(n, n);
 	}
 
-	private Matrix sHalf = null;
+	private RealMatrix sHalf = null;
 
 	/**
 	 * Get the S^1/2 matrix
@@ -38,19 +46,20 @@ public class Overlap extends Matrix {
 	 *
 	 * @return return the symmetric orthogonalization matrix (S half)
 	 */
-	public Matrix getSHalf() {
+	public RealMatrix getSHalf() {
 		if (sHalf == null) {
-			Diagonalizer diag = DiagonalizerFactory.getInstance().getDefaultDiagonalizer();
 
-			diag.diagonalize(this);
+			LOG.debug("Overlap::this " + this);
+			EigenDecomposition eig = new EigenDecomposition(this);
 
-			double[] eigenValues = diag.getEigenValues();
-			Matrix eigenVectors = diag.getEigenVectors();
+			double[] eigenValues = eig.getRealEigenvalues();
+			RealMatrix eigenVectors = eig.getVT();
 
-			this.sHalf = new Matrix(this.rowCount);
+			LOG.trace("eigenVectors " + eigenVectors);
 
-			this.sHalf.makeIdentity();
-			for (int i = 0; i < rowCount; i++) {
+			this.sHalf = MatrixUtils.createRealIdentityMatrix(this.getRowDimension());
+
+			for (int i = 0; i < this.getRowDimension(); i++) {
 				sHalf.setEntry(i, i, (sHalf.getEntry(i, i) / Math.sqrt(eigenValues[i])));
 			}
 

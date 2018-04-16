@@ -1,12 +1,13 @@
 package name.mjw.jquante.math.qm;
 
+import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import name.mjw.jquante.math.Matrix;
 import name.mjw.jquante.math.Vector3D;
 import name.mjw.jquante.math.optimizer.OptimizerFunction;
 import name.mjw.jquante.math.qm.event.SCFEvent;
+import name.mjw.jquante.math.qm.DIISFockExtrapolator;
 import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
 import name.mjw.jquante.molecule.UserDefinedAtomProperty;
@@ -148,7 +149,7 @@ public class RestrictedHartreeFockMethod extends SCFMethod implements
 			fock.compute(hCore, gMatrix);
 
 			// apply DIIS
-			fock = diis.next(fock, overlap, density);
+			//fock = diis.next(fock, overlap, density);
 
 			// compute the new MOs
 			mos.compute(fock, overlap);
@@ -321,7 +322,7 @@ public class RestrictedHartreeFockMethod extends SCFMethod implements
 	 * @return Value of property hessian.
 	 */
 	@Override
-	public Matrix getHessian() {
+	public RealMatrix getHessian() {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 }

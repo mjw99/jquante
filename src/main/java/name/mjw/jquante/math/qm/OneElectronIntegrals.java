@@ -2,6 +2,7 @@ package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
 
+import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -117,16 +118,16 @@ public class OneElectronIntegrals {
 		private int startBasisFunction;
 		private int endBasisFunction;
 		private ArrayList<ContractedGaussian> bfs;
-		private double[][] overlap; 
-		private double[][] hCore;
+		private RealMatrix overlap;
+		private RealMatrix hCore;
 		private int[] atomicNumbers;
 
 		public OneElectronIntegralEvaluaterThread(int[] atomicNumbers) {
 			this.atomicNumbers = atomicNumbers;
 		}
 
-		public OneElectronIntegralEvaluaterThread(int startBasisFunction, int endBasisFunction, double[][] overlap,
-				double[][] hCore, int[] atomicNumbers, ArrayList<ContractedGaussian> bfs) {
+		public OneElectronIntegralEvaluaterThread(int startBasisFunction, int endBasisFunction, RealMatrix overlap,
+				RealMatrix hCore, int[] atomicNumbers, ArrayList<ContractedGaussian> bfs) {
 			this.startBasisFunction = startBasisFunction;
 			this.endBasisFunction = endBasisFunction;
 
@@ -147,14 +148,14 @@ public class OneElectronIntegrals {
 		@Override
 		public SimpleParallelTask init(int startItem, int endItem) {
 			return new OneElectronIntegralEvaluaterThread(startItem, endItem,
-					OneElectronIntegrals.this.overlap.getData(), OneElectronIntegrals.this.hCore.getData(),
+					OneElectronIntegrals.this.overlap, OneElectronIntegrals.this.hCore,
 					this.atomicNumbers, basisFunctions.getBasisFunctions());
 		}
 
 		/**
 		 * method to actually compute 1E integrals
 		 */
-		private void compute1E(int startBasisFunction, int endBasisFunction, double[][] overlap, double[][] hCore,
+		private void compute1E(int startBasisFunction, int endBasisFunction, RealMatrix overlap, RealMatrix hCore,
 				int[] atomicNumbers, ArrayList<ContractedGaussian> bfs) {
 
 			LOG.debug("startBasisFunction: " + startBasisFunction + " endBasisFunction: " + endBasisFunction);
@@ -171,11 +172,12 @@ public class OneElectronIntegrals {
 				for (int j = 0; j < noOfBasisFunctions; j++) {
 					bfj = bfs.get(j);
 
-					overlap[i][j] = bfi.overlap(bfj); // the overlap matrix
-					hCore[i][j] = bfi.kinetic(bfj); // KE matrix elements
+					overlap.setEntry(i, j, bfi.overlap(bfj)); // the overlap matrix
+					hCore.setEntry(i, j, bfi.kinetic(bfj));// KE matrix elements
 
 					for (int k = 0; k < atomicNumbers.length; k++) {
-						hCore[i][j] += atomicNumbers[k] * bfi.nuclear(bfj, molecule.getAtom(k).getAtomCenterInAU());
+						hCore.setEntry(i, j, (hCore.getEntry(i, j)
+								+ atomicNumbers[k] * bfi.nuclear(bfj, molecule.getAtom(k).getAtomCenterInAU())));
 					}
 				}
 			}
