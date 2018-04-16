@@ -6,7 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import name.mjw.jquante.config.impl.AtomInfo;
-import name.mjw.jquante.math.Vector;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import name.mjw.jquante.math.Vector3D;
