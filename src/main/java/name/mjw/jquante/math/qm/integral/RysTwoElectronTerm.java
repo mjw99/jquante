@@ -2,7 +2,8 @@ package name.mjw.jquante.math.qm.integral;
 
 import java.util.ArrayList;
 
-import name.mjw.jquante.math.Matrix;
+import org.apache.commons.math3.linear.RealMatrix;
+
 import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.math.qm.Density;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
@@ -66,7 +67,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 	@Override
 	public double coulomb(ContractedGaussian a, ContractedGaussian b,
 			ContractedGaussian c, ContractedGaussian d, Density density,
-			Matrix jMat, Matrix kMat) {
+			RealMatrix jMat, RealMatrix kMat) {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 }

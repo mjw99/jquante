@@ -1,6 +1,7 @@
 package name.mjw.jquante.math.qm.integral;
 
-import name.mjw.jquante.math.Matrix;
+import org.apache.commons.math3.linear.RealMatrix;
+
 import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.math.qm.Density;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
@@ -51,7 +52,7 @@ public abstract class TwoElectronTerm implements IntegralsPackage {
 	 */
 	public abstract double coulomb(ContractedGaussian a, ContractedGaussian b,
 			ContractedGaussian c, ContractedGaussian d, Density density,
-			Matrix jMat, Matrix kMat);
+			RealMatrix jMat, RealMatrix kMat);
 
 	/**
 	 * The coulomb repulsion term between four centered Gaussians.

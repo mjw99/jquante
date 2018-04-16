@@ -1,13 +1,14 @@
 package name.mjw.jquante.math.qm.integral;
 
 import java.util.ArrayList;
-import name.mjw.jquante.math.Matrix;
 import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.math.qm.Density;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.math.qm.basis.Power;
 
 import java.util.stream.IntStream;
+
+import org.apache.commons.math3.linear.RealMatrix;
 
 /**
  * Head-Gordon/Pople scheme of evaluating two-electron integrals.
@@ -648,7 +649,7 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 
 	@Override
 	public double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c, ContractedGaussian d,
-			Density density, Matrix jMat, Matrix kMat) {
+			Density density, RealMatrix jMat, RealMatrix kMat) {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 }
