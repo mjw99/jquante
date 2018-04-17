@@ -234,7 +234,7 @@ public final class MathUtil {
 		return d == 0.0 ? 0.0 : Math.abs(a - b) / d;
 	}
 
-	public static RealVector RealMatrixToRealVector(RealMatrix realMatrix) {
+	public static RealVector realMatrixToRealVector(RealMatrix realMatrix) {
 		RealVector vec = new ArrayRealVector(realMatrix.getRowDimension() * realMatrix.getColumnDimension());
 		int ii = 0;
 
