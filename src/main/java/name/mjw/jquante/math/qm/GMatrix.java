@@ -8,6 +8,7 @@ import org.apache.commons.math3.linear.RealVector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import name.mjw.jquante.math.MathUtil;
 import name.mjw.jquante.math.qm.integral.IntegralsUtil;
 import name.mjw.jquante.parallel.AbstractSimpleParallelTask;
 import name.mjw.jquante.parallel.SimpleParallelTask;
@@ -75,7 +76,7 @@ public class GMatrix extends Array2DRowRealMatrix {
 
 		int noOfBasisFunctions = density.getRowDimension();
 
-		RealVector densityOneD = density.toRealVector(); // form 1D vector of density
+		RealVector densityOneD = MathUtil.realMatrixToRealVector(density); // form 1D vector of density
 		RealVector tempVector = new ArrayRealVector(noOfBasisFunctions * noOfBasisFunctions);
 
 		double[] ints = twoEI.getTwoEIntegrals();
@@ -184,7 +185,7 @@ public class GMatrix extends Array2DRowRealMatrix {
 
 		density = scfMethod.getDensity();
 		int noOfBasisFunctions = density.getRowDimension();
-		RealVector densityOneD = density.toRealVector(); // form 1D vector of density
+		RealVector densityOneD = MathUtil.realMatrixToRealVector(density); // form 1D vector of density
 
 		GMatrix gdx = new GMatrix(noOfBasisFunctions);
 		GMatrix gdy = new GMatrix(noOfBasisFunctions);

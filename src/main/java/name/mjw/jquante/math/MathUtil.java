@@ -1,5 +1,9 @@
 package name.mjw.jquante.math;
 
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
+
 import name.mjw.jquante.math.geom.Point3D;
 
 /**
@@ -228,5 +232,17 @@ public final class MathUtil {
 		d = Math.max(c, d);
 
 		return d == 0.0 ? 0.0 : Math.abs(a - b) / d;
+	}
+
+	public static RealVector RealMatrixToRealVector(RealMatrix realMatrix) {
+		RealVector vec = new ArrayRealVector(realMatrix.getRowDimension() * realMatrix.getColumnDimension());
+		int ii = 0;
+
+		for (int i = 0; i < realMatrix.getRowDimension(); i++)
+			for (int j = 0; j < realMatrix.getColumnDimension(); j++)
+				vec.setEntry(ii++, realMatrix.getEntry(i, j));
+
+		return vec;
+
 	}
 }
