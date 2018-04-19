@@ -14,7 +14,7 @@ public class SCFMethodFactoryTest {
 
 	private final Logger LOG = LogManager.getLogger(SCFMethodFactoryTest.class);
 
-	double diff = 0.00001;
+	double diff = 0.0001;
 
 	@Test
 	public void SinglePointHFHydrogenSTO3G() {
