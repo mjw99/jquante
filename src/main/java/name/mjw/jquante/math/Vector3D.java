@@ -242,15 +242,6 @@ public class Vector3D implements Serializable {
 	}
 
 	/**
-	 * method to convert this object to one representing a general Vector
-	 * 
-	 * @return Vector the converted form
-	 */
-	public Vector toVector() {
-		return new Vector(new double[] { i, j, k });
-	}
-
-	/**
 	 * method to convert this object to one representing a general Point3D
 	 * 
 	 * @return Point3D the converted form
