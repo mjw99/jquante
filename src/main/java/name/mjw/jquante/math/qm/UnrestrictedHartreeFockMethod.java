@@ -296,9 +296,9 @@ public class UnrestrictedHartreeFockMethod extends SCFMethod implements
 					.getUserDefinedAtomProperty("force");
 
 			Vector3D force = (Vector3D) atmForce.getValue();
-			forces[ii] = force.getI();
-			forces[ii + 1] = force.getJ();
-			forces[ii + 2] = force.getK();
+			forces[ii] = force.getX();
+			forces[ii + 1] = force.getY();
+			forces[ii + 2] = force.getZ();
 
 			ii += 3;
 		}

@@ -263,7 +263,7 @@ public class TwoElectronIntegrals {
 					* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		} // end if
 
-		derEle.setI(derEle.getI() + terma + termb); // x component
+		derEle.setX(derEle.getX() + terma + termb); // x component
 
 		if (m > 0) {
 			xPG.setPowers(new Power(l, m - 1, n));
@@ -272,7 +272,7 @@ public class TwoElectronIntegrals {
 					* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		} // end if
 
-		derEle.setJ(derEle.getJ() + terma + termb); // y component
+		derEle.setY(derEle.getY() + terma + termb); // y component
 
 		if (n > 0) {
 			xPG.setPowers(new Power(l, m, n - 1));
@@ -281,7 +281,7 @@ public class TwoElectronIntegrals {
 					* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		} // end if
 
-		derEle.setK(derEle.getK() + terma + termb); // z component
+		derEle.setZ(derEle.getZ() + terma + termb); // z component
 	}
 
 	/**
@@ -619,9 +619,9 @@ public class TwoElectronIntegrals {
 								// record derivative of the 2E integrals
 								Vector3D twoEDerEle = compute2EDerivativeElement(bfi, bfj, bfk, bfl);
 
-								dxTwoE[ijkl] = twoEDerEle.getI();
-								dyTwoE[ijkl] = twoEDerEle.getJ();
-								dzTwoE[ijkl] = twoEDerEle.getK();
+								dxTwoE[ijkl] = twoEDerEle.getX();
+								dyTwoE[ijkl] = twoEDerEle.getY();
+								dzTwoE[ijkl] = twoEDerEle.getZ();
 							} // end if
 						} // end l loop
 					} // end k loop

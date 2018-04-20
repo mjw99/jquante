@@ -97,9 +97,9 @@ public class HartreeFockForce implements Force {
 		Density dens = scfMethod.getDensity();
 		ArrayList<HCore> hCoreDer = hCore.computeDerivative(atomIndex, scfMethod);
 
-		oneEDer.setI(dens.multiply(hCoreDer.get(0)).getTrace());
-		oneEDer.setJ(dens.multiply(hCoreDer.get(1)).getTrace());
-		oneEDer.setK(dens.multiply(hCoreDer.get(2)).getTrace());
+		oneEDer.setX(dens.multiply(hCoreDer.get(0)).getTrace());
+		oneEDer.setY(dens.multiply(hCoreDer.get(1)).getTrace());
+		oneEDer.setZ(dens.multiply(hCoreDer.get(2)).getTrace());
 
 		return oneEDer;
 	}
@@ -113,9 +113,9 @@ public class HartreeFockForce implements Force {
 		RealMatrix eMat = new Array2DRowRealMatrix(scfMethod.getOrbE());
 		RealMatrix qMat = dens.multiply(eMat.multiply(dens.transpose()));
 
-		denDer.setI(qMat.multiply(overlapDer.get(0)).getTrace());
-		denDer.setJ(qMat.multiply(overlapDer.get(1)).getTrace());
-		denDer.setK(qMat.multiply(overlapDer.get(2)).getTrace());
+		denDer.setX(qMat.multiply(overlapDer.get(0)).getTrace());
+		denDer.setY(qMat.multiply(overlapDer.get(1)).getTrace());
+		denDer.setZ(qMat.multiply(overlapDer.get(2)).getTrace());
 
 		return denDer;
 	}
@@ -127,9 +127,9 @@ public class HartreeFockForce implements Force {
 		ArrayList<GMatrix> gDer = scfMethod.getGMatrix().computeDerivative(atomIndex, scfMethod);
 		Density density = scfMethod.getDensity();
 
-		twoEDer.setI(density.multiply(gDer.get(0)).getTrace());
-		twoEDer.setJ(density.multiply(gDer.get(1)).getTrace());
-		twoEDer.setK(density.multiply(gDer.get(2)).getTrace());
+		twoEDer.setX(density.multiply(gDer.get(0)).getTrace());
+		twoEDer.setY(density.multiply(gDer.get(1)).getTrace());
+		twoEDer.setZ(density.multiply(gDer.get(2)).getTrace());
 
 		return twoEDer;
 	}

@@ -338,7 +338,7 @@ public class ContractedGaussian {
 					* xPG.overlap(jPG);
 		} // end if
 
-		ovrDer.setI(ovrDer.getI() + terma + termb);
+		ovrDer.setX(ovrDer.getX() + terma + termb);
 
 		xPG.setPowers(new Power(l, m + 1, n));
 		xPG.normalize();
@@ -352,7 +352,7 @@ public class ContractedGaussian {
 		} else
 			termb = 0.0;
 
-		ovrDer.setJ(ovrDer.getJ() + terma + termb);
+		ovrDer.setY(ovrDer.getY() + terma + termb);
 
 		xPG.setPowers(new Power(l, m, n + 1));
 		xPG.normalize();
@@ -366,7 +366,7 @@ public class ContractedGaussian {
 		} else
 			termb = 0.0;
 
-		ovrDer.setK(ovrDer.getK() + terma + termb);
+		ovrDer.setZ(ovrDer.getZ() + terma + termb);
 	}
 
 	/**
@@ -453,7 +453,7 @@ public class ContractedGaussian {
 					* xPG.kinetic(jPG);
 		}
 
-		kder.setI(kder.getI() + terma + termb);
+		kder.setX(kder.getX() + terma + termb);
 
 		xPG.setPowers(new Power(l, m + 1, n));
 		xPG.normalize();
@@ -467,7 +467,7 @@ public class ContractedGaussian {
 		} else
 			termb = 0.0;
 
-		kder.setJ(kder.getJ() + terma + termb);
+		kder.setY(kder.getY() + terma + termb);
 
 		xPG.setPowers(new Power(l, m, n + 1));
 		xPG.normalize();
@@ -481,7 +481,7 @@ public class ContractedGaussian {
 		} else
 			termb = 0.0;
 
-		kder.setK(kder.getK() + terma + termb);
+		kder.setZ(kder.getZ() + terma + termb);
 	}
 
 	/**
@@ -598,7 +598,7 @@ public class ContractedGaussian {
 			} // end for
 		} // end if
 
-		nder.setI(nder.getI() + terma + termb);
+		nder.setX(nder.getX() + terma + termb);
 
 		xPG.setPowers(new Power(l, m + 1, n));
 		xPG.normalize();
@@ -624,7 +624,7 @@ public class ContractedGaussian {
 			} // end for
 		} // end if
 
-		nder.setJ(nder.getJ() + terma + termb);
+		nder.setY(nder.getY() + terma + termb);
 
 		xPG.setPowers(new Power(l, m, n + 1));
 		xPG.normalize();
@@ -651,7 +651,7 @@ public class ContractedGaussian {
 		} else
 			termb = 0.0;
 
-		nder.setK(nder.getK() + terma + termb);
+		nder.setZ(nder.getZ() + terma + termb);
 	}
 
 	/**

@@ -67,9 +67,9 @@ public class HCore extends Array2DRowRealMatrix {
 			for (j = 0; j < noOfBasisFunctions; j++) {
 				Vector3D dHCoreEle = computeHCoreDerElement(atomIndex, i, j);
 
-				hdx[i][j] = dHCoreEle.getI();
-				hdy[i][j] = dHCoreEle.getJ();
-				hdz[i][j] = dHCoreEle.getK();
+				hdx[i][j] = dHCoreEle.getX();
+				hdy[i][j] = dHCoreEle.getY();
+				hdz[i][j] = dHCoreEle.getZ();
 			}
 		}
 

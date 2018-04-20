@@ -102,9 +102,9 @@ public class Overlap extends Array2DRowRealMatrix {
 			for (int j = 0; j < noOfBasisFunctions; j++) {
 				Vector3D dOvrEle = computeOverlapDerElement(i, j);
 
-				hdx[i][j] = dOvrEle.getI();
-				hdy[i][j] = dOvrEle.getJ();
-				hdz[i][j] = dOvrEle.getK();
+				hdx[i][j] = dOvrEle.getX();
+				hdy[i][j] = dOvrEle.getY();
+				hdz[i][j] = dOvrEle.getZ();
 			}
 		}
 

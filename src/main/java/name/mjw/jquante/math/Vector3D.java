@@ -322,7 +322,7 @@ public class Vector3D implements Serializable {
 	 * @return Value of property i.
 	 * 
 	 */
-	public double getI() {
+	public double getX() {
 		return this.i;
 	}
 
@@ -333,7 +333,7 @@ public class Vector3D implements Serializable {
 	 *            New value of property i.
 	 * 
 	 */
-	public void setI(double i) {
+	public void setX(double i) {
 		this.i = i;
 	}
 
@@ -343,7 +343,7 @@ public class Vector3D implements Serializable {
 	 * @return Value of property j.
 	 * 
 	 */
-	public double getJ() {
+	public double getY() {
 		return this.j;
 	}
 
@@ -354,7 +354,7 @@ public class Vector3D implements Serializable {
 	 *            New value of property j.
 	 * 
 	 */
-	public void setJ(double j) {
+	public void setY(double j) {
 		this.j = j;
 	}
 
@@ -364,7 +364,7 @@ public class Vector3D implements Serializable {
 	 * @return Value of property k.
 	 * 
 	 */
-	public double getK() {
+	public double getZ() {
 		return this.k;
 	}
 
@@ -375,7 +375,7 @@ public class Vector3D implements Serializable {
 	 *            New value of property k.
 	 * 
 	 */
-	public void setK(double k) {
+	public void setZ(double k) {
 		this.k = k;
 	}
 
