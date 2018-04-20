@@ -2,7 +2,9 @@ package name.mjw.jquante.math.qm.property;
 
 import java.util.ArrayList;
 
-import name.mjw.jquante.math.Vector;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.RealVector;
+
 import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.math.qm.BasisFunctions;
 import name.mjw.jquante.math.qm.MolecularOrbitals;
@@ -66,8 +68,7 @@ public class MODensity extends OneElectronProperty {
 	 * @param mos
 	 *            the molecular orbitals as a coefficient matrix.
 	 */
-	public MODensity(Molecule molecule, BasisFunctions bfs,
-			MolecularOrbitals mos) {
+	public MODensity(Molecule molecule, BasisFunctions bfs, MolecularOrbitals mos) {
 
 		this.bfs = bfs.getBasisFunctions();
 		this.nbf = this.bfs.size();
@@ -88,8 +89,7 @@ public class MODensity extends OneElectronProperty {
 	 *            the number of molecular orbitals.
 	 *
 	 */
-	public MODensity(Molecule molecule, BasisFunctions bfs,
-			MolecularOrbitals mos, int monumber) {
+	public MODensity(Molecule molecule, BasisFunctions bfs, MolecularOrbitals mos, int monumber) {
 
 		this.bfs = bfs.getBasisFunctions();
 		this.nbf = this.bfs.size();
@@ -109,8 +109,8 @@ public class MODensity extends OneElectronProperty {
 	 */
 	@Override
 	public double compute(Point3D point) {
-		Vector amplitides = new Vector(nbf);
-		double[] amp = amplitides.getVector();
+		RealVector amplitudes = new ArrayRealVector(nbf);
+		double[] amp = amplitudes.toArray();
 		double moden = 0.0;
 		double amp_m;
 		double mos_m;
