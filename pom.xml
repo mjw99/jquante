@@ -70,8 +70,8 @@
 	</developers>
 
 	<scm>
-		<connection>scm:git:https://bitbucket.org/mjw99/jquante</connection>
-		<url>https://bitbucket.org/mjw99/jquante</url>
+		<connection>scm:git:https://github.com/mjw99/jquante</connection>
+		<url>https://github.com/mjw99/jquante</url>
 	</scm>
 
         <prerequisites>
