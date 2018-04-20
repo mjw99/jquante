@@ -170,18 +170,18 @@ public class SCFMethodFactoryTest {
 
 		assertEquals(9.087438510255588, scfm.nuclearEnergy(), diff);
 
-		assertEquals(-74.9645174916, scfm.getEnergy(), diff);
+		assertEquals(-74.964518362274, scfm.getEnergy(), diff);
 
 		// orbital energies
 		double[] ev = scfm.getOrbE();
 
-		assertEquals(-20.244508003283794, ev[0], diff);
-		assertEquals(-1.2637569211246862, ev[1], diff);
-		assertEquals(-0.6106330109275634, ev[2], diff);
-		assertEquals(-0.4535337774289125, ev[3], diff);
-		assertEquals(-0.3913211137352477, ev[4], diff);
-		assertEquals(0.5958982943824441, ev[5], diff);
-		assertEquals(0.7260124013928394, ev[6], diff);
+		assertEquals(-20.24450742, ev[0], diff);
+		assertEquals(-1.26375686, ev[1], diff);
+		assertEquals(-0.61063305, ev[2], diff);
+		assertEquals(-0.45353394, ev[3], diff);
+		assertEquals(-0.39132131, ev[4], diff);
+		assertEquals(0.59589853, ev[5], diff);
+		assertEquals(0.72601218, ev[6], diff);
 
 	}
 }
