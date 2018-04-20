@@ -6,8 +6,6 @@ import name.mjw.jquante.common.resource.StringResource;
 import name.mjw.jquante.config.GlobalConfiguration;
 import name.mjw.jquante.config.impl.DefaultConfiguration;
 import name.mjw.jquante.molecule.Molecule;
-import name.mjw.jquante.moleculereader.MoleculeFileReader;
-import name.mjw.jquante.moleculereader.MoleculeFileReaderFactory;
 
 import org.w3c.dom.Document;
 import org.xml.sax.ErrorHandler;
@@ -326,69 +324,6 @@ public final class Utility {
 		return value;
 	}
 
-	/**
-	 * method to check if the provided file type is supported by the MeTA
-	 * Studio.
-	 * 
-	 * @param fileName
-	 *            - the name of the file whos type needs to be tested
-	 * @return boolean true/ false indicating the support by the MeTA Studio
-	 */
-	public static boolean isSupportedType(String fileName) {
-		// right now we only check for the files of the type molecule
-		try {
-			MoleculeFileReaderFactory mfr = (MoleculeFileReaderFactory) (Utility
-					.getDefaultImplFor(MoleculeFileReaderFactory.class)
-					.getDeclaredConstructor().newInstance());
-
-			String type = fileName.substring(fileName.lastIndexOf('.') + 1,
-					fileName.length());
-			type = type.toLowerCase();
-
-			Iterator<?> itr = mfr.getAllSupportedTypes();
-
-			while (itr.hasNext()) {
-				if (itr.next().equals(type))
-					return true;
-			} // end while
-
-			return false;
-		} catch (Exception e) {
-			System.err.println("Error in Utility.isSupportedType() :" + e);
-			e.printStackTrace();
-			return false;
-		} // end of try .. catch block
-	}
-
-	/**
-	 * method to get an appropriate reader for the provided file type. ... only
-	 * for moleule file types.
-	 * 
-	 * @param fileName
-	 *            - the name of the file whos type needs to be tested
-	 * @return MoleculeFileReader - the reader
-	 * @throws UnsupportedOperationException
-	 *             if an error occurs
-	 */
-	public static MoleculeFileReader getReaderFor(String fileName)
-			throws UnsupportedOperationException {
-		// right now we only check for the files of the type molecule
-		try {
-			MoleculeFileReaderFactory mfr = (MoleculeFileReaderFactory) (Utility
-					.getDefaultImplFor(MoleculeFileReaderFactory.class)
-					.getDeclaredConstructor().newInstance());
-
-			String type = fileName.substring(fileName.lastIndexOf('.') + 1,
-					fileName.length());
-
-			return mfr.getReader(type.toLowerCase());
-		} catch (Exception e) {
-			System.err.println("Error in Utility.getReaderFor() :" + e);
-			e.printStackTrace();
-			throw new UnsupportedOperationException(
-					"Error in Utility.getReaderFor() :" + e);
-		} // end of try .. catch block
-	}
 
 	/**
 	 * Get the file name sans extension
