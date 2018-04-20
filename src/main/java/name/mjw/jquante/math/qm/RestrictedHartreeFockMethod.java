@@ -134,13 +134,9 @@ public class RestrictedHartreeFockMethod extends SCFMethod implements
 		// start the SCF cycle
 		for (scfIteration = 0; scfIteration < maxIteration; scfIteration++) {
 
-			LOG.debug("");
-			LOG.debug("SCF iteration: " + scfIteration);
 			// make or guess density
 			density.compute(this, guessInitialDM && (scfIteration == 0),
 					densityGuesser, noOfOccupancies, mos);
-
-			LOG.debug("Density matrix:\n" + density);
 
 			// make the G matrix
 			gMatrix.compute(scfType, twoEI, density);
@@ -160,7 +156,7 @@ public class RestrictedHartreeFockMethod extends SCFMethod implements
 
 			energy = eOne + eTwo + nuclearEnergy;
 
-			LOG.debug("Energy is : " + energy + "\tdelta_E: "
+			LOG.debug("SCF iteration: " + scfIteration + "\t Energy is : " + energy + "\tdelta_E: "
 					+ (energy - oldEnergy));
 
 			// fire the SCF event notification
