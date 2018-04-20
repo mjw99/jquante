@@ -34,26 +34,6 @@ public class Vector implements Cloneable {
 	}
 
 	/**
-	 * Creates a new instance of Vector from a square Matrix
-	 * 
-	 * @param a
-	 *            the square matrix from which this vector will be made
-	 */
-	public Vector(Matrix a) {
-		double[][] matrix = a.getData();
-
-		this.data = new double[matrix.length * matrix.length];
-
-		int ii = 0;
-		for (int i = 0; i < matrix.length; i++) {
-			for (int j = 0; j < matrix.length; j++) {
-				this.data[ii] = matrix[i][j];
-				ii++;
-			}
-		}
-	}
-
-	/**
 	 * The size of this vector
 	 * 
 	 * @return the size of this vector
