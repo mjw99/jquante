@@ -17,7 +17,7 @@ import org.junit.Test;
 
 public class ElectronDensityTest {
 
-	double diff = 0.00001;
+	double diff = 0.0001;
 
 	@Test
 	public void test() throws Exception {
