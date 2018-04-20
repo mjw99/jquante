@@ -1,17 +1,20 @@
 package name.mjw.jquante.math.qm;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import name.mjw.jquante.math.MathUtil;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.DecompositionSolver;
+import org.apache.commons.math3.linear.LUDecomposition;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealMatrixFormat;
 import org.apache.commons.math3.linear.RealVector;
+import org.apache.commons.math3.linear.RealVectorFormat;
+import org.apache.commons.math3.linear.SingularMatrixException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import name.mjw.jquante.math.Matrix;
-import name.mjw.jquante.math.Vector;
-import name.mjw.jquante.math.la.GaussianElimination;
-import name.mjw.jquante.math.la.exception.SingularMatrixException;
 
 /**
  * DIIS (Direct Inversion of iterative subspaces) proposed by Peter Pualay for
@@ -22,19 +25,18 @@ import name.mjw.jquante.math.la.exception.SingularMatrixException;
  */
 public class DIISFockExtrapolator implements FockExtrapolator {
 
-	/**
-	 * Logger object
-	 */
 	private static final Logger LOG = LogManager.getLogger(DIISFockExtrapolator.class);
 
 	private ArrayList<Fock> fockMatrixList = new ArrayList<>();
-	private ArrayList<RealVector> errorMatrixList = new ArrayList<>();
+	private ArrayList<RealVector> errorVectorList = new ArrayList<>();
 
 	protected int diisStep = 0;
 
 	private boolean isDiisStarted = false;
 
 	private Fock oldFock = null;
+
+	protected double errorThreshold = 0.00001;
 
 	/**
 	 * Get the next extrapolated fock matrix
@@ -49,92 +51,100 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 	 */
 	@Override
 	public Fock next(Fock currentFock, Overlap overlap, Density density) {
+		DecimalFormat df = new DecimalFormat("+#,##0.000;-#");
+		df.setGroupingUsed(false);
+		RealVectorFormat vf = new RealVectorFormat("{", "}", ",", df);
+		RealMatrixFormat mf = new RealMatrixFormat("\n", "", "", "", "\n", " ", df);
+
 		Fock newFock = new Fock(currentFock.getData());
-		double[][] newFockMat = newFock.getData();
 
 		Array2DRowRealMatrix fPS = currentFock.multiply(density).multiply(overlap);
 		Array2DRowRealMatrix sPF = overlap.multiply(density).multiply(currentFock);
 
-		//RealVector errorMatrix = new ArrayRealVector( fPS.subtract(sPF).getDataRef() );
-		RealVector errorMatrix = new ArrayRealVector();
-		double mxerr = errorMatrix.getNorm();
+		// The commutator of the Fock and density matrices (the orbital gradient)
+		RealVector errorVector = MathUtil.realMatrixToRealVector(fPS.subtract(sPF));
 
-		if (mxerr < errorThreshold && !isDiisStarted) {
+		LOG.debug("errorVector {} ", vf.format(errorVector));
+		double mxerr = errorVector.getNorm();
+		LOG.debug("errorVector.getNorm() {}", mxerr);
+
+		if (mxerr > errorThreshold && !isDiisStarted) {
+			LOG.debug("starting DIIS");
 			isDiisStarted = true;
 		}
 
+		// bootstrap
 		if (!isDiisStarted) {
 			if (oldFock == null) {
 				oldFock = currentFock;
-
 				return currentFock;
 			} else {
-				//newFockMat = oldFock.multiply(0.5).add(currentFock.multiply(0.5)).getData();
+				newFock.setSubMatrix(oldFock.scalarMultiply(0.5).add(currentFock.scalarMultiply(0.5)).getData(), 0, 0);
 				oldFock = currentFock;
-
 				return newFock;
 			}
 		}
 
-		errorMatrixList.add(errorMatrix);
 		fockMatrixList.add(currentFock);
+		errorVectorList.add(errorVector);
 
-		int noOfIterations = errorMatrixList.size();
-		int n1 = noOfIterations + 1;
+		int noOfIterations = errorVectorList.size();
 
-		Matrix a = new Matrix(n1);
-		Vector b = new Vector(n1);
+		LOG.debug("noOfIterations: {}", noOfIterations);
+		int noOfIterationsPlusOne = noOfIterations + 1;
 
-		double[][] aMatrix = a.getData();
-		double[] bVector = b.getVector();
+		// B_{ij} matrix
+		RealMatrix aMatrix = new Array2DRowRealMatrix(noOfIterationsPlusOne, noOfIterationsPlusOne);
+		// 0,0...,-1 vector
+		RealVector bVector = new ArrayRealVector(noOfIterationsPlusOne);
 
-		// set up A x = B to be solved
+		// set up A x = b to be solved
+		// Populate B_{ij} matrix
 		for (int i = 0; i < noOfIterations; i++) {
 			for (int j = 0; j < noOfIterations; j++) {
-				aMatrix[i][j] = errorMatrixList.get(i).dotProduct(errorMatrixList.get(j));
+				aMatrix.setEntry(i, j, errorVectorList.get(i).dotProduct(errorVectorList.get(j)));
 			}
 		}
 
 		for (int i = 0; i < noOfIterations; i++) {
-			aMatrix[noOfIterations][i] = aMatrix[i][noOfIterations] = -1.0;
-			bVector[i] = 0.0;
+			aMatrix.setEntry(noOfIterations, i, -1.0);
+			aMatrix.setEntry(i, noOfIterations, -1.0);
+			bVector.setEntry(i, 0.0);
 		}
 
-		aMatrix[noOfIterations][noOfIterations] = 0.0;
-		bVector[noOfIterations] = -1.0;
+		aMatrix.setEntry(noOfIterations, noOfIterations, 0.0);
+		bVector.setEntry(noOfIterations, -1.0);
 
-		GaussianElimination gele = new GaussianElimination();
-		gele.setMatrixA(a);
-		gele.setVectorX(b);
+		LOG.debug("aMatrix {}", mf.format(aMatrix));
+		LOG.debug("bVector {}", vf.format(bVector));
+
 		try {
-			gele.findSolution();
-			double[] solVec = gele.getVectorX().getVector();
+			DecompositionSolver solver = new LUDecomposition(aMatrix).getSolver();
+			RealVector solVec = solver.solve(bVector);
 
-			LOG.debug("Solution found: " + gele.getVectorX());
+			LOG.debug("solVec {}", vf.format(solVec));
+
+			newFock = new Fock(newFock.getRowDimension());
+			Fock tmpFock;
 
 			for (int i = 0; i < noOfIterations; i++) {
-				double[][] prevFockMat = fockMatrixList.get(i).getData();
-				for (int j = 0; j < newFockMat.length; j++) {
-					for (int k = 0; k < newFockMat.length; k++) {
-						newFockMat[j][k] += solVec[i] * prevFockMat[j][k];
-					}
-				}
+				tmpFock = new Fock(fockMatrixList.get(i).scalarMultiply(solVec.toArray()[i]).getData());
+				newFock = new Fock(newFock.add(tmpFock).getData());
 			}
-
 			oldFock = currentFock;
+
 		} catch (SingularMatrixException ignored) {
-			// no solution could be found, so return the current Fock as is
 			LOG.debug("No solution: " + diisStep);
+
 			diisStep++;
 			return currentFock;
-		}
 
+		}
 		diisStep++;
 
+		LOG.debug("final newFock {}", mf.format(newFock));
 		return newFock;
 	}
-
-	protected double errorThreshold;
 
 	/**
 	 * Get the value of errorThreshold

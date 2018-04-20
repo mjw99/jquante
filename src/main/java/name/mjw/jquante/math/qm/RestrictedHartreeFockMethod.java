@@ -149,7 +149,7 @@ public class RestrictedHartreeFockMethod extends SCFMethod implements
 			fock.compute(hCore, gMatrix);
 
 			// apply DIIS
-			//fock = diis.next(fock, overlap, density);
+			fock = diis.next(fock, overlap, density);
 
 			// compute the new MOs
 			mos.compute(fock, overlap);
