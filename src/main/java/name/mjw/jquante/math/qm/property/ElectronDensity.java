@@ -2,7 +2,9 @@ package name.mjw.jquante.math.qm.property;
 
 import java.util.ArrayList;
 
-import name.mjw.jquante.math.Vector;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.RealVector;
+
 import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.math.qm.BasisFunctions;
 import name.mjw.jquante.math.qm.Density;
@@ -65,10 +67,12 @@ public class ElectronDensity extends OneElectronProperty {
 	 */
 	@Override
 	public double compute(Point3D point) {
-		Vector amplitides = new Vector(nbf);
-		double[] amp = amplitides.getVector();
-		double density = 0.0, amp_xyz;
-		int m, l;
+		RealVector amplitudes = new ArrayRealVector(nbf);
+		double[] amp = amplitudes.toArray();
+		double density = 0.0;
+		double amp_xyz;
+		int m;
+		int l;
 
 		for (m = 0; m < nbf; m++)
 			amp[m] = bfs.get(m).amplitude(point);
@@ -77,9 +81,9 @@ public class ElectronDensity extends OneElectronProperty {
 			amp_xyz = 0.0;
 			for (l = 0; l < nbf; l++) {
 				amp_xyz += dm[m][l] * amp[l];
-			} // end for
+			}
 			density += amp_xyz * amp[m];
-		} // end for
+		}
 
 		// 2.0 represents double occupancy
 		return 2.0 * density;
