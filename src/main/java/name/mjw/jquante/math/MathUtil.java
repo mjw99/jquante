@@ -238,10 +238,11 @@ public final class MathUtil {
 		RealVector vec = new ArrayRealVector(realMatrix.getRowDimension() * realMatrix.getColumnDimension());
 		int ii = 0;
 
-		for (int i = 0; i < realMatrix.getRowDimension(); i++)
-			for (int j = 0; j < realMatrix.getColumnDimension(); j++)
+		for (int i = 0; i < realMatrix.getRowDimension(); i++) {
+			for (int j = 0; j < realMatrix.getColumnDimension(); j++) {
 				vec.setEntry(ii++, realMatrix.getEntry(i, j));
-
+			}
+		}
 		return vec;
 
 	}
