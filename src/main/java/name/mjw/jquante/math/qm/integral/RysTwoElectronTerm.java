@@ -2,9 +2,9 @@ package name.mjw.jquante.math.qm.integral;
 
 import java.util.ArrayList;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.linear.RealMatrix;
 
-import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.math.qm.Density;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.math.qm.basis.Power;
@@ -28,25 +28,25 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		aExps = a.getExponents();
 		aCoefs = a.getCoefficients();
 		aNorms = a.getPrimNorms();
-		Point3D aOrigin = a.getOrigin();
+		Vector3D aOrigin = a.getOrigin();
 		Power aPower = a.getPowers();
 
 		bExps = b.getExponents();
 		bCoefs = b.getCoefficients();
 		bNorms = b.getPrimNorms();
-		Point3D bOrigin = b.getOrigin();
+		Vector3D bOrigin = b.getOrigin();
 		Power bPower = b.getPowers();
 
 		cExps = c.getExponents();
 		cCoefs = c.getCoefficients();
 		cNorms = c.getPrimNorms();
-		Point3D cOrigin = c.getOrigin();
+		Vector3D cOrigin = c.getOrigin();
 		Power cPower = c.getPowers();
 
 		dExps = d.getExponents();
 		dCoefs = d.getCoefficients();
 		dNorms = d.getPrimNorms();
-		Point3D dOrigin = d.getOrigin();
+		Vector3D dOrigin = d.getOrigin();
 		Power dPower = d.getPowers();
 
 		// TODO:
@@ -57,10 +57,10 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 	 * coulomb repulsion term
 	 */
 	@Override
-	public double coulombRepulsion(Point3D a, double aNorm, Power aPower,
-			double aAlpha, Point3D b, double bNorm, Power bPower,
-			double bAlpha, Point3D c, double cNorm, Power cPower,
-			double cAlpha, Point3D d, double dNorm, Power dPower, double dAlpha) {
+	public double coulombRepulsion(Vector3D a, double aNorm, Power aPower,
+			double aAlpha, Vector3D b, double bNorm, Power bPower,
+			double bAlpha, Vector3D c, double cNorm, Power cPower,
+			double cAlpha, Vector3D d, double dNorm, Power dPower, double dAlpha) {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 

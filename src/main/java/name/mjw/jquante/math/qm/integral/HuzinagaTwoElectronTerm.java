@@ -2,10 +2,10 @@ package name.mjw.jquante.math.qm.integral;
 
 import java.util.ArrayList;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.linear.RealMatrix;
 
 import name.mjw.jquante.math.MathUtil;
-import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.math.qm.Density;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.math.qm.basis.Power;
@@ -51,25 +51,25 @@ public class HuzinagaTwoElectronTerm extends TwoElectronTerm {
 		ArrayList<Double> aExps = a.getExponents();
 		ArrayList<Double> aCoefs = a.getCoefficients();
 		ArrayList<Double> aNorms = a.getPrimNorms();
-		Point3D aOrigin = a.getOrigin();
+		Vector3D aOrigin = a.getOrigin();
 		Power aPower = a.getPowers();
 
 		ArrayList<Double> bExps = b.getExponents();
 		ArrayList<Double> bCoefs = b.getCoefficients();
 		ArrayList<Double> bNorms = b.getPrimNorms();
-		Point3D bOrigin = b.getOrigin();
+		Vector3D bOrigin = b.getOrigin();
 		Power bPower = b.getPowers();
 
 		ArrayList<Double> cExps = c.getExponents();
 		ArrayList<Double> cCoefs = c.getCoefficients();
 		ArrayList<Double> cNorms = c.getPrimNorms();
-		Point3D cOrigin = c.getOrigin();
+		Vector3D cOrigin = c.getOrigin();
 		Power cPower = c.getPowers();
 
 		ArrayList<Double> dExps = d.getExponents();
 		ArrayList<Double> dCoefs = d.getCoefficients();
 		ArrayList<Double> dNorms = d.getPrimNorms();
-		Point3D dOrigin = d.getOrigin();
+		Vector3D dOrigin = d.getOrigin();
 		Power dPower = d.getPowers();
 
 		int asz = aExps.size();
@@ -113,23 +113,23 @@ public class HuzinagaTwoElectronTerm extends TwoElectronTerm {
 	 * coulomb repulsion term
 	 */
 	@Override
-	public double coulombRepulsion(Point3D a, double aNorm, Power aPower,
-			double aAlpha, Point3D b, double bNorm, Power bPower,
-			double bAlpha, Point3D c, double cNorm, Power cPower,
-			double cAlpha, Point3D d, double dNorm, Power dPower, double dAlpha) {
+	public double coulombRepulsion(Vector3D a, double aNorm, Power aPower,
+			double aAlpha, Vector3D b, double bNorm, Power bPower,
+			double bAlpha, Vector3D c, double cNorm, Power cPower,
+			double cAlpha, Vector3D d, double dNorm, Power dPower, double dAlpha) {
 
 		double sum = 0.0;
 		int i;
 		int j;
 		int k;
 
-		double radiusABSquared = a.distanceSquaredFrom(b);
-		double radiusCDSquared = c.distanceSquaredFrom(d);
+		double radiusABSquared = a.distanceSq(b);
+		double radiusCDSquared = c.distanceSq(d);
 
-		Point3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
-		Point3D q = IntegralsUtil.gaussianProductCenter(cAlpha, c, dAlpha, d);
+		Vector3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
+		Vector3D q = IntegralsUtil.gaussianProductCenter(cAlpha, c, dAlpha, d);
 
-		double radiusPQSquared = p.distanceSquaredFrom(q);
+		double radiusPQSquared = p.distanceSq(q);
 
 		double gamma1 = aAlpha + bAlpha;
 		double gamma2 = cAlpha + dAlpha;

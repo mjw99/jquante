@@ -1,13 +1,13 @@
 package name.mjw.jquante.math.qm.integral;
 
 import java.util.ArrayList;
-import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.math.qm.Density;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.math.qm.basis.Power;
 
 import java.util.stream.IntStream;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.linear.RealMatrix;
 
 /**
@@ -42,8 +42,8 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 	 * Coulomb repulsion term
 	 */
 	@Override
-	public double coulombRepulsion(Point3D a, double aNorm, Power aPower, double aAlpha, Point3D b, double bNorm,
-			Power bPower, double bAlpha, Point3D c, double cNorm, Power cPower, double cAlpha, Point3D d, double dNorm,
+	public double coulombRepulsion(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
+			Power bPower, double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d, double dNorm,
 			Power dPower, double dAlpha) {
 		return vrr(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c, cNorm, cPower, cAlpha, d, dNorm, dAlpha, 0);
 	}
@@ -99,10 +99,10 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 	 * 
 	 * @return Contribution to Horizontal Recurrence Relation.
 	 */
-	protected double contractedHrr(Point3D a, Power aPower, ArrayList<Double> aCoeff, ArrayList<Double> aExps,
-			ArrayList<Double> aNorms, Point3D b, Power bPower, ArrayList<Double> bCoeff, ArrayList<Double> bExps,
-			ArrayList<Double> bNorms, Point3D c, Power cPower, ArrayList<Double> cCoeff, ArrayList<Double> cExps,
-			ArrayList<Double> cNorms, Point3D d, Power dPower, ArrayList<Double> dCoeff, ArrayList<Double> dExps,
+	protected double contractedHrr(Vector3D a, Power aPower, ArrayList<Double> aCoeff, ArrayList<Double> aExps,
+			ArrayList<Double> aNorms, Vector3D b, Power bPower, ArrayList<Double> bCoeff, ArrayList<Double> bExps,
+			ArrayList<Double> bNorms, Vector3D c, Power cPower, ArrayList<Double> cCoeff, ArrayList<Double> cExps,
+			ArrayList<Double> cNorms, Vector3D d, Power dPower, ArrayList<Double> dCoeff, ArrayList<Double> dExps,
 			ArrayList<Double> dNorms) {
 
 		int la = aPower.getL();
@@ -212,10 +212,10 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 	 * 
 	 * @return Contribution to Vertical Recurrence Relation.
 	 */
-	protected double contractedVrr(Point3D a, Power aPower, ArrayList<Double> aCoeff, ArrayList<Double> aExps,
-			ArrayList<Double> aNorms, Point3D b, ArrayList<Double> bCoeff, ArrayList<Double> bExps,
-			ArrayList<Double> bNorms, Point3D c, Power cPower, ArrayList<Double> cCoeff, ArrayList<Double> cExps,
-			ArrayList<Double> cNorms, Point3D d, ArrayList<Double> dCoeff, ArrayList<Double> dExps,
+	protected double contractedVrr(Vector3D a, Power aPower, ArrayList<Double> aCoeff, ArrayList<Double> aExps,
+			ArrayList<Double> aNorms, Vector3D b, ArrayList<Double> bCoeff, ArrayList<Double> bExps,
+			ArrayList<Double> bNorms, Vector3D c, Power cPower, ArrayList<Double> cCoeff, ArrayList<Double> cExps,
+			ArrayList<Double> cNorms, Vector3D d, ArrayList<Double> dCoeff, ArrayList<Double> dExps,
 			ArrayList<Double> dNorms) {
 
 		double value;
@@ -296,8 +296,8 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 	 *            auxiliary integral.
 	 * @return Contribution to Vertical Recurrence Relation.
 	 */
-	protected double vrrWrapper(Point3D a, double aNorm, Power aPower, double aAlpha, Point3D b, double bNorm,
-			double bAlpha, Point3D c, double cNorm, Power cPower, double cAlpha, Point3D d, double dNorm, double dAlpha,
+	protected double vrrWrapper(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
+			double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d, double dNorm, double dAlpha,
 			int m) {
 
 		return vrr(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c, cNorm, cPower, cAlpha, d, dNorm, dAlpha, m);
@@ -306,18 +306,18 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 	/**
 	 * VRR (Vertical Recurrence Relation)
 	 */
-	private double vrr(Point3D a, double aNorm, Power aPower, double aAlpha, Point3D b, double bNorm, double bAlpha,
-			Point3D c, double cNorm, Power cPower, double cAlpha, Point3D d, double dNorm, double dAlpha, int m) {
+	private double vrr(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm, double bAlpha,
+			Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d, double dNorm, double dAlpha, int m) {
 		double val = 0.0;
 
-		Point3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
-		Point3D q = IntegralsUtil.gaussianProductCenter(cAlpha, c, dAlpha, d);
+		Vector3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
+		Vector3D q = IntegralsUtil.gaussianProductCenter(cAlpha, c, dAlpha, d);
 		double zeta = aAlpha + bAlpha;
 		double eta = cAlpha + dAlpha;
 		double zetaPlusEta = zeta + eta;
 		double zetaByZetaPlusEta = zeta / zetaPlusEta;
 		double etaByZetaPlusEta = eta / zetaPlusEta;
-		Point3D w = IntegralsUtil.gaussianProductCenter(zeta, p, eta, q);
+		Vector3D w = IntegralsUtil.gaussianProductCenter(zeta, p, eta, q);
 
 		int la = aPower.getL();
 		int ma = aPower.getM();
@@ -445,11 +445,11 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 			return val;
 		}
 
-		double rab2 = a.distanceSquaredFrom(b);
+		double rab2 = a.distanceSq(b);
 		double Kab = sqrt2PI / zeta * Math.exp(-aAlpha * bAlpha / zeta * rab2);
-		double rcd2 = c.distanceSquaredFrom(d);
+		double rcd2 = c.distanceSq(d);
 		double Kcd = sqrt2PI / eta * Math.exp(-cAlpha * dAlpha / eta * rcd2);
-		double rpq2 = p.distanceSquaredFrom(q);
+		double rpq2 = p.distanceSq(q);
 		double T = zeta * eta / zetaPlusEta * rpq2;
 
 		val = aNorm * bNorm * cNorm * dNorm * Kab * Kcd / Math.sqrt(zetaPlusEta) * IntegralsUtil.computeFGamma(m, T);
@@ -459,18 +459,18 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 	/**
 	 * VRR (Vertical Recurrence Relation)
 	 */
-	private double vrrNonRecursive(Point3D a, double aNorm, Power aPower, double aAlpha, Point3D b, double bNorm,
-			double bAlpha, Point3D c, double cNorm, Power cPower, double cAlpha, Point3D d, double dNorm, double dAlpha,
+	private double vrrNonRecursive(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
+			double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d, double dNorm, double dAlpha,
 			int m) {
 
-		Point3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
-		Point3D q = IntegralsUtil.gaussianProductCenter(cAlpha, c, dAlpha, d);
+		Vector3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
+		Vector3D q = IntegralsUtil.gaussianProductCenter(cAlpha, c, dAlpha, d);
 		double zeta = aAlpha + bAlpha;
 		double eta = cAlpha + dAlpha;
 		double zetaPlusEta = zeta + eta;
 		double zetaByZetaPlusEta = zeta / zetaPlusEta;
 		double etaByZetaPlusEta = eta / zetaPlusEta;
-		Point3D w = IntegralsUtil.gaussianProductCenter(zeta, p, eta, q);
+		Vector3D w = IntegralsUtil.gaussianProductCenter(zeta, p, eta, q);
 
 		int la = aPower.getL();
 		int ma = aPower.getM();
@@ -492,11 +492,11 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 		double xa = a.getX(), ya = a.getY(), za = a.getZ();
 		double xc = c.getX(), yc = c.getY(), zc = c.getZ();
 
-		double rab2 = a.distanceSquaredFrom(b);
+		double rab2 = a.distanceSq(b);
 		double Kab = sqrt2PI / zeta * Math.exp(-aAlpha * bAlpha / zeta * rab2);
-		double rcd2 = c.distanceSquaredFrom(d);
+		double rcd2 = c.distanceSq(d);
 		double Kcd = sqrt2PI / eta * Math.exp(-cAlpha * dAlpha / eta * rcd2);
-		double rpq2 = p.distanceSquaredFrom(q);
+		double rpq2 = p.distanceSq(q);
 		double T = zeta * eta / zetaPlusEta * rpq2;
 
 		// form [0]^m

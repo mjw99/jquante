@@ -1,11 +1,11 @@
 package name.mjw.jquante.math.qm;
 
 import static org.junit.Assert.assertEquals;
-import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
 import name.mjw.jquante.molecule.impl.MoleculeImpl;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -20,9 +20,9 @@ public class SCFMethodFactoryTest {
 	public void SinglePointHFHydrogenSTO3G() {
 
 		// Create molecule
-		Atom H1 = new Atom("H", 1.0, new Point3D(0.00000000, 0.00000000,
+		Atom H1 = new Atom("H", 1.0, new Vector3D(0.00000000, 0.00000000,
 				0.00000000));
-		Atom H2 = new Atom("H", 1.0, new Point3D(0.74000000, 0.00000000,
+		Atom H2 = new Atom("H", 1.0, new Vector3D(0.74000000, 0.00000000,
 				0.00000000));
 
 		Molecule hydrogen = new MoleculeImpl("hydrogen");
@@ -73,9 +73,9 @@ public class SCFMethodFactoryTest {
 	public void SinglePointHFHydrogenFluorideSTO3G() {
 
 		// Create molecule
-		Atom H = new Atom("H", 1.0, new Point3D(0.00000000, 0.00000000,
+		Atom H = new Atom("H", 1.0, new Vector3D(0.00000000, 0.00000000,
 				0.00000000));
-		Atom F = new Atom("F", 7.0, new Point3D(0.91700000, 0.00000000,
+		Atom F = new Atom("F", 7.0, new Vector3D(0.91700000, 0.00000000,
 				0.00000000));
 
 		Molecule hydrogenFluoride = new MoleculeImpl("hydrogenFluoride");
@@ -129,10 +129,10 @@ public class SCFMethodFactoryTest {
 	public void SinglePointHFWaterSTO3G() {
 
 		// Create molecule
-		Atom O = new Atom("O", 6.0, new Point3D(0.00000000, 0.000000, 0.119748));
-		Atom H1 = new Atom("H", 1.0, new Point3D(0.00000000, 0.761561,
+		Atom O = new Atom("O", 6.0, new Vector3D(0.00000000, 0.000000, 0.119748));
+		Atom H1 = new Atom("H", 1.0, new Vector3D(0.00000000, 0.761561,
 				-0.478993));
-		Atom H2 = new Atom("H", 1.0, new Point3D(0.00000000, -0.761561,
+		Atom H2 = new Atom("H", 1.0, new Vector3D(0.00000000, -0.761561,
 				-0.478993));
 
 		Molecule water = new MoleculeImpl("water");

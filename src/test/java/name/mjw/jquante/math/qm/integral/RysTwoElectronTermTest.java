@@ -2,7 +2,8 @@ package name.mjw.jquante.math.qm.integral;
 
 import static org.junit.Assert.assertEquals;
 
-import name.mjw.jquante.math.geom.Point3D;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.math.qm.basis.Power;
 
@@ -17,7 +18,7 @@ public class RysTwoElectronTermTest {
 	@Ignore("To be implemented")
 	public void testOne() {
 
-		ContractedGaussian cgto1 = new ContractedGaussian(new Point3D(0, 0, 0),
+		ContractedGaussian cgto1 = new ContractedGaussian(new Vector3D(0, 0, 0),
 				new Power(0, 0, 0));
 		cgto1.addPrimitive(1.0, 1.0);
 		cgto1.normalize();
@@ -32,12 +33,12 @@ public class RysTwoElectronTermTest {
 	@Ignore("To be implemented")
 	public void testTwo() {
 
-		ContractedGaussian cgto1 = new ContractedGaussian(new Point3D(0, 0, 0),
+		ContractedGaussian cgto1 = new ContractedGaussian(new Vector3D(0, 0, 0),
 				new Power(0, 0, 0));
 		cgto1.addPrimitive(1.0, 1.0);
 		cgto1.normalize();
 
-		ContractedGaussian cgto2 = new ContractedGaussian(new Point3D(0, 0, 1),
+		ContractedGaussian cgto2 = new ContractedGaussian(new Vector3D(0, 0, 1),
 				new Power(0, 0, 0));
 		cgto2.addPrimitive(1.0, 1.0);
 		cgto2.normalize();

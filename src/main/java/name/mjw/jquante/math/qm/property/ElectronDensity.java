@@ -2,10 +2,10 @@ package name.mjw.jquante.math.qm.property;
 
 import java.util.ArrayList;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
 
-import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.math.qm.BasisFunctions;
 import name.mjw.jquante.math.qm.Density;
 import name.mjw.jquante.math.qm.SCFMethod;
@@ -66,7 +66,7 @@ public class ElectronDensity extends OneElectronProperty {
 	 * @return the value of this property at this point
 	 */
 	@Override
-	public double compute(Point3D point) {
+	public double compute(Vector3D point) {
 		RealVector amplitudes = new ArrayRealVector(nbf);
 		double[] amp = amplitudes.toArray();
 		double density = 0.0;

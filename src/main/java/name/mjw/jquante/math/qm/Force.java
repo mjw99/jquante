@@ -1,6 +1,6 @@
 package name.mjw.jquante.math.qm;
 
-import name.mjw.jquante.math.Vector3D;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
  * This interface defines the interfaces required for Force calculations on a

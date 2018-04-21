@@ -1,7 +1,8 @@
 package name.mjw.jquante.math.qm.property;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+
 import name.mjw.jquante.common.Utility;
-import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.math.qm.SCFMethod;
 import name.mjw.jquante.molecule.property.electronic.GridProperty;
 import name.mjw.jquante.molecule.property.electronic.PointProperty;
@@ -65,7 +66,7 @@ public abstract class OneElectronProperty {
 	 *            the point of interest
 	 * @return the value of this property at this point
 	 */
-	public abstract double compute(Point3D point);
+	public abstract double compute(Vector3D point);
 
 	/**
 	 * Computes the one electron property on the specified points and returns
@@ -77,7 +78,7 @@ public abstract class OneElectronProperty {
 	 *            the points of interest
 	 * @return the values of this property at each of the point
 	 */
-	public double[] compute(Point3D[] points) {
+	public double[] compute(Vector3D[] points) {
 		double[] fValues = new double[points.length];
 
 		SimpleParallelTask spt = new ComputeOverPoints(points, fValues);
@@ -91,10 +92,10 @@ public abstract class OneElectronProperty {
 	/** Parallel task description to compute the property over a set of points */
 	private class ComputeOverPoints extends AbstractSimpleParallelTask {
 
-		private Point3D[] points;
+		private Vector3D[] points;
 		private double[] fValues;
 
-		public ComputeOverPoints(Point3D[] points, double[] fValues) {
+		public ComputeOverPoints(Vector3D[] points, double[] fValues) {
 			this.points = points;
 			this.fValues = fValues;
 
@@ -135,10 +136,10 @@ public abstract class OneElectronProperty {
 		double xinc = gp.getXIncrement(), yinc = gp.getYIncrement(), zinc = gp
 				.getZIncrement();
 
-		Point3D ul = gp.getBoundingBox().getUpperLeft();
+		Vector3D ul = gp.getBoundingBox().getUpperLeft();
 		double xmin = ul.getX(), ymin = ul.getY(), zmin = ul.getZ();
 
-		Point3D[] points = new Point3D[nx * ny * nz];
+		Vector3D[] points = new Vector3D[nx * ny * nz];
 
 		double x, y, z;
 		int i, j, k, ii;
@@ -151,7 +152,7 @@ public abstract class OneElectronProperty {
 				for (k = 0; k < nz; k++) {
 					z = (zmin + (k * zinc)) / Utility.AU_TO_ANGSTROM_FACTOR;
 
-					points[ii++] = new Point3D(x, y, z);
+					points[ii++] = new Vector3D(x, y, z);
 				}
 			}
 		}

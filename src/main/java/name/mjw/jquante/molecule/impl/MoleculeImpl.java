@@ -9,9 +9,10 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Set;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+
 import name.mjw.jquante.config.impl.AtomInfo;
 import name.mjw.jquante.math.geom.BoundingBox;
-import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.BondType;
 import name.mjw.jquante.molecule.MolecularFormula;
@@ -79,7 +80,7 @@ public class MoleculeImpl extends Molecule {
 		specialStructureRecognizerList.add(defaultSSR);
 
 		// default value for center of mass
-		centerOfMass = new Point3D(0.0, 0.0, 0.0);
+		centerOfMass = new Vector3D(0.0, 0.0, 0.0);
 	}
 
 	/**
@@ -105,9 +106,10 @@ public class MoleculeImpl extends Molecule {
 		// adjust the molecular weight, and center of mass
 		double mass = atomInfo.getAtomicWeight(atom.getSymbol());
 		molecularMass += mass;
-		centerOfMass.setX(centerOfMass.getX() + (mass * atom.getX()));
-		centerOfMass.setY(centerOfMass.getY() + (mass * atom.getY()));
-		centerOfMass.setZ(centerOfMass.getZ() + (mass * atom.getZ()));
+	
+		centerOfMass = new Vector3D(centerOfMass.getX() + (mass * atom.getX()),
+				centerOfMass.getY() + (mass * atom.getY()),
+				centerOfMass.getZ() + (mass * atom.getZ()));
 
 		// and numberOfElectrons
 		numberOfElectrons += atomInfo.getAtomicNumber(atom.getSymbol());
@@ -133,9 +135,9 @@ public class MoleculeImpl extends Molecule {
 		// adjust the molecular weight and COM
 		double mass = atomInfo.getAtomicWeight(atom.getSymbol());
 		molecularMass -= mass;
-		centerOfMass.setX(centerOfMass.getX() - (mass * atom.getX()));
-		centerOfMass.setY(centerOfMass.getY() - (mass * atom.getY()));
-		centerOfMass.setZ(centerOfMass.getZ() - (mass * atom.getZ()));
+		centerOfMass = new Vector3D(centerOfMass.getX() - (mass * atom.getX()),
+				centerOfMass.getY() - (mass * atom.getY()),
+				centerOfMass.getZ() - (mass * atom.getZ()));
 
 		// and numberOfElectrons
 		numberOfElectrons -= atomInfo.getAtomicNumber(atom.getSymbol());
@@ -181,7 +183,7 @@ public class MoleculeImpl extends Molecule {
 	 *            the Cartesian coordinates of the atom stored as Point3D object
 	 */
 	@Override
-	public void addAtom(String symbol, Point3D atomCenter) {
+	public void addAtom(String symbol, Vector3D atomCenter) {
 		addAtom(new Atom(symbol, 0.0, atomCenter));
 	}
 
@@ -196,7 +198,7 @@ public class MoleculeImpl extends Molecule {
 	 *            the Cartesian coordinates of the atom stored as Point3D object
 	 */
 	@Override
-	public void addAtom(String symbol, double charge, Point3D atomCenter) {
+	public void addAtom(String symbol, double charge, Vector3D atomCenter) {
 		addAtom(new Atom(symbol, charge, atomCenter));
 	}
 
@@ -214,7 +216,7 @@ public class MoleculeImpl extends Molecule {
 	 */
 	@Override
 	public void addAtom(String symbol, double x, double y, double z) {
-		addAtom(new Atom(symbol, 0.0, new Point3D(x, y, z)));
+		addAtom(new Atom(symbol, 0.0, new Vector3D(x, y, z)));
 	}
 
 	/**
@@ -239,9 +241,9 @@ public class MoleculeImpl extends Molecule {
 	 */
 	public void addAtom(String symbol, double x, double y, double z, double xi,
 			double yj, double zk, int index) {
-		Atom atm = new Atom(symbol, 0.0, new Point3D(x, y, z));
+		Atom atm = new Atom(symbol, 0.0, new Vector3D(x, y, z));
 		atm.addUserDefinedAtomProperty(new UserDefinedAtomProperty(
-				"baseCenter", new Point3D(xi, yj, zk)));
+				"baseCenter", new Vector3D(xi, yj, zk)));
 		addAtom(atm);
 	}
 
@@ -261,7 +263,7 @@ public class MoleculeImpl extends Molecule {
 	 */
 	@Override
 	public void addAtom(String symbol, double x, double y, double z, int index) {
-		addAtom(new Atom(symbol, 0.0, new Point3D(x, y, z), index));
+		addAtom(new Atom(symbol, 0.0, new Vector3D(x, y, z), index));
 	}
 
 	/**
@@ -281,7 +283,7 @@ public class MoleculeImpl extends Molecule {
 	@Override
 	public void addAtom(String symbol, double charge, double x, double y,
 			double z) {
-		addAtom(new Atom(symbol, charge, new Point3D(x, y, z)));
+		addAtom(new Atom(symbol, charge, new Vector3D(x, y, z)));
 	}
 
 	/**
@@ -303,7 +305,7 @@ public class MoleculeImpl extends Molecule {
 	@Override
 	public void addAtom(String symbol, double charge, double x, double y,
 			double z, int index) {
-		addAtom(new Atom(symbol, charge, new Point3D(x, y, z), index));
+		addAtom(new Atom(symbol, charge, new Vector3D(x, y, z), index));
 	}
 
 	/**
@@ -560,11 +562,15 @@ public class MoleculeImpl extends Molecule {
 	 */
 	@Override
 	public BoundingBox getBoundingBox() {
+		Vector3D ul = null;
+		Vector3D br = null;
 		if (boundingBox == null || stateChanged) {
-			boundingBox = new BoundingBox();
 
-			if (atomList.isEmpty())
-				return boundingBox;
+
+
+			if (atomList.isEmpty()) {
+				return new BoundingBox();
+			}
 
 			Atom atom = (Atom) atomList.get(0);
 
@@ -602,17 +608,15 @@ public class MoleculeImpl extends Molecule {
 					zmax = z;
 			} // end for
 
-			boundingBox.getUpperLeft().setX(xmin);
-			boundingBox.getUpperLeft().setY(ymin);
-			boundingBox.getUpperLeft().setZ(zmin);
-			boundingBox.getBottomRight().setX(xmax);
-			boundingBox.getBottomRight().setY(ymax);
-			boundingBox.getBottomRight().setZ(zmax);
+			ul = new Vector3D(xmin,ymin,zmin);
+			br = new Vector3D(xmax,ymax,zmax);
+			
+			
 		} // end if
 
 		stateChanged = false;
 
-		return boundingBox;
+		return new BoundingBox(ul, br);
 	}
 
 	/**
@@ -627,20 +631,21 @@ public class MoleculeImpl extends Molecule {
 		if (atomList.isEmpty())
 			return bb;
 
-		Point3D com = getCenterOfMass();
+		Vector3D com = getCenterOfMass();
 
 		BoundingBox bborg = getBoundingBox();
 
-		double dist = bborg.center().distanceFrom(com);
+		double dist = bborg.center().distance(com);
 
-		bb.getUpperLeft().setX(bb.getUpperLeft().getX() - dist);
-		bb.getUpperLeft().setY(bb.getUpperLeft().getY() - dist);
-		bb.getUpperLeft().setZ(bb.getUpperLeft().getZ() - dist);
-		bb.getBottomRight().setX(bb.getBottomRight().getX() + dist);
-		bb.getBottomRight().setY(bb.getBottomRight().getY() + dist);
-		bb.getBottomRight().setZ(bb.getBottomRight().getZ() + dist);
+		Vector3D ul = new Vector3D(bb.getUpperLeft().getX() - dist,
+				bb.getUpperLeft().getY() - dist,
+				bb.getUpperLeft().getZ() - dist);
+		
+		Vector3D br = new Vector3D(bb.getBottomRight().getX() + dist,
+					bb.getBottomRight().getY() + dist,
+					bb.getBottomRight().getZ() + dist);
 
-		return bb;
+		return new BoundingBox(ul, br);
 	}
 
 	/**
@@ -725,9 +730,7 @@ public class MoleculeImpl extends Molecule {
 		stateChanged = true;
 
 		// reset center of mass
-		centerOfMass.setX(0.0);
-		centerOfMass.setY(0.0);
-		centerOfMass.setZ(0.0);
+		centerOfMass = new Vector3D(0,0,0);
 
 		// if its ok, we assume all is well
 		double x, y, z;
@@ -737,12 +740,13 @@ public class MoleculeImpl extends Molecule {
 			y = coords[idxCoord + 1];
 			z = coords[idxCoord + 2];
 
-			atom.setAtomCenter(new Point3D(x, y, z));
+			atom.setAtomCenter(new Vector3D(x, y, z));
 
 			double mass = atomInfo.getAtomicWeight(atom.getSymbol());
-			centerOfMass.setX(centerOfMass.getX() + (mass * x));
-			centerOfMass.setY(centerOfMass.getY() + (mass * y));
-			centerOfMass.setZ(centerOfMass.getZ() + (mass * z));
+	
+			centerOfMass = new Vector3D(centerOfMass.getX() + (mass * x),
+					centerOfMass.getY() + (mass * y),
+					centerOfMass.getZ() + (mass * z));
 
 			idxCoord += 3;
 		} // end for
@@ -975,7 +979,7 @@ public class MoleculeImpl extends Molecule {
 		} // end of try .. catch
 
 		// get center of mass
-		Point3D com = mol.getCenterOfMass();
+		Vector3D com = mol.getCenterOfMass();
 		for (Atom atm : atomList) {
 			atm.setIndex(mol.closestTo(com));
 		} // end for
@@ -991,7 +995,7 @@ public class MoleculeImpl extends Molecule {
 	 * @return the atom index that is closest to the point
 	 */
 	@Override
-	public int closestTo(Point3D point) {
+	public int closestTo(Vector3D point) {
 		int index = -1;
 
 		int i = 0;

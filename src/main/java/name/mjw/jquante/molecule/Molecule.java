@@ -2,13 +2,14 @@ package name.mjw.jquante.molecule;
 
 import java.io.Serializable;
 import java.util.Iterator;
+
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import name.mjw.jquante.common.EventListenerList;
-import name.mjw.jquante.math.Vector3D;
 import name.mjw.jquante.math.geom.BoundingBox;
-import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.molecule.event.MoleculeStateChangeEvent;
 import name.mjw.jquante.molecule.event.MoleculeStateChangeListener;
 import name.mjw.jquante.molecule.CommonUserDefinedMolecularPropertyNames;
@@ -141,7 +142,7 @@ public abstract class Molecule {
 	 * @param atomCenter
 	 *            the Cartesian coordinates of the atom stored as Point3D object
 	 */
-	public abstract void addAtom(String symbol, Point3D atomCenter);
+	public abstract void addAtom(String symbol, Vector3D atomCenter);
 
 	/**
 	 * Overloaded addAtom() method.
@@ -190,7 +191,7 @@ public abstract class Molecule {
 	 *            the Cartesian coordinates of the atom stored as Point3D object
 	 */
 	public abstract void addAtom(String symbol, double charge,
-			Point3D atomCenter);
+			Vector3D atomCenter);
 
 	/**
 	 * Overloaded addAtom() method.
@@ -243,7 +244,7 @@ public abstract class Molecule {
 	 *            the reference point
 	 * @return the atom index that is closest to the point
 	 */
-	public abstract int closestTo(Point3D point);
+	public abstract int closestTo(Vector3D point);
 
 	/**
 	 * Method to set a particular atom in the lists of atoms.
@@ -584,7 +585,7 @@ public abstract class Molecule {
 					sb.append("Dipole Moment           : ")
 							.append(ai.getDipole().toString()).append("\n");
 					sb.append("Total Dipole Moment     : ")
-							.append(ai.getDipole().magnitude()).append("\n");
+							.append(ai.getDipole().getNorm()).append("\n");
 				}
 			}
 		}
@@ -1409,15 +1410,15 @@ public abstract class Molecule {
 	/**
 	 * Holds value of property centerOfMass.
 	 */
-	protected Point3D centerOfMass;
+	protected Vector3D centerOfMass;
 
 	/**
 	 * Getter for property centerOfMass.
 	 * 
 	 * @return Value of property centerOfMass.
 	 */
-	public Point3D getCenterOfMass() {
-		return this.centerOfMass.mul(1.0 / getMolecularMass());
+	public Vector3D getCenterOfMass() {
+		return this.centerOfMass.scalarMultiply(1.0 / getMolecularMass());
 	}
 
 	/**
@@ -1426,7 +1427,7 @@ public abstract class Molecule {
 	 * @param centerOfMass
 	 *            New value of property centerOfMass.
 	 */
-	public void setCenterOfMass(Point3D centerOfMass) {
+	public void setCenterOfMass(Vector3D centerOfMass) {
 		this.centerOfMass = centerOfMass;
 	}
 

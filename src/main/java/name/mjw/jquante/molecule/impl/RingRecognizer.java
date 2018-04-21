@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+
 import name.mjw.jquante.math.MathUtil;
-import name.mjw.jquante.math.Vector3D;
 import name.mjw.jquante.molecule.AtomGroup;
 import name.mjw.jquante.molecule.AtomGroupList;
 import name.mjw.jquante.molecule.BondType;
@@ -223,7 +224,7 @@ public class RingRecognizer implements SpecialStructureRecognizer {
 		// get all the atom centers of the ring
 		for (i = 0; i < points.length; i++) {
 			points[i] = new Vector3D(theMolecule.getAtom(
-					theRing.getAtomIndexAt(i)).getAtomCenter());
+					theRing.getAtomIndexAt(i)).getAtomCenter().toArray());
 		} // end for
 
 		for (i = 0; i < points.length - 2; i++) {
@@ -243,7 +244,7 @@ public class RingRecognizer implements SpecialStructureRecognizer {
 			n2 = a23.crossProduct(a34);
 
 			// and check the angle between the planes
-			if (n1.angle(n2) > TORSSIAN_ANGLE_TOLERANCE) {
+			if (Vector3D.angle(n1,n2) > TORSSIAN_ANGLE_TOLERANCE) {
 				theRing.setPlanar(false); // not planar
 				return;
 			} // end if

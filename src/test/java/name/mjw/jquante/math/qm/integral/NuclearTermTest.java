@@ -3,9 +3,9 @@ package name.mjw.jquante.math.qm.integral;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.junit.Test;
 
-import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.math.qm.basis.Power;
 
 public class NuclearTermTest {
@@ -99,8 +99,8 @@ public class NuclearTermTest {
 
 	@Test
 	public void nuclearAttraction() {
-		assertEquals(-3.141593, nuclearTerm.nuclearAttraction(new Point3D(0, 0, 0), 1.0, new Power(0, 0, 0), 1.0,
-				new Point3D(0, 0, 0), 1.0, new Power(0, 0, 0), 1.0, new Point3D(0, 0, 0)), delta);
+		assertEquals(-3.141593, nuclearTerm.nuclearAttraction(new Vector3D(0, 0, 0), 1.0, new Power(0, 0, 0), 1.0,
+				new Vector3D(0, 0, 0), 1.0, new Power(0, 0, 0), 1.0, new Vector3D(0, 0, 0)), delta);
 
 	}
 

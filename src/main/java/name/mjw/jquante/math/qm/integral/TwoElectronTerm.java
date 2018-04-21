@@ -1,8 +1,8 @@
 package name.mjw.jquante.math.qm.integral;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.linear.RealMatrix;
 
-import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.math.qm.Density;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.math.qm.basis.Power;
@@ -91,9 +91,9 @@ public abstract class TwoElectronTerm implements IntegralsPackage {
 	 *            Orbital exponent of Gaussian function d.
 	 * @return Two-electron integral.
 	 */
-	public abstract double coulombRepulsion(Point3D a, double aNorm,
-			Power aPower, double aAlpha, Point3D b, double bNorm, Power bPower,
-			double bAlpha, Point3D c, double cNorm, Power cPower,
-			double cAlpha, Point3D d, double dNorm, Power dPower, double dAlpha);
+	public abstract double coulombRepulsion(Vector3D a, double aNorm,
+			Power aPower, double aAlpha, Vector3D b, double bNorm, Power bPower,
+			double bAlpha, Vector3D c, double cNorm, Power cPower,
+			double cAlpha, Vector3D d, double dNorm, Power dPower, double dAlpha);
 
 }

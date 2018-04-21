@@ -1,7 +1,7 @@
 package name.mjw.jquante.math.qm.integral;
 
-import name.mjw.jquante.math.Vector3D;
-import name.mjw.jquante.math.geom.Point3D;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.math.qm.basis.Power;
 import name.mjw.jquante.math.qm.basis.PrimitiveGaussian;
@@ -70,8 +70,8 @@ public final class Integrals {
 	 *            the location of primitive Gaussian b.
 	 * @return the Overlap integral
 	 */
-	public static double overlap(double alpha1, Power power1, Point3D a,
-			double alpha2, Power power2, Point3D b) {
+	public static double overlap(double alpha1, Power power1, Vector3D a,
+			double alpha2, Power power2, Vector3D b) {
 		return oneElectronTerm.overlap(alpha1, power1, a, alpha2, power2, b);
 	}
 
@@ -95,8 +95,8 @@ public final class Integrals {
 	 *            the location of primitive Gaussian b.
 	 * @return the Kinetic Energy integral
 	 */
-	public static double kinetic(double alpha1, Power power1, Point3D a,
-			double alpha2, Power power2, Point3D b) {
+	public static double kinetic(double alpha1, Power power1, Vector3D a,
+			double alpha2, Power power2, Vector3D b) {
 		return oneElectronTerm.kinetic(alpha1, power1, a, alpha2, power2, b);
 	}
 
@@ -125,9 +125,9 @@ public final class Integrals {
 	 *            the location of nuclear centre.
 	 * @return the nuclear attraction integral.
 	 */
-	public static double nuclearAttraction(Point3D a, double norm1,
-			Power power1, double alpha1, Point3D b, double norm2, Power power2,
-			double alpha2, Point3D c) {
+	public static double nuclearAttraction(Vector3D a, double norm1,
+			Power power1, double alpha1, Vector3D b, double norm2, Power power2,
+			double alpha2, Vector3D c) {
 		return nuclearTerm.nuclearAttraction(a, norm1, power1, alpha1, b,
 				norm2, power2, alpha2, c);
 
@@ -152,8 +152,8 @@ public final class Integrals {
 	 *            the location of nuclear centre.
 	 * @return the nuclear attraction gradient.
 	 */
-	public static Vector3D nuclearAttractionGradient(Point3D a, Power power1,
-			double alpha1, Point3D b, Power power2, double alpha2, Point3D c) {
+	public static Vector3D nuclearAttractionGradient(Vector3D a, Power power1,
+			double alpha1, Vector3D b, Power power2, double alpha2, Vector3D c) {
 		return nuclearTerm.nuclearAttractionGradient(a, power1, alpha1, b,
 				power2, alpha2, c);
 
