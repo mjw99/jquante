@@ -228,22 +228,22 @@ public class RingRecognizer implements SpecialStructureRecognizer {
 
 		for (i = 0; i < points.length - 2; i++) {
 			// compute the vectors representing the plane
-			a12 = points[i + 1].sub(points[i]);
+			a12 = points[i + 1].subtract(points[i]);
 
 			i2 = ((i + 2 >= points.length) ? 0 : (i + 2));
 
-			a23 = points[i2].sub(points[i + 1]);
+			a23 = points[i2].subtract(points[i + 1]);
 
 			i3 = ((i + 3 >= points.length) ? 0 : (i + 3));
 
-			a34 = points[i3].sub(points[i2]);
+			a34 = points[i3].subtract(points[i2]);
 
 			// compute normals to the plane
-			n1 = a12.cross(a23);
-			n2 = a23.cross(a34);
+			n1 = a12.crossProduct(a23);
+			n2 = a23.crossProduct(a34);
 
 			// and check the angle between the planes
-			if (n1.angleWith(n2) > TORSSIAN_ANGLE_TOLERANCE) {
+			if (n1.angle(n2) > TORSSIAN_ANGLE_TOLERANCE) {
 				theRing.setPlanar(false); // not planar
 				return;
 			} // end if

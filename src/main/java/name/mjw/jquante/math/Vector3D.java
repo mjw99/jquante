@@ -87,7 +87,7 @@ public class Vector3D implements Serializable {
 	 *            the scalar to be multiplied to this vector
 	 * @return the result !
 	 */
-	public Vector3D mul(double k) {
+	public Vector3D scalarMultiply(double k) {
 		return new Vector3D(this.i * k, this.j * k, this.k * k);
 	}
 
@@ -98,7 +98,7 @@ public class Vector3D implements Serializable {
 	 *            the Vector3D to be subtracted from the current vector
 	 * @return the subtraction of two vector
 	 */
-	public Vector3D sub(Vector3D b) {
+	public Vector3D subtract(Vector3D b) {
 		return new Vector3D(this.i - b.i, this.j - b.j, this.k - b.k);
 	}
 
@@ -109,8 +109,8 @@ public class Vector3D implements Serializable {
 	 *            the Point3D to be subtracted to the current vector
 	 * @return the subtraction of point (as vector) and this vector
 	 */
-	public Vector3D sub(Point3D b) {
-		return sub(new Vector3D(b));
+	public Vector3D subtract(Point3D b) {
+		return subtract(new Vector3D(b));
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class Vector3D implements Serializable {
 	 *            the vector with which the dot product is to be evaluated
 	 * @return a double value which is the result of the dot product
 	 */
-	public double dot(Vector3D b) {
+	public double dotProduct(Vector3D b) {
 
 		double result = 0.0;
 
@@ -138,8 +138,8 @@ public class Vector3D implements Serializable {
 	 *            the vector (Point3D) with which the dot product is to be evaluated
 	 * @return a double value which is the result of the dot product
 	 */
-	public double dot(Point3D b) {
-		return dot(new Vector3D(b));
+	public double dotProduct(Point3D b) {
+		return dotProduct(new Vector3D(b));
 	}
 
 	/**
@@ -150,7 +150,7 @@ public class Vector3D implements Serializable {
 	 *            the vector with which the cross product is to be evaluated
 	 * @return the result of the cross product
 	 */
-	public Vector3D cross(Vector3D b) {
+	public Vector3D crossProduct(Vector3D b) {
 		return new Vector3D(j * b.k - k * b.j, k * b.i - i * b.k, i * b.j - j * b.i);
 	}
 
@@ -162,8 +162,8 @@ public class Vector3D implements Serializable {
 	 *            evaluated
 	 * @return the result of the cross product
 	 */
-	public Vector3D cross(Point3D b) {
-		return cross(new Vector3D(b));
+	public Vector3D crossProduct(Point3D b) {
+		return crossProduct(new Vector3D(b));
 	}
 
 	/**
@@ -177,7 +177,7 @@ public class Vector3D implements Serializable {
 	 * @return the value of mixed product
 	 */
 	public double mixedProduct(Vector3D v2, Vector3D v3) {
-		return this.dot(v2.cross(v3));
+		return this.dotProduct(v2.crossProduct(v3));
 	}
 
 	/**
@@ -204,8 +204,8 @@ public class Vector3D implements Serializable {
 	 *            Other vector.
 	 * @return the angle in radians
 	 */
-	public double angleWith(Vector3D b) {
-		double aDotb = this.dot(b);
+	public double angle(Vector3D b) {
+		double aDotb = this.dotProduct(b);
 		double ab = magnitude() * b.magnitude();
 
 		return Math.acos(aDotb / ab);

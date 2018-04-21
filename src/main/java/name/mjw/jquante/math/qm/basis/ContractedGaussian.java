@@ -554,7 +554,7 @@ public class ContractedGaussian {
 			for (PrimitiveGaussian jPG : cg.primitives) {
 				factor = iPG.getCoefficient() * jPG.getCoefficient() * atno;
 				nder = nder.add(jPG.nuclearAttractionGradient(iPG,
-						centeredAtom.getAtomCenter()).mul(factor));
+						centeredAtom.getAtomCenter()).scalarMultiply(factor));
 			}
 		}
 
@@ -699,7 +699,7 @@ public class ContractedGaussian {
 		for (PrimitiveGaussian pg : primitives)
 			grad.add(pg.gradient(point));
 
-		return grad.mul(normalization);
+		return grad.scalarMultiply(normalization);
 	}
 
 	/**

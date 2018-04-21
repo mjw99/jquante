@@ -77,7 +77,7 @@ public final class MathUtil {
 		Vector3D v12 = new Vector3D(v2.sub(v1));
 		Vector3D v32 = new Vector3D(v2.sub(v3));
 
-		return v12.angleWith(v32);
+		return v12.angle(v32);
 	}
 
 	/**
@@ -99,12 +99,12 @@ public final class MathUtil {
 		// normal of plane 1
 		Vector3D v12 = new Vector3D(v2.sub(v1));
 		Vector3D v32 = new Vector3D(v2.sub(v3));
-		Vector3D n123 = v12.cross(v32).normalize();
+		Vector3D n123 = v12.crossProduct(v32).normalize();
 
 		// normal of plane 2
 		Vector3D v23 = new Vector3D(v3.sub(v2));
 		Vector3D v43 = new Vector3D(v3.sub(v4));
-		Vector3D n234 = v23.cross(v43).normalize();
+		Vector3D n234 = v23.crossProduct(v43).normalize();
 
 		// sign of the dihedral
 		double sign = v32.mixedProduct(n123, n234);
@@ -115,7 +115,7 @@ public final class MathUtil {
 			sign = 1.0;
 
 		// and find the angle between the two planes
-		return n123.angleWith(n234) * sign;
+		return n123.angle(n234) * sign;
 	}
 
 	/**
