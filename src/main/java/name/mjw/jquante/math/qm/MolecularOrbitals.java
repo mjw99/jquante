@@ -1,11 +1,11 @@
 package name.mjw.jquante.math.qm;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.EigenDecomposition;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math3.linear.RealVector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -84,37 +84,50 @@ public class MolecularOrbitals extends Array2DRowRealMatrix {
 		RealMatrix a = x.multiply(theMat).multiply(x.transpose());
 		LOG.debug("a: " + a);
 
-		// Ensure the matrix is symmetric.
-		// This is so that the EigenDecomposition.findEigenVectors() execution is followed
-		// and the resulting eigenvectors are sorted by size.
-		final double tol = 10 * a.getRowDimension() * a.getColumnDimension() * Precision.EPSILON;
-		for (int i = 0; i < a.getRowDimension(); i++) {
-			for (int j = 0; j < a.getColumnDimension(); j++) {
-				final double mij = a.getEntry(i, j);
-				final double mji = a.getEntry(j, i);
-				if (FastMath.abs(mij - mji) > FastMath.max(FastMath.abs(mij), FastMath.abs(mji)) * tol) {
-					a.setEntry(i, j, a.getEntry(j, i));
+		EigenDecomposition eig = new EigenDecomposition(a);
+
+		LOG.debug("eig.getD(): {}", eig.getD());
+		LOG.debug("eig.getVT(): {}", eig.getVT());
+
+		final int n = eig.getRealEigenvalues().length;
+
+		double[] realEigenvalues = eig.getRealEigenvalues();
+		RealVector[] eigenvectors = new ArrayRealVector[n];
+		
+
+		for (int k = 0; k < n; ++k) {
+			eigenvectors[k] = eig.getEigenvector(k);
+		}
+
+		
+		RealVector tmpvector;
+		for (int i = 0; i < n; i++) {
+
+			int k = i;
+			double p = realEigenvalues[i];
+
+			for (int j = i + 1; j < n; j++) {
+				if (realEigenvalues[j] < p) {
+					k = j;
+					p = realEigenvalues[j];
 				}
+			}
+
+			if (k != i) {
+				realEigenvalues[k] = realEigenvalues[i];
+				realEigenvalues[i] = p;
+
+				tmpvector = eigenvectors[i];
+				eigenvectors[i] = eigenvectors[k];
+				eigenvectors[k] = tmpvector;
 			}
 		}
 
-		LOG.debug("is a symmetric? :" + MatrixUtils.isSymmetric(a, tol));
+		orbitalEnergies = realEigenvalues;
 
-		EigenDecomposition eig = new EigenDecomposition(a);
-
-		LOG.debug("eig.getD(): " + eig.getD());
-		LOG.debug("eig.getVT(): " + eig.getVT());
-
-		orbitalEnergies = eig.getRealEigenvalues();
-
-		int j = eig.getRealEigenvalues().length - 1;
-		RealMatrix sortedVT = MatrixUtils.createRealMatrix(orbitalEnergies.length, orbitalEnergies.length);
-
-		// Reverse the order of both eigenvalues and eigenvectors
-		for (int i = 0; i < eig.getRealEigenvalues().length; i++) {
-			orbitalEnergies[i] = eig.getRealEigenvalue(j);
-			sortedVT.setRowVector(i, eig.getVT().getRowVector(j));
-			j--;
+		RealMatrix sortedVT = MatrixUtils.createRealMatrix(n, n);
+		for (int k = 0; k < n; ++k) {
+			sortedVT.setRowVector(k, eigenvectors[k]);
 		}
 
 		this.setSubMatrix(sortedVT.multiply(x).getData(), 0, 0);
