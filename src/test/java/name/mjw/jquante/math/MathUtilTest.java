@@ -70,7 +70,7 @@ public class MathUtilTest {
 	}
 
 	@Test
-	public void testfindDihedralGetDihedralAngle1() {
+	public void testfindDihedralAngle1() {
 
 		Vector3D i = new Vector3D(60.614941, 67.371346, 12.713049);
 		Vector3D j = new Vector3D(59.104156, 67.044731, 12.827555);
@@ -82,7 +82,7 @@ public class MathUtilTest {
 	}
 
 	@Test
-	public void testfindDihedralGetDihedralAngle2() {
+	public void testfindDihedralAngle2() {
 
 		Vector3D i = new Vector3D(30.958572, 73.709137, 38.031029);
 		Vector3D j = new Vector3D(31.924915, 72.577698, 37.985279);
