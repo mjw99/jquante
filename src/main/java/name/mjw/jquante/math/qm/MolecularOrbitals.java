@@ -86,20 +86,41 @@ public class MolecularOrbitals extends Array2DRowRealMatrix {
 
 		EigenDecomposition eig = new EigenDecomposition(a);
 
-		LOG.debug("eig.getD(): {}", eig.getD());
-		LOG.debug("eig.getVT(): {}", eig.getVT());
+		SortedEigenDecomposition sortedEig = new SortedEigenDecomposition(eig);
 
-		final int n = eig.getRealEigenvalues().length;
+		orbitalEnergies = sortedEig.getRealEigenvalues();
 
-		double[] realEigenvalues = eig.getRealEigenvalues();
-		RealVector[] eigenvectors = new ArrayRealVector[n];
-		
+		this.setSubMatrix(sortedEig.getVT().multiply(x).getData(), 0, 0);
+
+		LOG.debug("MO::values :" + this);
+	}
+
+}
+
+/**
+ * Reorders commons-math's EigenDecomposition eigensystem, sorting by the
+ * smallest eigenvalue first.
+ *
+ * @author mjw
+ *
+ */
+class SortedEigenDecomposition {
+
+	double[] realEigenvalues;
+	RealVector[] eigenvectors;
+
+	int n;
+
+	public SortedEigenDecomposition(EigenDecomposition eig) {
+		n = eig.getRealEigenvalues().length;
+
+		realEigenvalues = eig.getRealEigenvalues();
+		eigenvectors = new ArrayRealVector[n];
 
 		for (int k = 0; k < n; ++k) {
 			eigenvectors[k] = eig.getEigenvector(k);
 		}
 
-		
 		RealVector tmpvector;
 		for (int i = 0; i < n; i++) {
 
@@ -123,16 +144,19 @@ public class MolecularOrbitals extends Array2DRowRealMatrix {
 			}
 		}
 
-		orbitalEnergies = realEigenvalues;
+	}
 
-		RealMatrix sortedVT = MatrixUtils.createRealMatrix(n, n);
+	RealMatrix getVT() {
+		RealMatrix vt = MatrixUtils.createRealMatrix(n, n);
 		for (int k = 0; k < n; ++k) {
-			sortedVT.setRowVector(k, eigenvectors[k]);
+			vt.setRowVector(k, eigenvectors[k]);
 		}
 
-		this.setSubMatrix(sortedVT.multiply(x).getData(), 0, 0);
+		return vt;
+	}
 
-		LOG.debug("MO::values :" + this);
+	double[] getRealEigenvalues() {
+		return realEigenvalues;
 	}
 
 }
