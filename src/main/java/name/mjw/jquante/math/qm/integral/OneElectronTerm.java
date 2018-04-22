@@ -1,7 +1,7 @@
 package name.mjw.jquante.math.qm.integral;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import name.mjw.jquante.math.MathUtil;
-import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.math.qm.basis.Power;
 
 /**
@@ -34,11 +34,11 @@ public class OneElectronTerm implements IntegralsPackage {
 	 *            the location of primitive Gaussian b.
 	 * @return the Overlap integral
 	 */
-	public double overlap(double alpha1, Power power1, Point3D a,
-			double alpha2, Power power2, Point3D b) {
-		double radiusABSquared = a.distanceSquaredFrom(b);
+	public double overlap(double alpha1, Power power1, Vector3D a,
+			double alpha2, Power power2, Vector3D b) {
+		double radiusABSquared = a.distanceSq(b);
 		double gamma = alpha1 + alpha2;
-		Point3D product = IntegralsUtil.gaussianProductCenter(alpha1, a,
+		Vector3D product = IntegralsUtil.gaussianProductCenter(alpha1, a,
 				alpha2, b);
 
 		double wx = overlap1D(power1.getL(), power2.getL(),
@@ -100,8 +100,8 @@ public class OneElectronTerm implements IntegralsPackage {
 	 *            the location of primitive Gaussian b.
 	 * @return the Kinetic Energy integral
 	 */
-	public double kinetic(double alpha1, Power power1, Point3D a,
-			double alpha2, Power power2, Point3D b) {
+	public double kinetic(double alpha1, Power power1, Vector3D a,
+			double alpha2, Power power2, Vector3D b) {
 		int l2 = power2.getL();
 		int m2 = power2.getM();
 		int n2 = power2.getN();

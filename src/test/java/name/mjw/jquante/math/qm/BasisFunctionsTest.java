@@ -2,7 +2,8 @@ package name.mjw.jquante.math.qm;
 
 import static org.junit.Assert.assertEquals;
 
-import name.mjw.jquante.math.geom.Point3D;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+
 import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
 import name.mjw.jquante.molecule.impl.MoleculeImpl;
@@ -18,7 +19,7 @@ public class BasisFunctionsTest {
 
 		BasisFunctions bf = null;
 
-		Atom H1 = new Atom("H", 1.0, new Point3D(0.752510, -0.454585, 0.000000));
+		Atom H1 = new Atom("H", 1.0, new Vector3D(0.752510, -0.454585, 0.000000));
 
 		Molecule hydrogen = new MoleculeImpl("hydrogen");
 		hydrogen.addAtom(H1);
@@ -43,10 +44,10 @@ public class BasisFunctionsTest {
 	@Test
 	public void two() {
 
-		Atom H1 = new Atom("H", 1.0, new Point3D(0.752510, -0.454585, 0.000000));
-		Atom O = new Atom("O", 6.0, new Point3D(0.000000, 0.113671, 0.000000));
+		Atom H1 = new Atom("H", 1.0, new Vector3D(0.752510, -0.454585, 0.000000));
+		Atom O = new Atom("O", 6.0, new Vector3D(0.000000, 0.113671, 0.000000));
 		Atom H2 = new Atom("H", 1.0,
-				new Point3D(-0.752510, -0.454585, 0.000000));
+				new Vector3D(-0.752510, -0.454585, 0.000000));
 
 		Molecule water = new MoleculeImpl("water");
 		water.addAtom(H1);

@@ -193,7 +193,7 @@ public abstract class SCFMethod implements OptimizerFunction {
 				atomJ = molecule.getAtom(j);
 
 				eNuke += atomicNumbers[i] * atomicNumbers[j]
-						/ atomI.getAtomCenterInAU().distanceFrom(atomJ.getAtomCenterInAU());
+						/ atomI.getAtomCenterInAU().distance(atomJ.getAtomCenterInAU());
 			}
 		}
 

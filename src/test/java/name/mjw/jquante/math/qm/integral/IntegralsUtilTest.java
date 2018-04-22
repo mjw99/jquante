@@ -2,9 +2,9 @@ package name.mjw.jquante.math.qm.integral;
 
 import static org.junit.Assert.assertEquals;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.junit.Test;
 
-import name.mjw.jquante.math.geom.Point3D;
 
 public class IntegralsUtilTest {
 
@@ -13,15 +13,15 @@ public class IntegralsUtilTest {
 	@Test
 	public void gaussianProductCenterOne() {
 
-		assertEquals(new Point3D(0.0, 0.0, 0.0),
-				IntegralsUtil.gaussianProductCenter(1.0, new Point3D(0, 0, 0), 1.0, new Point3D(0, 0, 0)));
+		assertEquals(new Vector3D(0.0, 0.0, 0.0),
+				IntegralsUtil.gaussianProductCenter(1.0, new Vector3D(0, 0, 0), 1.0, new Vector3D(0, 0, 0)));
 	}
 
 	@Test
 	public void gaussianProductCenterTwo() {
 
-		assertEquals(new Point3D(0.5, 0.5, 0.5),
-				IntegralsUtil.gaussianProductCenter(1.0, new Point3D(0, 0, 0), 1.0, new Point3D(1, 1, 1)));
+		assertEquals(new Vector3D(0.5, 0.5, 0.5),
+				IntegralsUtil.gaussianProductCenter(1.0, new Vector3D(0, 0, 0), 1.0, new Vector3D(1, 1, 1)));
 	}
 
 	@Test

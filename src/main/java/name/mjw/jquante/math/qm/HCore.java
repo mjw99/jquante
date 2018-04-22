@@ -2,8 +2,9 @@ package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
 
-import name.mjw.jquante.math.Matrix;
-import name.mjw.jquante.math.Vector3D;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 
 /**
@@ -15,24 +16,13 @@ import name.mjw.jquante.math.qm.basis.ContractedGaussian;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class HCore extends Matrix {
+public class HCore extends Array2DRowRealMatrix {
 
+	private static final long serialVersionUID = 290891895527849860L;
 	protected int atomIndex;
 	private SCFMethod scfMethod;
 	private BasisFunctions bfs;
 	private ArrayList<ContractedGaussian> cgs;
-
-	/**
-	 * Creates a new instance of NxM Matrix
-	 * 
-	 * @param n
-	 *            the first dimension
-	 * @param m
-	 *            the second dimension
-	 */
-	public HCore(int n, int m) {
-		super(n, m);
-	}
 
 	/**
 	 * Creates a new instance of square (NxN) Matrix
@@ -43,17 +33,6 @@ public class HCore extends Matrix {
 	public HCore(int n) {
 		super(n, n);
 	}
-
-	/**
-	 * Creates a new instance of Matrix, based on already allocated 2D array
-	 * 
-	 * @param a
-	 *            the 2D array
-	 */
-	public HCore(double[][] a) {
-		super(a);
-	}
-
 	/**
 	 * Compute HCore partial derivative for an atom index.
 	 * 
@@ -73,14 +52,14 @@ public class HCore extends Matrix {
 
 		ArrayList<HCore> dHCore = new ArrayList<>(3);
 
-		int noOfBasisFunctions = this.getRowCount();
+		int noOfBasisFunctions = this.getRowDimension();
 		HCore dHCoreDx = new HCore(noOfBasisFunctions);
 		HCore dHCoreDy = new HCore(noOfBasisFunctions);
 		HCore dHCoreDz = new HCore(noOfBasisFunctions);
 
-		double[][] hdx = dHCoreDx.getMatrix();
-		double[][] hdy = dHCoreDy.getMatrix();
-		double[][] hdz = dHCoreDz.getMatrix();
+		double[][] hdx = dHCoreDx.getData();
+		double[][] hdy = dHCoreDy.getData();
+		double[][] hdz = dHCoreDz.getData();
 
 		int i;
 		int j;
@@ -88,9 +67,9 @@ public class HCore extends Matrix {
 			for (j = 0; j < noOfBasisFunctions; j++) {
 				Vector3D dHCoreEle = computeHCoreDerElement(atomIndex, i, j);
 
-				hdx[i][j] = dHCoreEle.getI();
-				hdy[i][j] = dHCoreEle.getJ();
-				hdz[i][j] = dHCoreEle.getK();
+				hdx[i][j] = dHCoreEle.getX();
+				hdy[i][j] = dHCoreEle.getY();
+				hdz[i][j] = dHCoreEle.getZ();
 			}
 		}
 

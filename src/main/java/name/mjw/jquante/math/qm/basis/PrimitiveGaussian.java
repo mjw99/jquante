@@ -1,8 +1,7 @@
 package name.mjw.jquante.math.qm.basis;
 
 import name.mjw.jquante.math.MathUtil;
-import name.mjw.jquante.math.Vector3D;
-import name.mjw.jquante.math.geom.Point3D;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import name.mjw.jquante.math.qm.integral.Integrals;
 
 /**
@@ -31,7 +30,7 @@ public class PrimitiveGaussian {
 	/**
 	 * Holds value of property origin.
 	 */
-	private Point3D origin;
+	private Vector3D origin;
 
 	/**
 	 * Holds value of property powers.
@@ -62,7 +61,7 @@ public class PrimitiveGaussian {
 	 * @param coefficient
 	 *            - the coefficient for this PG
 	 */
-	public PrimitiveGaussian(Point3D origin, Power powers, double exponent,
+	public PrimitiveGaussian(Vector3D origin, Power powers, double exponent,
 			double coefficient) {
 		this.origin = origin;
 		this.powers = powers;
@@ -98,7 +97,7 @@ public class PrimitiveGaussian {
 	 * 
 	 * @return Value of property origin.
 	 */
-	public Point3D getOrigin() {
+	public Vector3D getOrigin() {
 		return this.origin;
 	}
 
@@ -108,7 +107,7 @@ public class PrimitiveGaussian {
 	 * @param origin
 	 *            New value of property origin.
 	 */
-	public void setOrigin(Point3D origin) {
+	public void setOrigin(Vector3D origin) {
 		this.origin = origin;
 	}
 
@@ -161,7 +160,7 @@ public class PrimitiveGaussian {
 	 */
 	public PrimitiveGaussian mul(PrimitiveGaussian pg) {
 		double gamma = exponent + pg.exponent;
-		Point3D newOrigin = new Point3D((exponent * origin.getX() + pg.exponent
+		Vector3D newOrigin = new Vector3D((exponent * origin.getX() + pg.exponent
 				* pg.origin.getX())
 				/ gamma, (exponent * origin.getY() + pg.exponent
 				* pg.origin.getY())
@@ -224,7 +223,7 @@ public class PrimitiveGaussian {
 	 *            the center at which nuclear energy is to be computed
 	 * @return the nuclear value
 	 */
-	public double nuclear(PrimitiveGaussian pg, Point3D center) {
+	public double nuclear(PrimitiveGaussian pg, Vector3D center) {
 		return (Integrals.nuclearAttraction(origin, normalization, powers,
 				exponent, pg.origin, pg.normalization, pg.powers, pg.exponent,
 				center));
@@ -240,8 +239,8 @@ public class PrimitiveGaussian {
 	 * @return partial derivatives w.r.t the center
 	 */
 	public Vector3D nuclearAttractionGradient(PrimitiveGaussian pg,
-			Point3D center) {
-		Vector3D nder = new Vector3D();
+			Vector3D center) {
+		Vector3D nder = new Vector3D(0,0,0);
 
 		// TODO:
 
@@ -255,7 +254,7 @@ public class PrimitiveGaussian {
 	 *            the reference point
 	 * @return the amplitude of this PG at the specified point
 	 */
-	public double amplitude(Point3D point) {
+	public double amplitude(Vector3D point) {
 		int l = powers.getL();
 		int m = powers.getM();
 		int n = powers.getN();
@@ -277,7 +276,7 @@ public class PrimitiveGaussian {
 	 *            the point where Laplacian is to be computed
 	 * @return the Laplacian at this point
 	 */
-	public double laplacian(Point3D point) {
+	public double laplacian(Vector3D point) {
 		double value = 0.0;
 		double x = point.getX() - origin.getX(), y = point.getY()
 				- origin.getY(), z = point.getZ() - origin.getZ();
@@ -300,7 +299,7 @@ public class PrimitiveGaussian {
 	 *            the point where gradient is to be evaluated
 	 * @return partial derivatives with respect to x, y, z
 	 */
-	public Vector3D gradient(Point3D point) {
+	public Vector3D gradient(Vector3D point) {
 		int l = powers.getL();
 		int m = powers.getM();
 		int n = powers.getN();

@@ -1,9 +1,10 @@
 package name.mjw.jquante.math.qm;
 
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.RealVector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import name.mjw.jquante.math.Vector;
 import name.mjw.jquante.math.qm.event.SCFEvent;
 import name.mjw.jquante.math.qm.integral.IntegralsUtil;
 import name.mjw.jquante.molecule.Molecule;
@@ -60,7 +61,7 @@ public class RestrictedMollerPlessetSCFMethod extends RestrictedHartreeFockMetho
 		transformAOIntsToMOInts();
 
 		// now compute MP2 energy and then compute the total energy
-		int noOfBasisFunctions = mos.getRowCount();
+		int noOfBasisFunctions = mos.getRowDimension();
 		int noOfElectrons = molecule.getNumberOfElectrons();
 		int noOfOccupancies = noOfElectrons / 2;
 		int noOfVirtualOrbitals = noOfBasisFunctions - noOfOccupancies;
@@ -111,13 +112,13 @@ public class RestrictedMollerPlessetSCFMethod extends RestrictedHartreeFockMetho
 		int i;
 		int j;
 
-		int noOfBasisFunctions = mos.getRowCount();
-		int noOfMOS = mos.getColumnCount();
+		int noOfBasisFunctions = mos.getRowDimension();
+		int noOfMOS = mos.getColumnDimension();
 		int noOfElectrons = molecule.getNumberOfElectrons();
 		int noOfOccupancies = noOfElectrons / 2;
 
-		Vector tempVector = new Vector(noOfBasisFunctions);
-		double[] tempvec = tempVector.getVector();
+		RealVector tempVector = new ArrayRealVector(noOfBasisFunctions);
+		double[] tempvec = tempVector.toArray();
 		double[] aoints = twoEI.getTwoEIntegrals();
 
 		double[][][][] temp = new double[noOfBasisFunctions][noOfBasisFunctions][noOfOccupancies][noOfBasisFunctions];
@@ -130,7 +131,7 @@ public class RestrictedMollerPlessetSCFMethod extends RestrictedHartreeFockMetho
 							tempvec[sigma] = aoints[IntegralsUtil.ijkl2intindex(mu, nu, sigma, eta)];
 						} // end sigma
 
-						temp[mu][nu][b][eta] = mos.getRowVector(b).dot(tempVector);
+						temp[mu][nu][b][eta] = mos.getRowVector(b).dotProduct(tempVector);
 					} // end b
 				} // end eta
 			} // end nu
@@ -146,7 +147,7 @@ public class RestrictedMollerPlessetSCFMethod extends RestrictedHartreeFockMetho
 							tempvec[i] = temp[i][nu][b][eta];
 						} // end i
 
-						temp2[a][nu][b][eta] = mos.getRowVector(a).dot(tempVector);
+						temp2[a][nu][b][eta] = mos.getRowVector(a).dotProduct(tempVector);
 					} // end a
 				} // end b
 			} // end eta
@@ -162,7 +163,7 @@ public class RestrictedMollerPlessetSCFMethod extends RestrictedHartreeFockMetho
 							tempvec[i] = temp2[a][nu][b][i];
 						} // end i
 
-						temp[a][nu][b][j] = mos.getRowVector(j).dot(tempVector);
+						temp[a][nu][b][j] = mos.getRowVector(j).dotProduct(tempVector);
 					} // end a
 				} // end b
 			} // end eta
@@ -179,7 +180,7 @@ public class RestrictedMollerPlessetSCFMethod extends RestrictedHartreeFockMetho
 							tempvec[sigma] = temp[a][sigma][b][j];
 						} // end sigma
 
-						moInts[IntegralsUtil.ijkl2intindex(a, i, b, j)] = mos.getRowVector(i).dot(tempVector);
+						moInts[IntegralsUtil.ijkl2intindex(a, i, b, j)] = mos.getRowVector(i).dotProduct(tempVector);
 					} // end i
 				} // end b
 			} // end j

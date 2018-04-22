@@ -2,8 +2,15 @@ package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
 
-import name.mjw.jquante.math.Matrix;
-import name.mjw.jquante.math.Vector3D;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.EigenDecomposition;
+import org.apache.commons.math3.linear.MatrixUtils;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 
 /**
@@ -12,19 +19,11 @@ import name.mjw.jquante.math.qm.basis.ContractedGaussian;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class Overlap extends Matrix {
+public class Overlap extends Array2DRowRealMatrix {
 
-	/**
-	 * Creates a new instance of NxM Matrix
-	 * 
-	 * @param n
-	 *            the first dimension
-	 * @param m
-	 *            the second dimension
-	 */
-	public Overlap(int n, int m) {
-		super(n, m);
-	}
+	private static final Logger LOG = LogManager.getLogger(Overlap.class);
+
+	private static final long serialVersionUID = 5209272241805533800L;
 
 	/**
 	 * Creates a new instance of square (NxN) Matrix
@@ -36,28 +35,39 @@ public class Overlap extends Matrix {
 		super(n, n);
 	}
 
-	/**
-	 * Creates a new instance of Matrix, based on already allocated 2D array
-	 * 
-	 * @param a
-	 *            the 2D array
-	 */
-	public Overlap(double[][] a) {
-		super(a);
-	}
-
-	private Matrix sHalf = null;
+	private RealMatrix sHalf = null;
 
 	/**
 	 * Get the S^1/2 matrix
 	 * 
+	 * Symmetric orthogonalization of the real symmetric matrix X (this). This is
+	 * given by <code>U'(1/sqrt(lambda))U</code>, where lambda, U are the
+	 * eigenvalues, vectors.
+	 *
+	 *
 	 * @return return the symmetric orthogonalization matrix (S half)
 	 */
-	public Matrix getSHalf() {
-		if (sHalf == null)
-			sHalf = this.symmetricOrthogonalization();
+	public RealMatrix getSHalf() {
+		if (sHalf == null) {
 
-		return sHalf;
+			LOG.debug("Overlap::this " + this);
+			EigenDecomposition eig = new EigenDecomposition(this);
+
+			double[] eigenValues = eig.getRealEigenvalues();
+			RealMatrix eigenVectors = eig.getVT();
+
+			LOG.trace("eigenVectors " + eigenVectors);
+
+			this.sHalf = MatrixUtils.createRealIdentityMatrix(this.getRowDimension());
+
+			for (int i = 0; i < this.getRowDimension(); i++) {
+				sHalf.setEntry(i, i, (sHalf.getEntry(i, i) / Math.sqrt(eigenValues[i])));
+			}
+
+			this.sHalf = eigenVectors.transpose().multiply(sHalf).multiply(eigenVectors);
+		}
+
+		return this.sHalf;
 	}
 
 	private SCFMethod scfMethod;
@@ -74,29 +84,28 @@ public class Overlap extends Matrix {
 	 * @return three element array of Overlap elements representing partial
 	 *         derivatives with respect to x, y and z of atom position
 	 */
-	public ArrayList<Overlap> computeDerivative(int atomIndex,
-			SCFMethod scfMethod) {
+	public ArrayList<Overlap> computeDerivative(int atomIndex, SCFMethod scfMethod) {
 		this.scfMethod = scfMethod;
 		this.atomIndex = atomIndex;
 
 		ArrayList<Overlap> dOverlap = new ArrayList<>(3);
 
-		int noOfBasisFunctions = this.getRowCount();
+		int noOfBasisFunctions = this.getRowDimension();
 		Overlap dOverlapDx = new Overlap(noOfBasisFunctions);
 		Overlap dOverlapDy = new Overlap(noOfBasisFunctions);
 		Overlap dOverlapDz = new Overlap(noOfBasisFunctions);
 
-		double[][] hdx = dOverlapDx.getMatrix();
-		double[][] hdy = dOverlapDy.getMatrix();
-		double[][] hdz = dOverlapDz.getMatrix();
+		double[][] hdx = dOverlapDx.getData();
+		double[][] hdy = dOverlapDy.getData();
+		double[][] hdz = dOverlapDz.getData();
 
 		for (int i = 0; i < noOfBasisFunctions; i++) {
 			for (int j = 0; j < noOfBasisFunctions; j++) {
 				Vector3D dOvrEle = computeOverlapDerElement(i, j);
 
-				hdx[i][j] = dOvrEle.getI();
-				hdy[i][j] = dOvrEle.getJ();
-				hdz[i][j] = dOvrEle.getK();
+				hdx[i][j] = dOvrEle.getX();
+				hdy[i][j] = dOvrEle.getY();
+				hdz[i][j] = dOvrEle.getZ();
 			}
 		}
 
@@ -108,8 +117,7 @@ public class Overlap extends Matrix {
 	}
 
 	/**
-	 * Compute one of the Overlap derivative elements, with respect to an
-	 * atomIndex
+	 * Compute one of the Overlap derivative elements, with respect to an atomIndex
 	 */
 	private Vector3D computeOverlapDerElement(int i, int j) {
 		BasisFunctions bfs = scfMethod.getOneEI().getBasisFunctions();

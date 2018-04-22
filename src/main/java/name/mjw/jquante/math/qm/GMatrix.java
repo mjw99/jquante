@@ -2,8 +2,13 @@ package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
 
-import name.mjw.jquante.math.Matrix;
-import name.mjw.jquante.math.Vector;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.RealVector;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import name.mjw.jquante.math.MathUtil;
 import name.mjw.jquante.math.qm.integral.IntegralsUtil;
 import name.mjw.jquante.parallel.AbstractSimpleParallelTask;
 import name.mjw.jquante.parallel.SimpleParallelTask;
@@ -16,23 +21,14 @@ import name.mjw.jquante.parallel.SimpleParallelTaskExecuter;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class GMatrix extends Matrix {
+public class GMatrix extends Array2DRowRealMatrix {
 
+	private static final Logger LOG = LogManager.getLogger(GMatrix.class);
+
+	private static final long serialVersionUID = -6555277318704252665L;
 	private TwoElectronIntegrals twoEI;
 	private Density density;
 	private ArrayList<GMatrix> partialGMatrixList;
-
-	/**
-	 * Creates a new instance of NxM Matrix
-	 * 
-	 * @param n
-	 *            the first dimension
-	 * @param m
-	 *            the second dimension
-	 */
-	public GMatrix(int n, int m) {
-		super(n, m);
-	}
 
 	/**
 	 * Creates a new instance of square (NxN) Matrix
@@ -45,16 +41,6 @@ public class GMatrix extends Matrix {
 	}
 
 	/**
-	 * Creates a new instance of Matrix, based on already allocated 2D array
-	 * 
-	 * @param a
-	 *            the 2D array
-	 */
-	public GMatrix(double[][] a) {
-		super(a);
-	}
-
-	/**
 	 * Form the GMatrix from two electron integrals and the density matrix.
 	 * 
 	 * @param scfType
@@ -64,15 +50,15 @@ public class GMatrix extends Matrix {
 	 * @param density
 	 *            the Density matrix
 	 */
-	public void compute(SCFType scfType, TwoElectronIntegrals twoEI,
-			Density density) {
+	public void compute(SCFType scfType, TwoElectronIntegrals twoEI, Density density) {
 		this.twoEI = twoEI;
 		this.density = density;
 
-		if (scfType == SCFType.HARTREE_FOCK_DIRECT)
+		if (scfType == SCFType.HARTREE_FOCK_DIRECT) {
 			makeGMatrixDirect();
-		else
+		} else {
 			makeGMatrix();
+		}
 	}
 
 	/**
@@ -80,21 +66,20 @@ public class GMatrix extends Matrix {
 	 * i.e. Form the 2J-K integrals corresponding to a density matrix
 	 */
 	protected void makeGMatrix() {
+		LOG.debug("makeGMatrix() called");
 		// make sure if this is really the case
 		// just if in case TwoElectronIntegrals class decided other wise
 		if (twoEI.isOnTheFly()) {
 			makeGMatrixDirect();
 			return;
-		} // end if
+		}
 
-		int noOfBasisFunctions = density.getRowCount();
-		Matrix theGMatrix = this;
-		Vector densityOneD = new Vector(density); // form 1D vector of density
-		Vector tempVector = new Vector(noOfBasisFunctions * noOfBasisFunctions);
+		int noOfBasisFunctions = density.getRowDimension();
 
-		double[][] gMatrix = theGMatrix.getMatrix();
+		RealVector densityOneD = MathUtil.realMatrixToRealVector(density); // form 1D vector of density
+		RealVector tempVector = new ArrayRealVector(noOfBasisFunctions * noOfBasisFunctions);
+
 		double[] ints = twoEI.getTwoEIntegrals();
-		double[] temp = tempVector.getVector();
 
 		int i;
 		int j;
@@ -107,7 +92,6 @@ public class GMatrix extends Matrix {
 		for (i = 0; i < noOfBasisFunctions; i++) {
 			for (j = 0; j < i + 1; j++) {
 
-				tempVector.makeZero();
 				kl = 0;
 
 				for (k = 0; k < noOfBasisFunctions; k++) {
@@ -115,25 +99,29 @@ public class GMatrix extends Matrix {
 						indexJ = IntegralsUtil.ijkl2intindex(i, j, k, l);
 						indexK1 = IntegralsUtil.ijkl2intindex(i, k, j, l);
 						indexK2 = IntegralsUtil.ijkl2intindex(i, l, k, j);
-						temp[kl] = 2.0 * ints[indexJ] - 0.5 * ints[indexK1]
-								- 0.5 * ints[indexK2];
-						kl++;
-					} // end l loop
-				} // end k loop
 
-				gMatrix[i][j] = gMatrix[j][i] = tempVector.dot(densityOneD);
-			} // end j loop
-		} // end i loop
+						tempVector.setEntry(kl, (2.0 * ints[indexJ] - 0.5 * ints[indexK1] - 0.5 * ints[indexK2]));
+
+						kl++;
+					}
+				}
+
+				this.setEntry(i, j, tempVector.dotProduct(densityOneD));
+				this.setEntry(j, i, tempVector.dotProduct(densityOneD));
+			}
+		}
+		LOG.debug("GMatrix is :" + this);
 	}
 
 	/**
 	 * Make the G matrix <br>
 	 * i.e. Form the 2J-K integrals corresponding to a density matrix
 	 * 
-	 * This computes integrals on the fly rather than read in from a
-	 * pre-calculated storage.
+	 * This computes integrals on the fly rather than read in from a pre-calculated
+	 * storage.
 	 */
 	protected void makeGMatrixDirect() {
+		LOG.debug("makeGMatrixDirect() called");
 		SimpleParallelTaskExecuter pTaskExecuter = new SimpleParallelTaskExecuter();
 
 		// allocate memory for partial GMatrices
@@ -142,34 +130,33 @@ public class GMatrix extends Matrix {
 		// start the threads
 		GMatrixFormationThread tThread = new GMatrixFormationThread();
 		tThread.setTaskName("GMatrixFormationThread Thread");
-		tThread.setTotalItems(density.getRowCount());
+		tThread.setTotalItems(density.getRowDimension());
 
 		pTaskExecuter.execute(tThread);
 
 		if (!partialGMatrixList.isEmpty()) {
 			// collect the result and sum the partial contributions
-			this.makeZero();
-			double[][] gMatrix = this.getMatrix();
-			int n = this.getRowCount();
+			double[][] gMatrix = this.getData();
+			int n = this.getRowDimension();
 
 			// sum up the partial results
 			for (GMatrix pgMat : partialGMatrixList) {
-				double[][] pgm = pgMat.getMatrix();
+				double[][] pgm = pgMat.getData();
 
 				for (int i = 0; i < n; i++) {
 					for (int j = 0; j < n; j++) {
 						gMatrix[i][j] += pgm[i][j];
-					} // end for
-				} // end for
-			} // end for
+					}
+				}
+			}
 
 			// half the elements
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {
 					gMatrix[i][j] *= 0.5;
-				} // end for
-			} // end for
-		} // end if
+				}
+			}
+		}
 
 		// enable garbage collection
 		partialGMatrixList.clear();
@@ -187,8 +174,7 @@ public class GMatrix extends Matrix {
 	 * @return three element array of GMatrix elements representing partial
 	 *         derivatives with respect to x, y and z of atom position
 	 */
-	public ArrayList<GMatrix> computeDerivative(int atomIndex,
-			SCFMethod scfMethod) {
+	public ArrayList<GMatrix> computeDerivative(int atomIndex, SCFMethod scfMethod) {
 		ArrayList<GMatrix> gDer = new ArrayList<>(3);
 
 		scfMethod.getTwoEI().compute2EDerivatives(atomIndex, scfMethod);
@@ -198,16 +184,16 @@ public class GMatrix extends Matrix {
 		double[] d2IntsDza = twoEDers.get(2);
 
 		density = scfMethod.getDensity();
-		int noOfBasisFunctions = density.getRowCount();
-		Vector densityOneD = new Vector(density); // form 1D vector of density
+		int noOfBasisFunctions = density.getRowDimension();
+		RealVector densityOneD = MathUtil.realMatrixToRealVector(density); // form 1D vector of density
 
 		GMatrix gdx = new GMatrix(noOfBasisFunctions);
 		GMatrix gdy = new GMatrix(noOfBasisFunctions);
 		GMatrix gdz = new GMatrix(noOfBasisFunctions);
 
-		Vector xvec = new Vector(noOfBasisFunctions * noOfBasisFunctions);
-		Vector yvec = new Vector(noOfBasisFunctions * noOfBasisFunctions);
-		Vector zvec = new Vector(noOfBasisFunctions * noOfBasisFunctions);
+		RealVector xvec = new ArrayRealVector(noOfBasisFunctions * noOfBasisFunctions);
+		RealVector yvec = new ArrayRealVector(noOfBasisFunctions * noOfBasisFunctions);
+		RealVector zvec = new ArrayRealVector(noOfBasisFunctions * noOfBasisFunctions);
 
 		int i;
 		int j;
@@ -220,33 +206,33 @@ public class GMatrix extends Matrix {
 		for (i = 0; i < noOfBasisFunctions; i++) {
 			for (j = 0; j < i + 1; j++) {
 				kl = 0;
-				xvec.makeZero();
-				yvec.makeZero();
-				zvec.makeZero();
-				double[] xtemp = xvec.getVector();
-				double[] ytemp = xvec.getVector();
-				double[] ztemp = xvec.getVector();
+				double[] xtemp = xvec.toArray();
+				double[] ytemp = xvec.toArray();
+				double[] ztemp = xvec.toArray();
 				for (k = 0; k < noOfBasisFunctions; k++) {
 					for (l = 0; l < noOfBasisFunctions; l++) {
 						indexJ = IntegralsUtil.ijkl2intindex(i, j, k, l);
 						indexK1 = IntegralsUtil.ijkl2intindex(i, k, j, l);
 						indexK2 = IntegralsUtil.ijkl2intindex(i, l, k, j);
 
-						xtemp[kl] = 2. * d2IntsDxa[indexJ] - 0.5
-								* d2IntsDxa[indexK1] - 0.5 * d2IntsDxa[indexK2];
-						ytemp[kl] = 2. * d2IntsDya[indexJ] - 0.5
-								* d2IntsDya[indexK1] - 0.5 * d2IntsDya[indexK2];
-						ztemp[kl] = 2. * d2IntsDza[indexJ] - 0.5
-								* d2IntsDza[indexK1] - 0.5 * d2IntsDza[indexK2];
+						xtemp[kl] = 2. * d2IntsDxa[indexJ] - 0.5 * d2IntsDxa[indexK1] - 0.5 * d2IntsDxa[indexK2];
+						ytemp[kl] = 2. * d2IntsDya[indexJ] - 0.5 * d2IntsDya[indexK1] - 0.5 * d2IntsDya[indexK2];
+						ztemp[kl] = 2. * d2IntsDza[indexJ] - 0.5 * d2IntsDza[indexK1] - 0.5 * d2IntsDza[indexK2];
 						kl++;
-					} // end for
-				} // end for
+					}
+				}
 
-				gdx.values[i][j] = gdx.values[j][i] = xvec.dot(densityOneD);
-				gdy.values[i][j] = gdy.values[j][i] = yvec.dot(densityOneD);
-				gdz.values[i][j] = gdz.values[j][i] = zvec.dot(densityOneD);
-			} // end for
-		} // end for
+				gdx.setEntry(i, j, xvec.dotProduct(densityOneD));
+				gdx.setEntry(j, i, xvec.dotProduct(densityOneD));
+
+				gdy.setEntry(i, j, yvec.dotProduct(densityOneD));
+				gdy.setEntry(j, i, yvec.dotProduct(densityOneD));
+
+				gdz.setEntry(i, j, zvec.dotProduct(densityOneD));
+				gdz.setEntry(j, i, zvec.dotProduct(densityOneD));
+
+			}
+		}
 
 		gDer.add(gdx);
 		gDer.add(gdy);
@@ -256,8 +242,8 @@ public class GMatrix extends Matrix {
 	}
 
 	/**
-	 * Class encapsulating the way for forming GMatrix in a way useful for
-	 * Utilising multi core (processor) systems.
+	 * Class encapsulating the way for forming GMatrix in a way useful for Utilising
+	 * multi core (processor) systems.
 	 */
 	protected class GMatrixFormationThread extends AbstractSimpleParallelTask {
 
@@ -267,8 +253,7 @@ public class GMatrix extends Matrix {
 		public GMatrixFormationThread() {
 		}
 
-		public GMatrixFormationThread(int startBasisFunction,
-				int endBasisFunction) {
+		public GMatrixFormationThread(int startBasisFunction, int endBasisFunction) {
 			this.startBasisFunction = startBasisFunction;
 			this.endBasisFunction = endBasisFunction;
 
@@ -290,14 +275,12 @@ public class GMatrix extends Matrix {
 		}
 
 		/** function to facilitate multi-threaded direct formation of GMatrix */
-		private void makeGMatrixDirect(int startBasisFunction,
-				int endBasisFunction) {
-			int noOfBasisFunctions = density.getRowCount();
+		private void makeGMatrixDirect(int startBasisFunction, int endBasisFunction) {
+			int noOfBasisFunctions = density.getRowDimension();
 			GMatrix theGMatrix = new GMatrix(noOfBasisFunctions);
-			theGMatrix.makeZero();
 
-			double[][] gMatrix = theGMatrix.getMatrix();
-			double[][] dMatrix = density.getMatrix();
+			double[][] gMatrix = theGMatrix.getData();
+			double[][] dMatrix = density.getData();
 
 			int i;
 			int j;
@@ -355,8 +338,7 @@ public class GMatrix extends Matrix {
 								twoEIntVal2 = twoEIntVal + twoEIntVal;
 								twoEIntValHalf = 0.5 * twoEIntVal;
 
-								setGMatrixElements(gMatrix, dMatrix, i, j, k,
-										l, twoEIntVal2, twoEIntValHalf);
+								setGMatrixElements(gMatrix, dMatrix, i, j, k, l, twoEIntVal2, twoEIntValHalf);
 
 								// special case
 								if ((i | j | k | l) == 0)
@@ -383,30 +365,27 @@ public class GMatrix extends Matrix {
 								validIdx[7] = true;
 
 								// filter unique elements
-								filterUniqueElements(idx, jdx, kdx, ldx,
-										validIdx);
+								filterUniqueElements(idx, jdx, kdx, ldx, validIdx);
 
 								// and evaluate them
 								for (m = 1; m < 8; m++) {
 									if (validIdx[m]) {
-										setGMatrixElements(gMatrix, dMatrix,
-												idx[m], jdx[m], kdx[m], ldx[m],
+										setGMatrixElements(gMatrix, dMatrix, idx[m], jdx[m], kdx[m], ldx[m],
 												twoEIntVal2, twoEIntValHalf);
-									} // end if
-								} // end for
-							} // end if
-						} // end l loop
-					} // end k loop
-				} // end j loop
-			} // end i loop
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 
 			partialGMatrixList.add(theGMatrix);
 		}
 
 		/** Set the GMatrix value for a given combination */
-		private void setGMatrixElements(double[][] gMatrix, double[][] dMatrix,
-				int i, int j, int k, int l, double twoEIntVal2,
-				double twoEIntValHalf) {
+		private void setGMatrixElements(double[][] gMatrix, double[][] dMatrix, int i, int j, int k, int l,
+				double twoEIntVal2, double twoEIntValHalf) {
 			gMatrix[i][j] += dMatrix[k][l] * twoEIntVal2;
 			gMatrix[k][l] += dMatrix[i][j] * twoEIntVal2;
 			gMatrix[i][k] -= dMatrix[j][l] * twoEIntValHalf;
@@ -416,8 +395,7 @@ public class GMatrix extends Matrix {
 		}
 
 		/** find unique elements and mark the ones that are not */
-		private void filterUniqueElements(int[] idx, int[] jdx, int[] kdx,
-				int[] ldx, boolean[] validIdx) {
+		private void filterUniqueElements(int[] idx, int[] jdx, int[] kdx, int[] ldx, boolean[] validIdx) {
 			int i;
 			int j;
 			int k;
@@ -431,11 +409,10 @@ public class GMatrix extends Matrix {
 				k = kdx[m];
 				l = ldx[m];
 				for (n = m + 1; n < 8; n++) {
-					if (i == idx[n] && j == jdx[n] && k == kdx[n]
-							&& l == ldx[n])
+					if (i == idx[n] && j == jdx[n] && k == kdx[n] && l == ldx[n])
 						validIdx[n] = false;
-				} // end for
-			} // end for
+				}
+			}
 		}
 	}
 }

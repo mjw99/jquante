@@ -1,6 +1,6 @@
 package name.mjw.jquante.math.qm.integral;
 
-import name.mjw.jquante.math.geom.Point3D;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
  * Utility class for IntegralsPackage.
@@ -27,9 +27,9 @@ public final class IntegralsUtil {
 	 * 
 	 * @return centre of resulting two-centre product Gaussian
 	 */
-	public static Point3D gaussianProductCenter(double alpha1, Point3D a, double alpha2, Point3D b) {
+	public static Vector3D gaussianProductCenter(double alpha1, Vector3D a, double alpha2, Vector3D b) {
 		double gamma = alpha1 + alpha2;
-		return new Point3D((alpha1 * a.getX() + alpha2 * b.getX()) / gamma,
+		return new Vector3D((alpha1 * a.getX() + alpha2 * b.getX()) / gamma,
 				(alpha1 * a.getY() + alpha2 * b.getY()) / gamma, (alpha1 * a.getZ() + alpha2 * b.getZ()) / gamma);
 	}
 

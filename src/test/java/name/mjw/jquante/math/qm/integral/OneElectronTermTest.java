@@ -2,9 +2,9 @@ package name.mjw.jquante.math.qm.integral;
 
 import static org.junit.Assert.assertEquals;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.junit.Test;
 
-import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.math.qm.basis.Power;
 
 public class OneElectronTermTest {
@@ -15,14 +15,14 @@ public class OneElectronTermTest {
 
 	@Test
 	public void kinetic() {
-		assertEquals(2.953052, oneElectronTerm.kinetic(1, new Power(0, 0, 0), new Point3D(0, 0, 0), 1,
-				new Power(0, 0, 0), new Point3D(0, 0, 0)), delta);
+		assertEquals(2.953052, oneElectronTerm.kinetic(1, new Power(0, 0, 0), new Vector3D(0, 0, 0), 1,
+				new Power(0, 0, 0), new Vector3D(0, 0, 0)), delta);
 	}
 
 	@Test
 	public void overlap() {
-		assertEquals(1.968701, oneElectronTerm.overlap(1, new Power(0, 0, 0), new Point3D(0, 0, 0), 1,
-				new Power(0, 0, 0), new Point3D(0, 0, 0)), delta);
+		assertEquals(1.968701, oneElectronTerm.overlap(1, new Power(0, 0, 0), new Vector3D(0, 0, 0), 1,
+				new Power(0, 0, 0), new Vector3D(0, 0, 0)), delta);
 	}
 
 	@Test

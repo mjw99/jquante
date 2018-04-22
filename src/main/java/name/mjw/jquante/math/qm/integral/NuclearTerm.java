@@ -1,8 +1,8 @@
 package name.mjw.jquante.math.qm.integral;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+
 import name.mjw.jquante.math.MathUtil;
-import name.mjw.jquante.math.Vector3D;
-import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.math.qm.basis.Power;
 
 /**
@@ -41,15 +41,15 @@ public class NuclearTerm implements IntegralsPackage {
 	 *            the location of nuclear centre.
 	 * @return the nuclear attraction integral.
 	 */
-	public double nuclearAttraction(Point3D a, double norm1, Power power1,
-			double alpha1, Point3D b, double norm2, Power power2,
-			double alpha2, Point3D c) {
+	public double nuclearAttraction(Vector3D a, double norm1, Power power1,
+			double alpha1, Vector3D b, double norm2, Power power2,
+			double alpha2, Vector3D c) {
 
-		Point3D product = IntegralsUtil.gaussianProductCenter(alpha1, a,
+		Vector3D product = IntegralsUtil.gaussianProductCenter(alpha1, a,
 				alpha2, b);
 
-		double rABSquared = a.distanceSquaredFrom(b);
-		double rCPSquared = c.distanceSquaredFrom(product);
+		double rABSquared = a.distanceSq(b);
+		double rCPSquared = c.distanceSq(product);
 
 		double gamma = alpha1 + alpha2;
 
@@ -197,13 +197,13 @@ public class NuclearTerm implements IntegralsPackage {
 	 *            the location of nuclear centre.
 	 * @return the nuclear attraction gradient.
 	 */
-	public Vector3D nuclearAttractionGradient(Point3D a, Power power1,
-			double alpha1, Point3D b, Power power2, double alpha2, Point3D c) {
-		Point3D product = IntegralsUtil.gaussianProductCenter(alpha1, a,
+	public Vector3D nuclearAttractionGradient(Vector3D a, Power power1,
+			double alpha1, Vector3D b, Power power2, double alpha2, Vector3D c) {
+		Vector3D product = IntegralsUtil.gaussianProductCenter(alpha1, a,
 				alpha2, b);
 
-		double rABSquared = a.distanceSquaredFrom(b);
-		double rCPSquared = c.distanceSquaredFrom(product);
+		double rABSquared = a.distanceSq(b);
+		double rCPSquared = c.distanceSq(product);
 
 		double gamma = alpha1 + alpha2;
 

@@ -1,6 +1,7 @@
 package name.mjw.jquante.math.qm;
 
-import name.mjw.jquante.math.Matrix;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.RealMatrix;
 
 /**
  * Represents the Density P matrix or the charge order bond density matrix (DM).
@@ -8,19 +9,9 @@ import name.mjw.jquante.math.Matrix;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class Density extends Matrix {
+public class Density extends Array2DRowRealMatrix {
 
-	/**
-	 * Creates a new instance of NxM Matrix
-	 * 
-	 * @param n
-	 *            the first dimension
-	 * @param m
-	 *            the second dimension
-	 */
-	public Density(int n, int m) {
-		super(n, m);
-	}
+	private static final long serialVersionUID = 4939105356956860039L;
 
 	/**
 	 * Creates a new instance of square (NxN) Matrix
@@ -30,16 +21,6 @@ public class Density extends Matrix {
 	 */
 	public Density(int n) {
 		super(n, n);
-	}
-
-	/**
-	 * Creates a new instance of Matrix, based on already allocated 2D array
-	 * 
-	 * @param a
-	 *            the 2D array
-	 */
-	public Density(double[][] a) {
-		super(a);
 	}
 
 	/**
@@ -60,21 +41,22 @@ public class Density extends Matrix {
 	public void compute(SCFMethod scfMethod, boolean guessInitialDM, DensityGuesser densityGuesser, int noOfOccupiedMOs,
 			MolecularOrbitals mos) {
 		if (guessInitialDM && densityGuesser != null) {
-			this.setMatrix(densityGuesser.guessDM(scfMethod).getMatrix());
+			this.setSubMatrix(densityGuesser.guessDM(scfMethod).getData(), 0, 0);
 			return;
 		}
 
 		// else construct it from the MOs .. C*C'
-		Matrix dVector = new Matrix(noOfOccupiedMOs, mos.getRowCount());
+		RealMatrix dVector = new Array2DRowRealMatrix(noOfOccupiedMOs, mos.getRowDimension());
 
-		double[][] d = dVector.getMatrix();
-		double[][] c = mos.getMatrix();
+		double[][] c = mos.getData();
 
-		for (int i = 0; i < noOfOccupiedMOs; i++)
-			for (int j = 0; j < c.length; j++)
-				d[i][j] = c[i][j];
+		for (int i = 0; i < noOfOccupiedMOs; i++) {
+			for (int j = 0; j < c.length; j++) {
+				dVector.setEntry(i, j, mos.getEntry(i, j));
+			}
+		}
 
-		this.setMatrix(dVector.transpose().mul(dVector).getMatrix());
+		this.setSubMatrix(dVector.transpose().multiply(dVector).getData(), 0, 0);
 
 	}
 }

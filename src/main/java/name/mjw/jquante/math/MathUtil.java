@@ -1,6 +1,10 @@
 package name.mjw.jquante.math;
 
-import name.mjw.jquante.math.geom.Point3D;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
+
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
  * A collection of few misc. utility math functions. All methods are static and
@@ -69,11 +73,11 @@ public final class MathUtil {
 	 *            the third point
 	 * @return the angle defined
 	 */
-	public static double findAngle(Point3D v1, Point3D v2, Point3D v3) {
-		Vector3D v12 = new Vector3D(v2.sub(v1));
-		Vector3D v32 = new Vector3D(v2.sub(v3));
+	public static double findAngle(Vector3D v1, Vector3D v2, Vector3D v3) {
+		Vector3D v12 = v2.subtract(v1);
+		Vector3D v32 = v2.subtract(v3);
 
-		return v12.angleWith(v32);
+		return Vector3D.angle(v12, v32);
 	}
 
 	/**
@@ -90,28 +94,31 @@ public final class MathUtil {
 	 *            the fourth angle
 	 * @return the dihedral angle defined
 	 */
-	public static double findDihedral(Point3D v1, Point3D v2, Point3D v3,
-			Point3D v4) {
+	public static double findDihedral(Vector3D v1, Vector3D v2, Vector3D v3,
+			Vector3D v4) {
 		// normal of plane 1
-		Vector3D v12 = new Vector3D(v2.sub(v1));
-		Vector3D v32 = new Vector3D(v2.sub(v3));
-		Vector3D n123 = v12.cross(v32).normalize();
+		Vector3D v12 = v2.subtract(v1);
+		Vector3D v32 = v2.subtract(v3);
+		Vector3D n123 = v12.crossProduct(v32).normalize();
 
 		// normal of plane 2
-		Vector3D v23 = new Vector3D(v3.sub(v2));
-		Vector3D v43 = new Vector3D(v3.sub(v4));
-		Vector3D n234 = v23.cross(v43).normalize();
+		Vector3D v23 = v3.subtract(v2);
+		Vector3D v43 = v3.subtract(v4);
+		Vector3D n234 = v23.crossProduct(v43).normalize();
 
 		// sign of the dihedral
-		double sign = v32.mixedProduct(n123, n234);
+		double sign = v32.dotProduct(n123.crossProduct(n234));
 
-		if (sign >= 0.0)
+
+		if (sign >= 0.0) {
 			sign = -1.0;
-		else
+		}
+		else {
 			sign = 1.0;
+		}
 
 		// and find the angle between the two planes
-		return n123.angleWith(n234) * sign;
+		return Vector3D.angle(n123, n234) * sign;
 	}
 
 	/**
@@ -228,5 +235,18 @@ public final class MathUtil {
 		d = Math.max(c, d);
 
 		return d == 0.0 ? 0.0 : Math.abs(a - b) / d;
+	}
+
+	public static RealVector realMatrixToRealVector(RealMatrix realMatrix) {
+		RealVector vec = new ArrayRealVector(realMatrix.getRowDimension() * realMatrix.getColumnDimension());
+		int ii = 0;
+
+		for (int i = 0; i < realMatrix.getRowDimension(); i++) {
+			for (int j = 0; j < realMatrix.getColumnDimension(); j++) {
+				vec.setEntry(ii++, realMatrix.getEntry(i, j));
+			}
+		}
+		return vec;
+
 	}
 }

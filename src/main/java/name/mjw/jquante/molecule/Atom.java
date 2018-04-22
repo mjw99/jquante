@@ -5,9 +5,10 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+
 import name.mjw.jquante.common.Units;
 import name.mjw.jquante.common.Utility;
-import name.mjw.jquante.math.geom.Point3D;
 
 /**
  * This class define the structure of an Atom (programmatically of course! ;) ).
@@ -23,7 +24,7 @@ public class Atom implements Cloneable {
 	private double charge;
 
 	/** Holds value of property atomCenter. */
-	private Point3D atomCenter;
+	private Vector3D atomCenter;
 
 	/**
 	 * Holds information on all the connected atoms and the cardinalities, the
@@ -53,7 +54,7 @@ public class Atom implements Cloneable {
 	 * @param atomCenter
 	 *            The nuclear center of the atom in Cartesian coordinates
 	 */
-	public Atom(String symbol, double charge, Point3D atomCenter) {
+	public Atom(String symbol, double charge, Vector3D atomCenter) {
 		this(symbol, charge, atomCenter, new Hashtable<Integer, BondType>(1),
 				null, 0);
 	}
@@ -70,7 +71,7 @@ public class Atom implements Cloneable {
 	 * @param atomIndex
 	 *            The atom index of this atom
 	 */
-	public Atom(String symbol, double charge, Point3D atomCenter, int atomIndex) {
+	public Atom(String symbol, double charge, Vector3D atomCenter, int atomIndex) {
 		this(symbol, charge, atomCenter, new Hashtable<Integer, BondType>(1),
 				null, atomIndex);
 	}
@@ -91,7 +92,7 @@ public class Atom implements Cloneable {
 	 * @param atomIndex
 	 *            the atom index of this atom.
 	 */
-	private Atom(String symbol, double charge, Point3D atomCenter,
+	private Atom(String symbol, double charge, Vector3D atomCenter,
 			Hashtable<Integer, BondType> connectedList,
 			ArrayList<ZMatrixItem> zMatrixElement, int atomIndex) {
 		this.symbol = Utility.capitalise(symbol.toLowerCase());
@@ -160,7 +161,7 @@ public class Atom implements Cloneable {
 	 * 
 	 * @return Value of property atomCenter.
 	 */
-	public Point3D getAtomCenter() {
+	public Vector3D getAtomCenter() {
 		return this.atomCenter;
 	}
 
@@ -169,8 +170,8 @@ public class Atom implements Cloneable {
 	 * 
 	 * @return Value of property atomCenterInAU.
 	 */
-	public Point3D getAtomCenterInAU() {
-		return this.atomCenter.mul((atomCenterUnits == Units.AU)
+	public Vector3D getAtomCenterInAU() {
+		return this.atomCenter.scalarMultiply((atomCenterUnits == Units.AU)
 				? 1.0
 				: 1.0 / Utility.AU_TO_ANGSTROM_FACTOR);
 	}
@@ -202,7 +203,7 @@ public class Atom implements Cloneable {
 	 * @param atomCenter
 	 *            New value of property atomCenter.
 	 */
-	public void setAtomCenter(Point3D atomCenter) {
+	public void setAtomCenter(Vector3D atomCenter) {
 		this.atomCenter = atomCenter;
 	}
 
@@ -294,8 +295,8 @@ public class Atom implements Cloneable {
 	 *            - the point to which the distance is to be found
 	 * @return the distance between the point and the atom center
 	 */
-	public double distanceFrom(Point3D point) {
-		return atomCenter.distanceFrom(point);
+	public double distanceFrom(Vector3D point) {
+		return atomCenter.distance(point);
 	}
 
 	/**
@@ -329,7 +330,7 @@ public class Atom implements Cloneable {
 		} // end of try .. catch block
 
 		return new Atom(this.symbol, this.charge,
-				(Point3D) this.atomCenter.clone(), theClonedConnection,
+				new Vector3D (this.atomCenter.toArray()), theClonedConnection,
 				theColonedZMatrixElement, index);
 	}
 

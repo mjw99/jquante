@@ -1,6 +1,6 @@
 package name.mjw.jquante.math.qm;
 
-import name.mjw.jquante.math.Matrix;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 
 /**
  * Represents the Fock matrix.
@@ -8,19 +8,9 @@ import name.mjw.jquante.math.Matrix;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class Fock extends Matrix {
+public class Fock extends Array2DRowRealMatrix {
 
-	/**
-	 * Creates a new instance of NxM Matrix
-	 * 
-	 * @param n
-	 *            the first dimension
-	 * @param m
-	 *            the second dimension
-	 */
-	public Fock(int n, int m) {
-		super(n, m);
-	}
+	private static final long serialVersionUID = 8771239880594969731L;
 
 	/**
 	 * Creates a new instance of square (NxN) Matrix
@@ -51,6 +41,6 @@ public class Fock extends Matrix {
 	 *            the GMatrix
 	 */
 	public void compute(HCore hCore, GMatrix gMatrix) {
-		setMatrix(hCore.add(gMatrix).getMatrix());
+		setSubMatrix((hCore.add(gMatrix)).getData(), 0, 0);
 	}
 }

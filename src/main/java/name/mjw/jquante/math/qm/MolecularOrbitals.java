@@ -1,8 +1,13 @@
 package name.mjw.jquante.math.qm;
 
-import name.mjw.jquante.math.Matrix;
-import name.mjw.jquante.math.la.Diagonalizer;
-import name.mjw.jquante.math.la.DiagonalizerFactory;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.EigenDecomposition;
+import org.apache.commons.math3.linear.MatrixUtils;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Represents the Molecular orbitals as a coefficient matrix and the
@@ -11,19 +16,11 @@ import name.mjw.jquante.math.la.DiagonalizerFactory;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class MolecularOrbitals extends Matrix {
+public class MolecularOrbitals extends Array2DRowRealMatrix {
 
-	/**
-	 * Creates a new instance of NxM Matrix
-	 * 
-	 * @param n
-	 *            the first dimension
-	 * @param m
-	 *            the second dimension
-	 */
-	public MolecularOrbitals(int n, int m) {
-		super(n, m);
-	}
+	private static final long serialVersionUID = -3159550917810939744L;
+
+	private static final Logger LOG = LogManager.getLogger(MolecularOrbitals.class);
 
 	/**
 	 * Creates a new instance of square (NxN) Matrix
@@ -36,22 +33,12 @@ public class MolecularOrbitals extends Matrix {
 	}
 
 	/**
-	 * Creates a new instance of Matrix, based on already allocated 2D array
-	 * 
-	 * @param a
-	 *            the 2D array
-	 */
-	public MolecularOrbitals(double[][] a) {
-		super(a);
-	}
-
-	/**
 	 * Get the coefficient Matrix for this MolecularOrbitals
 	 * 
 	 * @return the coefficient matrix
 	 */
 	public double[][] getCoefficients() {
-		return getMatrix();
+		return getData();
 	}
 
 	protected double[] orbitalEnergies;
@@ -74,7 +61,7 @@ public class MolecularOrbitals extends Matrix {
 	 *            the Overlap matrix
 	 */
 	public void compute(HCore hCore, Overlap overlap) {
-		compute((Matrix) hCore, overlap);
+		compute((RealMatrix) hCore, overlap);
 	}
 
 	/**
@@ -86,18 +73,90 @@ public class MolecularOrbitals extends Matrix {
 	 *            the Overlap matrix
 	 */
 	public void compute(Fock fock, Overlap overlap) {
-		compute((Matrix) fock, overlap);
+		compute((RealMatrix) fock, overlap);
 	}
 
-	/** The actual computation is irrelavant of the type of matrix */
-	private void compute(Matrix theMat, Overlap overlap) {
-		Matrix x = overlap.getSHalf();
-		Matrix a = theMat.similarityTransform(x);
-		Diagonalizer diag = DiagonalizerFactory.getInstance()
-				.getDefaultDiagonalizer();
-		diag.diagonalize(a);
+	/** The actual computation is irrelevant of the type of matrix */
+	private void compute(RealMatrix theMat, Overlap overlap) {
+		LOG.debug("");
+		RealMatrix x = overlap.getSHalf();
+		LOG.debug("x: " + x);
+		RealMatrix a = x.multiply(theMat).multiply(x.transpose());
+		LOG.debug("a: " + a);
 
-		orbitalEnergies = diag.getEigenValues();
-		this.setMatrix(diag.getEigenVectors().mul(x).getMatrix());
+		EigenDecomposition eig = new EigenDecomposition(a);
+
+		SortedEigenDecomposition sortedEig = new SortedEigenDecomposition(eig);
+
+		orbitalEnergies = sortedEig.getRealEigenvalues();
+
+		this.setSubMatrix(sortedEig.getVT().multiply(x).getData(), 0, 0);
+
+		LOG.debug("MO::values :" + this);
 	}
+
+}
+
+/**
+ * Reorders commons-math's EigenDecomposition eigensystem, sorting by the
+ * smallest eigenvalue first.
+ *
+ * @author mjw
+ *
+ */
+class SortedEigenDecomposition {
+
+	double[] realEigenvalues;
+	RealVector[] eigenvectors;
+
+	int n;
+
+	public SortedEigenDecomposition(EigenDecomposition eig) {
+		n = eig.getRealEigenvalues().length;
+
+		realEigenvalues = eig.getRealEigenvalues();
+		eigenvectors = new ArrayRealVector[n];
+
+		for (int k = 0; k < n; ++k) {
+			eigenvectors[k] = eig.getEigenvector(k);
+		}
+
+		RealVector tmpvector;
+		for (int i = 0; i < n; i++) {
+
+			int k = i;
+			double p = realEigenvalues[i];
+
+			for (int j = i + 1; j < n; j++) {
+				if (realEigenvalues[j] < p) {
+					k = j;
+					p = realEigenvalues[j];
+				}
+			}
+
+			if (k != i) {
+				realEigenvalues[k] = realEigenvalues[i];
+				realEigenvalues[i] = p;
+
+				tmpvector = eigenvectors[i];
+				eigenvectors[i] = eigenvectors[k];
+				eigenvectors[k] = tmpvector;
+			}
+		}
+
+	}
+
+	RealMatrix getVT() {
+		RealMatrix vt = MatrixUtils.createRealMatrix(n, n);
+		for (int k = 0; k < n; ++k) {
+			vt.setRowVector(k, eigenvectors[k]);
+		}
+
+		return vt;
+	}
+
+	double[] getRealEigenvalues() {
+		return realEigenvalues;
+	}
+
 }

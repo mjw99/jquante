@@ -1,15 +1,16 @@
 package name.mjw.jquante.math.qm;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import name.mjw.jquante.math.Matrix;
-import name.mjw.jquante.math.Vector3D;
 import name.mjw.jquante.math.optimizer.OptimizerFunction;
 import name.mjw.jquante.math.qm.event.SCFEvent;
 import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
 import name.mjw.jquante.molecule.UserDefinedAtomProperty;
+import name.mjw.jquante.math.qm.DIISFockExtrapolator;
 
 /**
  * Implements the Hartree-Fock (HF) SCF method for single point energy
@@ -100,7 +101,7 @@ public class UnrestrictedHartreeFockMethod extends SCFMethod implements
 		Overlap overlap = oneEI.getOverlap();
 		LOG.debug("Initial S matrix\n" + overlap);
 
-		LOG.debug("S^-1/2 matrix\n" + overlap.symmetricOrthogonalization());
+		LOG.debug("S^-1/2 matrix\n" + overlap.getSHalf());
 
 		HCore hCore = oneEI.getHCore();
 		LOG.debug("Initial hCore\n" + hCore);
@@ -112,14 +113,14 @@ public class UnrestrictedHartreeFockMethod extends SCFMethod implements
 		double eTwo;
 
 		// init memory for the matrices
-		gMatrixList.set(0, new GMatrix(hCore.getRowCount()));  // A
-		gMatrixList.set(1, new GMatrix(hCore.getRowCount()));  // B
-		mosList.set(0, new MolecularOrbitals(hCore.getRowCount()));
-		mosList.set(1, new MolecularOrbitals(hCore.getRowCount()));
-		densityList.set(0, new Density(hCore.getRowCount()));
-		densityList.set(1, new Density(hCore.getRowCount()));
-		fockList.set(0, new Fock(hCore.getRowCount()));
-		fockList.set(1, new Fock(hCore.getRowCount()));
+		gMatrixList.set(0, new GMatrix(hCore.getRowDimension()));  // A
+		gMatrixList.set(1, new GMatrix(hCore.getRowDimension()));  // B
+		mosList.set(0, new MolecularOrbitals(hCore.getRowDimension()));
+		mosList.set(1, new MolecularOrbitals(hCore.getRowDimension()));
+		densityList.set(0, new Density(hCore.getRowDimension()));
+		densityList.set(1, new Density(hCore.getRowDimension()));
+		fockList.set(0, new Fock(hCore.getRowDimension()));
+		fockList.set(1, new Fock(hCore.getRowDimension()));
 
 		// TODO: compute initial MOs
 		mosList.get(0).compute(hCore, overlap);
@@ -164,8 +165,8 @@ public class UnrestrictedHartreeFockMethod extends SCFMethod implements
 
             // compute the total energy at this point
             // TODO: eTwo (fock energy) will have two parts - this eqn needs to change
-			eOne = densityList.get(0).mul(hCore).trace();
-			eTwo = densityList.get(0).mul(fock).trace();
+			eOne = densityList.get(0).multiply(hCore).getTrace();
+			eTwo = densityList.get(0).multiply(fock).getTrace();
 
 			energy = eOne + eTwo + nuclearEnergy;
 
@@ -295,9 +296,9 @@ public class UnrestrictedHartreeFockMethod extends SCFMethod implements
 					.getUserDefinedAtomProperty("force");
 
 			Vector3D force = (Vector3D) atmForce.getValue();
-			forces[ii] = force.getI();
-			forces[ii + 1] = force.getJ();
-			forces[ii + 2] = force.getK();
+			forces[ii] = force.getX();
+			forces[ii + 1] = force.getY();
+			forces[ii + 2] = force.getZ();
 
 			ii += 3;
 		}
@@ -331,7 +332,7 @@ public class UnrestrictedHartreeFockMethod extends SCFMethod implements
 	 * @return Value of property hessian.
 	 */
 	@Override
-	public Matrix getHessian() {
+	public RealMatrix getHessian() {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 }

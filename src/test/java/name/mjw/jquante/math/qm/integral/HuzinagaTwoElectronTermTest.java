@@ -2,9 +2,9 @@ package name.mjw.jquante.math.qm.integral;
 
 import static org.junit.Assert.assertEquals;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.junit.Before;
 
-import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.math.qm.basis.Power;
 
@@ -24,19 +24,19 @@ public class HuzinagaTwoElectronTermTest {
 	@Before
 	public void setUp() {
 
-		cgtoS0 = new ContractedGaussian(new Point3D(0, 0, 0), new Power(0, 0, 0));
+		cgtoS0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(0, 0, 0));
 		cgtoS0.addPrimitive(1.0, 1.0);
 		cgtoS0.normalize();
 
-		cgtoS1 = new ContractedGaussian(new Point3D(0, 0, 1), new Power(0, 0, 0));
+		cgtoS1 = new ContractedGaussian(new Vector3D(0, 0, 1), new Power(0, 0, 0));
 		cgtoS1.addPrimitive(1.0, 1.0);
 		cgtoS1.normalize();
 
-		cgtoP0 = new ContractedGaussian(new Point3D(0, 0, 0), new Power(1, 0, 0));
+		cgtoP0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(1, 0, 0));
 		cgtoP0.addPrimitive(1.0, 1.0);
 		cgtoP0.normalize();
 
-		cgtoD0 = new ContractedGaussian(new Point3D(0, 0, 0), new Power(2, 0, 0));
+		cgtoD0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(2, 0, 0));
 		cgtoD0.addPrimitive(1.0, 1.0);
 		cgtoD0.normalize();
 	}

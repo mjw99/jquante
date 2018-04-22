@@ -1,5 +1,9 @@
 package name.mjw.jquante.math.geom;
 
+import org.apache.commons.math3.geometry.Vector;
+import org.apache.commons.math3.geometry.euclidean.threed.Euclidean3D;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+
 /**
  * A class representing a rectangular bonding box.
  * 
@@ -14,17 +18,17 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	private static final long serialVersionUID = 2613593470614954917L;
 
 	/** Holds value of property upperLeft. */
-	private Point3D upperLeft;
+	private Vector3D upperLeft;
 
 	/** Holds value of property bottomRight. */
-	private Point3D bottomRight;
+	private Vector3D bottomRight;
 
 	/** Creates a new instance of BoundingBox */
 	public BoundingBox() {
-		this(new Point3D(), new Point3D());
+		this(new Vector3D(0, 0, 0), new Vector3D(0, 0, 0));
 	}
 
-	public BoundingBox(Point3D upperLeft, Point3D bottomRight) {
+	public BoundingBox(Vector3D upperLeft, Vector3D bottomRight) {
 		this.upperLeft = upperLeft;
 		this.bottomRight = bottomRight;
 	}
@@ -35,7 +39,7 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	 * @return Value of property upperLeft.
 	 * 
 	 */
-	public Point3D getUpperLeft() {
+	public Vector3D getUpperLeft() {
 		return this.upperLeft;
 	}
 
@@ -46,7 +50,7 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	 *            New value of property upperLeft.
 	 * 
 	 */
-	public void setUpperLeft(Point3D upperLeft) {
+	public void setUpperLeft(Vector3D upperLeft) {
 		this.upperLeft = upperLeft;
 	}
 
@@ -56,7 +60,7 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	 * @return Value of property bottomRight.
 	 * 
 	 */
-	public Point3D getBottomRight() {
+	public Vector3D getBottomRight() {
 		return this.bottomRight;
 	}
 
@@ -67,7 +71,7 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	 *            New value of property bottomRight.
 	 * 
 	 */
-	public void setBottomRight(Point3D bottomRight) {
+	public void setBottomRight(Vector3D bottomRight) {
 		this.bottomRight = bottomRight;
 	}
 
@@ -99,19 +103,14 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	}
 
 	/**
-	 * return the center of this box, defined as the midpoint of the line
-	 * joining the points that define this BoundingBox
+	 * return the center of this box, defined as the midpoint of the line joining
+	 * the points that define this BoundingBox
 	 * 
 	 * @return Point3D - the center
 	 */
-	public Point3D center() {
-		Point3D center = new Point3D();
-
-		center.setX((upperLeft.getX() + bottomRight.getX()) / 2.0);
-		center.setY((upperLeft.getY() + bottomRight.getY()) / 2.0);
-		center.setZ((upperLeft.getZ() + bottomRight.getZ()) / 2.0);
-
-		return center;
+	public Vector3D center() {
+		return new Vector3D((upperLeft.getX() + bottomRight.getX()) / 2.0,
+				(upperLeft.getY() + bottomRight.getY()) / 2.0, (upperLeft.getZ() + bottomRight.getZ()) / 2.0);
 	}
 
 	/**
@@ -120,28 +119,26 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	 * points in clock wise order) (bottomRight, the rest of the three points in
 	 * anti-clock wise order).
 	 * 
-	 * The size of the returned array is always 8, representing 8 corners of
-	 * this bounding box.
+	 * The size of the returned array is always 8, representing 8 corners of this
+	 * bounding box.
 	 * 
 	 * @return the corner points
 	 */
-	public Point3D[] corners() {
-		Point3D[] corners = new Point3D[8];
+	public Vector3D[] corners() {
+		Vector3D[] corners = new Vector3D[8];
 
-		corners[0] = (Point3D) upperLeft.clone();
-		corners[1] = new Point3D(upperLeft.getX() + getXWidth(),
-				upperLeft.getY(), upperLeft.getZ());
-		corners[2] = new Point3D(upperLeft.getX() + getXWidth(),
-				upperLeft.getY() + getYWidth(), upperLeft.getZ());
-		corners[3] = new Point3D(upperLeft.getX(), upperLeft.getY()
-				+ getYWidth(), upperLeft.getZ());
-		corners[4] = (Point3D) bottomRight.clone();
-		corners[5] = new Point3D(bottomRight.getX() - getXWidth(),
-				bottomRight.getY(), bottomRight.getZ());
-		corners[6] = new Point3D(bottomRight.getX() - getXWidth(),
-				bottomRight.getY() - getYWidth(), bottomRight.getZ());
-		corners[7] = new Point3D(bottomRight.getX(), bottomRight.getY()
-				- getYWidth(), bottomRight.getZ());
+		corners[0] = new Vector3D(upperLeft.toArray());
+
+		corners[1] = new Vector3D(upperLeft.getX() + getXWidth(), upperLeft.getY(), upperLeft.getZ());
+		corners[2] = new Vector3D(upperLeft.getX() + getXWidth(), upperLeft.getY() + getYWidth(), upperLeft.getZ());
+		corners[3] = new Vector3D(upperLeft.getX(), upperLeft.getY() + getYWidth(), upperLeft.getZ());
+
+		corners[4] = new Vector3D(bottomRight.toArray());
+
+		corners[5] = new Vector3D(bottomRight.getX() - getXWidth(), bottomRight.getY(), bottomRight.getZ());
+		corners[6] = new Vector3D(bottomRight.getX() - getXWidth(), bottomRight.getY() - getYWidth(),
+				bottomRight.getZ());
+		corners[7] = new Vector3D(bottomRight.getX(), bottomRight.getY() - getYWidth(), bottomRight.getZ());
 
 		return corners;
 	}
@@ -153,21 +150,13 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	 *            the new center
 	 * @return a new instance of the shifted bounding box
 	 */
-	public BoundingBox shiftTo(Point3D center) {
-		BoundingBox bb = new BoundingBox();
+	public BoundingBox shiftTo(Vector3D center) {
+		Vector3D ul = new Vector3D((2.0 * center.getX() - getXWidth()) / 2.0, (2.0 * center.getY() - getYWidth()) / 2.0,
+				(2.0 * center.getZ() - getZWidth() / 2.0));
 
-		Point3D ul = bb.getUpperLeft();
-		Point3D br = bb.getBottomRight();
+		Vector3D br = new Vector3D(ul.getX() + getXWidth(), ul.getY() + getYWidth(), ul.getZ() + getZWidth());
 
-		ul.setX((2.0 * center.getX() - getXWidth()) / 2.0);
-		ul.setY((2.0 * center.getY() - getYWidth()) / 2.0);
-		ul.setZ((2.0 * center.getZ() - getZWidth()) / 2.0);
-
-		br.setX(ul.getX() + getXWidth());
-		br.setY(ul.getY() + getYWidth());
-		br.setZ(ul.getZ() + getZWidth());
-
-		return bb;
+		return new BoundingBox(ul, br);
 	}
 
 	/**
@@ -191,8 +180,7 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	 */
 	@Override
 	public double totalSurfaceArea() {
-		return (2.0 * ((getXWidth() * getYWidth())
-				+ (getYWidth() * getZWidth()) + (getZWidth() * getXWidth())));
+		return (2.0 * ((getXWidth() * getYWidth()) + (getYWidth() * getZWidth()) + (getZWidth() * getXWidth())));
 	}
 
 	/**
@@ -204,20 +192,15 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	 * @return the bigger BoundingBox enclosing the two boxes
 	 */
 	public BoundingBox combine(BoundingBox box) {
-		BoundingBox bb = new BoundingBox();
+		Vector3D ul = new Vector3D(Math.min(upperLeft.getX(), box.upperLeft.getX()),
+				Math.min(upperLeft.getY(), box.upperLeft.getY()), Math.min(upperLeft.getZ(), box.upperLeft.getZ()));
 
-		bb.upperLeft.setX(Math.min(upperLeft.getX(), box.upperLeft.getX()));
-		bb.upperLeft.setY(Math.min(upperLeft.getY(), box.upperLeft.getY()));
-		bb.upperLeft.setZ(Math.min(upperLeft.getZ(), box.upperLeft.getZ()));
+		Vector3D br = new Vector3D(Math.max(bottomRight.getX(), box.bottomRight.getX()),
+				Math.max(bottomRight.getY(), box.bottomRight.getY()),
+				Math.max(bottomRight.getZ(), box.bottomRight.getZ()));
 
-		bb.bottomRight
-				.setX(Math.max(bottomRight.getX(), box.bottomRight.getX()));
-		bb.bottomRight
-				.setY(Math.max(bottomRight.getY(), box.bottomRight.getY()));
-		bb.bottomRight
-				.setZ(Math.max(bottomRight.getZ(), box.bottomRight.getZ()));
+		return new BoundingBox(ul, br);
 
-		return bb;
 	}
 
 	/**
@@ -230,17 +213,15 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	 */
 	public BoundingBox intersect(BoundingBox box) {
 		BoundingBox bb = new BoundingBox();
-		Point3D bul = box.getUpperLeft();
-		Point3D bbr = box.getBottomRight();
+		Vector3D bul = box.getUpperLeft();
+		Vector3D bbr = box.getBottomRight();
 
-		Point3D ul = new Point3D(Math.max(upperLeft.getX(), bul.getX()),
-				Math.max(upperLeft.getY(), bul.getY()), Math.max(
-						upperLeft.getZ(), bul.getZ()));
+		Vector3D ul = new Vector3D(Math.max(upperLeft.getX(), bul.getX()), Math.max(upperLeft.getY(), bul.getY()),
+				Math.max(upperLeft.getZ(), bul.getZ()));
 		bb.setUpperLeft(ul);
 
-		Point3D br = new Point3D(Math.min(bottomRight.getX(), bbr.getX()),
-				Math.min(bottomRight.getY(), bbr.getY()), Math.min(
-						bottomRight.getZ(), bbr.getZ()));
+		Vector3D br = new Vector3D(Math.min(bottomRight.getX(), bbr.getX()), Math.min(bottomRight.getY(), bbr.getY()),
+				Math.min(bottomRight.getZ(), bbr.getZ()));
 		bb.setBottomRight(br);
 
 		return bb;
@@ -251,16 +232,13 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	 * 
 	 * @param point
 	 *            - the point to be checked
-	 * @return boolen - returns true if the point is within the bounding box
-	 *         false otherwise
+	 * @return boolen - returns true if the point is within the bounding box false
+	 *         otherwise
 	 */
-	public boolean contains(Point3D point) {
-		if ((point.getX() >= upperLeft.getX())
-				&& (point.getY() >= upperLeft.getY())
-				&& (point.getZ() >= upperLeft.getZ())
-				&& (point.getX() <= bottomRight.getX())
-				&& (point.getY() <= bottomRight.getY())
-				&& (point.getZ() <= bottomRight.getZ())) {
+	public boolean contains(Vector3D point) {
+		if ((point.getX() >= upperLeft.getX()) && (point.getY() >= upperLeft.getY())
+				&& (point.getZ() >= upperLeft.getZ()) && (point.getX() <= bottomRight.getX())
+				&& (point.getY() <= bottomRight.getY()) && (point.getZ() <= bottomRight.getZ())) {
 			return true;
 		} else {
 			return false;
@@ -275,7 +253,7 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	 * @return the new bounding box
 	 */
 	public BoundingBox expand(double e) {
-		return new BoundingBox(upperLeft.add(-e), bottomRight.add(e));
+		return expand(e, e, e);
 	}
 
 	/**
@@ -290,8 +268,7 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	 * @return the new bounding box
 	 */
 	public BoundingBox expand(double ex, double ey, double ez) {
-		return new BoundingBox(upperLeft.add(new Point3D(-ex, -ey, -ez)),
-				bottomRight.add(new Point3D(ex, ey, ez)));
+		return new BoundingBox(upperLeft.add(new Vector3D(-ex, -ey, -ez)), bottomRight.add(new Vector3D(ex, ey, ez)));
 	}
 
 	/**
@@ -307,8 +284,7 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	 */
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		return (new BoundingBox((Point3D) upperLeft.clone(),
-				(Point3D) bottomRight.clone()));
+		return (new BoundingBox(new Vector3D(upperLeft.toArray()), new Vector3D(bottomRight.toArray())));
 	}
 
-} // end of class BoundingBox
+}

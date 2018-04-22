@@ -1,6 +1,6 @@
 package name.mjw.jquante.molecule.property.electronic;
 
-import name.mjw.jquante.math.geom.Point3D;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
  * Represents a property value at a point. This is just a wrapper and is not
@@ -18,14 +18,14 @@ public class PointProperty {
 	/**
 	 * Holds value of property point.
 	 */
-	private Point3D point;
+	private Vector3D point;
 
 	/**
 	 * Getter for property point.
 	 * 
 	 * @return Value of property point.
 	 */
-	public Point3D getPoint() {
+	public Vector3D getPoint() {
 		return this.point;
 	}
 
@@ -35,7 +35,7 @@ public class PointProperty {
 	 * @param point
 	 *            New value of property point.
 	 */
-	public void setPoint(Point3D point) {
+	public void setPoint(Vector3D point) {
 		this.point = point;
 	}
 
@@ -70,4 +70,4 @@ public class PointProperty {
 	public String toString() {
 		return "Point: " + point.toString() + "; Function value: " + value;
 	}
-} // end of class PointProperty
+}

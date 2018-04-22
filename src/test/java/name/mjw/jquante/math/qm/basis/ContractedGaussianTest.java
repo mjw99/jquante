@@ -1,7 +1,9 @@
 package name.mjw.jquante.math.qm.basis;
 
 import static org.junit.Assert.assertEquals;
-import name.mjw.jquante.math.geom.Point3D;
+
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.math.qm.basis.Power;
 
@@ -13,13 +15,13 @@ public class ContractedGaussianTest {
 
 	@Test
 	public void s() {
-		ContractedGaussian cgto = new ContractedGaussian(new Point3D(0, 0, 0),
+		ContractedGaussian cgto = new ContractedGaussian(new Vector3D(0, 0, 0),
 				new Power(0, 0, 0));
 
 		cgto.addPrimitive(1.0, 1.0);
 		cgto.normalize();
 
-		assertEquals(0.712705, cgto.amplitude(new Point3D(0, 0, 0)), delta);
+		assertEquals(0.712705, cgto.amplitude(new Vector3D(0, 0, 0)), delta);
 
 	}
 
@@ -27,7 +29,7 @@ public class ContractedGaussianTest {
 	public void sTO_3G_1S_H() {
 		// https://bse.pnl.gov/bse/portal
 
-		ContractedGaussian cgto = new ContractedGaussian(new Point3D(0, 0, 0),
+		ContractedGaussian cgto = new ContractedGaussian(new Vector3D(0, 0, 0),
 				new Power(0, 0, 0));
 
 		cgto.addPrimitive(3.42525091, 0.154329);
@@ -35,7 +37,7 @@ public class ContractedGaussianTest {
 		cgto.addPrimitive(0.16885540, 0.444636);
 		cgto.normalize();
 
-		assertEquals(0.6282471373416881, cgto.amplitude(new Point3D(0, 0, 0)),
+		assertEquals(0.6282471373416881, cgto.amplitude(new Vector3D(0, 0, 0)),
 				delta);
 
 	}

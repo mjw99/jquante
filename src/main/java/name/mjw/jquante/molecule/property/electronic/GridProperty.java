@@ -2,8 +2,9 @@ package name.mjw.jquante.molecule.property.electronic;
 
 import java.util.ArrayList;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+
 import name.mjw.jquante.math.geom.BoundingBox;
-import name.mjw.jquante.math.geom.Point3D;
 import name.mjw.jquante.math.interpolater.Interpolater;
 
 /**
@@ -405,7 +406,7 @@ public class GridProperty {
 	 */
 	public double getInterpolatedFunctionValueAt(double x, double y, double z,
 			Interpolater interpolater) {
-		Point3D p0 = getGridPointNear(x, y, z);
+		Vector3D p0 = getGridPointNear(x, y, z);
 		int[] idx = getGridIndexNear(x, y, z);
 
 		// else we apply interpolation
@@ -431,7 +432,7 @@ public class GridProperty {
 	 *            the point at which the function value needs to be found
 	 * @return the value
 	 */
-	public double getFunctionValueAt(Point3D point) {
+	public double getFunctionValueAt(Vector3D point) {
 		return getFunctionValueAt(point.getX(), point.getY(), point.getZ());
 	}
 
@@ -640,7 +641,7 @@ public class GridProperty {
 		// first the new bounding box is a combination
 		// of the two boxes.
 		BoundingBox newBB = gp.getBoundingBox().intersect(getBoundingBox());
-		Point3D newUL = newBB.getUpperLeft();
+		Vector3D newUL = newBB.getUpperLeft();
 
 		// then the new increments will be lesser of the two
 		double xInc = Math.min(gp.getXIncrement(), xIncrement);
@@ -684,7 +685,7 @@ public class GridProperty {
 		// first the new bounding box is a combination
 		// of the two boxes.
 		BoundingBox newBB = gp.getBoundingBox().intersect(getBoundingBox());
-		Point3D newUL = newBB.getUpperLeft();
+		Vector3D newUL = newBB.getUpperLeft();
 
 		// then the new increments will be lesser of the two
 		double xInc = Math.min(gp.getXIncrement(), xIncrement);
@@ -728,7 +729,7 @@ public class GridProperty {
 		// first the new bounding box is a combination
 		// of the two boxes.
 		BoundingBox newBB = gp.getBoundingBox().intersect(getBoundingBox());
-		Point3D newUL = newBB.getUpperLeft();
+		Vector3D newUL = newBB.getUpperLeft();
 
 		// then the new increments will be lesser of the two
 		double xInc = Math.min(gp.getXIncrement(), xIncrement);
@@ -782,7 +783,7 @@ public class GridProperty {
 		// first the new bounding box is a combination
 		// of the two boxes.
 		BoundingBox newBB = gp.getBoundingBox().intersect(getBoundingBox());
-		Point3D newUL = newBB.getUpperLeft();
+		Vector3D newUL = newBB.getUpperLeft();
 
 		// then the new increments will be lesser of the two
 		double xInc = Math.min(gp.getXIncrement(), xIncrement);
@@ -831,7 +832,7 @@ public class GridProperty {
 	 * 
 	 * @return the grid point near the specified point.
 	 */
-	public Point3D getGridPointNear(double x, double y, double z) {
+	public Vector3D getGridPointNear(double x, double y, double z) {
 		double xMin = boundingBox.getUpperLeft().getX(), yMin = boundingBox
 				.getUpperLeft().getY(), zMin = boundingBox.getUpperLeft()
 				.getZ();
@@ -840,7 +841,7 @@ public class GridProperty {
 		int j = (int) Math.rint(Math.abs((y - yMin) / yIncrement));
 		int k = (int) Math.rint(Math.abs((z - zMin) / zIncrement));
 
-		return new Point3D(xMin + (i * xIncrement), yMin + (j * yIncrement),
+		return new Vector3D(xMin + (i * xIncrement), yMin + (j * yIncrement),
 				zMin + (k * zIncrement));
 	}
 
@@ -851,7 +852,7 @@ public class GridProperty {
 	 *            the Point3D object near which the grid point is to be searched
 	 * @return the grid point near the specified point.
 	 */
-	public Point3D getGridPointNear(Point3D point) {
+	public Vector3D getGridPointNear(Vector3D point) {
 		return getGridPointNear(point.getX(), point.getY(), point.getZ());
 	}
 
@@ -862,7 +863,7 @@ public class GridProperty {
 	 *            the Point3D object near which the grid index is to be searched
 	 * @return an interger array with three values indicating the index
 	 */
-	public int[] getGridIndexNear(Point3D point) {
+	public int[] getGridIndexNear(Vector3D point) {
 		return getGridIndexNear(point.getX(), point.getY(), point.getZ());
 	}
 
@@ -900,12 +901,12 @@ public class GridProperty {
 	 * 
 	 * @return the grid point near the specified point.
 	 */
-	public Point3D getGridPointNear(int i, int j, int k) {
+	public Vector3D getGridPointNear(int i, int j, int k) {
 		double xMin = boundingBox.getUpperLeft().getX(), yMin = boundingBox
 				.getUpperLeft().getY(), zMin = boundingBox.getUpperLeft()
 				.getZ();
 
-		return new Point3D(xMin + (i * xIncrement), yMin + (j * yIncrement),
+		return new Vector3D(xMin + (i * xIncrement), yMin + (j * yIncrement),
 				zMin + (k * zIncrement));
 	}
 
@@ -922,8 +923,8 @@ public class GridProperty {
 	 * @return the resultant new GridProperty object
 	 */
 	public GridProperty subProperty(BoundingBox newBoundingBox) {
-		Point3D newUL = newBoundingBox.getUpperLeft();
-		Point3D newBR = newBoundingBox.getBottomRight();
+		Vector3D newUL = newBoundingBox.getUpperLeft();
+		Vector3D newBR = newBoundingBox.getBottomRight();
 
 		// check if we violate the condition put above?
 		if (boundingBox.contains(newUL) && boundingBox.contains(newBR)) {
@@ -1014,7 +1015,7 @@ public class GridProperty {
 
 		double x, y, z;
 		int i, j, k;
-		Point3D ul = boundingBox.getUpperLeft();
+		Vector3D ul = boundingBox.getUpperLeft();
 
 		int ii = 0;
 		for (x = ul.getX(), i = 0; i < nx; x = ul.getX() + (i * xInc), i++) {
