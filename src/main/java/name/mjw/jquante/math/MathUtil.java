@@ -107,7 +107,7 @@ public final class MathUtil {
 		Vector3D n234 = v23.crossProduct(v43).normalize();
 
 		// sign of the dihedral
-		double sign = Vector3D.dotProduct(n123, n234);
+		double sign = Vector3D.dotProduct(v32, Vector3D.crossProduct(n123, n234));
 
 		if (sign >= 0.0)
 			sign = -1.0;
