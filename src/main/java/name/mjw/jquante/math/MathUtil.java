@@ -107,12 +107,15 @@ public final class MathUtil {
 		Vector3D n234 = v23.crossProduct(v43).normalize();
 
 		// sign of the dihedral
-		double sign = Vector3D.dotProduct(v32, Vector3D.crossProduct(n123, n234));
+		double sign = v32.dotProduct(n123.crossProduct(n234));
 
-		if (sign >= 0.0)
+
+		if (sign >= 0.0) {
 			sign = -1.0;
-		else
+		}
+		else {
 			sign = 1.0;
+		}
 
 		// and find the angle between the two planes
 		return Vector3D.angle(n123, n234) * sign;
