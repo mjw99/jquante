@@ -1,7 +1,5 @@
 package name.mjw.jquante.math.geom;
 
-import org.apache.commons.math3.geometry.Vector;
-import org.apache.commons.math3.geometry.euclidean.threed.Euclidean3D;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**

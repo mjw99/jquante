@@ -152,10 +152,10 @@ public abstract class SCFMethod implements OptimizerFunction {
 		this.openShell = openShell;
 
 		if (this.openShell) {
-			this.densityList = new ArrayList<Density>(2);
-			this.mosList = new ArrayList<MolecularOrbitals>(2);
-			this.gMatrixList = new ArrayList<GMatrix>(2);
-			this.fockList = new ArrayList<Fock>(2);
+			this.densityList = new ArrayList<>(2);
+			this.mosList = new ArrayList<>(2);
+			this.gMatrixList = new ArrayList<>(2);
+			this.fockList = new ArrayList<>(2);
 		}
 	}
 

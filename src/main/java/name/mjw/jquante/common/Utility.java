@@ -29,7 +29,6 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
-import java.util.Iterator;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.xml.parsers.DocumentBuilder;
@@ -417,7 +416,7 @@ public final class Utility {
 	 */
 	public static ArrayList<String> getFileSequenceSuffix(String seqExpression,
 			boolean prependZero, int numPrependZero) {
-		ArrayList<String> numStr = new ArrayList<String>();
+		ArrayList<String> numStr = new ArrayList<>();
 
 		String[] commaSepStr = seqExpression.split(",");
 
@@ -511,7 +510,7 @@ public final class Utility {
 	 */
 	public static ArrayList<String> readLines(BufferedReader reader)
 			throws IOException {
-		ArrayList<String> lines = new ArrayList<String>();
+		ArrayList<String> lines = new ArrayList<>();
 		String line;
 
 		while (true) {
