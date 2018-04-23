@@ -14,7 +14,6 @@ public class SimpleParallelTaskExecuter {
 
 	protected int noOfProcessors;
 
-	private ArrayList<Thread> parallelTasks;
 	private ArrayList<SimpleParallelTask> pTaskList;
 
 	/** Creates a new instance of SimpleParallelTaskExecuter */
@@ -29,9 +28,10 @@ public class SimpleParallelTaskExecuter {
 	 *            Simple parallel task.
 	 */
 	public void execute(SimpleParallelTask pTask) {
+		ArrayList<Thread> parallelTasks;
 		// init lists
-		parallelTasks = new ArrayList<Thread>(noOfProcessors);
-		pTaskList = new ArrayList<SimpleParallelTask>(noOfProcessors);
+		parallelTasks = new ArrayList<>(noOfProcessors);
+		pTaskList = new ArrayList<>(noOfProcessors);
 
 		// init items to distribute
 		int totalItems = pTask.getTotalItems();
@@ -48,13 +48,15 @@ public class SimpleParallelTaskExecuter {
 
 		// create objects representing the distribution
 		int i;
-		int curIndx = 0, start, end;
+		int curIndx = 0;
+		int start;
+		int end;
 		for (i = 0; i < noOfProcessors; i++) {
 			start = curIndx;
 			end = start + itemsPerProcessor[i];
 			pTaskList.add(pTask.init(start, end));
 			curIndx = end;
-		} // end for
+		}
 
 		// then package them as threads, and start executing them
 		for (i = 0; i < noOfProcessors; i++) {
@@ -67,7 +69,7 @@ public class SimpleParallelTaskExecuter {
 			pTaskThread.start();
 
 			parallelTasks.add(pTaskThread);
-		} // end for
+		}
 
 		// then wait for them to be completed
 		for (Thread pTaskThread : parallelTasks) {
@@ -77,7 +79,7 @@ public class SimpleParallelTaskExecuter {
 				System.err.println("Error from SimpleParallelTaskExecuter : "
 						+ ignored.toString());
 				ignored.printStackTrace();
-			} // end of try .. catch block
+			}
 		}
 	}
 
