@@ -23,6 +23,10 @@ public class Density extends Array2DRowRealMatrix {
 		super(n, n);
 	}
 
+	public Density(double[][] data) {
+		super(data);
+	}
+
 	/**
 	 * Compute the density matrix. It is computed using the number of occupied
 	 * orbitals and the molecular oribitals coefficient matrix.
