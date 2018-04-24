@@ -140,6 +140,13 @@ public class GMatrix extends Array2DRowRealMatrix {
 
 		pTaskExecuter.execute(tThread);
 
+		// Zero this matrix... there must be a better way to do this
+		for (int i = 0; i < this.getRowDimension(); i++) {
+			for (int j = 0; j < this.getColumnDimension(); j++) {
+				this.setEntry(i, j, 0.0);
+			}
+		}
+
 		if (!partialGMatrixList.isEmpty()) {
 			// collect the result and sum the partial contributions
 			int n = this.getRowDimension();
