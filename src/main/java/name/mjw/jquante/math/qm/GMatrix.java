@@ -40,6 +40,10 @@ public class GMatrix extends Array2DRowRealMatrix {
 		super(n, n);
 	}
 
+	public GMatrix(double[][] data) {
+		super(data);
+	}
+
 	/**
 	 * Form the GMatrix from two electron integrals and the density matrix.
 	 * 
@@ -138,31 +142,27 @@ public class GMatrix extends Array2DRowRealMatrix {
 
 		if (!partialGMatrixList.isEmpty()) {
 			// collect the result and sum the partial contributions
-			double[][] gMatrix = this.getData();
 			int n = this.getRowDimension();
 
 			// sum up the partial results
 			for (GMatrix pgMat : partialGMatrixList) {
-				double[][] pgm = pgMat.getData();
 
 				for (int i = 0; i < n; i++) {
 					for (int j = 0; j < n; j++) {
-						gMatrix[i][j] += pgm[i][j];
+						this.setEntry(i, j, (this.getEntry(i, j) + pgMat.getEntry(i, j)));
 					}
 				}
+
 			}
 
 			// half the elements
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {
-					gMatrix[i][j] *= 0.5;
+					this.setEntry(i, j, (this.getEntry(i, j) * 0.5));
+
 				}
 			}
 		}
-
-		// enable garbage collection
-		partialGMatrixList.clear();
-		partialGMatrixList = null;
 	}
 
 	/**
@@ -381,8 +381,7 @@ public class GMatrix extends Array2DRowRealMatrix {
 					}
 				}
 			}
-
-			partialGMatrixList.add(theGMatrix);
+			partialGMatrixList.add(new GMatrix(gMatrix));
 		}
 
 		/** Set the GMatrix value for a given combination */

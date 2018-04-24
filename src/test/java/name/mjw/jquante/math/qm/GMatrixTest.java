@@ -3,7 +3,6 @@ package name.mjw.jquante.math.qm;
 import static org.junit.Assert.assertArrayEquals;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -47,6 +46,19 @@ public class GMatrixTest {
 		
 		double[][] actual = gMatrix.getData();
 		double[][] expected = new double[][] { { 0.754933425, 0.3650758376 }, { 0.3650758376, 0.754933425 } };		
+
+		assertArrayEquals(expected[0], actual[0], diff);
+		assertArrayEquals(expected[1], actual[1], diff);
+	}
+
+	@Test
+	public void testComputeDirect() {
+		GMatrix gMatrix = new GMatrix(density.getRowDimension());
+
+		gMatrix.compute(SCFType.HARTREE_FOCK_DIRECT, twoEI, density);
+
+		double[][] actual = gMatrix.getData();
+		double[][] expected = new double[][] { { 0.754933425, 0.3650758376 }, { 0.3650758376, 0.754933425 } };
 
 		assertArrayEquals(expected[0], actual[0], diff);
 		assertArrayEquals(expected[1], actual[1], diff);
