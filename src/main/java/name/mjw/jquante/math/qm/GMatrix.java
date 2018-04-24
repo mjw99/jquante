@@ -54,6 +54,8 @@ public class GMatrix extends Array2DRowRealMatrix {
 		this.twoEI = twoEI;
 		this.density = density;
 
+		LOG.debug("{}", density);
+
 		if (scfType == SCFType.HARTREE_FOCK_DIRECT) {
 			makeGMatrixDirect();
 		} else {
@@ -66,7 +68,6 @@ public class GMatrix extends Array2DRowRealMatrix {
 	 * i.e. Form the 2J-K integrals corresponding to a density matrix
 	 */
 	protected void makeGMatrix() {
-		LOG.debug("makeGMatrix() called");
 		// make sure if this is really the case
 		// just if in case TwoElectronIntegrals class decided other wise
 		if (twoEI.isOnTheFly()) {
@@ -74,6 +75,7 @@ public class GMatrix extends Array2DRowRealMatrix {
 			return;
 		}
 
+		LOG.debug("makeGMatrix() called");
 		int noOfBasisFunctions = density.getRowDimension();
 
 		RealVector densityOneD = MathUtil.realMatrixToRealVector(density); // form 1D vector of density
@@ -110,7 +112,7 @@ public class GMatrix extends Array2DRowRealMatrix {
 				this.setEntry(j, i, tempVector.dotProduct(densityOneD));
 			}
 		}
-		LOG.debug("GMatrix is :" + this);
+		LOG.debug(this);
 	}
 
 	/**
