@@ -58,8 +58,8 @@ public class DIISFockExtrapolator implements FockExtrapolator {
 
 		Fock newFock = new Fock(currentFock.getData());
 
-		Array2DRowRealMatrix fPS = currentFock.multiply(density).multiply(overlap);
-		Array2DRowRealMatrix sPF = overlap.multiply(density).multiply(currentFock);
+		RealMatrix fPS = currentFock.multiply(density).multiply(overlap);
+		RealMatrix sPF = overlap.multiply(density).multiply(currentFock);
 
 		// The commutator of the Fock and density matrices (the orbital gradient)
 		RealVector errorVector = MathUtil.realMatrixToRealVector(fPS.subtract(sPF));
