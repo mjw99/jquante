@@ -5,8 +5,8 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math3.util.FastMath;
 
-import name.mjw.jquante.math.MathUtil;
 import name.mjw.jquante.molecule.AtomGroup;
 import name.mjw.jquante.molecule.AtomGroupList;
 import name.mjw.jquante.molecule.BondType;
@@ -38,7 +38,7 @@ public class RingRecognizer implements SpecialStructureRecognizer {
 	private AtomGroupList theRings;
 
 	/** torsion tolerance for defining planarity - 5<sup>0</sup> */
-	protected static double TORSSIAN_ANGLE_TOLERANCE = MathUtil.toRadians(5.0);
+	protected static double TORSSIAN_ANGLE_TOLERANCE = FastMath.toRadians(5.0);
 
 	/**
 	 * Holds value of property maxRingSize.

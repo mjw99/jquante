@@ -20,28 +20,6 @@ public final class MathUtil {
 	}
 
 	/**
-	 * Method to convert radians to degrees
-	 * 
-	 * @param radians
-	 *            - the value
-	 * @return the equivalent in degrees
-	 */
-	public static double toDegrees(double radians) {
-		return (radians * 180.0 / Math.PI);
-	}
-
-	/**
-	 * Method to convert degrees to radians
-	 * 
-	 * @param degrees
-	 *            - the value
-	 * @return the equivalent in radians
-	 */
-	public static double toRadians(double degrees) {
-		return (degrees * Math.PI / 180.0);
-	}
-
-	/**
 	 * Method to find the angle in radians defined by three points v1-v2-v3.
 	 * 
 	 * @param v1
