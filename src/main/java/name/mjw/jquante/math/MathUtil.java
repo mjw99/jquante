@@ -42,27 +42,6 @@ public final class MathUtil {
 	}
 
 	/**
-	 * @param val
-	 *            a double value
-	 * @return true if val is within 2e-6 of zero
-	 */
-	public static boolean isNearZero(double val) {
-		return isNearZero(val, 2e-6);
-	}
-
-	/**
-	 * 
-	 * @param val
-	 *            a double value
-	 * @param epsilon
-	 *            the "near" distance from zero
-	 * @return true if val is within a distance epsilon of zero
-	 */
-	public static boolean isNearZero(double val, double epsilon) {
-		return (Math.abs(val) < epsilon);
-	}
-
-	/**
 	 * Method to find the angle in radians defined by three points v1-v2-v3.
 	 * 
 	 * @param v1
@@ -215,26 +194,6 @@ public final class MathUtil {
 	 */
 	public static int binomial(int n, int k) {
 		return (factorial(n) / factorial(k) / factorial(n - k));
-	}
-
-	/**
-	 * Relative difference between two floating point numbers, as described at:
-	 * <a href="http://c-faq.com/fp/fpequal.html">
-	 * http://c-faq.com/fp/fpequal.html</a>
-	 * 
-	 * @param a
-	 *            first number
-	 * @param b
-	 *            second number
-	 * @return the relative difference
-	 */
-	public static double relativeDifference(double a, double b) {
-		double c = Math.abs(a);
-		double d = Math.abs(b);
-
-		d = Math.max(c, d);
-
-		return d == 0.0 ? 0.0 : Math.abs(a - b) / d;
 	}
 
 	public static RealVector realMatrixToRealVector(RealMatrix realMatrix) {
