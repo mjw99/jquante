@@ -1,6 +1,7 @@
 package name.mjw.jquante.math.qm.integral;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math3.util.CombinatoricsUtils;
 
 import name.mjw.jquante.math.MathUtil;
 import name.mjw.jquante.math.qm.basis.Power;
@@ -172,10 +173,10 @@ public class NuclearTerm implements IntegralsPackage {
 			double pax, double pbx, double pcx, double gamma) {
 		return (Math.pow(-1.0, i)
 				* MathUtil.binomialPrefactor(i, l1, l2, pax, pbx)
-				* Math.pow(-1.0, u) * MathUtil.factorial(i)
+				* Math.pow(-1.0, u) * CombinatoricsUtils.factorialDouble(i)
 				* Math.pow(pcx, i - 2 * r - 2 * u)
-				* Math.pow(0.25 / gamma, r + u) / MathUtil.factorial(r)
-				/ MathUtil.factorial(u) / MathUtil.factorial(i - 2 * r - 2 * u));
+				* Math.pow(0.25 / gamma, r + u) / CombinatoricsUtils.factorialDouble(r)
+				/ CombinatoricsUtils.factorialDouble(u) / CombinatoricsUtils.factorialDouble(i - 2 * r - 2 * u));
 	}
 
 	/**

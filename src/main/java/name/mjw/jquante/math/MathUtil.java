@@ -3,7 +3,7 @@ package name.mjw.jquante.math;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
-
+import org.apache.commons.math3.util.CombinatoricsUtils;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
@@ -60,8 +60,7 @@ public final class MathUtil {
 	}
 
 	/**
-	 * Method to find the dihedral angle defined by planes v1-v2-v3 and
-	 * v2-v3-v4.
+	 * Method to find the dihedral angle defined by planes v1-v2-v3 and v2-v3-v4.
 	 * 
 	 * @param v1
 	 *            first point
@@ -73,8 +72,7 @@ public final class MathUtil {
 	 *            the fourth angle
 	 * @return the dihedral angle defined
 	 */
-	public static double findDihedral(Vector3D v1, Vector3D v2, Vector3D v3,
-			Vector3D v4) {
+	public static double findDihedral(Vector3D v1, Vector3D v2, Vector3D v3, Vector3D v4) {
 		// normal of plane 1
 		Vector3D v12 = v2.subtract(v1);
 		Vector3D v32 = v2.subtract(v3);
@@ -88,33 +86,14 @@ public final class MathUtil {
 		// sign of the dihedral
 		double sign = v32.dotProduct(n123.crossProduct(n234));
 
-
 		if (sign >= 0.0) {
 			sign = -1.0;
-		}
-		else {
+		} else {
 			sign = 1.0;
 		}
 
 		// and find the angle between the two planes
 		return Vector3D.angle(n123, n234) * sign;
-	}
-
-	/**
-	 * compute N!
-	 * 
-	 * @param n
-	 *            the n, whose factorial is to be found
-	 * @return the factorial
-	 */
-	public static int factorial(int n) {
-		int value = 1;
-
-		while (n > 1) {
-			value = value * n;
-			n--;
-		}
-		return value;
 	}
 
 	/**
@@ -144,14 +123,15 @@ public final class MathUtil {
 	 * @return ( a! / b! / (a-2*b)! )
 	 */
 	public static double factorialRatioSquared(int a, int b) {
-		return factorial(a) / factorial(b) / factorial(a - 2 * b);
+		return CombinatoricsUtils.factorialDouble(a) / CombinatoricsUtils.factorialDouble(b)
+				/ CombinatoricsUtils.factorialDouble(a - 2 * b);
 	}
 
 	/**
 	 * Pre-factor of binomial expansion.
 	 * 
-	 * From Augspurger and Dykstra: <a
-	 * href="http://dx.doi.org/10.1021/j100176a037">10.1021/j100176a037</a>
+	 * From Augspurger and Dykstra:
+	 * <a href="http://dx.doi.org/10.1021/j100176a037">10.1021/j100176a037</a>
 	 * 
 	 * @param s
 	 *            s
@@ -165,35 +145,18 @@ public final class MathUtil {
 	 *            xpb
 	 * @return Pre-factor of binomial expansion.
 	 */
-	public static double binomialPrefactor(int s, int ia, int ib, double xpa,
-			double xpb) {
+	public static double binomialPrefactor(int s, int ia, int ib, double xpa, double xpb) {
 		double sum = 0.0;
 
 		for (int t = 0; t < (s + 1); t++) {
 			if (((s - ia) <= t) && (t <= ib)) {
-				sum += binomial(ia, s - t) * binomial(ib, t)
-						* Math.pow(xpa, ia - s + t) * Math.pow(xpb, ib - t);
+				sum += CombinatoricsUtils.binomialCoefficientDouble(ia, s - t)
+						* CombinatoricsUtils.binomialCoefficientDouble(ib, t) * Math.pow(xpa, ia - s + t)
+						* Math.pow(xpb, ib - t);
 			}
 		}
 
 		return sum;
-	}
-
-	/**
-	 * Binomial coefficient
-	 * 
-	 * Number of ways to choose k elements from a set of n elements.
-	 * 
-	 * @param n
-	 *            number of n elements in set
-	 * @param k
-	 *            number of k elements in set
-	 * @return binomial coefficient
-	 * 
-	 *         https://en.wikipedia.org/wiki/Binomial_coefficient
-	 */
-	public static int binomial(int n, int k) {
-		return (factorial(n) / factorial(k) / factorial(n - k));
 	}
 
 	public static RealVector realMatrixToRealVector(RealMatrix realMatrix) {
