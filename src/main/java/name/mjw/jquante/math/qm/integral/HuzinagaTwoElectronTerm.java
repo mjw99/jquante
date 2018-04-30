@@ -135,6 +135,8 @@ public class HuzinagaTwoElectronTerm extends TwoElectronTerm {
 		double gamma2 = cAlpha + dAlpha;
 		double delta = 0.25 * (1 / gamma1 + 1 / gamma2);
 
+		double quartRadiusPQSquaredOverDelta = 0.25 * radiusPQSquared / delta;
+
 		double[] bx = constructBArray(aPower.getL(), bPower.getL(),
 				cPower.getL(), dPower.getL(), p.getX(), a.getX(), b.getX(),
 				q.getX(), c.getX(), d.getX(), gamma1, gamma2, delta);
@@ -147,14 +149,15 @@ public class HuzinagaTwoElectronTerm extends TwoElectronTerm {
 				cPower.getN(), dPower.getN(), p.getZ(), a.getZ(), b.getZ(),
 				q.getZ(), c.getZ(), d.getZ(), gamma1, gamma2, delta);
 
+
 		for (i = 0; i < bx.length; i++) {
 			for (j = 0; j < by.length; j++) {
 				for (k = 0; k < bz.length; k++) {
 					sum += bx[i]
 							* by[j]
 							* bz[k]
-							* IntegralsUtil.computeFGamma(i + j + k, 0.25
-									* radiusPQSquared / delta);
+							* IntegralsUtil.computeFGamma(i + j + k,
+									quartRadiusPQSquaredOverDelta);
 				}
 			}
 		}
