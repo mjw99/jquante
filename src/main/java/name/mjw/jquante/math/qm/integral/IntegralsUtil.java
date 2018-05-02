@@ -95,7 +95,7 @@ public final class IntegralsUtil {
 	public static double computeFGamma(int m, double x) {
 		final double SMALL = 0.00000001;
 
-		x = FastMath.max(Math.abs(x), SMALL);
+		x = FastMath.max(FastMath.abs(x), SMALL);
 
 		return (0.5 * FastMath.pow(x, -m - 0.5) * gammaIncomplete(m + 0.5, x));
 	}
@@ -133,7 +133,7 @@ public final class IntegralsUtil {
 					ap++;
 					delta *= x / ap;
 					sum += delta;
-					if (Math.abs(delta) < FastMath.abs(sum) * EPS)
+					if (FastMath.abs(delta) < FastMath.abs(sum) * EPS)
 						break;
 				}
 
@@ -156,26 +156,26 @@ public final class IntegralsUtil {
 				b += 2.0;
 				d = an * d + b;
 
-				if (Math.abs(d) < FPMIN)
+				if (FastMath.abs(d) < FPMIN)
 					d = FPMIN;
 
 				c = b + an / c;
 
-				if (Math.abs(c) < FPMIN)
+				if (FastMath.abs(c) < FPMIN)
 					c = FPMIN;
 
 				d = 1.0 / d;
 				delta = d * c;
 				h *= delta;
 
-				if (Math.abs(delta - 1.0) < EPS)
+				if (FastMath.abs(delta - 1.0) < EPS)
 					break;
 			}
 
-			gammap = 1.0 - (Math.exp(-x + a * FastMath.log(x) - gln) * h);
+			gammap = 1.0 - (FastMath.exp(-x + a * FastMath.log(x) - gln) * h);
 		}
 
-		return (Math.exp(gln) * gammap);
+		return (FastMath.exp(gln) * gammap);
 	}
 
 	/**
