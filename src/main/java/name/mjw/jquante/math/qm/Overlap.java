@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
+import net.jafama.FastMath;
 
 /**
  * Represents the Overlap matrix (S).
@@ -61,7 +62,7 @@ public class Overlap extends Array2DRowRealMatrix {
 			this.sHalf = MatrixUtils.createRealIdentityMatrix(this.getRowDimension());
 
 			for (int i = 0; i < this.getRowDimension(); i++) {
-				sHalf.setEntry(i, i, (sHalf.getEntry(i, i) / Math.sqrt(eigenValues[i])));
+				sHalf.setEntry(i, i, (sHalf.getEntry(i, i) / FastMath.sqrt(eigenValues[i])));
 			}
 
 			this.sHalf = eigenVectors.transpose().multiply(sHalf).multiply(eigenVectors);

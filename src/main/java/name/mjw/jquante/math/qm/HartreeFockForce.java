@@ -11,6 +11,7 @@ import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
+import net.jafama.FastMath;
 
 /**
  * Force calculations for the Hartree-Fock method. This gradient (or Force)
@@ -78,7 +79,7 @@ public class HartreeFockForce implements Force {
 				Vector3D bCenter = b.getAtomCenterInAU();
 
 				nDer = aCharge * ai.getAtomicNumber(b.getSymbol())
-						/ Math.pow(bCenter.distanceSq(aCenter), 1.5);
+						/ FastMath.pow(bCenter.distanceSq(aCenter), 1.5);
 
 				ndx += (nDer * (bCenter.getX() - aCenter.getX()));
 				ndy += (nDer * (bCenter.getY() - aCenter.getY()));

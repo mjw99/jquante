@@ -11,6 +11,7 @@ import name.mjw.jquante.math.qm.DIISFockExtrapolator;
 import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
 import name.mjw.jquante.molecule.UserDefinedAtomProperty;
+import net.jafama.FastMath;
 
 /**
  * Implements the Hartree-Fock (HF) SCF method for single point energy
@@ -166,7 +167,7 @@ public class RestrictedHartreeFockMethod extends SCFMethod implements
 			fireSCFEventListenerScfEventOccured(scfEvent);
 
 			// check for convergence
-			if (Math.abs(energy - oldEnergy) < energyTolerance) {
+			if (FastMath.abs(energy - oldEnergy) < energyTolerance) {
 				converged = true;
 				scfEvent.setType(SCFEvent.CONVERGED_EVENT);
 				scfEvent.setCurrentIteration(scfIteration);

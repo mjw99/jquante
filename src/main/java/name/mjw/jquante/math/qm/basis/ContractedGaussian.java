@@ -6,6 +6,7 @@ import name.mjw.jquante.config.impl.AtomInfo;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
+import net.jafama.FastMath;
 
 /**
  * The class defines a contracted Gaussian and the operations on it.
@@ -244,7 +245,7 @@ public class ContractedGaussian {
 	 * 
 	 */
 	public void normalize() {
-		normalization = 1.0 / Math.sqrt(this.overlap(this));
+		normalization = 1.0 / FastMath.sqrt(this.overlap(this));
 
 		for (int i = 0; i < primitives.size(); i++) {
 			primNorms.add(primitives.get(i).getNormalization());
@@ -326,7 +327,7 @@ public class ContractedGaussian {
 				m, n), coeff, alpha);
 		xPG.normalize();
 
-		double terma = Math.sqrt(alpha * (2.0 * l + 1.0)) * coeff
+		double terma = FastMath.sqrt(alpha * (2.0 * l + 1.0)) * coeff
 				* xPG.overlap(jPG);
 		double termbx = 0.0;
 		double termby = 0.0;
@@ -335,18 +336,18 @@ public class ContractedGaussian {
 		if (l > 0) {
 			xPG.setPowers(new Power(l - 1, m, n));
 			xPG.normalize();
-			termbx = -2.0 * l * Math.sqrt(alpha / (2.0 * l - 1.0)) * coeff
+			termbx = -2.0 * l * FastMath.sqrt(alpha / (2.0 * l - 1.0)) * coeff
 					* xPG.overlap(jPG);
 		} // end if
 
 		xPG.setPowers(new Power(l, m + 1, n));
 		xPG.normalize();
-		terma = Math.sqrt(alpha * (2.0 * m + 1.0)) * coeff * xPG.overlap(jPG);
+		terma = FastMath.sqrt(alpha * (2.0 * m + 1.0)) * coeff * xPG.overlap(jPG);
 
 		if (m > 0) {
 			xPG.setPowers(new Power(l, m - 1, n));
 			xPG.normalize();
-			termby = -2 * m * Math.sqrt(alpha / (2.0 * m - 1.0)) * coeff
+			termby = -2 * m * FastMath.sqrt(alpha / (2.0 * m - 1.0)) * coeff
 					* xPG.overlap(jPG);
 		} else {
 			termby = 0.0;
@@ -354,12 +355,12 @@ public class ContractedGaussian {
 
 		xPG.setPowers(new Power(l, m, n + 1));
 		xPG.normalize();
-		terma = Math.sqrt(alpha * (2.0 * n + 1.0)) * coeff * xPG.overlap(jPG);
+		terma = FastMath.sqrt(alpha * (2.0 * n + 1.0)) * coeff * xPG.overlap(jPG);
 
 		if (n > 0) {
 			xPG.setPowers(new Power(l, m, n - 1));
 			xPG.normalize();
-			termbz = -2.0 * n * Math.sqrt(alpha / (2.0 * n - 1.0)) * coeff
+			termbz = -2.0 * n * FastMath.sqrt(alpha / (2.0 * n - 1.0)) * coeff
 					* xPG.overlap(jPG);
 		} else {
 			termbz = 0.0;
@@ -443,7 +444,7 @@ public class ContractedGaussian {
 				m, n), coeff, alpha);
 		xPG.normalize();
 
-		double terma = Math.sqrt(alpha * (2.0 * l + 1.0)) * coeff
+		double terma = FastMath.sqrt(alpha * (2.0 * l + 1.0)) * coeff
 				* xPG.kinetic(jPG);
 		double termbx = 0.0;
 		double termby = 0.0;
@@ -452,19 +453,19 @@ public class ContractedGaussian {
 		if (l > 0) {
 			xPG.setPowers(new Power(l - 1, m, n));
 			xPG.normalize();
-			termbx = -2.0 * l * Math.sqrt(alpha / (2.0 * l - 1.0)) * coeff
+			termbx = -2.0 * l * FastMath.sqrt(alpha / (2.0 * l - 1.0)) * coeff
 					* xPG.kinetic(jPG);
 		}
 
 
 		xPG.setPowers(new Power(l, m + 1, n));
 		xPG.normalize();
-		terma = Math.sqrt(alpha * (2.0 * m + 1.0)) * coeff * xPG.kinetic(jPG);
+		terma = FastMath.sqrt(alpha * (2.0 * m + 1.0)) * coeff * xPG.kinetic(jPG);
 
 		if (m > 0) {
 			xPG.setPowers(new Power(l, m - 1, n));
 			xPG.normalize();
-			termby = -2 * m * Math.sqrt(alpha / (2.0 * m - 1.0)) * coeff
+			termby = -2 * m * FastMath.sqrt(alpha / (2.0 * m - 1.0)) * coeff
 					* xPG.kinetic(jPG);
 		} else {
 			termby = 0.0;
@@ -473,12 +474,12 @@ public class ContractedGaussian {
 
 		xPG.setPowers(new Power(l, m, n + 1));
 		xPG.normalize();
-		terma = Math.sqrt(alpha * (2.0 * n + 1.0)) * coeff * xPG.kinetic(jPG);
+		terma = FastMath.sqrt(alpha * (2.0 * n + 1.0)) * coeff * xPG.kinetic(jPG);
 
 		if (n > 0) {
 			xPG.setPowers(new Power(l, m, n - 1));
 			xPG.normalize();
-			termbz = -2.0 * n * Math.sqrt(alpha / (2.0 * n - 1.0)) * coeff
+			termbz = -2.0 * n * FastMath.sqrt(alpha / (2.0 * n - 1.0)) * coeff
 					* xPG.kinetic(jPG);
 		} else {
 			termbz = 0.0;
@@ -585,7 +586,7 @@ public class ContractedGaussian {
 		for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 			Atom atom = mol.getAtom(i);
 			terma += ai.getAtomicNumber(atom.getSymbol())
-					* Math.sqrt(alpha * (2.0 * l + 1.0)) * coeff
+					* FastMath.sqrt(alpha * (2.0 * l + 1.0)) * coeff
 					* xPG.nuclear(jPG, atom.getAtomCenter());
 		} // end for
 
@@ -600,7 +601,7 @@ public class ContractedGaussian {
 			for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 				Atom atom = mol.getAtom(i);
 				termbx += -2.0 * l * ai.getAtomicNumber(atom.getSymbol())
-						* Math.sqrt(alpha / (2.0 * l - 1.0)) * coeff
+						* FastMath.sqrt(alpha / (2.0 * l - 1.0)) * coeff
 						* xPG.nuclear(jPG, atom.getAtomCenter());
 			} // end for
 		} // end if
@@ -611,7 +612,7 @@ public class ContractedGaussian {
 		for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 			Atom atom = mol.getAtom(i);
 			terma += ai.getAtomicNumber(atom.getSymbol())
-					* Math.sqrt(alpha * (2.0 * m + 1.0)) * coeff
+					* FastMath.sqrt(alpha * (2.0 * m + 1.0)) * coeff
 					* xPG.nuclear(jPG, atom.getAtomCenter());
 		} // end for
 
@@ -623,7 +624,7 @@ public class ContractedGaussian {
 			for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 				Atom atom = mol.getAtom(i);
 				termby += -2.0 * m * ai.getAtomicNumber(atom.getSymbol())
-						* Math.sqrt(alpha / (2.0 * m - 1.0)) * coeff
+						* FastMath.sqrt(alpha / (2.0 * m - 1.0)) * coeff
 						* xPG.nuclear(jPG, atom.getAtomCenter());
 			} // end for
 		} // end if
@@ -635,7 +636,7 @@ public class ContractedGaussian {
 		for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 			Atom atom = mol.getAtom(i);
 			terma += ai.getAtomicNumber(atom.getSymbol())
-					* Math.sqrt(alpha * (2.0 * n + 1.0)) * coeff
+					* FastMath.sqrt(alpha * (2.0 * n + 1.0)) * coeff
 					* xPG.nuclear(jPG, atom.getAtomCenter());
 		} // end for
 
@@ -648,7 +649,7 @@ public class ContractedGaussian {
 			for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 				Atom atom = mol.getAtom(i);
 				termbz += -2.0 * n * ai.getAtomicNumber(atom.getSymbol())
-						* Math.sqrt(alpha / (2.0 * n - 1.0)) * coeff
+						* FastMath.sqrt(alpha / (2.0 * n - 1.0)) * coeff
 						* xPG.nuclear(jPG, atom.getAtomCenter());
 			} // end for
 		} else

@@ -10,6 +10,7 @@ import name.mjw.jquante.math.qm.event.SCFEvent;
 import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
 import name.mjw.jquante.molecule.UserDefinedAtomProperty;
+import net.jafama.FastMath;
 import name.mjw.jquante.math.qm.DIISFockExtrapolator;
 
 /**
@@ -180,7 +181,7 @@ public class UnrestrictedHartreeFockMethod extends SCFMethod implements
 			fireSCFEventListenerScfEventOccured(scfEvent);
 
 			// check for convergence
-			if (Math.abs(energy - oldEnergy) < energyTolerance) {
+			if (FastMath.abs(energy - oldEnergy) < energyTolerance) {
 				converged = true;
 				scfEvent.setType(SCFEvent.CONVERGED_EVENT);
 				scfEvent.setCurrentIteration(scfIteration);

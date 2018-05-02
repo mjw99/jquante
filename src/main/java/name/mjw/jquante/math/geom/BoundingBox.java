@@ -2,6 +2,8 @@ package name.mjw.jquante.math.geom;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
+import net.jafama.FastMath;
+
 /**
  * A class representing a rectangular bonding box.
  * 
@@ -79,7 +81,7 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	 * @return width in X direction
 	 */
 	public double getXWidth() {
-		return Math.abs(bottomRight.getX() - upperLeft.getX());
+		return FastMath.abs(bottomRight.getX() - upperLeft.getX());
 	}
 
 	/**
@@ -88,7 +90,7 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	 * @return width in Y direction
 	 */
 	public double getYWidth() {
-		return Math.abs(bottomRight.getY() - upperLeft.getY());
+		return FastMath.abs(bottomRight.getY() - upperLeft.getY());
 	}
 
 	/**
@@ -97,7 +99,7 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	 * @return width in Z direction
 	 */
 	public double getZWidth() {
-		return Math.abs(bottomRight.getZ() - upperLeft.getZ());
+		return FastMath.abs(bottomRight.getZ() - upperLeft.getZ());
 	}
 
 	/**
@@ -190,12 +192,12 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	 * @return the bigger BoundingBox enclosing the two boxes
 	 */
 	public BoundingBox combine(BoundingBox box) {
-		Vector3D ul = new Vector3D(Math.min(upperLeft.getX(), box.upperLeft.getX()),
-				Math.min(upperLeft.getY(), box.upperLeft.getY()), Math.min(upperLeft.getZ(), box.upperLeft.getZ()));
+		Vector3D ul = new Vector3D(FastMath.min(upperLeft.getX(), box.upperLeft.getX()),
+				FastMath.min(upperLeft.getY(), box.upperLeft.getY()), FastMath.min(upperLeft.getZ(), box.upperLeft.getZ()));
 
-		Vector3D br = new Vector3D(Math.max(bottomRight.getX(), box.bottomRight.getX()),
-				Math.max(bottomRight.getY(), box.bottomRight.getY()),
-				Math.max(bottomRight.getZ(), box.bottomRight.getZ()));
+		Vector3D br = new Vector3D(FastMath.max(bottomRight.getX(), box.bottomRight.getX()),
+				FastMath.max(bottomRight.getY(), box.bottomRight.getY()),
+				FastMath.max(bottomRight.getZ(), box.bottomRight.getZ()));
 
 		return new BoundingBox(ul, br);
 
@@ -214,12 +216,12 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 		Vector3D bul = box.getUpperLeft();
 		Vector3D bbr = box.getBottomRight();
 
-		Vector3D ul = new Vector3D(Math.max(upperLeft.getX(), bul.getX()), Math.max(upperLeft.getY(), bul.getY()),
-				Math.max(upperLeft.getZ(), bul.getZ()));
+		Vector3D ul = new Vector3D(FastMath.max(upperLeft.getX(), bul.getX()), FastMath.max(upperLeft.getY(), bul.getY()),
+				FastMath.max(upperLeft.getZ(), bul.getZ()));
 		bb.setUpperLeft(ul);
 
-		Vector3D br = new Vector3D(Math.min(bottomRight.getX(), bbr.getX()), Math.min(bottomRight.getY(), bbr.getY()),
-				Math.min(bottomRight.getZ(), bbr.getZ()));
+		Vector3D br = new Vector3D(FastMath.min(bottomRight.getX(), bbr.getX()), FastMath.min(bottomRight.getY(), bbr.getY()),
+				FastMath.min(bottomRight.getZ(), bbr.getZ()));
 		bb.setBottomRight(br);
 
 		return bb;

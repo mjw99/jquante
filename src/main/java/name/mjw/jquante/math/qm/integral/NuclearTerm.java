@@ -5,6 +5,7 @@ import org.apache.commons.math3.util.CombinatoricsUtils;
 
 import name.mjw.jquante.math.MathUtil;
 import name.mjw.jquante.math.qm.basis.Power;
+import net.jafama.FastMath;
 
 /**
  * 
@@ -80,8 +81,8 @@ public class NuclearTerm implements IntegralsPackage {
 			}
 		}
 
-		return (-norm1 * norm2 * 2.0 * Math.PI / gamma
-				* Math.exp(-alpha1 * alpha2 * rABSquared / gamma) * sum);
+		return (-norm1 * norm2 * 2.0 * FastMath.PI / gamma
+				* FastMath.exp(-alpha1 * alpha2 * rABSquared / gamma) * sum);
 	}
 
 	/**
@@ -109,8 +110,8 @@ public class NuclearTerm implements IntegralsPackage {
 		int i, r, u, index;
 
 		for (i = 0; i < iMax; i++) {
-			for (r = 0; r < ((int) (Math.floor(i / 2.0) + 1.0)); r++) {
-				for (u = 0; u < ((int) (Math.floor((i - 2.0 * r) / 2.0) + 1.0)); u++) {
+			for (r = 0; r < ((int) (FastMath.floor(i / 2.0) + 1.0)); r++) {
+				for (u = 0; u < ((int) (FastMath.floor((i - 2.0 * r) / 2.0) + 1.0)); u++) {
 					index = i - 2 * r - u;
 
 					a[index] += constructATerm(i, r, u, l1, l2, pa, pb, pc,
@@ -130,8 +131,8 @@ public class NuclearTerm implements IntegralsPackage {
 		int i, r, u, index;
 
 		for (i = 0; i < iMax; i++) {
-			for (r = 0; r < ((int) (Math.floor(i / 2.0) + 1.0)); r++) {
-				for (u = 0; u < ((int) (Math.floor((i - 2.0 * r) / 2.0) + 1.0)); u++) {
+			for (r = 0; r < ((int) (FastMath.floor(i / 2.0) + 1.0)); r++) {
+				for (u = 0; u < ((int) (FastMath.floor((i - 2.0 * r) / 2.0) + 1.0)); u++) {
 					index = i - 2 * r - u;
 
 					a[index] += (i - 2.0 * r + 1.0)
@@ -171,11 +172,11 @@ public class NuclearTerm implements IntegralsPackage {
 	 */
 	public double constructATerm(int i, int r, int u, int l1, int l2,
 			double pax, double pbx, double pcx, double gamma) {
-		return (Math.pow(-1.0, i)
+		return (FastMath.pow(-1.0, i)
 				* MathUtil.binomialPrefactor(i, l1, l2, pax, pbx)
-				* Math.pow(-1.0, u) * CombinatoricsUtils.factorialDouble(i)
-				* Math.pow(pcx, i - 2 * r - 2 * u)
-				* Math.pow(0.25 / gamma, r + u) / CombinatoricsUtils.factorialDouble(r)
+				* FastMath.pow(-1.0, u) * CombinatoricsUtils.factorialDouble(i)
+				* FastMath.pow(pcx, i - 2 * r - 2 * u)
+				* FastMath.pow(0.25 / gamma, r + u) / CombinatoricsUtils.factorialDouble(r)
 				/ CombinatoricsUtils.factorialDouble(u) / CombinatoricsUtils.factorialDouble(i - 2 * r - 2 * u));
 	}
 
@@ -247,8 +248,8 @@ public class NuclearTerm implements IntegralsPackage {
 			}
 		}
 
-		double factor = -4 * Math.PI
-				* Math.exp(-alpha1 * alpha2 * rABSquared / gamma);
+		double factor = -4 * FastMath.PI
+				* FastMath.exp(-alpha1 * alpha2 * rABSquared / gamma);
 
 		gradX = factor * gradX;
 		gradY = factor * gradY;

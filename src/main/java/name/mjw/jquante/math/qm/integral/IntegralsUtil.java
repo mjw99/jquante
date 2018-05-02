@@ -2,6 +2,8 @@ package name.mjw.jquante.math.qm.integral;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
+import net.jafama.FastMath;
+
 /**
  * Utility class for IntegralsPackage.
  * 
@@ -93,9 +95,9 @@ public final class IntegralsUtil {
 	public static double computeFGamma(int m, double x) {
 		final double SMALL = 0.00000001;
 
-		x = Math.max(Math.abs(x), SMALL);
+		x = FastMath.max(Math.abs(x), SMALL);
 
-		return (0.5 * Math.pow(x, -m - 0.5) * gammaIncomplete(m + 0.5, x));
+		return (0.5 * FastMath.pow(x, -m - 0.5) * gammaIncomplete(m + 0.5, x));
 	}
 
 	/**
@@ -131,11 +133,11 @@ public final class IntegralsUtil {
 					ap++;
 					delta *= x / ap;
 					sum += delta;
-					if (Math.abs(delta) < Math.abs(sum) * EPS)
+					if (Math.abs(delta) < FastMath.abs(sum) * EPS)
 						break;
 				}
 
-				gammap = sum * Math.exp(-x + a * Math.log(x) - gln);
+				gammap = sum * FastMath.exp(-x + a * FastMath.log(x) - gln);
 			} else {
 				gammap = 0.0;
 			}
@@ -170,7 +172,7 @@ public final class IntegralsUtil {
 					break;
 			}
 
-			gammap = 1.0 - (Math.exp(-x + a * Math.log(x) - gln) * h);
+			gammap = 1.0 - (Math.exp(-x + a * FastMath.log(x) - gln) * h);
 		}
 
 		return (Math.exp(gln) * gammap);
@@ -187,7 +189,7 @@ public final class IntegralsUtil {
 		double y = x;
 		double tmp = x + 5.5;
 
-		tmp -= (x + 0.5) * Math.log(tmp);
+		tmp -= (x + 0.5) * FastMath.log(tmp);
 
 		double ser = 1.000000000190015;
 
@@ -204,6 +206,6 @@ public final class IntegralsUtil {
 		y++;
 		ser += -0.5395239384953e-5 / y;
 
-		return (-tmp + Math.log((2.5066282746310005 * ser) / x));
+		return (-tmp + FastMath.log((2.5066282746310005 * ser) / x));
 	}
 }

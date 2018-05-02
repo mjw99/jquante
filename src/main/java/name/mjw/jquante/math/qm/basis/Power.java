@@ -1,5 +1,7 @@
 package name.mjw.jquante.math.qm.basis;
 
+import net.jafama.FastMath;
+
 /**
  * Represents the powers on orbitals. <br>
  * They are also the magnetic quantum numbers.
@@ -102,7 +104,7 @@ public class Power implements Cloneable {
 	 * @return the maximum of the powers
 	 */
 	public int getMaximumAngularMomentum() {
-		return Math.max(Math.max(l, m), n);
+		return FastMath.max(Math.max(l, m), n);
 	}
 
 	/**
@@ -111,7 +113,7 @@ public class Power implements Cloneable {
 	 * @return the minimum of the powers
 	 */
 	public int getMinimumAngularMomentum() {
-		return Math.min(Math.min(l, m), n);
+		return FastMath.min(Math.min(l, m), n);
 	}
 
 	/**

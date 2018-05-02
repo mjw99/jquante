@@ -3,6 +3,7 @@ package name.mjw.jquante.math.qm.basis;
 import name.mjw.jquante.math.MathUtil;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import name.mjw.jquante.math.qm.integral.Integrals;
+import net.jafama.FastMath;
 
 /**
  * 
@@ -47,7 +48,7 @@ public class PrimitiveGaussian {
 	 */
 	private double normalization;
 
-	private static final double PI_RAISE_TO_1DOT5 = Math.pow(Math.PI, 1.5);
+	private static final double PI_RAISE_TO_1DOT5 = FastMath.pow(Math.PI, 1.5);
 
 	/**
 	 * Creates a new instance of PrimitiveGaussian
@@ -181,8 +182,8 @@ public class PrimitiveGaussian {
 		int m = powers.getM();
 		int n = powers.getN();
 
-		normalization = Math.sqrt(Math.pow(2, 2 * (l + m + n) + 1.5)
-				* Math.pow(exponent, l + m + n + 1.5)
+		normalization = FastMath.sqrt(Math.pow(2, 2 * (l + m + n) + 1.5)
+				* FastMath.pow(exponent, l + m + n + 1.5)
 				/ MathUtil.factorial2(2 * l - 1)
 				/ MathUtil.factorial2(2 * m - 1)
 				/ MathUtil.factorial2(2 * n - 1) / PI_RAISE_TO_1DOT5);
@@ -263,9 +264,9 @@ public class PrimitiveGaussian {
 		double y = point.getY() - origin.getY();
 		double z = point.getZ() - origin.getZ();
 
-		double d2 = Math.pow(x, l) * Math.pow(y, m) * Math.pow(z, n);
+		double d2 = FastMath.pow(x, l) * FastMath.pow(y, m) * FastMath.pow(z, n);
 
-		return (normalization * coefficient * d2 * Math.exp(-exponent
+		return (normalization * coefficient * d2 * FastMath.exp(-exponent
 				* (x * x + y * y + z * z)));
 	}
 
@@ -308,19 +309,19 @@ public class PrimitiveGaussian {
 		double y = point.getY() - origin.getY();
 		double z = point.getZ() - origin.getZ();
 
-		double fx = Math.pow(x, l) * Math.exp(-exponent * Math.pow(x, 2));
-		double fy = Math.pow(y, m) * Math.exp(-exponent * Math.pow(y, 2));
-		double fz = Math.pow(z, n) * Math.exp(-exponent * Math.pow(z, 2));
+		double fx = FastMath.pow(x, l) * FastMath.exp(-exponent * FastMath.pow(x, 2));
+		double fy = FastMath.pow(y, m) * FastMath.exp(-exponent * FastMath.pow(y, 2));
+		double fz = FastMath.pow(z, n) * FastMath.exp(-exponent * FastMath.pow(z, 2));
 		double gx = -2.0 * exponent * x * fx;
 		double gy = -2.0 * exponent * y * fy;
 		double gz = -2.0 * exponent * z * fz;
 
 		if (l > 0)
-			gx += Math.pow(x, l - 1) * Math.exp(-exponent * Math.pow(x, 2));
+			gx += FastMath.pow(x, l - 1) * FastMath.exp(-exponent * FastMath.pow(x, 2));
 		if (m > 0)
-			gy += Math.pow(y, m - 1) * Math.exp(-exponent * Math.pow(y, 2));
+			gy += FastMath.pow(y, m - 1) * FastMath.exp(-exponent * FastMath.pow(y, 2));
 		if (n > 0)
-			gz += Math.pow(z, n - 1) * Math.exp(-exponent * Math.pow(z, 2));
+			gz += FastMath.pow(z, n - 1) * FastMath.exp(-exponent * FastMath.pow(z, 2));
 
 		double nc = normalization * coefficient;
 		return new Vector3D(gx * fy * fz * nc, fx * gy * fz * nc, fx * fy * gz

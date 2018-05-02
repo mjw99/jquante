@@ -4,6 +4,9 @@ import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.util.CombinatoricsUtils;
+
+import net.jafama.FastMath;
+
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
@@ -129,8 +132,8 @@ public final class MathUtil {
 		for (int t = 0; t < (s + 1); t++) {
 			if (((s - ia) <= t) && (t <= ib)) {
 				sum += CombinatoricsUtils.binomialCoefficientDouble(ia, s - t)
-						* CombinatoricsUtils.binomialCoefficientDouble(ib, t) * Math.pow(xpa, ia - s + t)
-						* Math.pow(xpb, ib - t);
+						* CombinatoricsUtils.binomialCoefficientDouble(ib, t) * FastMath.pow(xpa, ia - s + t)
+						* FastMath.pow(xpb, ib - t);
 			}
 		}
 

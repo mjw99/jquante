@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import name.mjw.jquante.math.qm.Density;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.math.qm.basis.Power;
+import net.jafama.FastMath;
 
 import java.util.stream.IntStream;
 
@@ -24,7 +25,7 @@ import org.apache.commons.math3.linear.RealMatrix;
  */
 public class HGPTwoElectronTerm extends TwoElectronTerm {
 
-	private final double sqrt2PI = Math.sqrt(2.0) * Math.pow(Math.PI, 1.25);
+	private final double sqrt2PI = FastMath.sqrt(2.0) * FastMath.pow(Math.PI, 1.25);
 
 	/**
 	 * 2E coulomb interactions between four contracted Gaussians.
@@ -446,13 +447,13 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 		}
 
 		double rab2 = a.distanceSq(b);
-		double Kab = sqrt2PI / zeta * Math.exp(-aAlpha * bAlpha / zeta * rab2);
+		double Kab = sqrt2PI / zeta * FastMath.exp(-aAlpha * bAlpha / zeta * rab2);
 		double rcd2 = c.distanceSq(d);
-		double Kcd = sqrt2PI / eta * Math.exp(-cAlpha * dAlpha / eta * rcd2);
+		double Kcd = sqrt2PI / eta * FastMath.exp(-cAlpha * dAlpha / eta * rcd2);
 		double rpq2 = p.distanceSq(q);
 		double T = zeta * eta / zetaPlusEta * rpq2;
 
-		val = aNorm * bNorm * cNorm * dNorm * Kab * Kcd / Math.sqrt(zetaPlusEta) * IntegralsUtil.computeFGamma(m, T);
+		val = aNorm * bNorm * cNorm * dNorm * Kab * Kcd / FastMath.sqrt(zetaPlusEta) * IntegralsUtil.computeFGamma(m, T);
 		return val;
 	}
 
@@ -493,23 +494,23 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 		double xc = c.getX(), yc = c.getY(), zc = c.getZ();
 
 		double rab2 = a.distanceSq(b);
-		double Kab = sqrt2PI / zeta * Math.exp(-aAlpha * bAlpha / zeta * rab2);
+		double Kab = sqrt2PI / zeta * FastMath.exp(-aAlpha * bAlpha / zeta * rab2);
 		double rcd2 = c.distanceSq(d);
-		double Kcd = sqrt2PI / eta * Math.exp(-cAlpha * dAlpha / eta * rcd2);
+		double Kcd = sqrt2PI / eta * FastMath.exp(-cAlpha * dAlpha / eta * rcd2);
 		double rpq2 = p.distanceSq(q);
 		double T = zeta * eta / zetaPlusEta * rpq2;
 
 		// form [0]^m
 		fGammaTerms[mtot] = IntegralsUtil.computeFGamma(mtot, T);
 		for (im = mtot - 1; im >= 0; im--)
-			fGammaTerms[im] = (2.0 * T * fGammaTerms[im + 1] + Math.exp(-T)) / (2.0 * im + 1);
+			fGammaTerms[im] = (2.0 * T * fGammaTerms[im + 1] + FastMath.exp(-T)) / (2.0 * im + 1);
 
 		int maxam = 5; // la*ma*na*lc*mc*nc*mtot;
 		double[] vrrTerms = new double[187500];
 
 		for (im = 0; im < mtot + 1; im++)
 			vrrTerms[iindex(0, 0, 0, 0, 0, 0, im, maxam)] = aNorm * bNorm * cNorm * dNorm * Kab * Kcd
-					/ Math.sqrt(zeta + eta) * fGammaTerms[im];
+					/ FastMath.sqrt(zeta + eta) * fGammaTerms[im];
 
 		// construct the other set of terms from the above [0]^m terms
 

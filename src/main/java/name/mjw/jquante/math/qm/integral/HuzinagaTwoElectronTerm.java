@@ -9,6 +9,7 @@ import name.mjw.jquante.math.MathUtil;
 import name.mjw.jquante.math.qm.Density;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.math.qm.basis.Power;
+import net.jafama.FastMath;
 
 /**
  * The Huzinaga integral package.
@@ -162,10 +163,10 @@ public class HuzinagaTwoElectronTerm extends TwoElectronTerm {
 			}
 		}
 
-		return (2 * Math.pow(Math.PI, 2.5)
-				/ (gamma1 * gamma2 * Math.sqrt(gamma1 + gamma2))
-				* Math.exp(-aAlpha * bAlpha * radiusABSquared / gamma1)
-				* Math.exp(-cAlpha * dAlpha * radiusCDSquared / gamma2) * sum
+		return (2 * FastMath.pow(Math.PI, 2.5)
+				/ (gamma1 * gamma2 * FastMath.sqrt(gamma1 + gamma2))
+				* FastMath.exp(-aAlpha * bAlpha * radiusABSquared / gamma1)
+				* FastMath.exp(-cAlpha * dAlpha * radiusCDSquared / gamma2) * sum
 				* aNorm * bNorm * cNorm * dNorm);
 	}
 
@@ -218,11 +219,11 @@ public class HuzinagaTwoElectronTerm extends TwoElectronTerm {
 			double delta) {
 
 		return (functionB(i1, l1, l2, px, ax, bx, r1, gamma1)
-				* Math.pow(-1, i2)
+				* FastMath.pow(-1, i2)
 				* functionB(i2, l3, l4, qx, cx, dx, r2, gamma2)
-				* Math.pow(-1, u)
+				* FastMath.pow(-1, u)
 				* MathUtil.factorialRatioSquared(i1 + i2 - 2 * (r1 + r2), u)
-				* Math.pow(qx - px, i1 + i2 - 2 * (r1 + r2) - 2 * u) / Math
+				* FastMath.pow(qx - px, i1 + i2 - 2 * (r1 + r2) - 2 * u) / Math
 					.pow(delta, i1 + i2 - 2 * (r1 + r2) - u));
 	}
 
@@ -239,7 +240,7 @@ public class HuzinagaTwoElectronTerm extends TwoElectronTerm {
 	 * the function B0, taken from PyQuante
 	 */
 	private double functionB0(int i, int r, double g) {
-		return (MathUtil.factorialRatioSquared(i, r) * Math.pow(4 * g, r - i));
+		return (MathUtil.factorialRatioSquared(i, r) * FastMath.pow(4 * g, r - i));
 	}
 
 	@Override

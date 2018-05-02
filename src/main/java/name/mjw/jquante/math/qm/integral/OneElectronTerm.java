@@ -3,6 +3,7 @@ package name.mjw.jquante.math.qm.integral;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import name.mjw.jquante.math.MathUtil;
 import name.mjw.jquante.math.qm.basis.Power;
+import net.jafama.FastMath;
 
 /**
  * 
@@ -48,8 +49,8 @@ public class OneElectronTerm implements IntegralsPackage {
 		double wz = overlap1D(power1.getN(), power2.getN(),
 				product.getZ() - a.getZ(), product.getZ() - b.getZ(), gamma);
 
-		return (Math.pow(Math.PI / gamma, 1.5)
-				* Math.exp((-alpha1 * alpha2 * radiusABSquared) / gamma) * wx
+		return (FastMath.pow(FastMath.PI / gamma, 1.5)
+				* FastMath.exp((-alpha1 * alpha2 * radiusABSquared) / gamma) * wx
 				* wy * wz);
 	}
 
@@ -71,11 +72,11 @@ public class OneElectronTerm implements IntegralsPackage {
 	 */
 	public double overlap1D(int l1, int l2, double pax, double pbx, double gamma) {
 		double sum = 0.0;
-		int k = 1 + (int) Math.floor(0.5 * (l1 + l2));
+		int k = 1 + (int) FastMath.floor(0.5 * (l1 + l2));
 
 		for (int i = 0; i < k; i++) {
 			sum += (MathUtil.binomialPrefactor(2 * i, l1, l2, pax, pbx) * MathUtil
-					.factorial2(2 * i - 1)) / Math.pow(2D * gamma, i);
+					.factorial2(2 * i - 1)) / FastMath.pow(2D * gamma, i);
 		}
 		return sum;
 	}
@@ -110,7 +111,7 @@ public class OneElectronTerm implements IntegralsPackage {
 				* overlap(alpha1, power1, a, alpha2, power2, b);
 
 		term += -2.0
-				* Math.pow(alpha2, 2.0)
+				* FastMath.pow(alpha2, 2.0)
 				* (overlap(alpha1, power1, a, alpha2,
 						new Power(l2 + 2, m2, n2), b)
 						+ overlap(alpha1, power1, a, alpha2, new Power(l2,

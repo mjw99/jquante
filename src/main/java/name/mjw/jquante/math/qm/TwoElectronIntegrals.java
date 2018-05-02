@@ -15,6 +15,7 @@ import name.mjw.jquante.molecule.Molecule;
 import name.mjw.jquante.parallel.AbstractSimpleParallelTask;
 import name.mjw.jquante.parallel.SimpleParallelTask;
 import name.mjw.jquante.parallel.SimpleParallelTaskExecuter;
+import net.jafama.FastMath;
 
 /**
  * The 2E integral driver.
@@ -251,7 +252,7 @@ public class TwoElectronIntegrals {
 
 		PrimitiveGaussian[] pgs = new PrimitiveGaussian[] { iPG, jPG, kPG, lPG, xPG };
 
-		double terma = Math.sqrt(currentAlpha * (2.0 * l + 1.0)) * coeff
+		double terma = FastMath.sqrt(currentAlpha * (2.0 * l + 1.0)) * coeff
 				* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		double termbx = 0.0;
 		double termby = 0.0;
@@ -260,7 +261,7 @@ public class TwoElectronIntegrals {
 		if (l > 0) {
 			xPG.setPowers(new Power(l - 1, m, n));
 			xPG.normalize();
-			termbx = -2.0 * l * Math.sqrt(currentAlpha / (2. * l - 1)) * coeff
+			termbx = -2.0 * l * FastMath.sqrt(currentAlpha / (2. * l - 1)) * coeff
 					* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		} // end if
 
@@ -268,7 +269,7 @@ public class TwoElectronIntegrals {
 		if (m > 0) {
 			xPG.setPowers(new Power(l, m - 1, n));
 			xPG.normalize();
-			termby = -2.0 * m * Math.sqrt(currentAlpha / (2. * m - 1)) * coeff
+			termby = -2.0 * m * FastMath.sqrt(currentAlpha / (2. * m - 1)) * coeff
 					* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		} // end if
 
@@ -276,7 +277,7 @@ public class TwoElectronIntegrals {
 		if (n > 0) {
 			xPG.setPowers(new Power(l, m, n - 1));
 			xPG.normalize();
-			termbz = -2.0 * n * Math.sqrt(currentAlpha / (2. * n - 1)) * coeff
+			termbz = -2.0 * n * FastMath.sqrt(currentAlpha / (2. * n - 1)) * coeff
 					* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		} // end if
 

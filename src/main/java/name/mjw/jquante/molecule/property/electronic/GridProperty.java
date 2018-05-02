@@ -6,6 +6,7 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 import name.mjw.jquante.math.geom.BoundingBox;
 import name.mjw.jquante.math.interpolater.Interpolater;
+import net.jafama.FastMath;
 
 /**
  * This class define the data store for a grid based property object
@@ -359,9 +360,9 @@ public class GridProperty {
 				.getUpperLeft().getY(), zMin = boundingBox.getUpperLeft()
 				.getZ();
 
-		int i = (int) Math.rint(Math.abs((x - xMin) / xIncrement));
-		int j = (int) Math.rint(Math.abs((y - yMin) / yIncrement));
-		int k = (int) Math.rint(Math.abs((z - zMin) / zIncrement));
+		int i = (int) FastMath.rint(FastMath.abs((x - xMin) / xIncrement));
+		int j = (int) FastMath.rint(FastMath.abs((y - yMin) / yIncrement));
+		int k = (int) FastMath.rint(FastMath.abs((z - zMin) / zIncrement));
 
 		return getFunctionValueAt(i, j, k);
 	}
@@ -644,9 +645,9 @@ public class GridProperty {
 		Vector3D newUL = newBB.getUpperLeft();
 
 		// then the new increments will be lesser of the two
-		double xInc = Math.min(gp.getXIncrement(), xIncrement);
-		double yInc = Math.min(gp.getYIncrement(), yIncrement);
-		double zInc = Math.min(gp.getZIncrement(), zIncrement);
+		double xInc = FastMath.min(gp.getXIncrement(), xIncrement);
+		double yInc = FastMath.min(gp.getYIncrement(), yIncrement);
+		double zInc = FastMath.min(gp.getZIncrement(), zIncrement);
 
 		// and then we need to recompute the number of points in the
 		// "added" grid
@@ -688,9 +689,9 @@ public class GridProperty {
 		Vector3D newUL = newBB.getUpperLeft();
 
 		// then the new increments will be lesser of the two
-		double xInc = Math.min(gp.getXIncrement(), xIncrement);
-		double yInc = Math.min(gp.getYIncrement(), yIncrement);
-		double zInc = Math.min(gp.getZIncrement(), zIncrement);
+		double xInc = FastMath.min(gp.getXIncrement(), xIncrement);
+		double yInc = FastMath.min(gp.getYIncrement(), yIncrement);
+		double zInc = FastMath.min(gp.getZIncrement(), zIncrement);
 
 		// and then we need to recompute the number of points in the
 		// "added" grid
@@ -732,9 +733,9 @@ public class GridProperty {
 		Vector3D newUL = newBB.getUpperLeft();
 
 		// then the new increments will be lesser of the two
-		double xInc = Math.min(gp.getXIncrement(), xIncrement);
-		double yInc = Math.min(gp.getYIncrement(), yIncrement);
-		double zInc = Math.min(gp.getZIncrement(), zIncrement);
+		double xInc = FastMath.min(gp.getXIncrement(), xIncrement);
+		double yInc = FastMath.min(gp.getYIncrement(), yIncrement);
+		double zInc = FastMath.min(gp.getZIncrement(), zIncrement);
 
 		// and then we need to recompute the number of points in the
 		// "added" grid
@@ -786,9 +787,9 @@ public class GridProperty {
 		Vector3D newUL = newBB.getUpperLeft();
 
 		// then the new increments will be lesser of the two
-		double xInc = Math.min(gp.getXIncrement(), xIncrement);
-		double yInc = Math.min(gp.getYIncrement(), yIncrement);
-		double zInc = Math.min(gp.getZIncrement(), zIncrement);
+		double xInc = FastMath.min(gp.getXIncrement(), xIncrement);
+		double yInc = FastMath.min(gp.getYIncrement(), yIncrement);
+		double zInc = FastMath.min(gp.getZIncrement(), zIncrement);
 
 		// and then we need to recompute the number of points in the
 		// "added" grid
@@ -808,8 +809,8 @@ public class GridProperty {
 					f1 = getFunctionValueAt(x, y, z);
 					f2 = gp.getFunctionValueAt(x, y, z);
 
-					if (Math.signum(f1) != Math.signum(f2)) {
-						if (Math.abs(f1 + f2) < threshold) {
+					if (Math.signum(f1) != FastMath.signum(f2)) {
+						if (FastMath.abs(f1 + f2) < threshold) {
 							fvals[ii++] = f1 + f2;
 						} // end if
 					} // end if
@@ -837,9 +838,9 @@ public class GridProperty {
 				.getUpperLeft().getY(), zMin = boundingBox.getUpperLeft()
 				.getZ();
 
-		int i = (int) Math.rint(Math.abs((x - xMin) / xIncrement));
-		int j = (int) Math.rint(Math.abs((y - yMin) / yIncrement));
-		int k = (int) Math.rint(Math.abs((z - zMin) / zIncrement));
+		int i = (int) FastMath.rint(FastMath.abs((x - xMin) / xIncrement));
+		int j = (int) FastMath.rint(FastMath.abs((y - yMin) / yIncrement));
+		int k = (int) FastMath.rint(FastMath.abs((z - zMin) / zIncrement));
 
 		return new Vector3D(xMin + (i * xIncrement), yMin + (j * yIncrement),
 				zMin + (k * zIncrement));
@@ -884,9 +885,9 @@ public class GridProperty {
 				.getUpperLeft().getY(), zMin = boundingBox.getUpperLeft()
 				.getZ();
 
-		return new int[] { (int) Math.rint(Math.abs((x - xMin) / xIncrement)),
-				(int) Math.rint(Math.abs((y - yMin) / yIncrement)),
-				(int) Math.rint(Math.abs((z - zMin) / zIncrement)) };
+		return new int[] { (int) FastMath.rint(FastMath.abs((x - xMin) / xIncrement)),
+				(int) FastMath.rint(FastMath.abs((y - yMin) / yIncrement)),
+				(int) FastMath.rint(FastMath.abs((z - zMin) / zIncrement)) };
 	}
 
 	/**
@@ -933,11 +934,11 @@ public class GridProperty {
 			newBR = getGridPointNear(newBR);
 
 			// find new nx, ny, nz
-			int newNX = (int) Math.abs((newBR.getX() - newUL.getX())
+			int newNX = (int) FastMath.abs((newBR.getX() - newUL.getX())
 					/ xIncrement);
-			int newNY = (int) Math.abs((newBR.getY() - newUL.getY())
+			int newNY = (int) FastMath.abs((newBR.getY() - newUL.getY())
 					/ yIncrement);
-			int newNZ = (int) Math.abs((newBR.getZ() - newUL.getZ())
+			int newNZ = (int) FastMath.abs((newBR.getZ() - newUL.getZ())
 					/ zIncrement);
 
 			// and the collect the sub property values

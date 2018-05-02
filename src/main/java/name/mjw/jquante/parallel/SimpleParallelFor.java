@@ -3,6 +3,8 @@ package name.mjw.jquante.parallel;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import net.jafama.FastMath;
+
 /**
  * Simple parallel for pattern. Note the loop dependencies have to be taken care
  * of by the programming.
@@ -162,7 +164,7 @@ public class SimpleParallelFor<T> {
 		public ParallelForTask(int startItem, int endItem) {
 			super.startItem = startItem;
 			super.endItem = endItem;
-			super.totalItems = Math.abs(startItem - endItem);
+			super.totalItems = FastMath.abs(startItem - endItem);
 
 			_forTask = (ForTask<T>) SimpleParallelFor.this.forTask;
 		}
@@ -170,7 +172,7 @@ public class SimpleParallelFor<T> {
 		private ParallelForTask(int startItem, int endItem, ForTask<T> forTask) {
 			super.startItem = startItem;
 			super.endItem = endItem;
-			super.totalItems = Math.abs(startItem - endItem);
+			super.totalItems = FastMath.abs(startItem - endItem);
 
 			this._forTask = forTask;
 		}
