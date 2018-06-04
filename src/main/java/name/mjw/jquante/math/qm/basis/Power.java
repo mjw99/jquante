@@ -104,7 +104,7 @@ public class Power implements Cloneable {
 	 * @return the maximum of the powers
 	 */
 	public int getMaximumAngularMomentum() {
-		return FastMath.max(Math.max(l, m), n);
+		return FastMath.max(FastMath.max(l, m), n);
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class Power implements Cloneable {
 	 * @return the minimum of the powers
 	 */
 	public int getMinimumAngularMomentum() {
-		return FastMath.min(Math.min(l, m), n);
+		return FastMath.min(FastMath.min(l, m), n);
 	}
 
 	/**
