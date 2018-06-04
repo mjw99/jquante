@@ -219,41 +219,47 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 			ArrayList<Double> cNorms, Vector3D d, ArrayList<Double> dCoeff, ArrayList<Double> dExps,
 			ArrayList<Double> dNorms) {
 
-		double value;
+		double value = 0.0;
 
-		value = IntStream.range(0, aExps.size()).parallel()
-				.mapToDouble(id -> IntStream.range(0, bExps.size()).mapToDouble(jd -> IntStream.range(0, cExps.size())
-						.mapToDouble(kd -> IntStream.range(0, dExps.size()).mapToDouble(ld -> {
-							double iaExp1;
-							double iaCoef1;
-							double iaNorm1;
+		int i;
+		int j;
+		int k;
+		int l;
 
-							double jbExp1;
-							double jbCoef1;
-							double jbNorm1;
+		double iaExp;
+		double iaCoef;
+		double iaNorm;
 
-							double kcExp1;
-							double kcCoef1;
-							double kcNorm1;
+		double jbExp;
+		double jbCoef;
+		double jbNorm;
 
-							iaCoef1 = aCoeff.get(id);
-							iaExp1 = aExps.get(id);
-							iaNorm1 = aNorms.get(id);
+		double kcExp;
+		double kcCoef;
+		double kcNorm;
 
-							jbCoef1 = bCoeff.get(jd);
-							jbExp1 = bExps.get(jd);
-							jbNorm1 = bNorms.get(jd);
+		for (i = 0; i < aExps.size(); i++) {
+			iaCoef = aCoeff.get(i);
+			iaExp = aExps.get(i);
+			iaNorm = aNorms.get(i);
 
-							kcCoef1 = cCoeff.get(kd);
-							kcExp1 = cExps.get(kd);
-							kcNorm1 = cNorms.get(kd);
+			for (j = 0; j < bExps.size(); j++) {
+				jbCoef = bCoeff.get(j);
+				jbExp = bExps.get(j);
+				jbNorm = bNorms.get(j);
 
-							return iaCoef1 * jbCoef1 * kcCoef1 * dCoeff.get(ld)
-									* vrrWrapper(a, iaNorm1, aPower, iaExp1, b, jbNorm1, jbExp1, c, kcNorm1, cPower,
-											kcExp1, d, dNorms.get(ld), dExps.get(ld), 0);
-						}).sum()).sum()).sum())
-				.sum();
+				for (k = 0; k < cExps.size(); k++) {
+					kcCoef = cCoeff.get(k);
+					kcExp = cExps.get(k);
+					kcNorm = cNorms.get(k);
 
+					for (l = 0; l < dExps.size(); l++) {
+						value += iaCoef * jbCoef * kcCoef * dCoeff.get(l) * vrrWrapper(a, iaNorm, aPower, iaExp, b,
+								jbNorm, jbExp, c, kcNorm, cPower, kcExp, d, dNorms.get(l), dExps.get(l), 0);
+					}
+				}
+			}
+		}
 		return value;
 	}
 
