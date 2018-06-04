@@ -44,8 +44,8 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 	 */
 	@Override
 	public double coulombRepulsion(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
-			Power bPower, double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d, double dNorm,
-			Power dPower, double dAlpha) {
+			Power bPower, double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d,
+			double dNorm, Power dPower, double dAlpha) {
 		return vrr(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c, cNorm, cPower, cAlpha, d, dNorm, dAlpha, 0);
 	}
 
@@ -298,8 +298,8 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 	 * @return Contribution to Vertical Recurrence Relation.
 	 */
 	protected double vrrWrapper(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
-			double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d, double dNorm, double dAlpha,
-			int m) {
+			double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d, double dNorm,
+			double dAlpha, int m) {
 
 		return vrr(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c, cNorm, cPower, cAlpha, d, dNorm, dAlpha, m);
 	}
@@ -453,7 +453,8 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 		double rpq2 = p.distanceSq(q);
 		double T = zeta * eta / zetaPlusEta * rpq2;
 
-		val = aNorm * bNorm * cNorm * dNorm * Kab * Kcd / FastMath.sqrt(zetaPlusEta) * IntegralsUtil.computeFGamma(m, T);
+		val = aNorm * bNorm * cNorm * dNorm * Kab * Kcd / FastMath.sqrt(zetaPlusEta)
+				* IntegralsUtil.computeFGamma(m, T);
 		return val;
 	}
 
@@ -461,8 +462,8 @@ public class HGPTwoElectronTerm extends TwoElectronTerm {
 	 * VRR (Vertical Recurrence Relation)
 	 */
 	private double vrrNonRecursive(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
-			double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d, double dNorm, double dAlpha,
-			int m) {
+			double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d, double dNorm,
+			double dAlpha, int m) {
 
 		Vector3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
 		Vector3D q = IntegralsUtil.gaussianProductCenter(cAlpha, c, dAlpha, d);
