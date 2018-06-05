@@ -7,45 +7,58 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.math.qm.basis.Power;
 
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 
 public class RysTwoElectronTermTest {
 
 	private final double delta = 0.000001;
 
-	@Test
-	@Ignore("To be implemented")
-	public void testOne() {
+	RysTwoElectronTerm e2 = new RysTwoElectronTerm();
 
-		ContractedGaussian cgto1 = new ContractedGaussian(new Vector3D(0, 0, 0),
-				new Power(0, 0, 0));
-		cgto1.addPrimitive(1.0, 1.0);
-		cgto1.normalize();
+	ContractedGaussian cgtoS0;
+	ContractedGaussian cgtoS1;
+	ContractedGaussian cgtoP0;
+	ContractedGaussian cgtoD0;
 
-		RysTwoElectronTerm e2 = new RysTwoElectronTerm();
+	@Before
+	public void setUp() {
 
-		assertEquals(1.1283791633342477,
-				e2.coulomb(cgto1, cgto1, cgto1, cgto1), delta);
+		cgtoS0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(0, 0, 0));
+		cgtoS0.addPrimitive(1.0, 1.0);
+		cgtoS0.normalize();
+
+		cgtoS1 = new ContractedGaussian(new Vector3D(0, 0, 1), new Power(0, 0, 0));
+		cgtoS1.addPrimitive(1.0, 1.0);
+		cgtoS1.normalize();
+
+		cgtoP0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(1, 0, 0));
+		cgtoP0.addPrimitive(1.0, 1.0);
+		cgtoP0.normalize();
+
+		cgtoD0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(2, 0, 0));
+		cgtoD0.addPrimitive(1.0, 1.0);
+		cgtoD0.normalize();
 	}
 
 	@Test
-	@Ignore("To be implemented")
-	public void testTwo() {
-
-		ContractedGaussian cgto1 = new ContractedGaussian(new Vector3D(0, 0, 0),
-				new Power(0, 0, 0));
-		cgto1.addPrimitive(1.0, 1.0);
-		cgto1.normalize();
-
-		ContractedGaussian cgto2 = new ContractedGaussian(new Vector3D(0, 0, 1),
-				new Power(0, 0, 0));
-		cgto2.addPrimitive(1.0, 1.0);
-		cgto2.normalize();
-
-		RysTwoElectronTerm e2 = new RysTwoElectronTerm();
-
-		assertEquals(0.8427007900292194,
-				e2.coulomb(cgto1, cgto1, cgto2, cgto2), delta);
+	public void ss00() {
+		assertEquals(1.1283791633342477, e2.coulomb(cgtoS0, cgtoS0, cgtoS0, cgtoS0), delta);
 	}
+
+	@Test
+	public void ss01() {
+		assertEquals(0.8427007900292194, e2.coulomb(cgtoS0, cgtoS0, cgtoS1, cgtoS1), delta);
+	}
+
+	@Test
+	public void sp00() {
+		assertEquals(0.9403159699467084, e2.coulomb(cgtoS0, cgtoS0, cgtoP0, cgtoP0), delta);
+	}
+
+	@Test
+	public void sd00() {
+		assertEquals(0.8086717345109515, e2.coulomb(cgtoS0, cgtoS0, cgtoD0, cgtoD0), delta);
+	}
+
 }
