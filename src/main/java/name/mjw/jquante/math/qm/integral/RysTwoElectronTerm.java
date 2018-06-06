@@ -23,7 +23,39 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 	 */
 	@Override
 	public double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c, ContractedGaussian d) {
-		ArrayList<Double> aExps, aCoefs, aNorms, bExps, bCoefs, bNorms, cExps, cCoefs, cNorms, dExps, dCoefs, dNorms;
+
+		double value = 0.0;
+
+		int i;
+		int j;
+		int k;
+		int l;
+		double iaExp;
+		double iaCoef;
+		double iaNorm;
+		double jbExp;
+		double jbCoef;
+		double jbNorm;
+		double kcExp;
+		double kcCoef;
+		double kcNorm;
+		double repulsionTerm;
+
+		ArrayList<Double> aExps;
+		ArrayList<Double> aCoefs;
+		ArrayList<Double> aNorms;
+
+		ArrayList<Double> bExps;
+		ArrayList<Double> bCoefs;
+		ArrayList<Double> bNorms;
+
+		ArrayList<Double> cExps;
+		ArrayList<Double> cCoefs;
+		ArrayList<Double> cNorms;
+
+		ArrayList<Double> dExps;
+		ArrayList<Double> dCoefs;
+		ArrayList<Double> dNorms;
 
 		aExps = a.getExponents();
 		aCoefs = a.getCoefficients();
@@ -49,8 +81,82 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		Vector3D dOrigin = d.getOrigin();
 		Power dPower = d.getPowers();
 
-		// TODO:
-		throw new UnsupportedOperationException("Not supported yet.");
+		int asz = aExps.size();
+		int bsz = bExps.size();
+		int csz = cExps.size();
+		int dsz = dExps.size();
+
+		for (i = 0; i < asz; i++) {
+			iaCoef = aCoefs.get(i);
+			iaExp = aExps.get(i);
+			iaNorm = aNorms.get(i);
+
+			for (j = 0; j < bsz; j++) {
+				jbCoef = bCoefs.get(j);
+				jbExp = bExps.get(j);
+				jbNorm = bNorms.get(j);
+
+				for (k = 0; k < csz; k++) {
+					kcCoef = cCoefs.get(k);
+					kcExp = cExps.get(k);
+					kcNorm = cNorms.get(k);
+
+					for (l = 0; l < dsz; l++) {
+						repulsionTerm = coulombRepulsion(aOrigin, iaNorm, aPower, iaExp, bOrigin, jbNorm, bPower, jbExp,
+								cOrigin, kcNorm, cPower, kcExp, dOrigin, dNorms.get(l), dPower, dExps.get(l));
+
+						value += iaCoef * jbCoef * kcCoef * dCoefs.get(l) * repulsionTerm;
+					}
+				}
+			}
+		}
+
+		return (a.getNormalization() * b.getNormalization() * c.getNormalization() * d.getNormalization() * value);
+
+	}
+
+	private void int1d() {
+
+	}
+
+	private void recurFactors() {
+
+	}
+
+	/**
+	 * Form G(n,m)=I(n,0,m,0) intermediate values for a Rys polynomial
+	 */
+	private void recur() {
+		// TODO
+	}
+
+	/**
+	 * Compute and output I(i,j,k,l) from I(i+j,0,k+l,0) (G)
+	 */
+	private void shift() {
+		// TODO
+	}
+
+	private void selectRoots(int nroots, double X, double roots[], double weights[]) {
+		switch (nroots) {
+		case 0:
+			throw new UnsupportedOperationException("nroot == 0 is not valid.");
+		case 1:
+		case 2:
+		case 3:
+			Root123(nroots, X, roots, weights);
+			break;
+		case 4:
+			Root4(X, roots, weights);
+			break;
+		case 5:
+			Root5(X, roots, weights);
+			break;
+
+		default:
+			throw new UnsupportedOperationException("nroot > 6 is not supported yet.");
+		}
+
 	}
 
 	private void Root123(int nroots, double X, double roots[], double weights[]) {
@@ -450,6 +556,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 				}
 			}
 		}
+
 		roots[0] = RT1;
 		weights[0] = WW1;
 		if (nroots > 1) {
@@ -1109,13 +1216,48 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 	}
 
 	/**
-	 * coulomb repulsion term
+	 * Form coulomb repulsion integral by Rys quadrature
 	 */
 	@Override
 	public double coulombRepulsion(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
 			Power bPower, double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d,
 			double dNorm, Power dPower, double dAlpha) {
-		throw new UnsupportedOperationException("Not supported yet.");
+
+		final int la = aPower.getL();
+		final int ma = aPower.getM();
+		final int na = aPower.getN();
+
+		final int lc = cPower.getL();
+		final int mc = cPower.getM();
+		final int nc = cPower.getN();
+
+		// TOCHECK
+		final int nRoots = la + ma + na + lc + mc + nc; // total angular momentum
+
+		final double[] roots = new double[nRoots];
+		final double[] weights = new double[nRoots];
+
+		final Vector3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
+		final Vector3D q = IntegralsUtil.gaussianProductCenter(cAlpha, c, dAlpha, d);
+
+		double radiusPQSquared = p.distanceSq(q);
+
+		double gamma1 = aAlpha + bAlpha;
+		double gamma2 = cAlpha + dAlpha;
+
+		double rho = gamma1 * gamma2 / (gamma1 + gamma2);
+
+		double X = radiusPQSquared * rho;
+
+		selectRoots(nRoots, X, roots, weights);
+
+		for (int i = 0; i < roots.length; i++) {
+
+			System.out.println("root :" + roots[i] + " weight: " + weights[i]);
+
+		}
+
+		return 0;
 	}
 
 	@Override
