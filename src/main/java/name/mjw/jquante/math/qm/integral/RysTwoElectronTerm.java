@@ -571,9 +571,24 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 	}
 
 	private void Root4(double X, double roots[], double weights[]) {
-		double R14, PIE4, R24, W24, R34, W34, R44, W44;
-		double RT1 = 0, RT2 = 0, RT3 = 0, RT4 = 0, WW1 = 0, WW2 = 0, WW3 = 0, WW4 = 0;
-		double Y, E;
+		double R14;
+		double PIE4;
+		double R24;
+		double W24;
+		double R34;
+		double W34;
+		double R44;
+		double W44;
+		double RT1 = 0;
+		double RT2 = 0;
+		double RT3 = 0;
+		double RT4 = 0;
+		double WW1 = 0;
+		double WW2 = 0;
+		double WW3 = 0;
+		double WW4 = 0;
+		double Y;
+		double E;
 
 		R14 = 1.45303521503316E-01;
 		PIE4 = 7.85398163397448E-01;
@@ -843,9 +858,29 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 	}
 
 	private void Root5(double X, double roots[], double weights[]) {
-		double R15, PIE4, R25, W25, R35, W35, R45, W45, R55, W55;
-		double RT1 = 0, RT2 = 0, RT3 = 0, RT4 = 0, RT5 = 0, WW1 = 0, WW2 = 0, WW3 = 0, WW4 = 0, WW5 = 0;
-		double Y, E = 0, XXX;
+		double R15;
+		double PIE4;
+		double R25;
+		double W25;
+		double R35;
+		double W35;
+		double R45;
+		double W45;
+		double R55;
+		double W55;
+		double RT1 = 0;
+		double RT2 = 0;
+		double RT3 = 0;
+		double RT4 = 0;
+		double RT5 = 0;
+		double WW1 = 0;
+		double WW2 = 0;
+		double WW3 = 0;
+		double WW4 = 0;
+		double WW5 = 0;
+		double Y;
+		double E = 0;
+		double XXX;
 
 		R15 = 1.17581320211778E-01;
 		PIE4 = 7.85398163397448E-01;
