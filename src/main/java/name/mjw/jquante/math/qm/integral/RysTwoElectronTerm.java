@@ -187,9 +187,9 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		}
 
 		for (int i = 1; i < n + 1; i++) {
-			g[i][1] = a * B0 * g[i - 1][0] + Cp * g[i][0];
+			g[i][1] = i * B0 * g[i - 1][0] + Cp * g[i][0];
 			for (int j = 2; j < m + 1; j++)
-				g[i][j] = B1p * (j - 1) * g[i][j - 2] + a * B0 * g[i - 1][j - 1] + Cp * g[i][j - 1];
+				g[i][j] = B1p * (j - 1) * g[i][j - 2] + i * B0 * g[i - 1][j - 1] + Cp * g[i][j - 1];
 		}
 
 		return g;
