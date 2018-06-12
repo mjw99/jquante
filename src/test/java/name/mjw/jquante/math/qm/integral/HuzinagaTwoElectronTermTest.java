@@ -65,4 +65,9 @@ public class HuzinagaTwoElectronTermTest {
 	public void pd00() {
 		assertEquals(0.8583741496984647, e2.coulomb(cgtoP0, cgtoP0, cgtoD0, cgtoD0), delta);
 	}
+
+	@Test
+	public void dd00() {
+		assertEquals(0.854418854766963, e2.coulomb(cgtoD0, cgtoD0, cgtoD0, cgtoD0), delta);
+	}
 }
