@@ -145,21 +145,22 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 		double[][] g = new double[n + 1][m + 1];
 
-		double a = aAlpha + bAlpha;
-		double b = cAlpha + dAlpha;
+		final double a = aAlpha + bAlpha;
+		final double b = cAlpha + dAlpha;
 
-		double pX = (aAlpha * xa + bAlpha * xb) / a;
-		double qX = (cAlpha * xc + dAlpha * xd) / b;
+		final double pX = (aAlpha * xa + bAlpha * xb) / a;
+		final double qX = (cAlpha * xc + dAlpha * xd) / b;
 
-		// ABD eqs 12-14: recurFactors
-		double fact = t / (a + b);
+		// [ABD] eqs 12-14: recurFactors
+		// from Gamess
+		final double fact = t / (a + b) / (1 + t);
 
-		double B0 = 0.5 * fact;
-		double B1 = (1 - b * fact) / (2 * a);
-		double B1p = (1 - a * fact) / (2 * b);
+		final double B0 = 0.5 * fact;
+		final double B1 = 1 / (2 * a * (1 + t)) + 0.5 * fact;
+		final double B1p = 1 / (2 * b * (1 + t)) + 0.5 * fact;
 
-		double C = (pX - xa) + b * (qX - pX) * fact;
-		double Cp = (qX - xc) + a * (pX - qX) * fact;
+		final double C = (pX - xa) / (1 + t) + (b * (qX - xa) + b * (pX - xa)) * fact;
+		final double Cp = (qX - xc) / (1 + t) + (b * (qX - xc) + a * (pX - xc)) * fact;
 
 		// ABD eq 11.
 		g[0][0] = FastMath.PI * FastMath.exp(-aAlpha * bAlpha * FastMath.pow(xa - xb, 2) / (aAlpha + bAlpha)
@@ -222,9 +223,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 	private void selectRoots(int nroots, double X, double roots[], double weights[]) {
 		switch (nroots) {
-		// case 0:
-		// throw new UnsupportedOperationException("nroot == 0 is not valid.");
-
+		
 		case 0:
 		case 1:
 		case 2:
@@ -1384,7 +1383,6 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 		double sum = 0;
 		for (int i = 0; i < roots.length; i++) {
-
 			t = roots[i];
 
 			iX = int1d(t, la, lb, lc, ld, a.getX(), b.getX(), c.getX(), d.getX(), aAlpha, bAlpha, cAlpha, dAlpha);
@@ -1392,9 +1390,6 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 			iZ = int1d(t, na, nb, nc, nd, a.getZ(), b.getZ(), c.getZ(), d.getZ(), aAlpha, bAlpha, cAlpha, dAlpha);
 
 			sum += iX * iY * iZ * weights[i];
-
-			System.out.println("root :" + roots[i] + " weight: " + weights[i]);
-
 		}
 
 		// [ABD] eq. 9
