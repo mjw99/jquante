@@ -128,9 +128,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 	private double int1d(double t, int la, int lb, int lc, int ld, double xa, double xb, double xc, double xd,
 			double aAlpha, double bAlpha, double cAlpha, double dAlpha) {
 
-		// double[][] g = new double[(la + lb) + 1][(lc + ld) + 1];
-
-		double[][] g = recur(t, la, lb, lc, ld, xa, xb, xc, xd, aAlpha, bAlpha, cAlpha, dAlpha);
+		final double[][] g = recur(t, la, lb, lc, ld, xa, xb, xc, xd, aAlpha, bAlpha, cAlpha, dAlpha);
 		return shift(g, la, lb, lc, ld, (xa - xb), (xc - xd));
 	}
 
@@ -202,7 +200,8 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 	 * 
 	 * xij = xi-xj, xkl = xk-xl
 	 */
-	private final double shift(double[][] g, int i, int j, int k, int l, double xij, double xkl) {
+	private final double shift(final double[][] g, final int i, final int j, final int k, final int l, final double xij,
+			final double xkl) {
 		double ijkl;
 		double ijm0;
 		int m;
@@ -223,7 +222,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 	private void selectRoots(int nroots, double X, double roots[], double weights[]) {
 		switch (nroots) {
-		
+
 		case 0:
 		case 1:
 		case 2:
@@ -1357,22 +1356,22 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 		final int nRoots = (la + ma + na + lb + nb + mb + lc + mc + nc + ld + md + nd) / 2 + 1;
 
-		final double[] roots = new double[nRoots];
-		final double[] weights = new double[nRoots];
+		double[] roots = new double[nRoots];
+		double[] weights = new double[nRoots];
 
 		final Vector3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
 		final Vector3D q = IntegralsUtil.gaussianProductCenter(cAlpha, c, dAlpha, d);
 
 		// [ABD] eq. 4
-		double radiusPQSquared = p.distanceSq(q);
+		final double radiusPQSquared = p.distanceSq(q);
 
-		double gamma1 = aAlpha + bAlpha;
-		double gamma2 = cAlpha + dAlpha;
+		final double gamma1 = aAlpha + bAlpha;
+		final double gamma2 = cAlpha + dAlpha;
 
 		// [ABD] eq. 4
-		double rho = gamma1 * gamma2 / (gamma1 + gamma2);
+		final double rho = gamma1 * gamma2 / (gamma1 + gamma2);
 
-		double X = radiusPQSquared * rho;
+		final double X = radiusPQSquared * rho;
 
 		double iX = 0;
 		double iY = 0;
