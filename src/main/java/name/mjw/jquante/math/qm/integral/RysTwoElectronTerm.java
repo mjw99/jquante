@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.util.CombinatoricsUtils;
 
 import name.mjw.jquante.math.qm.Density;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
@@ -13,9 +14,17 @@ import net.jafama.FastMath;
 /**
  * Two electron integrals using RYS quadrature. The code is based upon PyQuante
  * (<a href="http://pyquante.sf.net"> http://pyquante.sf.net </a>).
- * 
+ *
+ * <p>
+ * Which in turn is based upon
+ *
+ * <a href="https://doi.org/10.1002/jcc.540110809"> Augspurger, Bernholdt, and
+ * Dykstra. 'Concise, Open-Ended Implementation of Rys Polynomial Evaluation of
+ * Two-Electron Integrals.' J. Comp. Chem. 11 (8), 972-977 (1990). </a> [ABD]
+ *
  * @author V.Ganesh
- * @version 2.0 (Part of MeTA v2.0)
+ * @author Mark J. Williamson
+ *
  */
 public class RysTwoElectronTerm extends TwoElectronTerm {
 	/**
@@ -115,32 +124,108 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 	}
 
-	private void int1d() {
+	// Equ. 10
+	private double int1d(double t, int la, int lb, int lc, int ld, double xa, double xb, double xc, double xd,
+			double aAlpha, double bAlpha, double cAlpha, double dAlpha) {
 
-	}
+		// double[][] g = new double[(la + lb) + 1][(lc + ld) + 1];
 
-	private void recurFactors() {
-
+		double[][] g = recur(t, la, lb, lc, ld, xa, xb, xc, xd, aAlpha, bAlpha, cAlpha, dAlpha);
+		return shift(g, la, lb, lc, ld, (xa - xb), (xc - xd));
 	}
 
 	/**
 	 * Form G(n,m)=I(n,0,m,0) intermediate values for a Rys polynomial
 	 */
-	private void recur() {
-		// TODO
+	private double[][] recur(double t, int la, int lb, int lc, int ld, double xa, double xb, double xc, double xd,
+			double aAlpha, double bAlpha, double cAlpha, double dAlpha) {
+
+		final int n = la + lb;
+		final int m = lc + ld;
+
+		double[][] g = new double[n + 1][m + 1];
+
+		double a = aAlpha + bAlpha;
+		double b = cAlpha + dAlpha;
+
+		double pX = (aAlpha * xa + bAlpha * xb) / a;
+		double qX = (cAlpha * xc + dAlpha * xd) / b;
+
+		// ABD eqs 12-14: recurFactors
+		double fact = t / (a + b);
+
+		double B0 = 0.5 * fact;
+		double B1 = (1 - b * fact) / (2 * a);
+		double B1p = (1 - a * fact) / (2 * b);
+
+		double C = (pX - xa) + b * (qX - pX) * fact;
+		double Cp = (qX - xc) + a * (pX - qX) * fact;
+
+		// ABD eq 11.
+		g[0][0] = FastMath.PI * FastMath.exp(-aAlpha * bAlpha * FastMath.pow(xa - xb, 2) / (aAlpha + bAlpha)
+				- cAlpha * dAlpha * FastMath.pow(xc - xd, 2) / (cAlpha + dAlpha)) / FastMath.sqrt(a * b);
+
+		if (n > 0) {
+			// ABD eq 15
+			g[1][0] = C * g[0][0];
+		}
+
+		if (m > 0) {
+			// ABD eq 16
+			g[0][1] = Cp * g[0][0];
+		}
+
+		for (int i = 2; i < (n + 1); i++) {
+			g[i][0] = B1 * (i - 1) * g[i - 2][0] + C * g[i - 1][0];
+		}
+
+		for (int j = 2; j < (m + 1); j++) {
+			g[0][j] = B1p * (j - 1) * g[0][j - 2] + Cp * g[0][j - 1];
+		}
+
+		if ((m == 0) || (n == 0)) {
+			return g;
+		}
+
+		for (int i = 1; i < n + 1; i++) {
+			g[i][1] = a * B0 * g[i - 1][0] + Cp * g[i][0];
+			for (int j = 2; j < m + 1; j++)
+				g[i][j] = B1p * (j - 1) * g[i][j - 2] + a * B0 * g[i - 1][j - 1] + Cp * g[i][j - 1];
+		}
+
+		return g;
 	}
 
 	/**
 	 * Compute and output I(i,j,k,l) from I(i+j,0,k+l,0) (G)
+	 * 
+	 * xij = xi-xj, xkl = xk-xl
 	 */
-	private void shift() {
-		// TODO
+	private final double shift(double[][] g, int i, int j, int k, int l, double xij, double xkl) {
+		double ijkl;
+		double ijm0;
+		int m;
+		int n;
+
+		ijkl = 0;
+		for (m = 0; m < l + 1; m++) {
+			ijm0 = 0;
+			/* I(i,j,m,0)<-I(n,0,m,0) */
+			for (n = 0; n < j + 1; n++) {
+				ijm0 += CombinatoricsUtils.binomialCoefficient(j, n) * FastMath.pow(xij, (j - n)) * g[n + i][m + k];
+			}
+			/* I(i,j,k,l)<-I(i,j,m,0) */
+			ijkl += CombinatoricsUtils.binomialCoefficient(l, m) * FastMath.pow(xkl, (l - m)) * ijm0;
+		}
+		return ijkl;
 	}
 
 	private void selectRoots(int nroots, double X, double roots[], double weights[]) {
 		switch (nroots) {
+		// case 0:
+		// throw new UnsupportedOperationException("nroot == 0 is not valid.");
+
 		case 0:
-			throw new UnsupportedOperationException("nroot == 0 is not valid.");
 		case 1:
 		case 2:
 		case 3:
@@ -567,7 +652,6 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 			roots[2] = RT3;
 			weights[2] = WW3;
 		}
-		return;
 	}
 
 	private void Root4(double X, double roots[], double weights[]) {
@@ -854,7 +938,6 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		weights[2] = WW3;
 		roots[3] = RT4;
 		weights[3] = WW4;
-		return;
 	}
 
 	private void Root5(double X, double roots[], double weights[]) {
@@ -1247,7 +1330,6 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		weights[3] = WW4;
 		roots[4] = RT5;
 		weights[4] = WW5;
-		return;
 	}
 
 	/**
@@ -1262,12 +1344,19 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		final int ma = aPower.getM();
 		final int na = aPower.getN();
 
+		final int lb = bPower.getL();
+		final int mb = bPower.getM();
+		final int nb = bPower.getN();
+
 		final int lc = cPower.getL();
 		final int mc = cPower.getM();
 		final int nc = cPower.getN();
 
-		// TOCHECK
-		final int nRoots = la + ma + na + lc + mc + nc; // total angular momentum
+		final int ld = dPower.getL();
+		final int md = dPower.getM();
+		final int nd = dPower.getN();
+
+		final int nRoots = (la + ma + na + lb + nb + mb + lc + mc + nc + ld + md + nd) / 2 + 1;
 
 		final double[] roots = new double[nRoots];
 		final double[] weights = new double[nRoots];
@@ -1275,24 +1364,42 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		final Vector3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
 		final Vector3D q = IntegralsUtil.gaussianProductCenter(cAlpha, c, dAlpha, d);
 
+		// [ABD] eq. 4
 		double radiusPQSquared = p.distanceSq(q);
 
 		double gamma1 = aAlpha + bAlpha;
 		double gamma2 = cAlpha + dAlpha;
 
+		// [ABD] eq. 4
 		double rho = gamma1 * gamma2 / (gamma1 + gamma2);
 
 		double X = radiusPQSquared * rho;
 
+		double iX = 0;
+		double iY = 0;
+		double iZ = 0;
+		double t = 0;
+
 		selectRoots(nRoots, X, roots, weights);
 
+		double sum = 0;
 		for (int i = 0; i < roots.length; i++) {
+
+			t = roots[i];
+
+			iX = int1d(t, la, lb, lc, ld, a.getX(), b.getX(), c.getX(), d.getX(), aAlpha, bAlpha, cAlpha, dAlpha);
+			iY = int1d(t, ma, mb, mc, md, a.getY(), b.getY(), c.getY(), d.getY(), aAlpha, bAlpha, cAlpha, dAlpha);
+			iZ = int1d(t, na, nb, nc, nd, a.getZ(), b.getZ(), c.getZ(), d.getZ(), aAlpha, bAlpha, cAlpha, dAlpha);
+
+			sum += iX * iY * iZ * weights[i];
 
 			System.out.println("root :" + roots[i] + " weight: " + weights[i]);
 
 		}
 
-		return 0;
+		// [ABD] eq. 9
+		return 2 * FastMath.sqrt(rho / FastMath.PI) * aNorm * bNorm * cNorm * dNorm * sum;
+
 	}
 
 	@Override
