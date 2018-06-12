@@ -157,7 +157,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		final double B1 = 1 / (2 * a * (1 + t)) + 0.5 * fact;
 		final double B1p = 1 / (2 * b * (1 + t)) + 0.5 * fact;
 
-		final double C = (pX - xa) / (1 + t) + (b * (qX - xa) + b * (pX - xa)) * fact;
+		final double C = (pX - xa) / (1 + t) + (b * (qX - xa) + a * (pX - xa)) * fact;
 		final double Cp = (qX - xc) / (1 + t) + (b * (qX - xc) + a * (pX - xc)) * fact;
 
 		// ABD eq 11.
