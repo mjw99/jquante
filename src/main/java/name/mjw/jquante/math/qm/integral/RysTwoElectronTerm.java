@@ -219,7 +219,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		return ijkl;
 	}
 
-	private final void selectRoots(int nroots, double X, double roots[], double weights[]) {
+	private final void selectRoots(int nroots, double X, double[] roots, double[] weights) {
 		switch (nroots) {
 
 		case 1:
@@ -244,7 +244,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 	}
 
-	private final void root1(double X, double roots[], double weights[]) {
+	private final void root1(double X, double[] roots, double[] weights) {
 
 		double RT1;
 		double WW1;
@@ -325,7 +325,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 	}
 
-	private final void root2(double X, double roots[], double weights[]) {
+	private final void root2(double X, double[] roots, double[] weights) {
 		double RT1;
 		double RT2;
 		double WW1;
@@ -482,7 +482,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 	}
 
-	private final void root3(double X, double roots[], double weights[]) {
+	private final void root3(double X, double[] roots, double[] weights) {
 		double RT1;
 		double RT2;
 		double RT3;
@@ -746,7 +746,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 	}
 
-	private final void root4(double X, double roots[], double weights[]) {
+	private final void root4(double X, double[] roots, double[] weights) {
 		double RT1;
 		double RT2;
 		double RT3;
@@ -1024,7 +1024,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		weights[3] = WW4;
 	}
 
-	private final void root5(double X, double roots[], double weights[]) {
+	private final void root5(double X, double[] roots, double[] weights) {
 		double RT1;
 		double RT2;
 		double RT3;
