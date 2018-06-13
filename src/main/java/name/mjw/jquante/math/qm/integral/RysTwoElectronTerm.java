@@ -149,8 +149,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		final double pX = (aAlpha * xa + bAlpha * xb) / a;
 		final double qX = (cAlpha * xc + dAlpha * xd) / b;
 
-		// [ABD] eqs 12-14: recurFactors
-		// from Gamess
+		// [ABD] eqs 12-14: recurFactors (from GAMESS)
 		final double fact = t / (a + b) / (1 + t);
 
 		final double B0 = 0.5 * fact;
@@ -160,17 +159,17 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		final double C = (pX - xa) / (1 + t) + (b * (qX - xa) + a * (pX - xa)) * fact;
 		final double Cp = (qX - xc) / (1 + t) + (b * (qX - xc) + a * (pX - xc)) * fact;
 
-		// ABD eq 11.
+		// [ABD] eq 11.
 		g[0][0] = FastMath.PI * FastMath.exp(-aAlpha * bAlpha * FastMath.pow(xa - xb, 2) / (aAlpha + bAlpha)
 				- cAlpha * dAlpha * FastMath.pow(xc - xd, 2) / (cAlpha + dAlpha)) / FastMath.sqrt(a * b);
 
 		if (n > 0) {
-			// ABD eq 15
+			// [ABD] eq 15
 			g[1][0] = C * g[0][0];
 		}
 
 		if (m > 0) {
-			// ABD eq 16
+			// [ABD] eq 16
 			g[0][1] = Cp * g[0][0];
 		}
 
