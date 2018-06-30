@@ -239,7 +239,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 			break;
 
 		default:
-			throw new UnsupportedOperationException("nroot > 6 is not supported yet.");
+			throw new UnsupportedOperationException("nroot > 5 is not supported yet.");
 		}
 
 	}
