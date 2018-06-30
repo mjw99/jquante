@@ -124,99 +124,70 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 	}
 
-	// Equ. 10
-	private final double int1d(double t, int la, int lb, int lc, int ld, double xa, double xb, double xc, double xd,
-			double aAlpha, double bAlpha, double cAlpha, double dAlpha) {
-
-		final double[][] g = recur(t, la, lb, lc, ld, xa, xb, xc, xd, aAlpha, bAlpha, cAlpha, dAlpha);
-		return shift(g, la, lb, lc, ld, (xa - xb), (xc - xd));
-	}
-
 	/**
-	 * Form G(n,m)=I(n,0,m,0) intermediate values for a Rys polynomial
+	 * Form coulomb repulsion integral by Rys quadrature
 	 */
-	private final double[][] recur(double t, int la, int lb, int lc, int ld, double xa, double xb, double xc, double xd,
-			double aAlpha, double bAlpha, double cAlpha, double dAlpha) {
+	@Override
+	public double coulombRepulsion(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
+			Power bPower, double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d,
+			double dNorm, Power dPower, double dAlpha) {
 
-		final int n = la + lb;
-		final int m = lc + ld;
+		final int la = aPower.getL();
+		final int ma = aPower.getM();
+		final int na = aPower.getN();
 
-		double[][] g = new double[n + 1][m + 1];
+		final int lb = bPower.getL();
+		final int mb = bPower.getM();
+		final int nb = bPower.getN();
 
-		final double a = aAlpha + bAlpha;
-		final double b = cAlpha + dAlpha;
+		final int lc = cPower.getL();
+		final int mc = cPower.getM();
+		final int nc = cPower.getN();
 
-		final double pX = (aAlpha * xa + bAlpha * xb) / a;
-		final double qX = (cAlpha * xc + dAlpha * xd) / b;
+		final int ld = dPower.getL();
+		final int md = dPower.getM();
+		final int nd = dPower.getN();
 
-		// [ABD] eqs 12-14: recurFactors (from GAMESS)
-		final double fact = t / (a + b) / (1 + t);
+		final int nRoots = (la + ma + na + lb + nb + mb + lc + mc + nc + ld + md + nd) / 2 + 1;
 
-		final double B0 = 0.5 * fact;
-		final double B1 = 1 / (2 * a * (1 + t)) + 0.5 * fact;
-		final double B1p = 1 / (2 * b * (1 + t)) + 0.5 * fact;
+		double[] roots = new double[nRoots];
+		double[] weights = new double[nRoots];
 
-		final double C = (pX - xa) / (1 + t) + (b * (qX - xa) + a * (pX - xa)) * fact;
-		final double Cp = (qX - xc) / (1 + t) + (b * (qX - xc) + a * (pX - xc)) * fact;
+		final Vector3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
+		final Vector3D q = IntegralsUtil.gaussianProductCenter(cAlpha, c, dAlpha, d);
 
-		// [ABD] eq 11.
-		g[0][0] = FastMath.PI * FastMath.exp(-aAlpha * bAlpha * FastMath.pow(xa - xb, 2) / (aAlpha + bAlpha)
-				- cAlpha * dAlpha * FastMath.pow(xc - xd, 2) / (cAlpha + dAlpha)) / FastMath.sqrt(a * b);
+		// [ABD] eq. 4
+		final double radiusPQSquared = p.distanceSq(q);
 
-		if (n > 0) {
-			// [ABD] eq 15
-			g[1][0] = C * g[0][0];
+		final double gamma1 = aAlpha + bAlpha;
+		final double gamma2 = cAlpha + dAlpha;
+
+		// [ABD] eq. 4
+		final double rho = gamma1 * gamma2 / (gamma1 + gamma2);
+
+		final double X = radiusPQSquared * rho;
+
+		double iX = 0;
+		double iY = 0;
+		double iZ = 0;
+		double t = 0;
+
+		selectRoots(nRoots, X, roots, weights);
+
+		double sum = 0;
+		for (int i = 0; i < roots.length; i++) {
+			t = roots[i];
+
+			iX = int1d(t, la, lb, lc, ld, a.getX(), b.getX(), c.getX(), d.getX(), aAlpha, bAlpha, cAlpha, dAlpha);
+			iY = int1d(t, ma, mb, mc, md, a.getY(), b.getY(), c.getY(), d.getY(), aAlpha, bAlpha, cAlpha, dAlpha);
+			iZ = int1d(t, na, nb, nc, nd, a.getZ(), b.getZ(), c.getZ(), d.getZ(), aAlpha, bAlpha, cAlpha, dAlpha);
+
+			sum += iX * iY * iZ * weights[i];
 		}
 
-		if (m > 0) {
-			// [ABD] eq 16
-			g[0][1] = Cp * g[0][0];
-		}
+		// [ABD] eq. 9
+		return 2 * FastMath.sqrt(rho / FastMath.PI) * aNorm * bNorm * cNorm * dNorm * sum;
 
-		for (int i = 2; i < (n + 1); i++) {
-			g[i][0] = B1 * (i - 1) * g[i - 2][0] + C * g[i - 1][0];
-		}
-
-		for (int j = 2; j < (m + 1); j++) {
-			g[0][j] = B1p * (j - 1) * g[0][j - 2] + Cp * g[0][j - 1];
-		}
-
-		if ((m == 0) || (n == 0)) {
-			return g;
-		}
-
-		for (int i = 1; i < n + 1; i++) {
-			g[i][1] = i * B0 * g[i - 1][0] + Cp * g[i][0];
-			for (int j = 2; j < m + 1; j++)
-				g[i][j] = B1p * (j - 1) * g[i][j - 2] + i * B0 * g[i - 1][j - 1] + Cp * g[i][j - 1];
-		}
-
-		return g;
-	}
-
-	/**
-	 * Compute and output I(i,j,k,l) from I(i+j,0,k+l,0) (G)
-	 * 
-	 * xij = xi-xj, xkl = xk-xl
-	 */
-	private final double shift(final double[][] g, final int i, final int j, final int k, final int l, final double xij,
-			final double xkl) {
-		double ijkl;
-		double ijm0;
-		int m;
-		int n;
-
-		ijkl = 0;
-		for (m = 0; m < l + 1; m++) {
-			ijm0 = 0;
-			/* I(i,j,m,0)<-I(n,0,m,0) */
-			for (n = 0; n < j + 1; n++) {
-				ijm0 += CombinatoricsUtils.binomialCoefficient(j, n) * FastMath.pow(xij, (j - n)) * g[n + i][m + k];
-			}
-			/* I(i,j,k,l)<-I(i,j,m,0) */
-			ijkl += CombinatoricsUtils.binomialCoefficient(l, m) * FastMath.pow(xkl, (l - m)) * ijm0;
-		}
-		return ijkl;
 	}
 
 	private final void selectRoots(int nroots, double x, double[] roots, double[] weights) {
@@ -1406,70 +1377,99 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		weights[4] = ww5;
 	}
 
+	// Equ. 10
+	private final double int1d(double t, int la, int lb, int lc, int ld, double xa, double xb, double xc, double xd,
+			double aAlpha, double bAlpha, double cAlpha, double dAlpha) {
+
+		final double[][] g = recur(t, la, lb, lc, ld, xa, xb, xc, xd, aAlpha, bAlpha, cAlpha, dAlpha);
+		return shift(g, la, lb, lc, ld, (xa - xb), (xc - xd));
+	}
+
 	/**
-	 * Form coulomb repulsion integral by Rys quadrature
+	 * Form G(n,m)=I(n,0,m,0) intermediate values for a Rys polynomial
 	 */
-	@Override
-	public double coulombRepulsion(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
-			Power bPower, double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d,
-			double dNorm, Power dPower, double dAlpha) {
+	private final double[][] recur(double t, int la, int lb, int lc, int ld, double xa, double xb, double xc, double xd,
+			double aAlpha, double bAlpha, double cAlpha, double dAlpha) {
 
-		final int la = aPower.getL();
-		final int ma = aPower.getM();
-		final int na = aPower.getN();
+		final int n = la + lb;
+		final int m = lc + ld;
 
-		final int lb = bPower.getL();
-		final int mb = bPower.getM();
-		final int nb = bPower.getN();
+		double[][] g = new double[n + 1][m + 1];
 
-		final int lc = cPower.getL();
-		final int mc = cPower.getM();
-		final int nc = cPower.getN();
+		final double a = aAlpha + bAlpha;
+		final double b = cAlpha + dAlpha;
 
-		final int ld = dPower.getL();
-		final int md = dPower.getM();
-		final int nd = dPower.getN();
+		final double pX = (aAlpha * xa + bAlpha * xb) / a;
+		final double qX = (cAlpha * xc + dAlpha * xd) / b;
 
-		final int nRoots = (la + ma + na + lb + nb + mb + lc + mc + nc + ld + md + nd) / 2 + 1;
+		// [ABD] eqs 12-14: recurFactors (from GAMESS)
+		final double fact = t / (a + b) / (1 + t);
 
-		double[] roots = new double[nRoots];
-		double[] weights = new double[nRoots];
+		final double B0 = 0.5 * fact;
+		final double B1 = 1 / (2 * a * (1 + t)) + 0.5 * fact;
+		final double B1p = 1 / (2 * b * (1 + t)) + 0.5 * fact;
 
-		final Vector3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
-		final Vector3D q = IntegralsUtil.gaussianProductCenter(cAlpha, c, dAlpha, d);
+		final double C = (pX - xa) / (1 + t) + (b * (qX - xa) + a * (pX - xa)) * fact;
+		final double Cp = (qX - xc) / (1 + t) + (b * (qX - xc) + a * (pX - xc)) * fact;
 
-		// [ABD] eq. 4
-		final double radiusPQSquared = p.distanceSq(q);
+		// [ABD] eq 11.
+		g[0][0] = FastMath.PI * FastMath.exp(-aAlpha * bAlpha * FastMath.pow(xa - xb, 2) / (aAlpha + bAlpha)
+				- cAlpha * dAlpha * FastMath.pow(xc - xd, 2) / (cAlpha + dAlpha)) / FastMath.sqrt(a * b);
 
-		final double gamma1 = aAlpha + bAlpha;
-		final double gamma2 = cAlpha + dAlpha;
-
-		// [ABD] eq. 4
-		final double rho = gamma1 * gamma2 / (gamma1 + gamma2);
-
-		final double X = radiusPQSquared * rho;
-
-		double iX = 0;
-		double iY = 0;
-		double iZ = 0;
-		double t = 0;
-
-		selectRoots(nRoots, X, roots, weights);
-
-		double sum = 0;
-		for (int i = 0; i < roots.length; i++) {
-			t = roots[i];
-
-			iX = int1d(t, la, lb, lc, ld, a.getX(), b.getX(), c.getX(), d.getX(), aAlpha, bAlpha, cAlpha, dAlpha);
-			iY = int1d(t, ma, mb, mc, md, a.getY(), b.getY(), c.getY(), d.getY(), aAlpha, bAlpha, cAlpha, dAlpha);
-			iZ = int1d(t, na, nb, nc, nd, a.getZ(), b.getZ(), c.getZ(), d.getZ(), aAlpha, bAlpha, cAlpha, dAlpha);
-
-			sum += iX * iY * iZ * weights[i];
+		if (n > 0) {
+			// [ABD] eq 15
+			g[1][0] = C * g[0][0];
 		}
 
-		// [ABD] eq. 9
-		return 2 * FastMath.sqrt(rho / FastMath.PI) * aNorm * bNorm * cNorm * dNorm * sum;
+		if (m > 0) {
+			// [ABD] eq 16
+			g[0][1] = Cp * g[0][0];
+		}
 
+		for (int i = 2; i < (n + 1); i++) {
+			g[i][0] = B1 * (i - 1) * g[i - 2][0] + C * g[i - 1][0];
+		}
+
+		for (int j = 2; j < (m + 1); j++) {
+			g[0][j] = B1p * (j - 1) * g[0][j - 2] + Cp * g[0][j - 1];
+		}
+
+		if ((m == 0) || (n == 0)) {
+			return g;
+		}
+
+		for (int i = 1; i < n + 1; i++) {
+			g[i][1] = i * B0 * g[i - 1][0] + Cp * g[i][0];
+			for (int j = 2; j < m + 1; j++)
+				g[i][j] = B1p * (j - 1) * g[i][j - 2] + i * B0 * g[i - 1][j - 1] + Cp * g[i][j - 1];
+		}
+
+		return g;
+	}
+
+	/**
+	 * Compute and output I(i,j,k,l) from I(i+j,0,k+l,0) (G)
+	 * 
+	 * xij = xi-xj xkl = xk-xl
+	 */
+	private final double shift(final double[][] g, final int i, final int j, final int k, final int l, final double xij,
+			final double xkl) {
+		double ijkl;
+		double ijm0;
+		int m;
+		int n;
+
+		ijkl = 0;
+		for (m = 0; m < l + 1; m++) {
+			ijm0 = 0;
+			/* I(i,j,m,0)<-I(n,0,m,0) */
+			for (n = 0; n < j + 1; n++) {
+				ijm0 += CombinatoricsUtils.binomialCoefficient(j, n) * FastMath.pow(xij, (j - n)) * g[n + i][m + k];
+			}
+			/* I(i,j,k,l)<-I(i,j,m,0) */
+			ijkl += CombinatoricsUtils.binomialCoefficient(l, m) * FastMath.pow(xkl, (l - m)) * ijm0;
+		}
+		return ijkl;
 	}
 
 	@Override
