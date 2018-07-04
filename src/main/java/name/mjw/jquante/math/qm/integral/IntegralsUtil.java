@@ -98,7 +98,7 @@ public final class IntegralsUtil {
 
 		x = FastMath.max(FastMath.abs(x), SMALL);
 
-		return (0.5 * FastMath.pow(x, -m - 0.5) * gammaIncomplete(m + 0.5, x));
+		return (0.5 * FastMath.pow(x, -m - 0.5) * lowerIncompleteGamma(m + 0.5, x));
 	}
 
 	/**
@@ -112,7 +112,7 @@ public final class IntegralsUtil {
 	 *            The upper bound for the interval of integration
 	 * @return the incomplete gamma function P(a,x)
 	 */
-	public static double gammaIncomplete(final double a, final double x) {
+	public static double lowerIncompleteGamma(final double a, final double x) {
 		final double EPS = 3.0e-7;
 		final double FPMIN = 1.0e-30;
 		final int MAX_ITERATION = 100;

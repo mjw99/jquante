@@ -80,19 +80,19 @@ public class IntegralsUtilTest {
 
 	@Test
 	public void gammaIncompleteOne() {
-		assertEquals(1.49365, IntegralsUtil.gammaIncomplete(0.5, 1), delta);
+		assertEquals(1.49365, IntegralsUtil.lowerIncompleteGamma(0.5, 1), delta);
 
 	}
 
 	@Test
 	public void gammaIncompleteTwo() {
-		assertEquals(0.6545103, IntegralsUtil.gammaIncomplete(1.5, 2), delta);
+		assertEquals(0.6545103, IntegralsUtil.lowerIncompleteGamma(1.5, 2), delta);
 
 	}
 
 	@Test
 	public void gammaIncompleteThree() {
-		assertEquals(0, IntegralsUtil.gammaIncomplete(2.5, 1E-12), delta);
+		assertEquals(0, IntegralsUtil.lowerIncompleteGamma(2.5, 1E-12), delta);
 
 	}
 
