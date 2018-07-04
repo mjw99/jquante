@@ -29,8 +29,9 @@ public final class IntegralsUtil {
 	 * 
 	 * @return centre of resulting two-centre product Gaussian
 	 */
-	public static Vector3D gaussianProductCenter(double alpha1, Vector3D a, double alpha2, Vector3D b) {
-		double gamma = alpha1 + alpha2;
+	public static Vector3D gaussianProductCenter(final double alpha1, final Vector3D a, final double alpha2,
+			final Vector3D b) {
+		final double gamma = alpha1 + alpha2;
 		return new Vector3D((alpha1 * a.getX() + alpha2 * b.getX()) / gamma,
 				(alpha1 * a.getY() + alpha2 * b.getY()) / gamma, (alpha1 * a.getZ() + alpha2 * b.getZ()) / gamma);
 	}
@@ -92,7 +93,7 @@ public final class IntegralsUtil {
 	 *            The upper bound for the interval of integration
 	 * @return &Gamma;
 	 */
-	public static double computeFGamma(int m, double x) {
+	public static double computeFGamma(final int m, double x) {
 		final double SMALL = 0.00000001;
 
 		x = FastMath.max(FastMath.abs(x), SMALL);
@@ -111,71 +112,103 @@ public final class IntegralsUtil {
 	 *            The upper bound for the interval of integration
 	 * @return the incomplete gamma function P(a,x)
 	 */
-	public static double gammaIncomplete(double a, double x) {
+	public static double gammaIncomplete(final double a, final double x) {
 		final double EPS = 3.0e-7;
 		final double FPMIN = 1.0e-30;
 		final int MAX_ITERATION = 100;
 
-		double gammap;
-		double gln;
-
-		gln = logGamma(a);
+		final double gln = logGamma(a);
 
 		if (x < (a + 1.0)) {
-			// Computes the incomplete Gamma function by using the series representation.
-			// See NumRec sect 6.1.
-			if (x != 0.0) {
-				double ap = a;
-				double sum;
-				double delta = sum = 1.0 / a;
-
-				for (int i = 0; i < MAX_ITERATION; i++) {
-					ap++;
-					delta *= x / ap;
-					sum += delta;
-					if (FastMath.abs(delta) < FastMath.abs(sum) * EPS)
-						break;
-				}
-
-				gammap = sum * FastMath.exp(-x + a * FastMath.log(x) - gln);
-			} else {
-				gammap = 0.0;
-			}
+			return FastMath.exp(gln) * seriesMethod(a, x, EPS, MAX_ITERATION, gln);
 		} else {
-			// Computes the incomplete Gamma function by using the continued fraction
-			// representation. See NumRec sect 6.1
-			double b = (x + 1.0) - a;
-			double c = 1.0 / FPMIN;
-			double d = 1.0 / b;
-			double h = d;
-			double an;
-			double delta;
+			return FastMath.exp(gln) * continuedFractionMethod(a, x, EPS, FPMIN, MAX_ITERATION, gln);
+		}
 
-			for (int i = 1; i < (MAX_ITERATION + 1); i++) {
-				an = -i * (i - a);
-				b += 2.0;
-				d = an * d + b;
+	}
 
-				if (FastMath.abs(d) < FPMIN)
-					d = FPMIN;
+	/**
+	 * Computes the incomplete Gamma function by using the continued fraction
+	 * representation. See NumRec sect 6.1
+	 *
+	 * @param a
+	 *            The parameter of the integral
+	 * @param x
+	 *            The upper bound for the interval of integration
+	 * @param EPS
+	 * @param FPMIN
+	 * @param MAX_ITERATION
+	 * @param gln
+	 * @return
+	 */
+	private static double continuedFractionMethod(final double a, final double x, final double EPS, final double FPMIN,
+			final int MAX_ITERATION, final double gln) {
 
-				c = b + an / c;
+		double b = (x + 1.0) - a;
+		double c = 1.0 / FPMIN;
+		double d = 1.0 / b;
+		double h = d;
+		double an;
+		double delta;
 
-				if (FastMath.abs(c) < FPMIN)
-					c = FPMIN;
+		for (int i = 1; i < (MAX_ITERATION + 1); i++) {
+			an = -i * (i - a);
+			b += 2.0;
+			d = an * d + b;
 
-				d = 1.0 / d;
-				delta = d * c;
-				h *= delta;
+			if (FastMath.abs(d) < FPMIN) {
+				d = FPMIN;
+			}
 
-				if (FastMath.abs(delta - 1.0) < EPS)
+			c = b + an / c;
+
+			if (FastMath.abs(c) < FPMIN) {
+				c = FPMIN;
+			}
+
+			d = 1.0 / d;
+			delta = d * c;
+			h *= delta;
+
+			if (FastMath.abs(delta - 1.0) < EPS)
+				break;
+		}
+
+		return 1.0 - (FastMath.exp(-x + a * FastMath.log(x) - gln) * h);
+	}
+
+	/**
+	 * Computes the incomplete Gamma function by using the series representation.
+	 * See NumRec sect 6.1.
+	 *
+	 * @param a
+	 *            The parameter of the integral
+	 * @param x
+	 *            The upper bound for the interval of integration
+	 * @param EPS
+	 * @param MAX_ITERATION
+	 * @param gln
+	 * @return
+	 */
+	private static double seriesMethod(final double a, final double x, final double EPS, final int MAX_ITERATION,
+			final double gln) {
+		if (x != 0.0) {
+			double ap = a;
+			double sum;
+			double delta = sum = 1.0 / a;
+
+			for (int i = 0; i < MAX_ITERATION; i++) {
+				ap++;
+				delta *= x / ap;
+				sum += delta;
+				if (FastMath.abs(delta) < FastMath.abs(sum) * EPS)
 					break;
 			}
 
-			gammap = 1.0 - (FastMath.exp(-x + a * FastMath.log(x) - gln) * h);
+			return sum * FastMath.exp(-x + a * FastMath.log(x) - gln);
+		} else {
+			return 0.0;
 		}
-
-		return (FastMath.exp(gln) * gammap);
 	}
 
 	/**
@@ -185,7 +218,7 @@ public final class IntegralsUtil {
 	 *            Value
 	 * @return the complete Gamma(x) function
 	 */
-	public static double logGamma(double x) {
+	public static double logGamma(final double x) {
 		double y = x;
 		double tmp = x + 5.5;
 
