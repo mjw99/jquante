@@ -27,6 +27,10 @@ import net.jafama.FastMath;
  *
  */
 public class RysTwoElectronTerm extends TwoElectronTerm {
+
+	static int MAX_ROOTS = 16;
+	static int MAX_ROOTS_SQUARED = MAX_ROOTS * MAX_ROOTS;
+
 	/**
 	 * 2E coulomb interactions between 4 contracted Gaussians
 	 */
@@ -1375,6 +1379,92 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		weights[3] = ww4;
 		roots[4] = rt5;
 		weights[4] = ww5;
+	}
+
+	private final void Rroot(int nRoots, double x, double[] roots, double[] weights) {
+
+		int k;
+		int m;
+
+		double[] r = new double[MAX_ROOTS_SQUARED];
+		double[] w = new double[MAX_ROOTS_SQUARED];
+		double[] cs = new double[MAX_ROOTS_SQUARED];
+		double[] s = new double[MAX_ROOTS_SQUARED];
+		double[] rt = new double[MAX_ROOTS];
+		double[] a = new double[MAX_ROOTS];
+		double[] ff = new double[MAX_ROOTS * 2 + 1];
+
+		double root;
+		double poly;
+		double wsum;
+		double dum;
+
+		for (int i = 0; i < MAX_ROOTS_SQUARED; i++) {
+			ff[i] = IntegralsUtil.gammaIncomplete(x, i);
+		}
+
+		for (int j = 0; j < nRoots + 1; ++j) {
+			for (int i = 0; i < nRoots + 1; ++i) {
+				s[i + j * MAX_ROOTS] = ff[i + j];
+			}
+		}
+
+		wsum = ff[0];
+		w[0] = wsum;
+		r[0] = ff[1] / wsum;
+
+
+	}
+
+	static void rDsmit(double[] cs, double[] s, int n) {
+		int i;
+		int j;
+		int k;
+		int kmax;
+		double fac;
+		double dot;
+		double[] v = new double[MAX_ROOTS];
+		double[] y = {0};
+
+		for (i = 0; i < n; ++i) {
+			for (j = 0; j < i; ++j) {
+				cs[i + j * MAX_ROOTS] = 0;
+			}
+		}
+
+		for (j = 0; j < n; ++j) {
+			kmax = j;
+			fac = s[j + j * MAX_ROOTS];
+
+			if (kmax == 0) {
+				if (fac < 0) {
+					System.err.println("rys_roots negative value in sqrt for roots " + n);					
+				}
+				fac = 1 / FastMath.sqrt(fac);
+				cs[j + j * MAX_ROOTS] = fac;
+				for (k = 0; k < kmax; ++k) {
+					cs[k + j * MAX_ROOTS] = fac * v[k];
+				}
+			}
+
+			for (k = 0; k < kmax; ++k) {
+				v[k] = 0;
+			}
+
+			//y = s[j * MAX_ROOTS];
+
+			for (k = 0; k < kmax; ++k) {
+				dot = 0;
+				for (i = 0; i < k + 1; ++i) {
+					dot += cs[i + k * MAX_ROOTS] * y[i];
+				}
+				for (i = 0; i < k + 1; ++i) {
+					v[i] -= dot * cs[i + k * MAX_ROOTS];
+				}
+				fac -= dot * dot;
+			}
+
+		}
 	}
 
 	// Equ. 10
