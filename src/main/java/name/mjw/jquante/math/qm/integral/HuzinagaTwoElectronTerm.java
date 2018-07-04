@@ -223,8 +223,8 @@ public class HuzinagaTwoElectronTerm extends TwoElectronTerm {
 				* functionB(i2, l3, l4, qx, cx, dx, r2, gamma2)
 				* FastMath.pow(-1, u)
 				* MathUtil.factorialRatioSquared(i1 + i2 - 2 * (r1 + r2), u)
-				* FastMath.pow(qx - px, i1 + i2 - 2 * (r1 + r2) - 2 * u) / Math
-					.pow(delta, i1 + i2 - 2 * (r1 + r2) - u));
+				* FastMath.pow(qx - px, i1 + i2 - 2 * (r1 + r2) - 2d * u) / Math
+					.pow(delta, i1 + i2 - 2d * (r1 + r2) - u));
 	}
 
 	/**
