@@ -19,6 +19,7 @@ public class HGPTwoElectronTermTest {
 	ContractedGaussian cgtoS1;
 	ContractedGaussian cgtoP0;
 	ContractedGaussian cgtoD0;
+	ContractedGaussian cgtoF0;
 
 	@Before
 	public void setUp() {
@@ -38,6 +39,10 @@ public class HGPTwoElectronTermTest {
 		cgtoD0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(2, 0, 0));
 		cgtoD0.addPrimitive(1.0, 1.0);
 		cgtoD0.normalize();
+
+		cgtoF0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(3, 0, 0));
+		cgtoF0.addPrimitive(1.0, 1.0);
+		cgtoF0.normalize();
 	}
 
 	@Test
@@ -59,59 +64,64 @@ public class HGPTwoElectronTermTest {
 	public void sd00() {
 		assertEquals(0.8086717345109515, e2.coulomb(cgtoS0, cgtoS0, cgtoD0, cgtoD0), delta);
 	}
-	
+
+	@Test
+	public void sf00() {
+		assertEquals(0.7132968291998493, e2.coulomb(cgtoS0, cgtoS0, cgtoF0, cgtoF0), delta);
+	}
+
 	@Test
 	public void pd00() {
 		assertEquals(0.8583741496984647, e2.coulomb(cgtoP0, cgtoP0, cgtoD0, cgtoD0), delta);
 	}
-	
+
 	@Test
 	public void dd00() {
 		assertEquals(0.854418854766963, e2.coulomb(cgtoD0, cgtoD0, cgtoD0, cgtoD0), delta);
 	}
 
 	@Test
+	public void ff00() {
+		assertEquals(0.8186960564969021, e2.coulomb(cgtoF0, cgtoF0, cgtoF0, cgtoF0), delta);
+	}
+
+	@Test
 	public void vrrS0000() {
-		assertEquals(4.37335456733, e2.vrrWrapper(
-				new Vector3D(0, 0, 0), 1.0, new Power(0, 0, 0), 1.0,
-				new Vector3D(0, 0, 0), 1.0, 1.0,
-				new Vector3D(0, 0, 0), 1.0, new Power(0, 0, 0), 1.0,
-				new Vector3D(0, 0, 0), 1.0, 1.0, 0), delta);
+		assertEquals(4.37335456733,
+				e2.vrrWrapper(new Vector3D(0, 0, 0), 1.0, new Power(0, 0, 0), 1.0, new Vector3D(0, 0, 0), 1.0, 1.0,
+						new Vector3D(0, 0, 0), 1.0, new Power(0, 0, 0), 1.0, new Vector3D(0, 0, 0), 1.0, 1.0, 0),
+				delta);
 	}
 
 	@Test
 	public void vrrP0000() {
-		assertEquals(0.182223107579, e2.vrrWrapper(
-						new Vector3D(0, 0, 0), 1.0, new Power(1, 0, 0), 1.0,
-						new Vector3D(0, 0, 0), 1.0, 1.0,
-						new Vector3D(0, 0, 0), 1.0, new Power(1, 0, 0), 1.0,
-						new Vector3D(0, 0, 0), 1.0, 1.0, 0), delta);
+		assertEquals(0.182223107579,
+				e2.vrrWrapper(new Vector3D(0, 0, 0), 1.0, new Power(1, 0, 0), 1.0, new Vector3D(0, 0, 0), 1.0, 1.0,
+						new Vector3D(0, 0, 0), 1.0, new Power(1, 0, 0), 1.0, new Vector3D(0, 0, 0), 1.0, 1.0, 0),
+				delta);
 	}
 
 	@Test
 	public void vrrD0000() {
-		assertEquals(0.223223306785, e2.vrrWrapper(
-						new Vector3D(0, 0, 0), 1.0, new Power(2, 0, 0), 1.0,
-						new Vector3D(0, 0, 0), 1.0, 1.0,
-						new Vector3D(0, 0, 0), 1.0, new Power(2, 0, 0), 1.0,
-						new Vector3D(0, 0, 0), 1.0, 1.0, 0), delta);
+		assertEquals(0.223223306785,
+				e2.vrrWrapper(new Vector3D(0, 0, 0), 1.0, new Power(2, 0, 0), 1.0, new Vector3D(0, 0, 0), 1.0, 1.0,
+						new Vector3D(0, 0, 0), 1.0, new Power(2, 0, 0), 1.0, new Vector3D(0, 0, 0), 1.0, 1.0, 0),
+				delta);
 	}
 
 	@Test
 	public void vrrP1000() {
-		assertEquals(-5.63387712455e-06, e2.vrrWrapper(
-						new Vector3D(1, 2, 3), 1.0, new Power(1, 0, 0), 1.0,
-						new Vector3D(0, 0, 0), 1.0, 1.0,
-						new Vector3D(0, 0, 0), 1.0, new Power(1, 0, 0), 1.0,
-						new Vector3D(0, 0, 0), 1.0, 1.0, 0), delta);
+		assertEquals(-5.63387712455e-06,
+				e2.vrrWrapper(new Vector3D(1, 2, 3), 1.0, new Power(1, 0, 0), 1.0, new Vector3D(0, 0, 0), 1.0, 1.0,
+						new Vector3D(0, 0, 0), 1.0, new Power(1, 0, 0), 1.0, new Vector3D(0, 0, 0), 1.0, 1.0, 0),
+				delta);
 	}
 
 	@Test
 	public void vrrD1000() {
-		assertEquals(0.00022503308545040895, e2.vrrWrapper(
-						new Vector3D(1, 2, 3), 1.0, new Power(2, 0, 0), 1.0,
-						new Vector3D(0, 0, 0), 1.0, 1.0,
-						new Vector3D(0, 0, 0), 1.0, new Power(2, 0, 0), 1.0, 
-						new Vector3D(0, 0, 0), 1.0, 1.0, 0), delta);
+		assertEquals(0.00022503308545040895,
+				e2.vrrWrapper(new Vector3D(1, 2, 3), 1.0, new Power(2, 0, 0), 1.0, new Vector3D(0, 0, 0), 1.0, 1.0,
+						new Vector3D(0, 0, 0), 1.0, new Power(2, 0, 0), 1.0, new Vector3D(0, 0, 0), 1.0, 1.0, 0),
+				delta);
 	}
 }

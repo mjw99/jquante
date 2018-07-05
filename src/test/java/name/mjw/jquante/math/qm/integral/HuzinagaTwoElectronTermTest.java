@@ -20,6 +20,7 @@ public class HuzinagaTwoElectronTermTest {
 	ContractedGaussian cgtoS1;
 	ContractedGaussian cgtoP0;
 	ContractedGaussian cgtoD0;
+	ContractedGaussian cgtoF0;
 
 	@Before
 	public void setUp() {
@@ -39,6 +40,10 @@ public class HuzinagaTwoElectronTermTest {
 		cgtoD0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(2, 0, 0));
 		cgtoD0.addPrimitive(1.0, 1.0);
 		cgtoD0.normalize();
+
+		cgtoF0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(3, 0, 0));
+		cgtoF0.addPrimitive(1.0, 1.0);
+		cgtoF0.normalize();
 	}
 
 	@Test
@@ -62,6 +67,11 @@ public class HuzinagaTwoElectronTermTest {
 	}
 
 	@Test
+	public void sf00() {
+		assertEquals(0.7132968291998493, e2.coulomb(cgtoS0, cgtoS0, cgtoF0, cgtoF0), delta);
+	}
+
+	@Test
 	public void pd00() {
 		assertEquals(0.8583741496984647, e2.coulomb(cgtoP0, cgtoP0, cgtoD0, cgtoD0), delta);
 	}
@@ -69,5 +79,10 @@ public class HuzinagaTwoElectronTermTest {
 	@Test
 	public void dd00() {
 		assertEquals(0.854418854766963, e2.coulomb(cgtoD0, cgtoD0, cgtoD0, cgtoD0), delta);
+	}
+
+	@Test
+	public void ff00() {
+		assertEquals(0.8186960564969021, e2.coulomb(cgtoF0, cgtoF0, cgtoF0, cgtoF0), delta);
 	}
 }
