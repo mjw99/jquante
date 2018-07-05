@@ -28,8 +28,8 @@ import net.jafama.FastMath;
  */
 public class RysTwoElectronTerm extends TwoElectronTerm {
 
-	static int MAX_ROOTS = 16;
-	static int MAX_ROOTS_SQUARED = MAX_ROOTS * MAX_ROOTS;
+	static final int MAX_ROOTS = 16;
+	static final int MAX_ROOTS_SQUARED = MAX_ROOTS * MAX_ROOTS;
 
 	/**
 	 * 2E coulomb interactions between 4 contracted Gaussians
@@ -211,6 +211,13 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 			break;
 		case 5:
 			root5(x, roots, weights);
+			break;
+
+		case 6:
+		case 7:
+		case 8:
+		case 9:
+			Rroot(nroots, x, roots, weights);
 			break;
 
 		default:
@@ -1383,12 +1390,12 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 	private final void Rroot(int nRoots, double x, double[] roots, double[] weights) {
 
-		int k;
 		int m;
 
 		double[] r = new double[MAX_ROOTS_SQUARED];
 		double[] w = new double[MAX_ROOTS_SQUARED];
 		double[] cs = new double[MAX_ROOTS_SQUARED];
+
 		double[] s = new double[MAX_ROOTS_SQUARED];
 		double[] rt = new double[MAX_ROOTS];
 		double[] a = new double[MAX_ROOTS];
@@ -1399,7 +1406,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		double wsum;
 		double dum;
 
-		for (int i = 0; i < MAX_ROOTS_SQUARED; i++) {
+		for (int i = 0; i < MAX_ROOTS * 2 + 1; i++) {
 			ff[i] = IntegralsUtil.gammaIncomplete(x, i);
 		}
 
@@ -1409,10 +1416,59 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 			}
 		}
 
+		rDsmit(cs, s, nRoots + 1);
+
 		wsum = ff[0];
 		w[0] = wsum;
 		r[0] = ff[1] / wsum;
 
+		dum = FastMath.sqrt(
+				cs[2 * MAX_ROOTS + 1] * cs[2 * MAX_ROOTS + 1] - 4 * cs[2 * MAX_ROOTS + 0] * cs[2 * MAX_ROOTS + 2]);
+		r[MAX_ROOTS] = .5 * (-cs[2 * MAX_ROOTS + 1] - dum) / cs[2 * MAX_ROOTS + 2];
+		r[MAX_ROOTS + 1] = .5 * (-cs[2 * MAX_ROOTS + 1] + dum) / cs[2 * MAX_ROOTS + 2];
+
+		// TODO
+		// if (nroots == 2) {
+		// goto L70;
+		// }
+
+		for (int i = 2; i < nRoots + 1; ++i) {
+			rt[i] = 1;
+		}
+		rt[0] = r[MAX_ROOTS];
+		rt[1] = r[MAX_ROOTS + 1];
+		for (int k = 2; k < nRoots; ++k) {
+			for (int i = 0; i < k + 2; ++i) {
+				a[i] = cs[i + (k + 1) * MAX_ROOTS];
+			}
+
+			R_dnode(a, rt, k + 1);
+
+			for (int i = 0; i < k + 2; ++i) {
+				r[i + k * MAX_ROOTS] = rt[i];
+			}
+		}
+
+		for (int k = 1; k < nRoots; ++k) {
+			for (int i = 0; i < k + 1; ++i) {
+				root = r[i + k * MAX_ROOTS];
+				dum = 1 / ff[0];
+				for (int j = 1; j <= k; ++j) {
+					poly = cs[j + j * MAX_ROOTS];
+					for (m = 1; m <= j; ++m) {
+						poly = poly * root + cs[j - m + j * MAX_ROOTS];
+					}
+					dum += poly * poly;
+				}
+				w[i + k * MAX_ROOTS] = 1 / dum;
+			}
+		}
+
+		for (int k = 0; k < nRoots; ++k) {
+			dum = r[k + (nRoots - 1) * MAX_ROOTS];
+			roots[k] = dum / (1 - dum);
+			weights[k] = w[k + (nRoots - 1) * MAX_ROOTS];
+		}
 
 	}
 
@@ -1421,11 +1477,13 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		int j;
 		int k;
 		int kmax;
+
 		double fac;
 		double dot;
 		double[] v = new double[MAX_ROOTS];
-		double[] y = {0};
+		double[] y = new double[MAX_ROOTS*n];
 
+		// Is this zeroing needed?
 		for (i = 0; i < n; ++i) {
 			for (j = 0; j < i; ++j) {
 				cs[i + j * MAX_ROOTS] = 0;
@@ -1437,21 +1495,24 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 			fac = s[j + j * MAX_ROOTS];
 
 			if (kmax == 0) {
+				// L60
 				if (fac < 0) {
-					System.err.println("rys_roots negative value in sqrt for roots " + n);					
+					System.err.println("rys_roots negative value in sqrt for roots " + n);
 				}
 				fac = 1 / FastMath.sqrt(fac);
 				cs[j + j * MAX_ROOTS] = fac;
 				for (k = 0; k < kmax; ++k) {
 					cs[k + j * MAX_ROOTS] = fac * v[k];
 				}
+				break;
 			}
 
 			for (k = 0; k < kmax; ++k) {
 				v[k] = 0;
 			}
 
-			//y = s[j * MAX_ROOTS];
+			// y = &s[j * MXROOTS1];
+			System.arraycopy(s, 0, y, 0, s.length);
 
 			for (k = 0; k < kmax; ++k) {
 				dot = 0;
@@ -1464,7 +1525,113 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 				fac -= dot * dot;
 			}
 
+			if (fac < 0) {
+				System.err.println("rys_roots negative value in sqrt for roots " + n);
+			}
+			fac = 1 / FastMath.sqrt(fac);
+			cs[j + j * MAX_ROOTS] = fac;
+			for (k = 0; k < kmax; ++k) {
+				cs[k + j * MAX_ROOTS] = fac * v[k];
+			}
+
 		}
+	}
+
+	static void R_dnode(double[] a, double[] rt, int order) {
+
+		final double accrt = 1e-15;
+		double x0;
+		double x1;
+		double xi;
+		double x1init;
+		double p0;
+		double p1;
+		double pi = 0;
+		double p1init;
+		int n;
+
+		x1init = 0;
+		p1init = a[0];
+
+		for (int m = 0; m < order; ++m) {
+			x0 = x1init;
+			p0 = p1init;
+			x1init = rt[m];
+			// POLYNOMIAL_VALUE1(p1init, x1init);
+			p1init = a[order];
+			for (int i = 1; i <= order; i++) {
+				p1init = p1init * x1init + a[order - i];
+			}
+
+			if (p0 * p1init > 0) {
+				System.err.println("ROOT NUMBER " + m + " WAS NOT FOUND FOR POLYNOMIAL OF ORDER " + order);
+				System.exit(0);
+			}
+
+			if (x0 <= x1init) {
+				x1 = x1init;
+				p1 = p1init;
+			} else {
+				x1 = x0;
+				p1 = p0;
+				x0 = x1init;
+				p0 = p1init;
+			}
+			// interpolate/extrapolate between [x0,x1]
+			if (p0 == 0) {
+				rt[m] = x0;
+				continue;
+			} else if (p1 == 0) {
+				rt[m] = x1;
+				continue;
+			} else {
+				xi = x0 + (x0 - x1) / (p1 - p0) * p0;
+			}
+			n = 0;
+			while (x1 > accrt + x0 || x0 > x1 + accrt) {
+				n++;
+				if (n > 200) {
+					System.err.println("libcint::rys_roots NO CONV. IN R_dnode\n");
+					System.exit(0);
+				}
+				// POLYNOMIAL_VALUE1(pi, xi);
+				pi = a[order];
+				for (int i = 1; i <= order; i++) {
+					pi = pi * xi + a[order - i];
+				}
+
+				if (pi == 0) {
+					break;
+				} else if (p0 * pi <= 0) {
+					x1 = xi;
+					p1 = pi;
+					xi = x0 * .25 + xi * .75;
+				} else {
+					x0 = xi;
+					p0 = pi;
+					xi = xi * .75 + x1 * .25;
+				}
+				// POLYNOMIAL_VALUE1(pi, xi);
+				pi = a[order];
+				for (int i = 1; i <= order; i++) {
+					pi = pi * xi + a[order - i];
+				}
+
+				if (pi == 0) {
+					break;
+				} else if (p0 * pi <= 0) {
+					x1 = xi;
+					p1 = pi;
+				} else {
+					x0 = xi;
+					p0 = pi;
+				}
+
+				xi = x0 + (x0 - x1) / (p1 - p0) * p0;
+			}
+			rt[m] = xi;
+		}
+
 	}
 
 	// Equ. 10
