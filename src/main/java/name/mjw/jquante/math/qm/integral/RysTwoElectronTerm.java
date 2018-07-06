@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.special.Erf;
 import org.apache.commons.math3.util.CombinatoricsUtils;
 
 import name.mjw.jquante.math.qm.Density;
@@ -212,7 +213,6 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		case 5:
 			root5(x, roots, weights);
 			break;
-
 		case 6:
 		case 7:
 		case 8:
@@ -1405,10 +1405,8 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		double poly;
 		double wsum;
 		double dum;
-
-		for (int i = 0; i < MAX_ROOTS * 2 + 1; i++) {
-			ff[i] = IntegralsUtil.gammaIncomplete(x, i);
-		}
+		
+		ff = gamma_inc_like(x,  MAX_ROOTS * 2);
 
 		for (int j = 0; j < nRoots + 1; ++j) {
 			for (int i = 0; i < nRoots + 1; ++i) {
@@ -1424,19 +1422,18 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 		dum = FastMath.sqrt(
 				cs[2 * MAX_ROOTS + 1] * cs[2 * MAX_ROOTS + 1] - 4 * cs[2 * MAX_ROOTS + 0] * cs[2 * MAX_ROOTS + 2]);
+		
 		r[MAX_ROOTS] = .5 * (-cs[2 * MAX_ROOTS + 1] - dum) / cs[2 * MAX_ROOTS + 2];
+		
 		r[MAX_ROOTS + 1] = .5 * (-cs[2 * MAX_ROOTS + 1] + dum) / cs[2 * MAX_ROOTS + 2];
-
-		// TODO
-		// if (nroots == 2) {
-		// goto L70;
-		// }
 
 		for (int i = 2; i < nRoots + 1; ++i) {
 			rt[i] = 1;
 		}
+
 		rt[0] = r[MAX_ROOTS];
 		rt[1] = r[MAX_ROOTS + 1];
+
 		for (int k = 2; k < nRoots; ++k) {
 			for (int i = 0; i < k + 2; ++i) {
 				a[i] = cs[i + (k + 1) * MAX_ROOTS];
@@ -1481,14 +1478,14 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		double fac;
 		double dot;
 		double[] v = new double[MAX_ROOTS];
-		double[] y = new double[MAX_ROOTS*n];
+		double[] y = new double[MAX_ROOTS * n];
 
 		// Is this zeroing needed?
-		for (i = 0; i < n; ++i) {
-			for (j = 0; j < i; ++j) {
-				cs[i + j * MAX_ROOTS] = 0;
-			}
-		}
+//		for (i = 0; i < n; ++i) {
+//			for (j = 0; j < i; ++j) {
+//				cs[i + j * MAX_ROOTS] = 0;
+//			}
+//		}
 
 		for (j = 0; j < n; ++j) {
 			kmax = j;
@@ -1727,6 +1724,49 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 			ijkl += CombinatoricsUtils.binomialCoefficient(l, m) * FastMath.pow(xkl, (l - m)) * ijm0;
 		}
 		return ijkl;
+	}
+
+	double[] gamma_inc_like(double t, int m) {
+		
+		System.out.println("gamma_inc_like : t is " + t + " m is " + m);
+		double[] f = new double[MAX_ROOTS * 2 + 1];
+		
+		final double SQRTPIE4 = .8862269254527580136490837416705725913987747280611935641069038949264;
+		
+		int i;
+		if (t < m + 1.5) {
+			double b = m + 0.5;
+			double x = 1;
+			double s = 1;
+			double e = .5 * Math.exp(-t);
+			if (t < 10E-5) {
+				f[m] = .5 / b;
+			} else {
+				for (i = 1; x > 1.0e-16; i++) {
+					x *= t / (b + i);
+					s += x;
+				}
+				f[m] = e * s / b;
+			}
+			if (m > 0) {
+				for (i = m; i > 0; i--) {
+					b -= 1;
+					f[i - 1] = (e + t * f[i]) / b;
+				}
+			}
+		} else {
+			double pi2 = SQRTPIE4;
+			double tt = Math.sqrt(t);
+			f[0] = pi2 / tt * Erf.erf(tt);
+			if (m > 0) {
+				double e = Math.exp(-t);
+				double b = .5 / t;
+				for (i = 1; i <= m; i++)
+					f[i] = b * ((2 * i - 1) * f[i - 1] - e);
+			}
+		}
+		
+		return f;
 	}
 
 	@Override
