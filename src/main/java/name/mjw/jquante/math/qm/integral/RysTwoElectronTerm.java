@@ -222,7 +222,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 			break;
 
 		default:
-			throw new UnsupportedOperationException("nroot > 5 is not supported yet.");
+			throw new UnsupportedOperationException("nroot > 9 is not supported yet.");
 		}
 
 	}
@@ -1471,16 +1471,13 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 	}
 
 	static void rDsmit(double[] cs, double[] s, int n) {
-		int i;
-		int j;
-		int k;
 		int kmax;
 
 		double fac;
 		double dot;
 		double[] v = new double[MAX_ROOTS];
 
-		for (j = 0; j < n; ++j) {
+		for (int j = 0; j < n; ++j) {
 			//
 
 			kmax = j;
@@ -1495,14 +1492,14 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 				fac = 1 / FastMath.sqrt(fac);
 				cs[j + j * MAX_ROOTS] = fac;
-				for (k = 0; k < kmax; ++k) {
+				for (int k = 0; k < kmax; ++k) {
 					cs[k + j * MAX_ROOTS] = fac * v[k];
 				}
 				continue;
 
 			}
 
-			for (k = 0; k < kmax; ++k) {
+			for (int k = 0; k < kmax; ++k) {
 				v[k] = 0;
 			}
 
@@ -1511,12 +1508,12 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 			y = Arrays.copyOfRange(s, (j * MAX_ROOTS), (j * MAX_ROOTS) * 2);
 
-			for (k = 0; k < kmax; ++k) {
+			for (int k = 0; k < kmax; ++k) {
 				dot = 0;
-				for (i = 0; i < k + 1; ++i) {
+				for (int i = 0; i < k + 1; ++i) {
 					dot += cs[i + k * MAX_ROOTS] * y[i];
 				}
-				for (i = 0; i < k + 1; ++i) {
+				for (int i = 0; i < k + 1; ++i) {
 					v[i] -= dot * cs[i + k * MAX_ROOTS];
 				}
 				fac -= dot * dot;
@@ -1529,7 +1526,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 			}
 			fac = 1 / FastMath.sqrt(fac);
 			cs[j + j * MAX_ROOTS] = fac;
-			for (k = 0; k < kmax; ++k) {
+			for (int k = 0; k < kmax; ++k) {
 				cs[k + j * MAX_ROOTS] = fac * v[k];
 			}
 
