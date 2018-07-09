@@ -16,7 +16,7 @@ public class IntegralsPackageFactory {
 	private TwoElectronTerm twoElectronTerm;
 
 	private IntegralsPackageFactory() {
-		defaultTwoElectronIntegralPackage = IntegralPackageType.TWO_ELECTRON_HUZINAGA;
+		defaultTwoElectronIntegralPackage = IntegralPackageType.TWO_ELECTRON_RYS;
 	}
 
 	/**
