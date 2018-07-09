@@ -1391,8 +1391,6 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 	private static final void rRoot(int nRoots, double x, double[] roots, double[] weights) {
 
-		int m;
-
 		double[] r = new double[MAX_ROOTS_SQUARED];
 		double[] w = new double[MAX_ROOTS_SQUARED];
 		double[] cs;
@@ -1409,6 +1407,10 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 		ff = gamma_inc_like(x, MAX_ROOTS * 2);
 
+		wsum = ff[0];
+		w[0] = wsum;
+		r[0] = ff[1] / wsum;
+
 		for (int j = 0; j < nRoots + 1; ++j) {
 			for (int i = 0; i < nRoots + 1; ++i) {
 				s[i + j * MAX_ROOTS] = ff[i + j];
@@ -1416,10 +1418,6 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		}
 
 		cs = rDsmit(s, nRoots + 1);
-
-		wsum = ff[0];
-		w[0] = wsum;
-		r[0] = ff[1] / wsum;
 
 		dum = FastMath.sqrt(
 				cs[2 * MAX_ROOTS + 1] * cs[2 * MAX_ROOTS + 1] - 4 * cs[2 * MAX_ROOTS + 0] * cs[2 * MAX_ROOTS + 2]);
@@ -1453,7 +1451,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 				dum = 1 / ff[0];
 				for (int j = 1; j <= k; ++j) {
 					poly = cs[j + j * MAX_ROOTS];
-					for (m = 1; m <= j; ++m) {
+					for (int m = 1; m <= j; ++m) {
 						poly = poly * root + cs[j - m + j * MAX_ROOTS];
 					}
 					dum += poly * poly;
@@ -1587,8 +1585,8 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 			n = 0;
 			while (x1 > accrt + x0 || x0 > x1 + accrt) {
 				n++;
-				if (n > 200) {
-					System.err.println("libcint::rys_roots NO CONV. IN R_dnode\n");
+				if (n > 50) {
+					System.err.println("No convergence in rNode\n");
 					System.exit(0);
 				}
 				// POLYNOMIAL_VALUE1(pi, xi);
