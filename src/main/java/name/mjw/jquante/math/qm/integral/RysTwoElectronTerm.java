@@ -1734,7 +1734,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 			double b = m + 0.5;
 			double x = 1;
 			double s = 1;
-			double e = .5 * Math.exp(-t);
+			double e = .5 * FastMath.exp(-t);
 			if (t < 10E-5) {
 				f[m] = .5 / b;
 			} else {
@@ -1752,10 +1752,10 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 			}
 		} else {
 			double pi2 = SQRTPIE4;
-			double tt = Math.sqrt(t);
+			double tt = FastMath.sqrt(t);
 			f[0] = pi2 / tt * Erf.erf(tt);
 			if (m > 0) {
-				double e = Math.exp(-t);
+				double e = FastMath.exp(-t);
 				double b = .5 / t;
 				for (int i = 1; i <= m; i++)
 					f[i] = b * ((2 * i - 1) * f[i - 1] - e);
