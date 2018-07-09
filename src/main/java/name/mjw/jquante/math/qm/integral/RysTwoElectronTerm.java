@@ -1,6 +1,7 @@
 package name.mjw.jquante.math.qm.integral;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.linear.RealMatrix;
@@ -1399,14 +1400,14 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		double[] s = new double[MAX_ROOTS_SQUARED];
 		double[] rt = new double[MAX_ROOTS];
 		double[] a = new double[MAX_ROOTS];
-		double[] ff = new double[MAX_ROOTS * 2 + 1];
+		double[] ff;
 
 		double root;
 		double poly;
 		double wsum;
 		double dum;
-		
-		ff = gamma_inc_like(x,  MAX_ROOTS * 2);
+
+		ff = gamma_inc_like(x, MAX_ROOTS * 2);
 
 		for (int j = 0; j < nRoots + 1; ++j) {
 			for (int i = 0; i < nRoots + 1; ++i) {
@@ -1422,9 +1423,9 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 		dum = FastMath.sqrt(
 				cs[2 * MAX_ROOTS + 1] * cs[2 * MAX_ROOTS + 1] - 4 * cs[2 * MAX_ROOTS + 0] * cs[2 * MAX_ROOTS + 2]);
-		
+
 		r[MAX_ROOTS] = .5 * (-cs[2 * MAX_ROOTS + 1] - dum) / cs[2 * MAX_ROOTS + 2];
-		
+
 		r[MAX_ROOTS + 1] = .5 * (-cs[2 * MAX_ROOTS + 1] + dum) / cs[2 * MAX_ROOTS + 2];
 
 		for (int i = 2; i < nRoots + 1; ++i) {
@@ -1478,30 +1479,27 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		double fac;
 		double dot;
 		double[] v = new double[MAX_ROOTS];
-		double[] y = new double[MAX_ROOTS * n];
-
-		// Is this zeroing needed?
-//		for (i = 0; i < n; ++i) {
-//			for (j = 0; j < i; ++j) {
-//				cs[i + j * MAX_ROOTS] = 0;
-//			}
-//		}
 
 		for (j = 0; j < n; ++j) {
+			//
+
 			kmax = j;
 			fac = s[j + j * MAX_ROOTS];
 
 			if (kmax == 0) {
-				// L60
+				// goto L60;
 				if (fac < 0) {
 					System.err.println("rys_roots negative value in sqrt for roots " + n);
+					System.exit(0);
 				}
+
 				fac = 1 / FastMath.sqrt(fac);
 				cs[j + j * MAX_ROOTS] = fac;
 				for (k = 0; k < kmax; ++k) {
 					cs[k + j * MAX_ROOTS] = fac * v[k];
 				}
-				break;
+				continue;
+
 			}
 
 			for (k = 0; k < kmax; ++k) {
@@ -1509,7 +1507,9 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 			}
 
 			// y = &s[j * MXROOTS1];
-			System.arraycopy(s, 0, y, 0, s.length);
+			double[] y;
+
+			y = Arrays.copyOfRange(s, (j * MAX_ROOTS), (j * MAX_ROOTS) * 2);
 
 			for (k = 0; k < kmax; ++k) {
 				dot = 0;
@@ -1522,8 +1522,10 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 				fac -= dot * dot;
 			}
 
+			// L60:
 			if (fac < 0) {
 				System.err.println("rys_roots negative value in sqrt for roots " + n);
+				System.exit(0);
 			}
 			fac = 1 / FastMath.sqrt(fac);
 			cs[j + j * MAX_ROOTS] = fac;
@@ -1532,6 +1534,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 			}
 
 		}
+
 	}
 
 	static void R_dnode(double[] a, double[] rt, int order) {
@@ -1727,12 +1730,11 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 	}
 
 	double[] gamma_inc_like(double t, int m) {
-		
-		System.out.println("gamma_inc_like : t is " + t + " m is " + m);
+
 		double[] f = new double[MAX_ROOTS * 2 + 1];
-		
+
 		final double SQRTPIE4 = .8862269254527580136490837416705725913987747280611935641069038949264;
-		
+
 		int i;
 		if (t < m + 1.5) {
 			double b = m + 0.5;
@@ -1765,7 +1767,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 					f[i] = b * ((2 * i - 1) * f[i - 1] - e);
 			}
 		}
-		
+
 		return f;
 	}
 
