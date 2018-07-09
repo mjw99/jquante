@@ -196,7 +196,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 	}
 
-	private final void selectRoots(int nroots, double x, double[] roots, double[] weights) {
+	private static final void selectRoots(int nroots, double x, double[] roots, double[] weights) {
 		switch (nroots) {
 
 		case 1:
@@ -227,7 +227,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 	}
 
-	private final void root1(double x, double[] roots, double[] weights) {
+	private static final void root1(double x, double[] roots, double[] weights) {
 
 		double rt1;
 		double ww1;
@@ -308,7 +308,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 	}
 
-	private final void root2(double x, double[] roots, double[] weights) {
+	private static final void root2(double x, double[] roots, double[] weights) {
 		double rt1;
 		double rt2;
 		double ww1;
@@ -465,7 +465,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 	}
 
-	private final void root3(double x, double[] roots, double[] weights) {
+	private static final void root3(double x, double[] roots, double[] weights) {
 		double rt1;
 		double rt2;
 		double rt3;
@@ -729,7 +729,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 	}
 
-	private final void root4(double x, double[] roots, double[] weights) {
+	private static final void root4(double x, double[] roots, double[] weights) {
 		double rt1;
 		double rt2;
 		double rt3;
@@ -1007,7 +1007,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		weights[3] = ww4;
 	}
 
-	private final void root5(double x, double[] roots, double[] weights) {
+	private static final void root5(double x, double[] roots, double[] weights) {
 		double rt1;
 		double rt2;
 		double rt3;
@@ -1389,13 +1389,13 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		weights[4] = ww5;
 	}
 
-	private final void Rroot(int nRoots, double x, double[] roots, double[] weights) {
+	private static final void Rroot(int nRoots, double x, double[] roots, double[] weights) {
 
 		int m;
 
 		double[] r = new double[MAX_ROOTS_SQUARED];
 		double[] w = new double[MAX_ROOTS_SQUARED];
-		double[] cs = new double[MAX_ROOTS_SQUARED];
+		double[] cs;
 
 		double[] s = new double[MAX_ROOTS_SQUARED];
 		double[] rt = new double[MAX_ROOTS];
@@ -1415,7 +1415,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 			}
 		}
 
-		rDsmit(cs, s, nRoots + 1);
+		cs = rDsmit(s, nRoots + 1);
 
 		wsum = ff[0];
 		w[0] = wsum;
@@ -1470,17 +1470,15 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 	}
 
-	static void rDsmit(double[] cs, double[] s, int n) {
-		int kmax;
-
+	private static final double[] rDsmit(final double[] s, final int n) {
 		double fac;
 		double dot;
+
 		double[] v = new double[MAX_ROOTS];
+		double[] cs = new double[MAX_ROOTS_SQUARED];
 
 		for (int j = 0; j < n; ++j) {
-			//
-
-			kmax = j;
+			int kmax = j;
 			fac = s[j + j * MAX_ROOTS];
 
 			if (kmax == 0) {
@@ -1524,7 +1522,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 				System.err.println("rys_roots negative value in sqrt for roots " + n);
 				System.exit(0);
 			}
-			fac = 1 / FastMath.sqrt(fac);
+			fac = 1 / Math.sqrt(fac);
 			cs[j + j * MAX_ROOTS] = fac;
 			for (int k = 0; k < kmax; ++k) {
 				cs[k + j * MAX_ROOTS] = fac * v[k];
@@ -1532,9 +1530,11 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 		}
 
+		return cs;
+
 	}
 
-	static void R_dnode(double[] a, double[] rt, int order) {
+	private static final void R_dnode(final double[] a, final double[] rt, final int order) {
 
 		final double accrt = 1e-15;
 		double x0;
@@ -1642,7 +1642,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 	/**
 	 * Form G(n,m)=I(n,0,m,0) intermediate values for a Rys polynomial
 	 */
-	private final double[][] recur(double t, int la, int lb, int lc, int ld, double xa, double xb, double xc, double xd,
+	private static final double[][] recur(double t, int la, int lb, int lc, int ld, double xa, double xb, double xc, double xd,
 			double aAlpha, double bAlpha, double cAlpha, double dAlpha) {
 
 		final int n = la + lb;
@@ -1726,13 +1726,12 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		return ijkl;
 	}
 
-	double[] gamma_inc_like(double t, int m) {
+	static final double[] gamma_inc_like(final double t, final int m) {
 
 		double[] f = new double[MAX_ROOTS * 2 + 1];
 
 		final double SQRTPIE4 = .8862269254527580136490837416705725913987747280611935641069038949264;
 
-		int i;
 		if (t < m + 1.5) {
 			double b = m + 0.5;
 			double x = 1;
@@ -1741,14 +1740,14 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 			if (t < 10E-5) {
 				f[m] = .5 / b;
 			} else {
-				for (i = 1; x > 1.0e-16; i++) {
+				for (int i = 1; x > 1.0e-16; i++) {
 					x *= t / (b + i);
 					s += x;
 				}
 				f[m] = e * s / b;
 			}
 			if (m > 0) {
-				for (i = m; i > 0; i--) {
+				for (int i = m; i > 0; i--) {
 					b -= 1;
 					f[i - 1] = (e + t * f[i]) / b;
 				}
@@ -1760,7 +1759,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 			if (m > 0) {
 				double e = Math.exp(-t);
 				double b = .5 / t;
-				for (i = 1; i <= m; i++)
+				for (int i = 1; i <= m; i++)
 					f[i] = b * ((2 * i - 1) * f[i - 1] - e);
 			}
 		}
