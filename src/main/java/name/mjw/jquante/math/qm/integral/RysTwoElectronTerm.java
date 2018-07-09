@@ -218,7 +218,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		case 7:
 		case 8:
 		case 9:
-			Rroot(nroots, x, roots, weights);
+			rRoot(nroots, x, roots, weights);
 			break;
 
 		default:
@@ -1389,7 +1389,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		weights[4] = ww5;
 	}
 
-	private static final void Rroot(int nRoots, double x, double[] roots, double[] weights) {
+	private static final void rRoot(int nRoots, double x, double[] roots, double[] weights) {
 
 		int m;
 
@@ -1440,7 +1440,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 				a[i] = cs[i + (k + 1) * MAX_ROOTS];
 			}
 
-			R_dnode(a, rt, k + 1);
+			rNode(a, rt, k + 1);
 
 			for (int i = 0; i < k + 2; ++i) {
 				r[i + k * MAX_ROOTS] = rt[i];
@@ -1534,7 +1534,7 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 	}
 
-	private static final void R_dnode(final double[] a, final double[] rt, final int order) {
+	private static final void rNode(final double[] a, final double[] rt, final int order) {
 
 		final double accrt = 1e-15;
 		double x0;
