@@ -1643,11 +1643,6 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 	private static final double[][] recur(double t, int la, int lb, int lc, int ld, double xa, double xb, double xc,
 			double xd, double aAlpha, double bAlpha, double cAlpha, double dAlpha) {
 
-		final int n = la + lb;
-		final int m = lc + ld;
-
-		double[][] g = new double[n + 1][m + 1];
-
 		final double a = aAlpha + bAlpha;
 		final double b = cAlpha + dAlpha;
 
@@ -1663,6 +1658,11 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 		final double C = (pX - xa) / (1 + t) + (b * (qX - xa) + a * (pX - xa)) * fact;
 		final double Cp = (qX - xc) / (1 + t) + (b * (qX - xc) + a * (pX - xc)) * fact;
+
+		final int n = la + lb;
+		final int m = lc + ld;
+
+		double[][] g = new double[n + 1][m + 1];
 
 		// [ABD] eq 11.
 		g[0][0] = FastMath.PI * FastMath.exp(-aAlpha * bAlpha * FastMath.pow(xa - xb, 2) / (aAlpha + bAlpha)
