@@ -1662,12 +1662,30 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		final int n = la + lb;
 		final int m = lc + ld;
 
-		double[][] g = new double[n + 1][m + 1];
+		double[][] g = initialiseG(xa, xb, xc, xd, aAlpha, bAlpha, cAlpha, dAlpha, a, b, n, m);
 
-		// [ABD] eq 11.
-		g[0][0] = FastMath.PI * FastMath.exp(-aAlpha * bAlpha * FastMath.pow(xa - xb, 2) / (aAlpha + bAlpha)
-				- cAlpha * dAlpha * FastMath.pow(xc - xd, 2) / (cAlpha + dAlpha)) / FastMath.sqrt(a * b);
+		processG(B1, B1p, C, Cp, n, m, g);
 
+		if ((m == 0) || (n == 0)) {
+			return g;
+		}
+
+		return finaliseG(B0, B1p, Cp, n, m, g);
+	}
+
+	private static double[][] finaliseG(final double B0, final double B1p, final double Cp, final int n, final int m,
+			double[][] g) {
+		for (int i = 1; i < n + 1; i++) {
+			g[i][1] = i * B0 * g[i - 1][0] + Cp * g[i][0];
+			for (int j = 2; j < m + 1; j++)
+				g[i][j] = B1p * (j - 1) * g[i][j - 2] + i * B0 * g[i - 1][j - 1] + Cp * g[i][j - 1];
+		}
+
+		return g;
+	}
+
+	private static void processG(final double B1, final double B1p, final double C, final double Cp, final int n,
+			final int m, double[][] g) {
 		if (n > 0) {
 			// [ABD] eq 15
 			g[1][0] = C * g[0][0];
@@ -1685,17 +1703,16 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		for (int j = 2; j < (m + 1); j++) {
 			g[0][j] = B1p * (j - 1) * g[0][j - 2] + Cp * g[0][j - 1];
 		}
+	}
 
-		if ((m == 0) || (n == 0)) {
-			return g;
-		}
+	private static double[][] initialiseG(double xa, double xb, double xc, double xd, double aAlpha, double bAlpha,
+			double cAlpha, double dAlpha, final double a, final double b, final int n, final int m) {
 
-		for (int i = 1; i < n + 1; i++) {
-			g[i][1] = i * B0 * g[i - 1][0] + Cp * g[i][0];
-			for (int j = 2; j < m + 1; j++)
-				g[i][j] = B1p * (j - 1) * g[i][j - 2] + i * B0 * g[i - 1][j - 1] + Cp * g[i][j - 1];
-		}
+		double[][] g = new double[n + 1][m + 1];
 
+		// [ABD] eq 11.
+		g[0][0] = FastMath.PI * FastMath.exp(-aAlpha * bAlpha * FastMath.pow(xa - xb, 2) / (aAlpha + bAlpha)
+				- cAlpha * dAlpha * FastMath.pow(xc - xd, 2) / (cAlpha + dAlpha)) / FastMath.sqrt(a * b);
 		return g;
 	}
 
