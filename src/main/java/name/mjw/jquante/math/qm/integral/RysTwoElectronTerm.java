@@ -1640,8 +1640,8 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 	/**
 	 * Form G(n,m)=I(n,0,m,0) intermediate values for a Rys polynomial
 	 */
-	private static final double[][] recur(double t, int la, int lb, int lc, int ld, double xa, double xb, double xc, double xd,
-			double aAlpha, double bAlpha, double cAlpha, double dAlpha) {
+	private static final double[][] recur(double t, int la, int lb, int lc, int ld, double xa, double xb, double xc,
+			double xd, double aAlpha, double bAlpha, double cAlpha, double dAlpha) {
 
 		final int n = la + lb;
 		final int m = lc + ld;
