@@ -62,8 +62,7 @@ public class PrimitiveGaussian {
 	 * @param coefficient
 	 *            - the coefficient for this PG
 	 */
-	public PrimitiveGaussian(Vector3D origin, Power powers, double exponent,
-			double coefficient) {
+	public PrimitiveGaussian(Vector3D origin, Power powers, double exponent, double coefficient) {
 		this.origin = origin;
 		this.powers = powers;
 		this.exponent = exponent;
@@ -151,9 +150,8 @@ public class PrimitiveGaussian {
 	}
 
 	/**
-	 * Gaussian product center. Return a new PG with product of this PG with a
-	 * new PG. The powers of the resulting PG is set to 0,0,0 and the
-	 * coefficient to 0.0
+	 * Gaussian product center. Return a new PG with product of this PG with a new
+	 * PG. The powers of the resulting PG is set to 0,0,0 and the coefficient to 0.0
 	 * 
 	 * @param pg
 	 *            the PG with which to multiply
@@ -161,13 +159,9 @@ public class PrimitiveGaussian {
 	 */
 	public PrimitiveGaussian mul(PrimitiveGaussian pg) {
 		double gamma = exponent + pg.exponent;
-		Vector3D newOrigin = new Vector3D((exponent * origin.getX() + pg.exponent
-				* pg.origin.getX())
-				/ gamma, (exponent * origin.getY() + pg.exponent
-				* pg.origin.getY())
-				/ gamma, (exponent * origin.getZ() + pg.exponent
-				* pg.origin.getZ())
-				/ gamma);
+		Vector3D newOrigin = new Vector3D((exponent * origin.getX() + pg.exponent * pg.origin.getX()) / gamma,
+				(exponent * origin.getY() + pg.exponent * pg.origin.getY()) / gamma,
+				(exponent * origin.getZ() + pg.exponent * pg.origin.getZ()) / gamma);
 
 		return new PrimitiveGaussian(newOrigin, new Power(0, 0, 0), gamma, 0.0);
 	}
@@ -182,11 +176,9 @@ public class PrimitiveGaussian {
 		int m = powers.getM();
 		int n = powers.getN();
 
-		normalization = FastMath.sqrt(Math.pow(2, 2 * (l + m + n) + 1.5)
-				* FastMath.pow(exponent, l + m + n + 1.5)
-				/ MathUtil.factorial2(2 * l - 1)
-				/ MathUtil.factorial2(2 * m - 1)
-				/ MathUtil.factorial2(2 * n - 1) / PI_RAISE_TO_1DOT5);
+		normalization = FastMath.sqrt(Math.pow(2, 2 * (l + m + n) + 1.5) * FastMath.pow(exponent, l + m + n + 1.5)
+				/ MathUtil.factorial2(2 * l - 1) / MathUtil.factorial2(2 * m - 1) / MathUtil.factorial2(2 * n - 1)
+				/ PI_RAISE_TO_1DOT5);
 	}
 
 	/**
@@ -198,8 +190,8 @@ public class PrimitiveGaussian {
 	 * @return the overlap value
 	 */
 	public double overlap(PrimitiveGaussian pg) {
-		return (normalization * pg.normalization * Integrals.overlap(exponent,
-				powers, origin, pg.exponent, pg.powers, pg.origin));
+		return (normalization * pg.normalization
+				* Integrals.overlap(exponent, powers, origin, pg.exponent, pg.powers, pg.origin));
 	}
 
 	/**
@@ -210,8 +202,8 @@ public class PrimitiveGaussian {
 	 * @return the KE value
 	 */
 	public double kinetic(PrimitiveGaussian pg) {
-		return (normalization * pg.normalization * Integrals.kinetic(exponent,
-				powers, origin, pg.exponent, pg.powers, pg.origin));
+		return (normalization * pg.normalization
+				* Integrals.kinetic(exponent, powers, origin, pg.exponent, pg.powers, pg.origin));
 	}
 
 	/**
@@ -225,9 +217,8 @@ public class PrimitiveGaussian {
 	 * @return the nuclear value
 	 */
 	public double nuclear(PrimitiveGaussian pg, Vector3D center) {
-		return (Integrals.nuclearAttraction(origin, normalization, powers,
-				exponent, pg.origin, pg.normalization, pg.powers, pg.exponent,
-				center));
+		return (Integrals.nuclearAttraction(origin, normalization, powers, exponent, pg.origin, pg.normalization,
+				pg.powers, pg.exponent, center));
 	}
 
 	/**
@@ -239,9 +230,8 @@ public class PrimitiveGaussian {
 	 *            the reference center
 	 * @return partial derivatives w.r.t the center
 	 */
-	public Vector3D nuclearAttractionGradient(PrimitiveGaussian pg,
-			Vector3D center) {
-		Vector3D nder = new Vector3D(0,0,0);
+	public Vector3D nuclearAttractionGradient(PrimitiveGaussian pg, Vector3D center) {
+		Vector3D nder = new Vector3D(0, 0, 0);
 
 		// TODO:
 
@@ -256,18 +246,17 @@ public class PrimitiveGaussian {
 	 * @return the amplitude of this PG at the specified point
 	 */
 	public double amplitude(Vector3D point) {
-		int l = powers.getL();
-		int m = powers.getM();
-		int n = powers.getN();
+		final int l = powers.getL();
+		final int m = powers.getM();
+		final int n = powers.getN();
 
-		double x = point.getX() - origin.getX();
-		double y = point.getY() - origin.getY();
-		double z = point.getZ() - origin.getZ();
+		final double x = point.getX() - origin.getX();
+		final double y = point.getY() - origin.getY();
+		final double z = point.getZ() - origin.getZ();
 
-		double d2 = FastMath.pow(x, l) * FastMath.pow(y, m) * FastMath.pow(z, n);
+		final double d2 = FastMath.pow(x, l) * FastMath.pow(y, m) * FastMath.pow(z, n);
 
-		return (normalization * coefficient * d2 * FastMath.exp(-exponent
-				* (x * x + y * y + z * z)));
+		return (normalization * coefficient * d2 * FastMath.exp(-exponent * (x * x + y * y + z * z)));
 	}
 
 	/**
@@ -279,16 +268,14 @@ public class PrimitiveGaussian {
 	 */
 	public double laplacian(Vector3D point) {
 		double value = 0.0;
-		double x = point.getX() - origin.getX(), y = point.getY()
-				- origin.getY(), z = point.getZ() - origin.getZ();
+		double x = point.getX() - origin.getX(), y = point.getY() - origin.getY(), z = point.getZ() - origin.getZ();
 		double x2 = x * x;
 		double y2 = y * y;
 		double z2 = z * z;
 		int l = powers.getL(), m = powers.getM(), n = powers.getN();
 
-		value = (l * (l - 1) / x2 + m * (m - 1) / y2 + n * (n - 1) / z2) + 4
-				* exponent * exponent * (x2 + y2 + z2) - 2 * exponent
-				* (2 * (l + m + n) + 3);
+		value = (l * (l - 1) / x2 + m * (m - 1) / y2 + n * (n - 1) / z2) + 4 * exponent * exponent * (x2 + y2 + z2)
+				- 2 * exponent * (2 * (l + m + n) + 3);
 
 		return value * normalization * coefficient * amplitude(point);
 	}
@@ -324,8 +311,7 @@ public class PrimitiveGaussian {
 			gz += FastMath.pow(z, n - 1) * FastMath.exp(-exponent * FastMath.pow(z, 2));
 
 		double nc = normalization * coefficient;
-		return new Vector3D(gx * fy * fz * nc, fx * gy * fz * nc, fx * fy * gz
-				* nc);
+		return new Vector3D(gx * fy * fz * nc, fx * gy * fz * nc, fx * fy * gz * nc);
 
 	}
 
@@ -380,8 +366,7 @@ public class PrimitiveGaussian {
 	 */
 	@Override
 	public String toString() {
-		return "Origin : " + origin + " Powers : " + powers
-				+ " Normalization : " + normalization + " Coefficient : "
+		return "Origin : " + origin + " Powers : " + powers + " Normalization : " + normalization + " Coefficient : "
 				+ coefficient + " Exponent : " + exponent;
 	}
 }
