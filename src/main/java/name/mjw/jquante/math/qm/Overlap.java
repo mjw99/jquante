@@ -1,6 +1,7 @@
 package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
@@ -9,7 +10,6 @@ import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import net.jafama.FastMath;
@@ -85,11 +85,11 @@ public class Overlap extends Array2DRowRealMatrix {
 	 * @return three element array of Overlap elements representing partial
 	 *         derivatives with respect to x, y and z of atom position
 	 */
-	public ArrayList<Overlap> computeDerivative(int atomIndex, SCFMethod scfMethod) {
+	public List<Overlap> computeDerivative(int atomIndex, SCFMethod scfMethod) {
 		this.scfMethod = scfMethod;
 		this.atomIndex = atomIndex;
 
-		ArrayList<Overlap> dOverlap = new ArrayList<>(3);
+		List<Overlap> dOverlap = new ArrayList<>(3);
 
 		int noOfBasisFunctions = this.getRowDimension();
 		Overlap dOverlapDx = new Overlap(noOfBasisFunctions);
