@@ -20,12 +20,12 @@ public class Orbital {
 	/**
 	 * Holds value of property coefficients.
 	 */
-	private ArrayList<Double> coefficients;
+	private List<Double> coefficients;
 
 	/**
 	 * Holds value of property exponents.
 	 */
-	private ArrayList<Double> exponents;
+	private List<Double> exponents;
 
 	/**
 	 * Creates a new instance of Orbital
@@ -64,7 +64,7 @@ public class Orbital {
 	 * 
 	 * @return Value of property coefficients.
 	 */
-	public ArrayList<Double> getCoefficients() {
+	public List<Double> getCoefficients() {
 		return this.coefficients;
 	}
 
@@ -74,7 +74,7 @@ public class Orbital {
 	 * @param coefficients
 	 *            New value of property coefficients.
 	 */
-	public void setCoefficients(ArrayList<Double> coefficients) {
+	public void setCoefficients(List<Double> coefficients) {
 		this.coefficients = coefficients;
 	}
 
@@ -93,7 +93,7 @@ public class Orbital {
 	 * @param exponents
 	 *            New value of property exponents.
 	 */
-	public void setExponents(ArrayList<Double> exponents) {
+	public void setExponents(List<Double> exponents) {
 		this.exponents = exponents;
 	}
 
