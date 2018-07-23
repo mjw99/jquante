@@ -1,6 +1,7 @@
 package name.mjw.jquante.math.qm.basis;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a single entity in a BasisSet
@@ -23,7 +24,7 @@ public class AtomicBasis {
 	/**
 	 * Holds value of property orbitals.
 	 */
-	private ArrayList<Orbital> orbitals;
+	private List<Orbital> orbitals;
 
 	/**
 	 * Creates a new instance of AtomicBasis
@@ -83,7 +84,7 @@ public class AtomicBasis {
 	 * 
 	 * @return Value of property orbitals.
 	 */
-	public ArrayList<Orbital> getOrbitals() {
+	public List<Orbital> getOrbitals() {
 		return this.orbitals;
 	}
 
@@ -93,7 +94,7 @@ public class AtomicBasis {
 	 * @param orbitals
 	 *            New value of property orbitals.
 	 */
-	public void setOrbitals(ArrayList<Orbital> orbitals) {
+	public void setOrbitals(List<Orbital> orbitals) {
 		this.orbitals = orbitals;
 	}
 
