@@ -8,22 +8,22 @@ import net.jafama.FastMath;
  * 
  * @author V.Ganesh
  */
-public class Power implements Cloneable {
+public class Power {
 
 	/**
 	 * Orbital power l.
 	 */
-	private int l;
+	private final int l;
 
 	/**
 	 * Orbital power m.
 	 */
-	private int m;
+	private final int m;
 
 	/**
 	 * Orbital power n.
 	 */
-	private int n;
+	private final int n;
 
 	/**
 	 * Creates a new instance of Power.
@@ -35,7 +35,7 @@ public class Power implements Cloneable {
 	 * @param n
 	 *            the orbital power n
 	 */
-	public Power(int l, int m, int n) {
+	public Power(final int l, final int m, final int n) {
 		this.l = l;
 		this.m = m;
 		this.n = n;
@@ -51,16 +51,6 @@ public class Power implements Cloneable {
 	}
 
 	/**
-	 * Setter for property l.
-	 * 
-	 * @param l
-	 *            Set orbital power l.
-	 */
-	public void setL(int l) {
-		this.l = l;
-	}
-
-	/**
 	 * Getter for property m.
 	 * 
 	 * @return orbital power m.
@@ -70,32 +60,12 @@ public class Power implements Cloneable {
 	}
 
 	/**
-	 * Setter for property m.
-	 * 
-	 * @param m
-	 *            Set orbital power m.
-	 */
-	public void setM(int m) {
-		this.m = m;
-	}
-
-	/**
 	 * Getter for property n.
 	 * 
 	 * @return orbital power n.
 	 */
 	public int getN() {
 		return this.n;
-	}
-
-	/**
-	 * Setter for property n.
-	 * 
-	 * @param n
-	 *            Set orbital power n.
-	 */
-	public void setN(int n) {
-		this.n = n;
 	}
 
 	/**
@@ -123,16 +93,6 @@ public class Power implements Cloneable {
 	 */
 	public int getTotalAngularMomentum() {
 		return l + m + n;
-	}
-
-	/**
-	 * Clone this !
-	 * 
-	 * @return the clone
-	 */
-	@Override
-	public Power clone() {
-		return new Power(l, m, n);
 	}
 
 	/**
