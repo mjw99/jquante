@@ -1468,6 +1468,47 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 
 	}
 
+	private static final double[] gamma_inc_like(final double t, final int m) {
+
+		double[] f = new double[MAX_ROOTS * 2 + 1];
+
+		final double SQRTPIE4 = .8862269254527580136490837416705725913987747280611935641069038949264;
+
+		if (t < m + 1.5) {
+			double b = m + 0.5;
+			double x = 1;
+			double s = 1;
+			double e = .5 * FastMath.exp(-t);
+			if (t < 10E-5) {
+				f[m] = .5 / b;
+			} else {
+				for (int i = 1; x > 1.0e-16; i++) {
+					x *= t / (b + i);
+					s += x;
+				}
+				f[m] = e * s / b;
+			}
+			if (m > 0) {
+				for (int i = m; i > 0; i--) {
+					b -= 1;
+					f[i - 1] = (e + t * f[i]) / b;
+				}
+			}
+		} else {
+			double pi2 = SQRTPIE4;
+			double tt = FastMath.sqrt(t);
+			f[0] = pi2 / tt * Erf.erf(tt);
+			if (m > 0) {
+				double e = FastMath.exp(-t);
+				double b = .5 / t;
+				for (int i = 1; i <= m; i++)
+					f[i] = b * ((2 * i - 1) * f[i - 1] - e);
+			}
+		}
+
+		return f;
+	}
+
 	private static final double[] rDsmit(final double[] s, final int n) {
 		double fac;
 		double dot;
@@ -1673,14 +1714,14 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		return finaliseG(B0, B1p, Cp, n, m, g);
 	}
 
-	private static double[][] finaliseG(final double B0, final double B1p, final double Cp, final int n, final int m,
-			double[][] g) {
-		for (int i = 1; i < n + 1; i++) {
-			g[i][1] = i * B0 * g[i - 1][0] + Cp * g[i][0];
-			for (int j = 2; j < m + 1; j++)
-				g[i][j] = B1p * (j - 1) * g[i][j - 2] + i * B0 * g[i - 1][j - 1] + Cp * g[i][j - 1];
-		}
+	private static double[][] initialiseG(double xa, double xb, double xc, double xd, double aAlpha, double bAlpha,
+			double cAlpha, double dAlpha, final double a, final double b, final int n, final int m) {
 
+		double[][] g = new double[n + 1][m + 1];
+
+		// [ABD] eq 11.
+		g[0][0] = FastMath.PI * FastMath.exp(-aAlpha * bAlpha * FastMath.pow(xa - xb, 2) / (aAlpha + bAlpha)
+				- cAlpha * dAlpha * FastMath.pow(xc - xd, 2) / (cAlpha + dAlpha)) / FastMath.sqrt(a * b);
 		return g;
 	}
 
@@ -1705,14 +1746,14 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 		}
 	}
 
-	private static double[][] initialiseG(double xa, double xb, double xc, double xd, double aAlpha, double bAlpha,
-			double cAlpha, double dAlpha, final double a, final double b, final int n, final int m) {
+	private static double[][] finaliseG(final double B0, final double B1p, final double Cp, final int n, final int m,
+			double[][] g) {
+		for (int i = 1; i < n + 1; i++) {
+			g[i][1] = i * B0 * g[i - 1][0] + Cp * g[i][0];
+			for (int j = 2; j < m + 1; j++)
+				g[i][j] = B1p * (j - 1) * g[i][j - 2] + i * B0 * g[i - 1][j - 1] + Cp * g[i][j - 1];
+		}
 
-		double[][] g = new double[n + 1][m + 1];
-
-		// [ABD] eq 11.
-		g[0][0] = FastMath.PI * FastMath.exp(-aAlpha * bAlpha * FastMath.pow(xa - xb, 2) / (aAlpha + bAlpha)
-				- cAlpha * dAlpha * FastMath.pow(xc - xd, 2) / (cAlpha + dAlpha)) / FastMath.sqrt(a * b);
 		return g;
 	}
 
@@ -1739,47 +1780,6 @@ public class RysTwoElectronTerm extends TwoElectronTerm {
 			ijkl += CombinatoricsUtils.binomialCoefficient(l, m) * FastMath.pow(xkl, (l - m)) * ijm0;
 		}
 		return ijkl;
-	}
-
-	static final double[] gamma_inc_like(final double t, final int m) {
-
-		double[] f = new double[MAX_ROOTS * 2 + 1];
-
-		final double SQRTPIE4 = .8862269254527580136490837416705725913987747280611935641069038949264;
-
-		if (t < m + 1.5) {
-			double b = m + 0.5;
-			double x = 1;
-			double s = 1;
-			double e = .5 * FastMath.exp(-t);
-			if (t < 10E-5) {
-				f[m] = .5 / b;
-			} else {
-				for (int i = 1; x > 1.0e-16; i++) {
-					x *= t / (b + i);
-					s += x;
-				}
-				f[m] = e * s / b;
-			}
-			if (m > 0) {
-				for (int i = m; i > 0; i--) {
-					b -= 1;
-					f[i - 1] = (e + t * f[i]) / b;
-				}
-			}
-		} else {
-			double pi2 = SQRTPIE4;
-			double tt = FastMath.sqrt(t);
-			f[0] = pi2 / tt * Erf.erf(tt);
-			if (m > 0) {
-				double e = FastMath.exp(-t);
-				double b = .5 / t;
-				for (int i = 1; i <= m; i++)
-					f[i] = b * ((2 * i - 1) * f[i - 1] - e);
-			}
-		}
-
-		return f;
 	}
 
 	@Override
