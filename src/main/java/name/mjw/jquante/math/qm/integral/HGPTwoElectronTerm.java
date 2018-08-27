@@ -1,6 +1,7 @@
 package name.mjw.jquante.math.qm.integral;
 
-import java.util.ArrayList;
+import java.util.List;
+
 import name.mjw.jquante.math.qm.Density;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.math.qm.basis.Power;
@@ -98,11 +99,11 @@ public class HGPTwoElectronTerm implements TwoElectronTerm {
 	 * 
 	 * @return Contribution to Horizontal Recurrence Relation.
 	 */
-	protected double contractedHrr(Vector3D a, Power aPower, ArrayList<Double> aCoeff, ArrayList<Double> aExps,
-			ArrayList<Double> aNorms, Vector3D b, Power bPower, ArrayList<Double> bCoeff, ArrayList<Double> bExps,
-			ArrayList<Double> bNorms, Vector3D c, Power cPower, ArrayList<Double> cCoeff, ArrayList<Double> cExps,
-			ArrayList<Double> cNorms, Vector3D d, Power dPower, ArrayList<Double> dCoeff, ArrayList<Double> dExps,
-			ArrayList<Double> dNorms) {
+	protected double contractedHrr(Vector3D a, Power aPower, List<Double> aCoeff, List<Double> aExps,
+			List<Double> aNorms, Vector3D b, Power bPower, List<Double> bCoeff, List<Double> bExps,
+			List<Double> bNorms, Vector3D c, Power cPower, List<Double> cCoeff, List<Double> cExps,
+			List<Double> cNorms, Vector3D d, Power dPower, List<Double> dCoeff, List<Double> dExps,
+			List<Double> dNorms) {
 
 		int la = aPower.getL();
 		int ma = aPower.getM();
@@ -211,11 +212,11 @@ public class HGPTwoElectronTerm implements TwoElectronTerm {
 	 * 
 	 * @return Contribution to Vertical Recurrence Relation.
 	 */
-	protected double contractedVrr(Vector3D a, Power aPower, ArrayList<Double> aCoeff, ArrayList<Double> aExps,
-			ArrayList<Double> aNorms, Vector3D b, ArrayList<Double> bCoeff, ArrayList<Double> bExps,
-			ArrayList<Double> bNorms, Vector3D c, Power cPower, ArrayList<Double> cCoeff, ArrayList<Double> cExps,
-			ArrayList<Double> cNorms, Vector3D d, ArrayList<Double> dCoeff, ArrayList<Double> dExps,
-			ArrayList<Double> dNorms) {
+	protected double contractedVrr(Vector3D a, Power aPower, List<Double> aCoeff, List<Double> aExps,
+			List<Double> aNorms, Vector3D b, List<Double> bCoeff, List<Double> bExps,
+			List<Double> bNorms, Vector3D c, Power cPower, List<Double> cCoeff, List<Double> cExps,
+			List<Double> cNorms, Vector3D d, List<Double> dCoeff, List<Double> dExps,
+			List<Double> dNorms) {
 
 		double value = 0.0;
 

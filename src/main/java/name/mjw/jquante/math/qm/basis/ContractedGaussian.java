@@ -1,6 +1,7 @@
 package name.mjw.jquante.math.qm.basis;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import name.mjw.jquante.config.impl.AtomInfo;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
@@ -29,17 +30,17 @@ public class ContractedGaussian {
 	/**
 	 * The Primitive Gaussians (PGs) that make up this Contracted Gaussian.
 	 */
-	private ArrayList<PrimitiveGaussian> primitives;
+	private List<PrimitiveGaussian> primitives;
 
 	/**
 	 * The list of exponents for this Gaussian.
 	 */
-	private ArrayList<Double> exponents;
+	private List<Double> exponents;
 
 	/**
 	 * Holds value of property coefficients.
 	 */
-	private ArrayList<Double> coefficients;
+	private List<Double> coefficients;
 
 	/**
 	 * Holds value of property normalization.
@@ -51,7 +52,7 @@ public class ContractedGaussian {
 	 * 
 	 * normalization factors for PGs
 	 */
-	private ArrayList<Double> primNorms;
+	private List<Double> primNorms;
 
 	protected Atom centeredAtom;
 
@@ -169,7 +170,7 @@ public class ContractedGaussian {
 	 * 
 	 * @return Value of property primitives.
 	 */
-	public ArrayList<PrimitiveGaussian> getPrimitives() {
+	public List<PrimitiveGaussian> getPrimitives() {
 		return this.primitives;
 	}
 
@@ -179,7 +180,7 @@ public class ContractedGaussian {
 	 * @param primitives
 	 *            New value of property primitives.
 	 */
-	public void setPrimitives(ArrayList<PrimitiveGaussian> primitives) {
+	public void setPrimitives(List<PrimitiveGaussian> primitives) {
 		this.primitives = primitives;
 	}
 
@@ -188,7 +189,7 @@ public class ContractedGaussian {
 	 * 
 	 * @return Value of property exponents.
 	 */
-	public ArrayList<Double> getExponents() {
+	public List<Double> getExponents() {
 		return this.exponents;
 	}
 
@@ -207,7 +208,7 @@ public class ContractedGaussian {
 	 * 
 	 * @return Value of property coefficients.
 	 */
-	public ArrayList<Double> getCoefficients() {
+	public List<Double> getCoefficients() {
 		return this.coefficients;
 	}
 
@@ -217,7 +218,7 @@ public class ContractedGaussian {
 	 * @param coefficients
 	 *            New value of property coefficients.
 	 */
-	public void setCoefficients(ArrayList<Double> coefficients) {
+	public void setCoefficients(List<Double> coefficients) {
 		this.coefficients = coefficients;
 	}
 
@@ -263,7 +264,7 @@ public class ContractedGaussian {
 	public double overlap(ContractedGaussian cg) {
 		double sij = 0.0;
 
-		ArrayList<PrimitiveGaussian> cgPrimitives = cg.getPrimitives();
+		List<PrimitiveGaussian> cgPrimitives = cg.getPrimitives();
 
 		for (int i = 0; i < primitives.size(); i++) {
 			PrimitiveGaussian iPG = primitives.get(i);
@@ -380,7 +381,7 @@ public class ContractedGaussian {
 	 */
 	public double kinetic(ContractedGaussian cg) {
 		double tij = 0.0;
-		ArrayList<PrimitiveGaussian> cgPrimitives = cg.getPrimitives();
+		List<PrimitiveGaussian> cgPrimitives = cg.getPrimitives();
 
 		for (int i = 0; i < primitives.size(); i++) {
 			PrimitiveGaussian iPG = primitives.get(i);
@@ -505,7 +506,7 @@ public class ContractedGaussian {
 		int i;
 		int j;
 
-		ArrayList<PrimitiveGaussian> cgPrimitives = cg.getPrimitives();
+		List<PrimitiveGaussian> cgPrimitives = cg.getPrimitives();
 
 		for (i = 0; i < primitives.size(); i++) {
 			PrimitiveGaussian iPG = primitives.get(i);
@@ -714,7 +715,7 @@ public class ContractedGaussian {
 	 * 
 	 * @return Value of property primNorms.
 	 */
-	public ArrayList<Double> getPrimNorms() {
+	public List<Double> getPrimNorms() {
 		return this.primNorms;
 	}
 

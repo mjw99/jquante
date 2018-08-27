@@ -1,7 +1,7 @@
 package name.mjw.jquante.math.qm.integral;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.linear.RealMatrix;
@@ -56,21 +56,21 @@ public class RysTwoElectronTerm implements TwoElectronTerm {
 		double kcNorm;
 		double repulsionTerm;
 
-		ArrayList<Double> aExps;
-		ArrayList<Double> aCoefs;
-		ArrayList<Double> aNorms;
+		List<Double> aExps;
+		List<Double> aCoefs;
+		List<Double> aNorms;
 
-		ArrayList<Double> bExps;
-		ArrayList<Double> bCoefs;
-		ArrayList<Double> bNorms;
+		List<Double> bExps;
+		List<Double> bCoefs;
+		List<Double> bNorms;
 
-		ArrayList<Double> cExps;
-		ArrayList<Double> cCoefs;
-		ArrayList<Double> cNorms;
+		List<Double> cExps;
+		List<Double> cCoefs;
+		List<Double> cNorms;
 
-		ArrayList<Double> dExps;
-		ArrayList<Double> dCoefs;
-		ArrayList<Double> dNorms;
+		List<Double> dExps;
+		List<Double> dCoefs;
+		List<Double> dNorms;
 
 		aExps = a.getExponents();
 		aCoefs = a.getCoefficients();
