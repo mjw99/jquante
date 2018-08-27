@@ -1,6 +1,7 @@
 package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
@@ -183,7 +184,7 @@ public class GMatrix extends Array2DRowRealMatrix {
 	 * @return three element array of GMatrix elements representing partial
 	 *         derivatives with respect to x, y and z of atom position
 	 */
-	public ArrayList<GMatrix> computeDerivative(int atomIndex, SCFMethod scfMethod) {
+	public List<GMatrix> computeDerivative(int atomIndex, SCFMethod scfMethod) {
 		ArrayList<GMatrix> gDer = new ArrayList<>(3);
 
 		scfMethod.getTwoEI().compute2EDerivatives(atomIndex, scfMethod);

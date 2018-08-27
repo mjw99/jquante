@@ -117,7 +117,7 @@ public class HartreeFockForce implements Force {
 
 	/** Compute the two electron derivative contribution */
 	private Vector3D computeTwoElectronDerivative() {
-		ArrayList<GMatrix> gDer = scfMethod.getGMatrix().computeDerivative(atomIndex, scfMethod);
+		List<GMatrix> gDer = scfMethod.getGMatrix().computeDerivative(atomIndex, scfMethod);
 		Density density = scfMethod.getDensity();
 
 		return new Vector3D(density.multiply(gDer.get(0)).getTrace(),
