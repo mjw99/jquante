@@ -13,11 +13,6 @@ import net.jafama.FastMath;
  * @version 2.0 (Part of MeTA v2.0)
  */
 public class NuclearTerm implements IntegralsPackage {
-
-	/** Creates an instance of NuclearTerm */
-	public NuclearTerm() {
-	}
-
 	/**
 	 * The nuclear attraction term.
 	 * 
@@ -68,7 +63,9 @@ public class NuclearTerm implements IntegralsPackage {
 				product.getZ() - c.getZ(), gamma);
 
 		double sum = 0.0;
-		int i, j, k;
+		int i;
+		int j;
+		int k;
 		for (i = 0; i < ax.length; i++) {
 			for (j = 0; j < ay.length; j++) {
 				for (k = 0; k < az.length; k++) {
@@ -107,7 +104,10 @@ public class NuclearTerm implements IntegralsPackage {
 		int iMax = l1 + l2 + 1;
 		double[] a = new double[iMax];
 
-		int i, r, u, index;
+		int i;
+		int r;
+		int u;
+		int index;
 
 		for (i = 0; i < iMax; i++) {
 			for (r = 0; r < ((int) (FastMath.floor(i / 2.0) + 1.0)); r++) {
@@ -128,7 +128,10 @@ public class NuclearTerm implements IntegralsPackage {
 		int iMax = l1 + l2 + 1;
 		double[] a = new double[iMax];
 
-		int i, r, u, index;
+		int i;
+		int r;
+		int u;
+		int index;
 
 		for (i = 0; i < iMax; i++) {
 			for (r = 0; r < ((int) (FastMath.floor(i / 2.0) + 1.0)); r++) {
@@ -232,8 +235,13 @@ public class NuclearTerm implements IntegralsPackage {
 		double[] daz = constructGradAArray(power1.getN(), power2.getN(),
 				product.getZ() - a.getZ(), product.getZ() - b.getZ(),
 				product.getZ() - c.getZ(), gamma);
-		double gradX = 0.0, gradY = 0.0, gradZ = 0.0;
-		int i, j, k;
+
+		double gradX = 0.0;
+		double gradY = 0.0;
+		double gradZ = 0.0;
+		int i;
+		int j;
+		int k;
 
 		for (i = 0; i < dax.length; i++) {
 			for (j = 0; j < day.length; j++) {
