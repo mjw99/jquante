@@ -1,6 +1,5 @@
 package name.mjw.jquante.math.qm;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math3.linear.RealMatrix;

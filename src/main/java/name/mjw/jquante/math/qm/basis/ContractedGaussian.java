@@ -199,7 +199,7 @@ public class ContractedGaussian {
 	 * @param exponents
 	 *            New value of property exponents.
 	 */
-	public void setExponents(ArrayList<Double> exponents) {
+	public void setExponents(List<Double> exponents) {
 		this.exponents = exponents;
 	}
 
