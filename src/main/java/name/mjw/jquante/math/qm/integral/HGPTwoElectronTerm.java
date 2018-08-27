@@ -21,7 +21,7 @@ import org.apache.commons.math3.linear.RealMatrix;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class HGPTwoElectronTerm extends TwoElectronTerm {
+public class HGPTwoElectronTerm implements TwoElectronTerm {
 
 	private final double sqrt2PI = FastMath.sqrt(2.0) * FastMath.pow(Math.PI, 1.25);
 

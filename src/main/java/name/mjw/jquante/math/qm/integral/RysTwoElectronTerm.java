@@ -28,7 +28,7 @@ import net.jafama.FastMath;
  * @author Mark J. Williamson
  *
  */
-public class RysTwoElectronTerm extends TwoElectronTerm {
+public class RysTwoElectronTerm implements TwoElectronTerm {
 
 	static final int MAX_ROOTS = 16;
 	static final int MAX_ROOTS_SQUARED = MAX_ROOTS * MAX_ROOTS;

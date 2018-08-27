@@ -13,7 +13,7 @@ import name.mjw.jquante.math.qm.basis.Power;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public abstract class TwoElectronTerm implements IntegralsPackage {
+public interface TwoElectronTerm extends IntegralsPackage {
 
 	/**
 	 * 2E coulomb interactions between four contracted Gaussian functions.

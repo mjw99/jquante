@@ -24,7 +24,7 @@ import net.jafama.FastMath;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class HuzinagaTwoElectronTerm extends TwoElectronTerm {
+public class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 	/**
 	 * 2E coulomb interactions between four contracted Gaussians
 	 */
