@@ -13,7 +13,6 @@ public class IntegralsPackageFactory {
 	protected IntegralPackageType defaultTwoElectronIntegralPackage;
 	private OneElectronTerm oneElectronTerm;
 	private NuclearTerm nuclearTerm;
-	private TwoElectronTerm twoElectronTerm;
 
 	private IntegralsPackageFactory() {
 		defaultTwoElectronIntegralPackage = IntegralPackageType.TWO_ELECTRON_RYS;
@@ -65,6 +64,8 @@ public class IntegralsPackageFactory {
 	 *         available, then UnsupportedOperationException is thrown
 	 */
 	public TwoElectronTerm getTwoElectronTerm(IntegralPackageType type) {
+		TwoElectronTerm twoElectronTerm;
+
 		switch (type) {
 		case TWO_ELECTRON_HUZINAGA:
 			twoElectronTerm = new HuzinagaTwoElectronTerm();
