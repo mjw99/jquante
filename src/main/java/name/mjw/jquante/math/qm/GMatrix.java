@@ -26,7 +26,7 @@ public class GMatrix extends Array2DRowRealMatrix {
 	private static final Logger LOG = LogManager.getLogger(GMatrix.class);
 
 	private static final long serialVersionUID = -6555277318704252665L;
-	private TwoElectronIntegrals twoEI;
+	private transient TwoElectronIntegrals twoEI;
 	private Density density;
 	private ArrayList<GMatrix> partialGMatrixList;
 
