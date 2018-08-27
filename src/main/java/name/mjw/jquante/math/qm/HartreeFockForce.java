@@ -106,7 +106,7 @@ public class HartreeFockForce implements Force {
 	private Vector3D computeDensityMatrixDerivative() {
 		Overlap overlap = scfMethod.getOneEI().getOverlap();
 		Density dens = scfMethod.getDensity();
-		ArrayList<Overlap> overlapDer = overlap.computeDerivative(atomIndex, scfMethod);
+		List<Overlap> overlapDer = overlap.computeDerivative(atomIndex, scfMethod);
 		RealMatrix eMat = new Array2DRowRealMatrix(scfMethod.getOrbE());
 		RealMatrix qMat = dens.multiply(eMat.multiply(dens.transpose()));
 

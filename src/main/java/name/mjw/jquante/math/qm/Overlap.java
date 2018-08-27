@@ -1,6 +1,7 @@
 package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
@@ -84,7 +85,7 @@ public class Overlap extends Array2DRowRealMatrix {
 	 * @return three element array of Overlap elements representing partial
 	 *         derivatives with respect to x, y and z of atom position
 	 */
-	public ArrayList<Overlap> computeDerivative(int atomIndex, SCFMethod scfMethod) {
+	public List<Overlap> computeDerivative(int atomIndex, SCFMethod scfMethod) {
 		this.scfMethod = scfMethod;
 		this.atomIndex = atomIndex;
 
