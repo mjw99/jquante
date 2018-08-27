@@ -14,7 +14,7 @@ public class ShellList {
 
 	/** Creates a new instance of ShellList */
 	public ShellList() {
-		shellList = new HashMap<Integer, Shell>();
+		shellList = new HashMap<>();
 	}
 
 	/**
