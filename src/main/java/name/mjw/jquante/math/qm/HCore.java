@@ -21,9 +21,9 @@ public class HCore extends Array2DRowRealMatrix {
 
 	private static final long serialVersionUID = 290891895527849860L;
 	protected int atomIndex;
-	private SCFMethod scfMethod;
-	private BasisFunctions bfs;
-	private List<ContractedGaussian> cgs;
+	private transient SCFMethod scfMethod;
+	private transient BasisFunctions bfs;
+	private transient List<ContractedGaussian> cgs;
 
 	/**
 	 * Creates a new instance of square (NxN) Matrix

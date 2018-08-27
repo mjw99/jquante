@@ -35,7 +35,7 @@ public class Overlap extends Array2DRowRealMatrix {
 		super(n, n);
 	}
 
-	private RealMatrix sHalf = null;
+	private transient RealMatrix sHalf = null;
 
 	/**
 	 * Get the S^1/2 matrix
