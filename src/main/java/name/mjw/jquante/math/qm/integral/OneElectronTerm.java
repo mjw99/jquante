@@ -11,11 +11,6 @@ import net.jafama.FastMath;
  * @version 2.0 (Part of MeTA v2.0)
  */
 public class OneElectronTerm implements IntegralsPackage {
-
-	/** Creates a new instance of OneElectronTerm */
-	public OneElectronTerm() {
-	}
-
 	/**
 	 * Overlap matrix element taken from <br>
 	 * <i> Taken from http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.12 </i>
