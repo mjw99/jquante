@@ -1,6 +1,7 @@
 package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.logging.log4j.LogManager;
@@ -134,7 +135,7 @@ public class TwoElectronIntegrals {
 	 * available.
 	 */
 	protected void compute2E() {
-		ArrayList<ContractedGaussian> bfs = basisFunctions.getBasisFunctions();
+		List<ContractedGaussian> bfs = basisFunctions.getBasisFunctions();
 
 		// allocate required memory
 		int noOfBasisFunctions = bfs.size();
@@ -297,7 +298,7 @@ public class TwoElectronIntegrals {
 	protected void compute2EShellPair() {
 		// TODO : parallel
 
-		ArrayList<ContractedGaussian> bfs = basisFunctions.getBasisFunctions();
+		List<ContractedGaussian> bfs = basisFunctions.getBasisFunctions();
 
 		// allocate required memory
 		int noOfBasisFunctions = bfs.size();
@@ -387,7 +388,7 @@ public class TwoElectronIntegrals {
 	 */
 	public double compute2E(int i, int j, int k, int l) {
 		// if we really need to compute, go ahead!
-		ArrayList<ContractedGaussian> bfs = basisFunctions.getBasisFunctions();
+		List<ContractedGaussian> bfs = basisFunctions.getBasisFunctions();
 
 		return Integrals.coulomb(bfs.get(i), bfs.get(j), bfs.get(k), bfs.get(l));
 	}
@@ -478,13 +479,13 @@ public class TwoElectronIntegrals {
 
 		private int startBasisFunction;
 		private int endBasisFunction;
-		private ArrayList<ContractedGaussian> bfs;
+		private List<ContractedGaussian> bfs;
 
 		public TwoElectronIntegralEvaluaterThread() {
 		}
 
 		public TwoElectronIntegralEvaluaterThread(int startBasisFunction, int endBasisFunction,
-				ArrayList<ContractedGaussian> bfs) {
+				List<ContractedGaussian> bfs) {
 			this.startBasisFunction = startBasisFunction;
 			this.endBasisFunction = endBasisFunction;
 
@@ -510,7 +511,7 @@ public class TwoElectronIntegrals {
 		/**
 		 * Actually compute the 2E integrals
 		 */
-		private void compute2E(int startBasisFunction, int endBasisFunction, ArrayList<ContractedGaussian> bfs) {
+		private void compute2E(int startBasisFunction, int endBasisFunction, List<ContractedGaussian> bfs) {
 
 			int i;
 			int j;
@@ -562,13 +563,13 @@ public class TwoElectronIntegrals {
 
 		private int startBasisFunction;
 		private int endBasisFunction;
-		private ArrayList<ContractedGaussian> bfs;
+		private List<ContractedGaussian> bfs;
 
 		public TwoElectronIntegralDerivativeEvaluaterThread() {
 		}
 
 		public TwoElectronIntegralDerivativeEvaluaterThread(int startBasisFunction, int endBasisFunction,
-				ArrayList<ContractedGaussian> bfs) {
+				List<ContractedGaussian> bfs) {
 			this.startBasisFunction = startBasisFunction;
 			this.endBasisFunction = endBasisFunction;
 
@@ -581,7 +582,7 @@ public class TwoElectronIntegrals {
 		 * Actually compute the 2E integrals derivatives
 		 */
 		private void compute2EDerivative(int startBasisFunction, int endBasisFunction,
-				ArrayList<ContractedGaussian> bfs) {
+				List<ContractedGaussian> bfs) {
 
 			int i;
 			int j;

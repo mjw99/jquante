@@ -1,6 +1,7 @@
 package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
@@ -22,7 +23,7 @@ public class HCore extends Array2DRowRealMatrix {
 	protected int atomIndex;
 	private SCFMethod scfMethod;
 	private BasisFunctions bfs;
-	private ArrayList<ContractedGaussian> cgs;
+	private List<ContractedGaussian> cgs;
 
 	/**
 	 * Creates a new instance of square (NxN) Matrix
@@ -44,7 +45,7 @@ public class HCore extends Array2DRowRealMatrix {
 	 * @return three element array of HCore elements representing partial
 	 *         derivatives with respect to x, y and z of atom position
 	 */
-	public ArrayList<HCore> computeDerivative(int atomIndex, SCFMethod scfMethod) {
+	public List<HCore> computeDerivative(int atomIndex, SCFMethod scfMethod) {
 		this.atomIndex = atomIndex;
 		this.scfMethod = scfMethod;
 		this.bfs = scfMethod.getOneEI().getBasisFunctions();

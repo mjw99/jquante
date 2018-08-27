@@ -1,6 +1,6 @@
 package name.mjw.jquante.math.qm.property;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.linear.ArrayRealVector;
@@ -25,7 +25,7 @@ public class MODensity extends OneElectronProperty {
 	private int nbf;
 	private double[][] mos;
 
-	private ArrayList<ContractedGaussian> bfs;
+	private List<ContractedGaussian> bfs;
 
 	/**
 	 * Creates a new instance of MODensity.

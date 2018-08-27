@@ -1,6 +1,7 @@
 package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.logging.log4j.LogManager;
@@ -66,7 +67,7 @@ public class OneElectronIntegrals {
 	 * compute the 1E integrals, form S matrix and hCore
 	 */
 	protected void compute1E() {
-		ArrayList<ContractedGaussian> bfs = basisFunctions.getBasisFunctions();
+		List<ContractedGaussian> bfs = basisFunctions.getBasisFunctions();
 		int noOfBasisFunctions = bfs.size();
 		int i;
 
@@ -117,7 +118,7 @@ public class OneElectronIntegrals {
 
 		private int startBasisFunction;
 		private int endBasisFunction;
-		private ArrayList<ContractedGaussian> bfs;
+		private List<ContractedGaussian> bfs;
 		private RealMatrix overlap;
 		private RealMatrix hCore;
 		private int[] atomicNumbers;
@@ -127,7 +128,7 @@ public class OneElectronIntegrals {
 		}
 
 		public OneElectronIntegralEvaluaterThread(int startBasisFunction, int endBasisFunction, RealMatrix overlap,
-				RealMatrix hCore, int[] atomicNumbers, ArrayList<ContractedGaussian> bfs) {
+				RealMatrix hCore, int[] atomicNumbers, List<ContractedGaussian> bfs) {
 			this.startBasisFunction = startBasisFunction;
 			this.endBasisFunction = endBasisFunction;
 
@@ -156,7 +157,7 @@ public class OneElectronIntegrals {
 		 * method to actually compute 1E integrals
 		 */
 		private void compute1E(int startBasisFunction, int endBasisFunction, RealMatrix overlap, RealMatrix hCore,
-				int[] atomicNumbers, ArrayList<ContractedGaussian> bfs) {
+				int[] atomicNumbers, List<ContractedGaussian> bfs) {
 
 			LOG.debug("startBasisFunction: " + startBasisFunction + " endBasisFunction: " + endBasisFunction);
 

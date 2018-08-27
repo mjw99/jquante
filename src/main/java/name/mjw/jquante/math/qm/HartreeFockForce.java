@@ -1,6 +1,7 @@
 package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -94,7 +95,7 @@ public class HartreeFockForce implements Force {
 	private Vector3D computeOneElectronDerivative() {
 		HCore hCore = scfMethod.getOneEI().getHCore();
 		Density dens = scfMethod.getDensity();
-		ArrayList<HCore> hCoreDer = hCore.computeDerivative(atomIndex, scfMethod);
+		List<HCore> hCoreDer = hCore.computeDerivative(atomIndex, scfMethod);
 
 		return new Vector3D(dens.multiply(hCoreDer.get(0)).getTrace(),
 				dens.multiply(hCoreDer.get(1)).getTrace(),
