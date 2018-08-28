@@ -135,20 +135,20 @@ public class TwoElectronIntegrals {
 	 * available.
 	 */
 	protected void compute2E() {
-		List<ContractedGaussian> bfs = basisFunctions.getBasisFunctions();
+		final List<ContractedGaussian> bfs = basisFunctions.getBasisFunctions();
 
 		// allocate required memory
-		int noOfBasisFunctions = bfs.size();
-		int noOfIntegrals = noOfBasisFunctions * (noOfBasisFunctions + 1)
+		final int noOfBasisFunctions = bfs.size();
+		final int noOfIntegrals = noOfBasisFunctions * (noOfBasisFunctions + 1)
 				* (noOfBasisFunctions * noOfBasisFunctions + noOfBasisFunctions + 2) / 8;
 
 		LOG.debug("noOfIntegrals is " + noOfIntegrals);
 
 		twoEIntegrals = new double[noOfIntegrals];
 
-		SimpleParallelTaskExecuter pTaskExecuter = new SimpleParallelTaskExecuter();
+		final SimpleParallelTaskExecuter pTaskExecuter = new SimpleParallelTaskExecuter();
 
-		TwoElectronIntegralEvaluaterThread tThread = new TwoElectronIntegralEvaluaterThread();
+		final TwoElectronIntegralEvaluaterThread tThread = new TwoElectronIntegralEvaluaterThread();
 		tThread.setTaskName("TwoElectronIntegralEvaluater Thread");
 		tThread.setTotalItems(noOfBasisFunctions);
 
@@ -484,8 +484,8 @@ public class TwoElectronIntegrals {
 		public TwoElectronIntegralEvaluaterThread() {
 		}
 
-		public TwoElectronIntegralEvaluaterThread(int startBasisFunction, int endBasisFunction,
-				List<ContractedGaussian> bfs) {
+		public TwoElectronIntegralEvaluaterThread(final int startBasisFunction, final int endBasisFunction,
+				final List<ContractedGaussian> bfs) {
 			this.startBasisFunction = startBasisFunction;
 			this.endBasisFunction = endBasisFunction;
 
@@ -504,56 +504,47 @@ public class TwoElectronIntegrals {
 
 		/** Overridden init() */
 		@Override
-		public SimpleParallelTask init(int startItem, int endItem) {
+		public SimpleParallelTask init(final int startItem, final int endItem) {
 			return new TwoElectronIntegralEvaluaterThread(startItem, endItem, basisFunctions.getBasisFunctions());
 		}
 
 		/**
 		 * Actually compute the 2E integrals
 		 */
-		private void compute2E(int startBasisFunction, int endBasisFunction, List<ContractedGaussian> bfs) {
+		private void compute2E(final int startBasisFunction, final int endBasisFunction, final List<ContractedGaussian> bfs) {
+			final int noOfBasisFunctions = bfs.size();
 
 			int i;
 			int j;
 			int k;
 			int l;
+
 			int ij;
 			int kl;
-			int ijkl;
-			int noOfBasisFunctions = bfs.size();
 
-			ContractedGaussian bfi;
-			ContractedGaussian bfj;
-			ContractedGaussian bfk;
-			ContractedGaussian bfl;
+			int ijkl;
 
 			// we only need i <= j, k <= l, and ij >= kl
 			for (i = startBasisFunction; i < endBasisFunction; i++) {
-				bfi = bfs.get(i);
-
 				for (j = 0; j < (i + 1); j++) {
-					bfj = bfs.get(j);
 					ij = i * (i + 1) / 2 + j;
-
 					for (k = 0; k < noOfBasisFunctions; k++) {
-						bfk = bfs.get(k);
-
 						for (l = 0; l < (k + 1); l++) {
-							bfl = bfs.get(l);
-
 							kl = k * (k + 1) / 2 + l;
 							if (ij >= kl) {
 								ijkl = IntegralsUtil.ijkl2intindex(i, j, k, l);
 
 								// record the 2E integrals
-								twoEIntegrals[ijkl] = Integrals.coulomb(bfi, bfj, bfk, bfl);
-							} // end if
-						} // end l loop
-					} // end k loop
-				} // end of j loop
-			} // end of i loop
+								twoEIntegrals[ijkl] = Integrals.coulomb(bfs.get(i), bfs.get(j), bfs.get(k), bfs.get(l));
+
+							}
+						}
+					}
+				}
+			}
 		}
-	} // end of class TwoElectronIntegralEvaluaterThread
+
+	}
 
 	/**
 	 * Class encapsulating the way to compute 2E electrons in a way useful for
