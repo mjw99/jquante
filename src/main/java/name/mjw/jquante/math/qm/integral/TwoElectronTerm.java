@@ -28,7 +28,7 @@ public interface TwoElectronTerm extends IntegralsPackage {
 	 *            Contracted Gaussian function d.
 	 * @return Two-electron integral.
 	 */
-	public abstract double coulomb(ContractedGaussian a, ContractedGaussian b,
+	public double coulomb(ContractedGaussian a, ContractedGaussian b,
 			ContractedGaussian c, ContractedGaussian d);
 
 	/**
@@ -50,7 +50,7 @@ public interface TwoElectronTerm extends IntegralsPackage {
 	 *            K matrix.
 	 * @return Two-electron integral.
 	 */
-	public abstract double coulomb(ContractedGaussian a, ContractedGaussian b,
+	public double coulomb(ContractedGaussian a, ContractedGaussian b,
 			ContractedGaussian c, ContractedGaussian d, Density density,
 			RealMatrix jMat, RealMatrix kMat);
 
