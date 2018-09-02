@@ -1,7 +1,6 @@
 package name.mjw.jquante.math.qm.integral;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.linear.RealMatrix;
