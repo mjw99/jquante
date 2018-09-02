@@ -56,71 +56,50 @@ public class RysTwoElectronTerm implements TwoElectronTerm {
 		double kcNorm;
 		double repulsionTerm;
 
-		List<Double> aExps;
-		List<Double> aCoefs;
-		List<Double> aNorms;
-
-		List<Double> bExps;
-		List<Double> bCoefs;
-		List<Double> bNorms;
-
-		List<Double> cExps;
-		List<Double> cCoefs;
-		List<Double> cNorms;
-
-		List<Double> dExps;
-		List<Double> dCoefs;
-		List<Double> dNorms;
-
-		aExps = a.getExponents();
-		aCoefs = a.getCoefficients();
-		aNorms = a.getPrimNorms();
+		double[] aExps = a.getExponents().stream().mapToDouble(Double::doubleValue).toArray();
+		double[] aCoefs = a.getCoefficients().stream().mapToDouble(Double::doubleValue).toArray();
+		double[] aNorms = a.getPrimNorms().stream().mapToDouble(Double::doubleValue).toArray();
 		Vector3D aOrigin = a.getOrigin();
 		Power aPower = a.getPowers();
 
-		bExps = b.getExponents();
-		bCoefs = b.getCoefficients();
-		bNorms = b.getPrimNorms();
+		double[] bExps = b.getExponents().stream().mapToDouble(Double::doubleValue).toArray();
+		double[] bCoefs = b.getCoefficients().stream().mapToDouble(Double::doubleValue).toArray();
+		double[] bNorms = b.getPrimNorms().stream().mapToDouble(Double::doubleValue).toArray();
 		Vector3D bOrigin = b.getOrigin();
 		Power bPower = b.getPowers();
 
-		cExps = c.getExponents();
-		cCoefs = c.getCoefficients();
-		cNorms = c.getPrimNorms();
+		double[] cExps = c.getExponents().stream().mapToDouble(Double::doubleValue).toArray();
+		double[] cCoefs = c.getCoefficients().stream().mapToDouble(Double::doubleValue).toArray();
+		double[] cNorms = c.getPrimNorms().stream().mapToDouble(Double::doubleValue).toArray();
 		Vector3D cOrigin = c.getOrigin();
 		Power cPower = c.getPowers();
 
-		dExps = d.getExponents();
-		dCoefs = d.getCoefficients();
-		dNorms = d.getPrimNorms();
+		double[] dExps = d.getExponents().stream().mapToDouble(Double::doubleValue).toArray();
+		double[] dCoefs = d.getCoefficients().stream().mapToDouble(Double::doubleValue).toArray();
+		double[] dNorms = d.getPrimNorms().stream().mapToDouble(Double::doubleValue).toArray();
 		Vector3D dOrigin = d.getOrigin();
 		Power dPower = d.getPowers();
 
-		int asz = aExps.size();
-		int bsz = bExps.size();
-		int csz = cExps.size();
-		int dsz = dExps.size();
+		for (i = 0; i < aExps.length; i++) {
+			iaCoef = aCoefs[i];
+			iaExp = aExps[i];
+			iaNorm = aNorms[i];
 
-		for (i = 0; i < asz; i++) {
-			iaCoef = aCoefs.get(i);
-			iaExp = aExps.get(i);
-			iaNorm = aNorms.get(i);
+			for (j = 0; j < bExps.length; j++) {
+				jbCoef = bCoefs[j];
+				jbExp = bExps[j];
+				jbNorm = bNorms[j];
 
-			for (j = 0; j < bsz; j++) {
-				jbCoef = bCoefs.get(j);
-				jbExp = bExps.get(j);
-				jbNorm = bNorms.get(j);
+				for (k = 0; k < cExps.length; k++) {
+					kcCoef = cCoefs[k];
+					kcExp = cExps[k];
+					kcNorm = cNorms[k];
 
-				for (k = 0; k < csz; k++) {
-					kcCoef = cCoefs.get(k);
-					kcExp = cExps.get(k);
-					kcNorm = cNorms.get(k);
-
-					for (l = 0; l < dsz; l++) {
+					for (l = 0; l < dExps.length; l++) {
 						repulsionTerm = coulombRepulsion(aOrigin, iaNorm, aPower, iaExp, bOrigin, jbNorm, bPower, jbExp,
-								cOrigin, kcNorm, cPower, kcExp, dOrigin, dNorms.get(l), dPower, dExps.get(l));
+								cOrigin, kcNorm, cPower, kcExp, dOrigin, dNorms[l], dPower, dExps[l]);
 
-						value += iaCoef * jbCoef * kcCoef * dCoefs.get(l) * repulsionTerm;
+						value += iaCoef * jbCoef * kcCoef * dCoefs[l] * repulsionTerm;
 					}
 				}
 			}
