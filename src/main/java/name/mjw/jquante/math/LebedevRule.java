@@ -82,7 +82,7 @@ public final class LebedevRule {
 	 * @throws IllegalStateException if not a valid and available order
 	 */
 	public static List<LebedevGridPoint> createGridByOrder(final int order) {
-		final List<LebedevGridPoint> grid = new ArrayList<LebedevGridPoint>(order);
+		final List<LebedevGridPoint> grid = new ArrayList<>(order);
 
 		switch (order) {
 		case 6:
