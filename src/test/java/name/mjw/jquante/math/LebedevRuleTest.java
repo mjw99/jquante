@@ -8,6 +8,26 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class LebedevRuleTest {
+
+	private double hyperboloid(double x, double y, double z) {
+		return (x * x) + (y * y) - (z * z);
+
+	}
+
+	@Test
+	public void testBasicUsageExample() {
+		final List<LebedevGridPoint> grid = LebedevRule.createGridByOrder(590);
+
+		double result = 0.0;
+
+		for (final LebedevGridPoint point : grid) {
+			result += hyperboloid(point.getX(), point.getY(), point.getZ()) * point.getWeight();
+		}
+
+		Assert.assertEquals(4.188790204786363, result * Math.PI * 4, 1E-14);
+
+	}
+
 	@Test
 	public void testSphereIntegration() {
 
