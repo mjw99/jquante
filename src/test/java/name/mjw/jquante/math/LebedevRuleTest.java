@@ -3,7 +3,6 @@ package name.mjw.jquante.math;
 import java.util.List;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -60,7 +59,7 @@ public class LebedevRuleTest {
 	@Test
 	public void testGetters() {
 		final LebedevGridPoint point = LebedevRule.createGridForRule(1).get(0);
-		Assert.assertEquals(FastMath.PI / 2., point.getPhi(), 1E-15); // coelevation
+		Assert.assertEquals(Math.PI / 2., point.getPhi(), 1E-15); // coelevation
 		Assert.assertEquals(0.0, point.getTheta(), 1E-15); // azimuth
 		Assert.assertEquals(1.0, point.getX(), 0.);
 		Assert.assertEquals(0.0, point.getY(), 0.);
