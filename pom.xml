@@ -130,12 +130,6 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.22.1</version>
 				<configuration>
-					<parallel>classes</parallel>
-					<useUnlimitedThreads>true</useUnlimitedThreads>
-					<systemPropertyVariables>
-						<projectArtifactId>${project.artifactId}</projectArtifactId>
-						<projectVersion>${project.version}</projectVersion>
-					</systemPropertyVariables>
 					<useSystemClassLoader>false</useSystemClassLoader>
 				</configuration>
 			</plugin>
