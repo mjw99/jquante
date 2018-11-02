@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>name.mjw</groupId>
@@ -37,25 +38,25 @@
 	</licenses>
 
 	<developers>
-                <developer>
-                        <name>V. Ganesh</name>
-                        <email>tovganesh@gmail.com</email>
-                        <url>http://tovganesh.blogspot.co.uk/</url>
-                        <roles>
-                                <role>Founder</role>
-                                <role>Java Developer</role>
-                        </roles>
-                </developer>
+		<developer>
+			<name>V. Ganesh</name>
+			<email>tovganesh@gmail.com</email>
+			<url>http://tovganesh.blogspot.co.uk/</url>
+			<roles>
+				<role>Founder</role>
+				<role>Java Developer</role>
+			</roles>
+		</developer>
 
-                <developer>
-                        <name>Josh Milthorpe</name>
-                        <email>jjmiltho@us.ibm.com</email>
-                        <url>http://www.milthorpe.org/</url>
+		<developer>
+			<name>Josh Milthorpe</name>
+			<email>jjmiltho@us.ibm.com</email>
+			<url>http://www.milthorpe.org/</url>
 			<organization>Australian National University Research School of Computer Science</organization>
-                        <roles>
-                                <role>Java Developer</role>
-                        </roles>
-                </developer>
+			<roles>
+				<role>Java Developer</role>
+			</roles>
+		</developer>
 
 		<developer>
 			<id>mjw99</id>
@@ -78,26 +79,26 @@
 
 	<build>
 		<plugins>
-                        <plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-                                <artifactId>maven-enforcer-plugin</artifactId>
-                                <version>3.0.0-M2</version>
-			        <executions>
-			          <execution>
-			            <id>enforce-maven</id>
-			            <goals>
-			              <goal>enforce</goal>
-			            </goals>
-			            <configuration>
-			              <rules>
-			                <requireMavenVersion>
-			                  <version>${maven.min-version}</version>
-			                </requireMavenVersion>
-			              </rules>
-			            </configuration>
-			          </execution>
-			        </executions>
-                        </plugin>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>3.0.0-M2</version>
+				<executions>
+					<execution>
+						<id>enforce-maven</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireMavenVersion>
+									<version>${maven.min-version}</version>
+								</requireMavenVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -124,20 +125,20 @@
 				<version>3.1.0</version>
 			</plugin>
 
-                        <plugin>
-                                        <groupId>org.apache.maven.plugins</groupId>
-                                        <artifactId>maven-surefire-plugin</artifactId>
-                                        <version>2.22.1</version>
-                                        <configuration>
-                                                <parallel>classes</parallel>
-                                                <useUnlimitedThreads>true</useUnlimitedThreads>
-                                                <systemPropertyVariables>
-                                                        <projectArtifactId>${project.artifactId}</projectArtifactId>
-                                                        <projectVersion>${project.version}</projectVersion>
-                                                </systemPropertyVariables>
-                                                <useSystemClassLoader>false</useSystemClassLoader>
-                                        </configuration>
-                        </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.1</version>
+				<configuration>
+					<parallel>classes</parallel>
+					<useUnlimitedThreads>true</useUnlimitedThreads>
+					<systemPropertyVariables>
+						<projectArtifactId>${project.artifactId}</projectArtifactId>
+						<projectVersion>${project.version}</projectVersion>
+					</systemPropertyVariables>
+					<useSystemClassLoader>false</useSystemClassLoader>
+				</configuration>
+			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -190,20 +191,20 @@
 			<version>${fortranformat.version}</version>
 		</dependency>
 
-                <dependency>
-                    <groupId>javax.xml.bind</groupId>
-                    <artifactId>jaxb-api</artifactId>
-                    <version>${jaxb-api.version}</version>
-                </dependency>
 		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-math3</artifactId>
-		    <version>${commons-math3.version}</version>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>${jaxb-api.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>net.jafama</groupId>
-		    <artifactId>jafama</artifactId>
-		    <version>${jafama.version}</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-math3</artifactId>
+			<version>${commons-math3.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.jafama</groupId>
+			<artifactId>jafama</artifactId>
+			<version>${jafama.version}</version>
 		</dependency>
 
 
