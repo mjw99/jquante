@@ -1,5 +1,6 @@
 package name.mjw.jquante.math.qm.integral;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
@@ -55,50 +56,71 @@ public class RysTwoElectronTerm implements TwoElectronTerm {
 		double kcNorm;
 		double repulsionTerm;
 
-		double[] aExps = a.getExponents().stream().mapToDouble(Double::doubleValue).toArray();
-		double[] aCoefs = a.getCoefficients().stream().mapToDouble(Double::doubleValue).toArray();
-		double[] aNorms = a.getPrimNorms().stream().mapToDouble(Double::doubleValue).toArray();
+		ArrayList<Double> aExps;
+		ArrayList<Double> aCoefs;
+		ArrayList<Double> aNorms;
+
+		ArrayList<Double> bExps;
+		ArrayList<Double> bCoefs;
+		ArrayList<Double> bNorms;
+
+		ArrayList<Double> cExps;
+		ArrayList<Double> cCoefs;
+		ArrayList<Double> cNorms;
+
+		ArrayList<Double> dExps;
+		ArrayList<Double> dCoefs;
+		ArrayList<Double> dNorms;
+
+		aExps = a.getExponents();
+		aCoefs = a.getCoefficients();
+		aNorms = a.getPrimNorms();
 		Vector3D aOrigin = a.getOrigin();
 		Power aPower = a.getPowers();
 
-		double[] bExps = b.getExponents().stream().mapToDouble(Double::doubleValue).toArray();
-		double[] bCoefs = b.getCoefficients().stream().mapToDouble(Double::doubleValue).toArray();
-		double[] bNorms = b.getPrimNorms().stream().mapToDouble(Double::doubleValue).toArray();
+		bExps = b.getExponents();
+		bCoefs = b.getCoefficients();
+		bNorms = b.getPrimNorms();
 		Vector3D bOrigin = b.getOrigin();
 		Power bPower = b.getPowers();
 
-		double[] cExps = c.getExponents().stream().mapToDouble(Double::doubleValue).toArray();
-		double[] cCoefs = c.getCoefficients().stream().mapToDouble(Double::doubleValue).toArray();
-		double[] cNorms = c.getPrimNorms().stream().mapToDouble(Double::doubleValue).toArray();
+		cExps = c.getExponents();
+		cCoefs = c.getCoefficients();
+		cNorms = c.getPrimNorms();
 		Vector3D cOrigin = c.getOrigin();
 		Power cPower = c.getPowers();
 
-		double[] dExps = d.getExponents().stream().mapToDouble(Double::doubleValue).toArray();
-		double[] dCoefs = d.getCoefficients().stream().mapToDouble(Double::doubleValue).toArray();
-		double[] dNorms = d.getPrimNorms().stream().mapToDouble(Double::doubleValue).toArray();
+		dExps = d.getExponents();
+		dCoefs = d.getCoefficients();
+		dNorms = d.getPrimNorms();
 		Vector3D dOrigin = d.getOrigin();
 		Power dPower = d.getPowers();
 
-		for (i = 0; i < aExps.length; i++) {
-			iaCoef = aCoefs[i];
-			iaExp = aExps[i];
-			iaNorm = aNorms[i];
+		int asz = aExps.size();
+		int bsz = bExps.size();
+		int csz = cExps.size();
+		int dsz = dExps.size();
 
-			for (j = 0; j < bExps.length; j++) {
-				jbCoef = bCoefs[j];
-				jbExp = bExps[j];
-				jbNorm = bNorms[j];
+		for (i = 0; i < asz; i++) {
+			iaCoef = aCoefs.get(i);
+			iaExp = aExps.get(i);
+			iaNorm = aNorms.get(i);
 
-				for (k = 0; k < cExps.length; k++) {
-					kcCoef = cCoefs[k];
-					kcExp = cExps[k];
-					kcNorm = cNorms[k];
+			for (j = 0; j < bsz; j++) {
+				jbCoef = bCoefs.get(j);
+				jbExp = bExps.get(j);
+				jbNorm = bNorms.get(j);
 
-					for (l = 0; l < dExps.length; l++) {
+				for (k = 0; k < csz; k++) {
+					kcCoef = cCoefs.get(k);
+					kcExp = cExps.get(k);
+					kcNorm = cNorms.get(k);
+
+					for (l = 0; l < dsz; l++) {
 						repulsionTerm = coulombRepulsion(aOrigin, iaNorm, aPower, iaExp, bOrigin, jbNorm, bPower, jbExp,
-								cOrigin, kcNorm, cPower, kcExp, dOrigin, dNorms[l], dPower, dExps[l]);
+								cOrigin, kcNorm, cPower, kcExp, dOrigin, dNorms.get(l), dPower, dExps.get(l));
 
-						value += iaCoef * jbCoef * kcCoef * dCoefs[l] * repulsionTerm;
+						value += iaCoef * jbCoef * kcCoef * dCoefs.get(l) * repulsionTerm;
 					}
 				}
 			}
