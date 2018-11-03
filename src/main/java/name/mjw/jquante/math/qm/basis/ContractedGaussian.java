@@ -30,17 +30,17 @@ public class ContractedGaussian {
 	/**
 	 * The Primitive Gaussians (PGs) that make up this Contracted Gaussian.
 	 */
-	private List<PrimitiveGaussian> primitives;
+	private ArrayList<PrimitiveGaussian> primitives;
 
 	/**
 	 * The list of exponents for this Gaussian.
 	 */
-	private List<Double> exponents;
+	private ArrayList<Double> exponents;
 
 	/**
 	 * Holds value of property coefficients.
 	 */
-	private List<Double> coefficients;
+	private ArrayList<Double> coefficients;
 
 	/**
 	 * Holds value of property normalization.
@@ -52,7 +52,7 @@ public class ContractedGaussian {
 	 * 
 	 * normalization factors for PGs
 	 */
-	private List<Double> primNorms;
+	private ArrayList<Double> primNorms;
 
 	protected Atom centeredAtom;
 
@@ -170,7 +170,7 @@ public class ContractedGaussian {
 	 * 
 	 * @return Value of property primitives.
 	 */
-	public List<PrimitiveGaussian> getPrimitives() {
+	public ArrayList<PrimitiveGaussian> getPrimitives() {
 		return this.primitives;
 	}
 
@@ -180,7 +180,7 @@ public class ContractedGaussian {
 	 * @param primitives
 	 *            New value of property primitives.
 	 */
-	public void setPrimitives(List<PrimitiveGaussian> primitives) {
+	public void setPrimitives(ArrayList<PrimitiveGaussian> primitives) {
 		this.primitives = primitives;
 	}
 
@@ -189,7 +189,7 @@ public class ContractedGaussian {
 	 * 
 	 * @return Value of property exponents.
 	 */
-	public List<Double> getExponents() {
+	public ArrayList<Double> getExponents() {
 		return this.exponents;
 	}
 
@@ -199,7 +199,7 @@ public class ContractedGaussian {
 	 * @param exponents
 	 *            New value of property exponents.
 	 */
-	public void setExponents(List<Double> exponents) {
+	public void setExponents(ArrayList<Double> exponents) {
 		this.exponents = exponents;
 	}
 
@@ -208,7 +208,7 @@ public class ContractedGaussian {
 	 * 
 	 * @return Value of property coefficients.
 	 */
-	public List<Double> getCoefficients() {
+	public ArrayList<Double> getCoefficients() {
 		return this.coefficients;
 	}
 
@@ -218,7 +218,7 @@ public class ContractedGaussian {
 	 * @param coefficients
 	 *            New value of property coefficients.
 	 */
-	public void setCoefficients(List<Double> coefficients) {
+	public void setCoefficients(ArrayList<Double> coefficients) {
 		this.coefficients = coefficients;
 	}
 
@@ -264,7 +264,7 @@ public class ContractedGaussian {
 	public double overlap(ContractedGaussian cg) {
 		double sij = 0.0;
 
-		List<PrimitiveGaussian> cgPrimitives = cg.getPrimitives();
+		ArrayList<PrimitiveGaussian> cgPrimitives = cg.getPrimitives();
 
 		for (int i = 0; i < primitives.size(); i++) {
 			PrimitiveGaussian iPG = primitives.get(i);
@@ -715,7 +715,7 @@ public class ContractedGaussian {
 	 * 
 	 * @return Value of property primNorms.
 	 */
-	public List<Double> getPrimNorms() {
+	public ArrayList<Double> getPrimNorms() {
 		return this.primNorms;
 	}
 

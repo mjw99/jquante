@@ -1,6 +1,6 @@
 package name.mjw.jquante.math.qm.integral;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.linear.RealMatrix;
@@ -49,27 +49,27 @@ public class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 		double kcNorm;
 		double repulsionTerm;
 
-		List<Double> aExps = a.getExponents();
-		List<Double> aCoefs = a.getCoefficients();
-		List<Double> aNorms = a.getPrimNorms();
+		ArrayList<Double> aExps = a.getExponents();
+		ArrayList<Double> aCoefs = a.getCoefficients();
+		ArrayList<Double> aNorms = a.getPrimNorms();
 		Vector3D aOrigin = a.getOrigin();
 		Power aPower = a.getPowers();
 
-		List<Double> bExps = b.getExponents();
-		List<Double> bCoefs = b.getCoefficients();
-		List<Double> bNorms = b.getPrimNorms();
+		ArrayList<Double> bExps = b.getExponents();
+		ArrayList<Double> bCoefs = b.getCoefficients();
+		ArrayList<Double> bNorms = b.getPrimNorms();
 		Vector3D bOrigin = b.getOrigin();
 		Power bPower = b.getPowers();
 
-		List<Double> cExps = c.getExponents();
-		List<Double> cCoefs = c.getCoefficients();
-		List<Double> cNorms = c.getPrimNorms();
+		ArrayList<Double> cExps = c.getExponents();
+		ArrayList<Double> cCoefs = c.getCoefficients();
+		ArrayList<Double> cNorms = c.getPrimNorms();
 		Vector3D cOrigin = c.getOrigin();
 		Power cPower = c.getPowers();
 
-		List<Double> dExps = d.getExponents();
-		List<Double> dCoefs = d.getCoefficients();
-		List<Double> dNorms = d.getPrimNorms();
+		ArrayList<Double> dExps = d.getExponents();
+		ArrayList<Double> dCoefs = d.getCoefficients();
+		ArrayList<Double> dNorms = d.getPrimNorms();
 		Vector3D dOrigin = d.getOrigin();
 		Power dPower = d.getPowers();
 
