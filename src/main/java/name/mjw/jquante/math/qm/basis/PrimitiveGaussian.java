@@ -67,9 +67,7 @@ public class PrimitiveGaussian {
 		this.powers = powers;
 		this.exponent = exponent;
 		this.coefficient = coefficient;
-
-		this.normalization = 1;
-
+		
 		normalize();
 	}
 
