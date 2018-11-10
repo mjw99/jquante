@@ -18,7 +18,8 @@ public class SimpleParallelTaskExecuter {
 
 	/** Creates a new instance of SimpleParallelTaskExecuter */
 	public SimpleParallelTaskExecuter() {
-		noOfProcessors = Runtime.getRuntime().availableProcessors()*4;
+		noOfProcessors = Runtime.getRuntime().availableProcessors()*4;		
+		//noOfProcessors = 1;
 	}
 
 	/**

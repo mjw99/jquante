@@ -1,6 +1,5 @@
 package name.mjw.jquante.math.qm.integral;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
@@ -9,6 +8,7 @@ import org.apache.commons.math3.special.Erf;
 import org.apache.commons.math3.util.CombinatoricsUtils;
 
 import name.mjw.jquante.math.qm.Density;
+import name.mjw.jquante.math.qm.basis.CompactContractedGaussian;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.math.qm.basis.Power;
 import net.jafama.FastMath;
@@ -32,12 +32,18 @@ public class RysTwoElectronTerm implements TwoElectronTerm {
 
 	static final int MAX_ROOTS = 16;
 	static final int MAX_ROOTS_SQUARED = MAX_ROOTS * MAX_ROOTS;
+	
+	@Override
+	public double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c, ContractedGaussian d) {
+		return 0;
+	}
 
 	/**
 	 * 2E coulomb interactions between 4 contracted Gaussians
 	 */
 	@Override
-	public double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c, ContractedGaussian d) {
+	public double coulomb(final CompactContractedGaussian a, final CompactContractedGaussian b, final CompactContractedGaussian c,
+			final CompactContractedGaussian d) {
 
 		double value = 0.0;
 
@@ -56,77 +62,36 @@ public class RysTwoElectronTerm implements TwoElectronTerm {
 		double kcNorm;
 		double repulsionTerm;
 
-		ArrayList<Double> aExps;
-		ArrayList<Double> aCoefs;
-		ArrayList<Double> aNorms;
 
-		ArrayList<Double> bExps;
-		ArrayList<Double> bCoefs;
-		ArrayList<Double> bNorms;
+		for (i = 0; i < a.exponents.length; i++) {
+			iaCoef = a.coefficients[i];
+			iaExp = a.exponents[i];
+			iaNorm = a.primnorms[i];
 
-		ArrayList<Double> cExps;
-		ArrayList<Double> cCoefs;
-		ArrayList<Double> cNorms;
+			for (j = 0; j < b.exponents.length; j++) {
+				jbCoef = b.coefficients[j];
+				jbExp = b.exponents[j];
+				jbNorm = b.primnorms[j];
 
-		ArrayList<Double> dExps;
-		ArrayList<Double> dCoefs;
-		ArrayList<Double> dNorms;
+				for (k = 0; k < c.exponents.length; k++) {
+					kcCoef = c.coefficients[k];
+					kcExp = c.exponents[k];
+					kcNorm = c.primnorms[k];
 
-		aExps = a.getExponents();
-		aCoefs = a.getCoefficients();
-		aNorms = a.getPrimNorms();
-		Vector3D aOrigin = a.getOrigin();
-		Power aPower = a.getPowers();
+					for (l = 0; l < d.exponents.length; l++) {
+						repulsionTerm = coulombRepulsion(
+								a.x, a.y, a.z, iaNorm, a.l, a.m, a.n, iaExp, 
+								b.x, b.y, b.z, jbNorm, b.l, b.m, b.n, jbExp, 
+								c.x, c.y, c.z, kcNorm, c.l, c.m, c.n, kcExp, 
+								d.x, d.y, d.z, d.primnorms[l], d.l, d.m, d.n, d.exponents[l]);
 
-		bExps = b.getExponents();
-		bCoefs = b.getCoefficients();
-		bNorms = b.getPrimNorms();
-		Vector3D bOrigin = b.getOrigin();
-		Power bPower = b.getPowers();
-
-		cExps = c.getExponents();
-		cCoefs = c.getCoefficients();
-		cNorms = c.getPrimNorms();
-		Vector3D cOrigin = c.getOrigin();
-		Power cPower = c.getPowers();
-
-		dExps = d.getExponents();
-		dCoefs = d.getCoefficients();
-		dNorms = d.getPrimNorms();
-		Vector3D dOrigin = d.getOrigin();
-		Power dPower = d.getPowers();
-
-		int asz = aExps.size();
-		int bsz = bExps.size();
-		int csz = cExps.size();
-		int dsz = dExps.size();
-
-		for (i = 0; i < asz; i++) {
-			iaCoef = aCoefs.get(i);
-			iaExp = aExps.get(i);
-			iaNorm = aNorms.get(i);
-
-			for (j = 0; j < bsz; j++) {
-				jbCoef = bCoefs.get(j);
-				jbExp = bExps.get(j);
-				jbNorm = bNorms.get(j);
-
-				for (k = 0; k < csz; k++) {
-					kcCoef = cCoefs.get(k);
-					kcExp = cExps.get(k);
-					kcNorm = cNorms.get(k);
-
-					for (l = 0; l < dsz; l++) {
-						repulsionTerm = coulombRepulsion(aOrigin, iaNorm, aPower, iaExp, bOrigin, jbNorm, bPower, jbExp,
-								cOrigin, kcNorm, cPower, kcExp, dOrigin, dNorms.get(l), dPower, dExps.get(l));
-
-						value += iaCoef * jbCoef * kcCoef * dCoefs.get(l) * repulsionTerm;
+						value += iaCoef * jbCoef * kcCoef * d.coefficients[l] * repulsionTerm;
 					}
 				}
 			}
 		}
 
-		return (a.getNormalization() * b.getNormalization() * c.getNormalization() * d.getNormalization() * value);
+		return (a.normalization * b.normalization * c.normalization * d.normalization * value);
 
 	}
 
@@ -134,33 +99,19 @@ public class RysTwoElectronTerm implements TwoElectronTerm {
 	 * Form coulomb repulsion integral by Rys quadrature
 	 */
 	@Override
-	public double coulombRepulsion(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
-			Power bPower, double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d,
-			double dNorm, Power dPower, double dAlpha) {
+	public double coulombRepulsion(
+			double ax, double ay, double az, double aNorm, int al, int am, int an, double aAlpha,
+			double bx, double by, double bz, double bNorm, int bl, int bm, int bn, double bAlpha, 
+			double cx, double cy, double cz, double cNorm, int cl, int cm, int cn, double cAlpha, 
+			double dx, double dy, double dz, double dNorm, int dl, int dm, int dn, double dAlpha) {
 
-		final int la = aPower.getL();
-		final int ma = aPower.getM();
-		final int na = aPower.getN();
+		final int nRoots = (al + am + an + bl + bn + bm + cl + cm + cn + dl + dm + dn) / 2 + 1;
 
-		final int lb = bPower.getL();
-		final int mb = bPower.getM();
-		final int nb = bPower.getN();
-
-		final int lc = cPower.getL();
-		final int mc = cPower.getM();
-		final int nc = cPower.getN();
-
-		final int ld = dPower.getL();
-		final int md = dPower.getM();
-		final int nd = dPower.getN();
-
-		final int nRoots = (la + ma + na + lb + nb + mb + lc + mc + nc + ld + md + nd) / 2 + 1;
-
-		double[] roots = new double[nRoots];
+		double[] roots   = new double[nRoots];
 		double[] weights = new double[nRoots];
 
-		final Vector3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
-		final Vector3D q = IntegralsUtil.gaussianProductCenter(cAlpha, c, dAlpha, d);
+		final Vector3D p = IntegralsUtil.gaussianProductCenter(aAlpha, ax, ay, az, bAlpha, bx, by, bz);
+		final Vector3D q = IntegralsUtil.gaussianProductCenter(cAlpha, cx, cy, cz, dAlpha, dx, dy, dz);
 
 		// [ABD] eq. 4
 		final double radiusPQSquared = p.distanceSq(q);
@@ -184,9 +135,9 @@ public class RysTwoElectronTerm implements TwoElectronTerm {
 		for (int i = 0; i < roots.length; i++) {
 			t = roots[i];
 
-			iX = int1d(t, la, lb, lc, ld, a.getX(), b.getX(), c.getX(), d.getX(), aAlpha, bAlpha, cAlpha, dAlpha);
-			iY = int1d(t, ma, mb, mc, md, a.getY(), b.getY(), c.getY(), d.getY(), aAlpha, bAlpha, cAlpha, dAlpha);
-			iZ = int1d(t, na, nb, nc, nd, a.getZ(), b.getZ(), c.getZ(), d.getZ(), aAlpha, bAlpha, cAlpha, dAlpha);
+			iX = int1d(t, al, bl, cl, dl, ax, bx, cx, dx, aAlpha, bAlpha, cAlpha, dAlpha);
+			iY = int1d(t, am, bm, cm, dm, ay, by, cy, dy, aAlpha, bAlpha, cAlpha, dAlpha);
+			iZ = int1d(t, an, bn, cn, dn, az, bz, cz, dz, aAlpha, bAlpha, cAlpha, dAlpha);
 
 			sum += iX * iY * iZ * weights[i];
 		}
@@ -1787,4 +1738,13 @@ public class RysTwoElectronTerm implements TwoElectronTerm {
 			Density density, RealMatrix jMat, RealMatrix kMat) {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
+
+	@Override
+	public double coulombRepulsion(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
+			Power bPower, double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d,
+			double dNorm, Power dPower, double dAlpha) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

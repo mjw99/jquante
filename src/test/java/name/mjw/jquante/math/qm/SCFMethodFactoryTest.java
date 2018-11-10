@@ -154,7 +154,7 @@ public class SCFMethodFactoryTest {
 
 		// compute integrals
 		OneElectronIntegrals e1 = new OneElectronIntegrals(bf, water);
-		TwoElectronIntegrals e2 = new TwoElectronIntegrals(bf);
+		TwoElectronIntegrals e2 = new TwoElectronIntegrals(bf, water, true);
 
 		long t2 = System.currentTimeMillis();
 

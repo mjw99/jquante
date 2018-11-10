@@ -128,7 +128,6 @@ public class GMatrix extends Array2DRowRealMatrix {
 	 * storage.
 	 */
 	protected void makeGMatrixDirect() {
-		LOG.debug("makeGMatrixDirect() called");
 		SimpleParallelTaskExecuter pTaskExecuter = new SimpleParallelTaskExecuter();
 
 		// allocate memory for partial GMatrices

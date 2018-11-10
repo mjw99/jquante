@@ -61,10 +61,8 @@ public class ContractedGaussian {
 	/**
 	 * Creates a new instance of ContractedGaussian
 	 * 
-	 * @param origin
-	 *            - the (x, y, z) on which this gaussian is centered
-	 * @param powers
-	 *            - the powers of this gaussian
+	 * @param origin - the (x, y, z) on which this gaussian is centered
+	 * @param powers - the powers of this gaussian
 	 */
 	public ContractedGaussian(Vector3D origin, Power powers) {
 		this.origin = origin;
@@ -81,10 +79,8 @@ public class ContractedGaussian {
 	/**
 	 * Creates a new instance of ContractedGaussian
 	 * 
-	 * @param centeredAtom
-	 *            - CG centered on an atom
-	 * @param powers
-	 *            - the powers of this gaussian
+	 * @param centeredAtom - CG centered on an atom
+	 * @param powers       - the powers of this gaussian
 	 */
 	public ContractedGaussian(Atom centeredAtom, Power powers) {
 		this(centeredAtom.getAtomCenterInAU(), powers);
@@ -104,8 +100,7 @@ public class ContractedGaussian {
 	/**
 	 * Set the value of centeredAtom
 	 * 
-	 * @param centeredAtom
-	 *            new value of centeredAtom
+	 * @param centeredAtom new value of centeredAtom
 	 */
 	public void setCenteredAtom(Atom centeredAtom) {
 		this.centeredAtom = centeredAtom;
@@ -114,14 +109,11 @@ public class ContractedGaussian {
 	/**
 	 * Adds a primitive gaussian (PG) to this contracted gaussian list
 	 * 
-	 * @param exponent
-	 *            the exponent for this PG
-	 * @param coefficient
-	 *            the coefficient of this PG
+	 * @param exponent    the exponent for this PG
+	 * @param coefficient the coefficient of this PG
 	 */
 	public void addPrimitive(double exponent, double coefficient) {
-		primitives.add(new PrimitiveGaussian(origin, powers, exponent,
-				coefficient));
+		primitives.add(new PrimitiveGaussian(origin, powers, exponent, coefficient));
 
 		exponents.add(exponent);
 		coefficients.add(coefficient);
@@ -139,8 +131,7 @@ public class ContractedGaussian {
 	/**
 	 * Setter for property origin.
 	 * 
-	 * @param origin
-	 *            New value of property origin.
+	 * @param origin New value of property origin.
 	 */
 	public void setOrigin(Vector3D origin) {
 		this.origin = origin;
@@ -158,8 +149,7 @@ public class ContractedGaussian {
 	/**
 	 * Setter for property powers.
 	 * 
-	 * @param powers
-	 *            New value of property powers.
+	 * @param powers New value of property powers.
 	 */
 	public void setPowers(Power powers) {
 		this.powers = powers;
@@ -177,8 +167,7 @@ public class ContractedGaussian {
 	/**
 	 * Setter for property primitives.
 	 * 
-	 * @param primitives
-	 *            New value of property primitives.
+	 * @param primitives New value of property primitives.
 	 */
 	public void setPrimitives(ArrayList<PrimitiveGaussian> primitives) {
 		this.primitives = primitives;
@@ -196,8 +185,7 @@ public class ContractedGaussian {
 	/**
 	 * Setter for property exponents.
 	 * 
-	 * @param exponents
-	 *            New value of property exponents.
+	 * @param exponents New value of property exponents.
 	 */
 	public void setExponents(ArrayList<Double> exponents) {
 		this.exponents = exponents;
@@ -215,8 +203,7 @@ public class ContractedGaussian {
 	/**
 	 * Setter for property coefficients.
 	 * 
-	 * @param coefficients
-	 *            New value of property coefficients.
+	 * @param coefficients New value of property coefficients.
 	 */
 	public void setCoefficients(ArrayList<Double> coefficients) {
 		this.coefficients = coefficients;
@@ -234,8 +221,7 @@ public class ContractedGaussian {
 	/**
 	 * Setter for property normalisation.
 	 * 
-	 * @param normalization
-	 *            New value of property normalisation.
+	 * @param normalization New value of property normalisation.
 	 */
 	public void setNormalization(double normalization) {
 		this.normalization = normalization;
@@ -256,9 +242,8 @@ public class ContractedGaussian {
 	/**
 	 * Overlap matrix element with another ContractedGaussian
 	 * 
-	 * @param cg
-	 *            the ContractedGaussian with which the overlap is to be be
-	 *            determined.
+	 * @param cg the ContractedGaussian with which the overlap is to be be
+	 *           determined.
 	 * @return the overlap value
 	 */
 	public double overlap(ContractedGaussian cg) {
@@ -271,8 +256,7 @@ public class ContractedGaussian {
 			for (int j = 0; j < cgPrimitives.size(); j++) {
 				PrimitiveGaussian jPG = cgPrimitives.get(j);
 
-				sij += iPG.getCoefficient() * jPG.getCoefficient()
-						* iPG.overlap(jPG);
+				sij += iPG.getCoefficient() * jPG.getCoefficient() * iPG.overlap(jPG);
 			}
 		}
 
@@ -282,14 +266,12 @@ public class ContractedGaussian {
 	/**
 	 * Compute the overlap energy derivative term w.r.t the specified atom index
 	 * 
-	 * @param atomIndex
-	 *            the reference atomIndex
-	 * @param cg
-	 *            the other cg
+	 * @param atomIndex the reference atomIndex
+	 * @param cg        the other cg
 	 * @return the derivative term as an instance of Vector3D
 	 */
 	public Vector3D overlapDerivative(int atomIndex, ContractedGaussian cg) {
-		Vector3D ovrDer = new Vector3D(0,0,0);
+		Vector3D ovrDer = new Vector3D(0, 0, 0);
 
 		// case 1: atomIndex is centered on this CG
 		if (this.centeredAtom.getIndex() == atomIndex) {
@@ -316,20 +298,18 @@ public class ContractedGaussian {
 	}
 
 	/** helper method for overlap derivative */
-	private void overlapDerivativeHelper(PrimitiveGaussian iPG,
-			PrimitiveGaussian jPG, Vector3D pOrigin, Vector3D ovrDer) {
+	private void overlapDerivativeHelper(PrimitiveGaussian iPG, PrimitiveGaussian jPG, Vector3D pOrigin,
+			Vector3D ovrDer) {
 		int l = iPG.getPowers().getL();
 		int m = iPG.getPowers().getM();
 		int n = iPG.getPowers().getN();
 		double coeff = iPG.getCoefficient() * jPG.getCoefficient();
 		double alpha = iPG.getExponent();
 
-		PrimitiveGaussian xPG = new PrimitiveGaussian(pOrigin, new Power(l + 1,
-				m, n), coeff, alpha);
+		PrimitiveGaussian xPG = new PrimitiveGaussian(pOrigin, new Power(l + 1, m, n), coeff, alpha);
 		xPG.normalize();
 
-		double terma = FastMath.sqrt(alpha * (2.0 * l + 1.0)) * coeff
-				* xPG.overlap(jPG);
+		double terma = FastMath.sqrt(alpha * (2.0 * l + 1.0)) * coeff * xPG.overlap(jPG);
 		double termbx = 0.0;
 		double termby = 0.0;
 		double termbz = 0.0;
@@ -337,8 +317,7 @@ public class ContractedGaussian {
 		if (l > 0) {
 			xPG.setPowers(new Power(l - 1, m, n));
 			xPG.normalize();
-			termbx = -2.0 * l * FastMath.sqrt(alpha / (2.0 * l - 1.0)) * coeff
-					* xPG.overlap(jPG);
+			termbx = -2.0 * l * FastMath.sqrt(alpha / (2.0 * l - 1.0)) * coeff * xPG.overlap(jPG);
 		} // end if
 
 		xPG.setPowers(new Power(l, m + 1, n));
@@ -348,8 +327,7 @@ public class ContractedGaussian {
 		if (m > 0) {
 			xPG.setPowers(new Power(l, m - 1, n));
 			xPG.normalize();
-			termby = -2 * m * FastMath.sqrt(alpha / (2.0 * m - 1.0)) * coeff
-					* xPG.overlap(jPG);
+			termby = -2 * m * FastMath.sqrt(alpha / (2.0 * m - 1.0)) * coeff * xPG.overlap(jPG);
 		} else {
 			termby = 0.0;
 		}
@@ -361,22 +339,19 @@ public class ContractedGaussian {
 		if (n > 0) {
 			xPG.setPowers(new Power(l, m, n - 1));
 			xPG.normalize();
-			termbz = -2.0 * n * FastMath.sqrt(alpha / (2.0 * n - 1.0)) * coeff
-					* xPG.overlap(jPG);
+			termbz = -2.0 * n * FastMath.sqrt(alpha / (2.0 * n - 1.0)) * coeff * xPG.overlap(jPG);
 		} else {
 			termbz = 0.0;
 		}
 
-		ovrDer = new Vector3D(ovrDer.getX() + terma + termbx,
-				ovrDer.getY() + terma + termby,
+		ovrDer = new Vector3D(ovrDer.getX() + terma + termbx, ovrDer.getY() + terma + termby,
 				ovrDer.getZ() + terma + termbz);
 	}
 
 	/**
 	 * Kinetic Energy (KE) matrix element with another ContractedGaussian
 	 * 
-	 * @param cg
-	 *            the ContractedGaussian with which KE is to be determined.
+	 * @param cg the ContractedGaussian with which KE is to be determined.
 	 * @return the KE value
 	 */
 	public double kinetic(ContractedGaussian cg) {
@@ -388,8 +363,7 @@ public class ContractedGaussian {
 			for (int j = 0; j < cgPrimitives.size(); j++) {
 				PrimitiveGaussian jPG = cgPrimitives.get(j);
 
-				tij += iPG.getCoefficient() * jPG.getCoefficient()
-						* iPG.kinetic(jPG);
+				tij += iPG.getCoefficient() * jPG.getCoefficient() * iPG.kinetic(jPG);
 			}
 		}
 
@@ -399,14 +373,12 @@ public class ContractedGaussian {
 	/**
 	 * Compute the kinetic energy derivative term w.r.t the specified atom index
 	 * 
-	 * @param atomIndex
-	 *            the reference atomIndex
-	 * @param cg
-	 *            the other cg
+	 * @param atomIndex the reference atomIndex
+	 * @param cg        the other cg
 	 * @return the derivative term as an instance of Vector3D
 	 */
 	public Vector3D kineticDerivative(int atomIndex, ContractedGaussian cg) {
-		Vector3D kder = new Vector3D(0,0,0);
+		Vector3D kder = new Vector3D(0, 0, 0);
 
 		// case 1: atomIndex is centered on this CG
 		if (this.centeredAtom.getIndex() == atomIndex) {
@@ -433,20 +405,18 @@ public class ContractedGaussian {
 	}
 
 	/** helper method for kinetic energy derivative */
-	private void kineticDerivativeHelper(PrimitiveGaussian iPG,
-			PrimitiveGaussian jPG, Vector3D pOrigin, Vector3D kder) {
+	private void kineticDerivativeHelper(PrimitiveGaussian iPG, PrimitiveGaussian jPG, Vector3D pOrigin,
+			Vector3D kder) {
 		int l = iPG.getPowers().getL();
 		int m = iPG.getPowers().getM();
 		int n = iPG.getPowers().getN();
 		double coeff = iPG.getCoefficient() * jPG.getCoefficient();
 		double alpha = iPG.getExponent();
 
-		PrimitiveGaussian xPG = new PrimitiveGaussian(pOrigin, new Power(l + 1,
-				m, n), coeff, alpha);
+		PrimitiveGaussian xPG = new PrimitiveGaussian(pOrigin, new Power(l + 1, m, n), coeff, alpha);
 		xPG.normalize();
 
-		double terma = FastMath.sqrt(alpha * (2.0 * l + 1.0)) * coeff
-				* xPG.kinetic(jPG);
+		double terma = FastMath.sqrt(alpha * (2.0 * l + 1.0)) * coeff * xPG.kinetic(jPG);
 		double termbx = 0.0;
 		double termby = 0.0;
 		double termbz = 0.0;
@@ -454,10 +424,8 @@ public class ContractedGaussian {
 		if (l > 0) {
 			xPG.setPowers(new Power(l - 1, m, n));
 			xPG.normalize();
-			termbx = -2.0 * l * FastMath.sqrt(alpha / (2.0 * l - 1.0)) * coeff
-					* xPG.kinetic(jPG);
+			termbx = -2.0 * l * FastMath.sqrt(alpha / (2.0 * l - 1.0)) * coeff * xPG.kinetic(jPG);
 		}
-
 
 		xPG.setPowers(new Power(l, m + 1, n));
 		xPG.normalize();
@@ -466,12 +434,10 @@ public class ContractedGaussian {
 		if (m > 0) {
 			xPG.setPowers(new Power(l, m - 1, n));
 			xPG.normalize();
-			termby = -2 * m * FastMath.sqrt(alpha / (2.0 * m - 1.0)) * coeff
-					* xPG.kinetic(jPG);
+			termby = -2 * m * FastMath.sqrt(alpha / (2.0 * m - 1.0)) * coeff * xPG.kinetic(jPG);
 		} else {
 			termby = 0.0;
 		}
-
 
 		xPG.setPowers(new Power(l, m, n + 1));
 		xPG.normalize();
@@ -480,25 +446,20 @@ public class ContractedGaussian {
 		if (n > 0) {
 			xPG.setPowers(new Power(l, m, n - 1));
 			xPG.normalize();
-			termbz = -2.0 * n * FastMath.sqrt(alpha / (2.0 * n - 1.0)) * coeff
-					* xPG.kinetic(jPG);
+			termbz = -2.0 * n * FastMath.sqrt(alpha / (2.0 * n - 1.0)) * coeff * xPG.kinetic(jPG);
 		} else {
 			termbz = 0.0;
 		}
 
-		kder = new Vector3D(kder.getX() + terma + termbx, 
-				kder.getY() + terma + termby, 
-				kder.getZ() + terma + termbz);
+		kder = new Vector3D(kder.getX() + terma + termbx, kder.getY() + terma + termby, kder.getZ() + terma + termbz);
 	}
 
 	/**
 	 * Nuclear matrix element with another ContractedGaussian and a center
 	 * 
-	 * @param cg
-	 *            the ContractedGaussian with which nuclear interaction is to
-	 *            determined.
-	 * @param center
-	 *            the center at which nuclear energy is to be computed
+	 * @param cg     the ContractedGaussian with which nuclear interaction is to
+	 *               determined.
+	 * @param center the center at which nuclear energy is to be computed
 	 * @return the nuclear value
 	 */
 	public double nuclear(ContractedGaussian cg, Vector3D center) {
@@ -513,8 +474,7 @@ public class ContractedGaussian {
 			for (j = 0; j < cgPrimitives.size(); j++) {
 				PrimitiveGaussian jPG = cgPrimitives.get(j);
 
-				vij += iPG.getCoefficient() * jPG.getCoefficient()
-						* iPG.nuclear(jPG, center);
+				vij += iPG.getCoefficient() * jPG.getCoefficient() * iPG.nuclear(jPG, center);
 			} // end for
 		} // end for
 
@@ -524,17 +484,13 @@ public class ContractedGaussian {
 	/**
 	 * Derivative of nuclear attraction term, with respect to an atom index
 	 * 
-	 * @param mol
-	 *            the reference Molecule object
-	 * @param atomIndex
-	 *            the reference atomIndex
-	 * @param cg
-	 *            the other ContractedGaussian
+	 * @param mol       the reference Molecule object
+	 * @param atomIndex the reference atomIndex
+	 * @param cg        the other ContractedGaussian
 	 * @return partial derivative of nuclear attraction integral term
 	 */
-	public Vector3D nuclearAttractionDerivative(Molecule mol, int atomIndex,
-			ContractedGaussian cg) {
-		Vector3D nder = new Vector3D(0,0,0);
+	public Vector3D nuclearAttractionDerivative(Molecule mol, int atomIndex, ContractedGaussian cg) {
+		Vector3D nder = new Vector3D(0, 0, 0);
 
 		// case 1: atom index is centered on this CG
 		if (this.centeredAtom.getIndex() == atomIndex) {
@@ -555,13 +511,12 @@ public class ContractedGaussian {
 		}
 
 		double factor;
-		double atno = AtomInfo.getInstance().getAtomicNumber(
-				centeredAtom.getSymbol());
+		double atno = AtomInfo.getInstance().getAtomicNumber(centeredAtom.getSymbol());
 		for (PrimitiveGaussian iPG : primitives) {
 			for (PrimitiveGaussian jPG : cg.primitives) {
 				factor = iPG.getCoefficient() * jPG.getCoefficient() * atno;
-				nder = nder.add(jPG.nuclearAttractionGradient(iPG,
-						centeredAtom.getAtomCenter()).scalarMultiply(factor));
+				nder = nder
+						.add(jPG.nuclearAttractionGradient(iPG, centeredAtom.getAtomCenter()).scalarMultiply(factor));
 			}
 		}
 
@@ -569,16 +524,15 @@ public class ContractedGaussian {
 	}
 
 	/** helper method for kinetic energy derivative */
-	private void nuclearDerivativeHelper(Molecule mol, PrimitiveGaussian iPG,
-			PrimitiveGaussian jPG, Vector3D pOrigin, Vector3D nder) {
+	private void nuclearDerivativeHelper(Molecule mol, PrimitiveGaussian iPG, PrimitiveGaussian jPG, Vector3D pOrigin,
+			Vector3D nder) {
 		int l = iPG.getPowers().getL();
 		int m = iPG.getPowers().getM();
 		int n = iPG.getPowers().getN();
 		double coeff = iPG.getCoefficient() * jPG.getCoefficient();
 		double alpha = iPG.getExponent();
 
-		PrimitiveGaussian xPG = new PrimitiveGaussian(pOrigin, new Power(l + 1,
-				m, n), coeff, alpha);
+		PrimitiveGaussian xPG = new PrimitiveGaussian(pOrigin, new Power(l + 1, m, n), coeff, alpha);
 		xPG.normalize();
 
 		double terma = 0.0;
@@ -586,8 +540,7 @@ public class ContractedGaussian {
 		AtomInfo ai = AtomInfo.getInstance();
 		for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 			Atom atom = mol.getAtom(i);
-			terma += ai.getAtomicNumber(atom.getSymbol())
-					* FastMath.sqrt(alpha * (2.0 * l + 1.0)) * coeff
+			terma += ai.getAtomicNumber(atom.getSymbol()) * FastMath.sqrt(alpha * (2.0 * l + 1.0)) * coeff
 					* xPG.nuclear(jPG, atom.getAtomCenter());
 		} // end for
 
@@ -601,9 +554,8 @@ public class ContractedGaussian {
 
 			for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 				Atom atom = mol.getAtom(i);
-				termbx += -2.0 * l * ai.getAtomicNumber(atom.getSymbol())
-						* FastMath.sqrt(alpha / (2.0 * l - 1.0)) * coeff
-						* xPG.nuclear(jPG, atom.getAtomCenter());
+				termbx += -2.0 * l * ai.getAtomicNumber(atom.getSymbol()) * FastMath.sqrt(alpha / (2.0 * l - 1.0))
+						* coeff * xPG.nuclear(jPG, atom.getAtomCenter());
 			} // end for
 		} // end if
 
@@ -612,11 +564,9 @@ public class ContractedGaussian {
 		terma = 0.0;
 		for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 			Atom atom = mol.getAtom(i);
-			terma += ai.getAtomicNumber(atom.getSymbol())
-					* FastMath.sqrt(alpha * (2.0 * m + 1.0)) * coeff
+			terma += ai.getAtomicNumber(atom.getSymbol()) * FastMath.sqrt(alpha * (2.0 * m + 1.0)) * coeff
 					* xPG.nuclear(jPG, atom.getAtomCenter());
 		} // end for
-
 
 		if (m > 0) {
 			xPG.setPowers(new Power(l, m - 1, n));
@@ -624,24 +574,19 @@ public class ContractedGaussian {
 
 			for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 				Atom atom = mol.getAtom(i);
-				termby += -2.0 * m * ai.getAtomicNumber(atom.getSymbol())
-						* FastMath.sqrt(alpha / (2.0 * m - 1.0)) * coeff
-						* xPG.nuclear(jPG, atom.getAtomCenter());
+				termby += -2.0 * m * ai.getAtomicNumber(atom.getSymbol()) * FastMath.sqrt(alpha / (2.0 * m - 1.0))
+						* coeff * xPG.nuclear(jPG, atom.getAtomCenter());
 			} // end for
 		} // end if
-
 
 		xPG.setPowers(new Power(l, m, n + 1));
 		xPG.normalize();
 		terma = 0.0;
 		for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 			Atom atom = mol.getAtom(i);
-			terma += ai.getAtomicNumber(atom.getSymbol())
-					* FastMath.sqrt(alpha * (2.0 * n + 1.0)) * coeff
+			terma += ai.getAtomicNumber(atom.getSymbol()) * FastMath.sqrt(alpha * (2.0 * n + 1.0)) * coeff
 					* xPG.nuclear(jPG, atom.getAtomCenter());
 		} // end for
-
-
 
 		if (n > 0) {
 			xPG.setPowers(new Power(l, m, n - 1));
@@ -649,24 +594,19 @@ public class ContractedGaussian {
 
 			for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 				Atom atom = mol.getAtom(i);
-				termbz += -2.0 * n * ai.getAtomicNumber(atom.getSymbol())
-						* FastMath.sqrt(alpha / (2.0 * n - 1.0)) * coeff
-						* xPG.nuclear(jPG, atom.getAtomCenter());
+				termbz += -2.0 * n * ai.getAtomicNumber(atom.getSymbol()) * FastMath.sqrt(alpha / (2.0 * n - 1.0))
+						* coeff * xPG.nuclear(jPG, atom.getAtomCenter());
 			} // end for
 		} else
 			termbz = 0.0;
 
-		
-		nder = new Vector3D(nder.getX() + terma + termbx,
-				nder.getY() + terma + termby, 
-				nder.getZ() + terma + termbz );
+		nder = new Vector3D(nder.getX() + terma + termbx, nder.getY() + terma + termby, nder.getZ() + terma + termbz);
 	}
 
 	/**
 	 * The amplitude of this primitive Gaussian at a given point.
 	 * 
-	 * @param point
-	 *            the reference point
+	 * @param point the reference point
 	 * @return the amplitude of this PG at the specified point
 	 */
 	public double amplitude(Vector3D point) {
@@ -681,8 +621,7 @@ public class ContractedGaussian {
 	/**
 	 * Calculate laplacian at the specified point
 	 * 
-	 * @param point
-	 *            the point where Laplacian is to be computed
+	 * @param point the point where Laplacian is to be computed
 	 * @return the laplacian at this point
 	 */
 	public double laplacian(Vector3D point) {
@@ -697,12 +636,11 @@ public class ContractedGaussian {
 	/**
 	 * Evaluate gradient of this function at a given point
 	 * 
-	 * @param point
-	 *            the point where gradient is to be evaluated
+	 * @param point the point where gradient is to be evaluated
 	 * @return partial derivatives with respect to x, y, z
 	 */
 	public Vector3D gradient(Vector3D point) {
-		Vector3D grad = new Vector3D(0,0,0);
+		Vector3D grad = new Vector3D(0, 0, 0);
 
 		for (PrimitiveGaussian pg : primitives)
 			grad.add(pg.gradient(point));
@@ -722,8 +660,7 @@ public class ContractedGaussian {
 	/**
 	 * Setter for property primNorms.
 	 * 
-	 * @param primNorms
-	 *            New value of property primNorms.
+	 * @param primNorms New value of property primNorms.
 	 */
 	public void setPrimNorms(ArrayList<Double> primNorms) {
 		this.primNorms = primNorms;
@@ -768,11 +705,21 @@ public class ContractedGaussian {
 	/**
 	 * Set the value of index
 	 * 
-	 * @param index
-	 *            new value of index
+	 * @param index new value of index
 	 */
 	public void setIndex(int index) {
 		this.index = index;
+	}
+
+	public CompactContractedGaussian toCompactContractedGaussian() {
+
+		double[] primativeExponents = this.exponents.stream().mapToDouble(d -> d).toArray();
+		double[] primativeCoefficients = this.coefficients.stream().mapToDouble(d -> d).toArray();
+		double[] primativePrimnorms = this.primNorms.stream().mapToDouble(d -> d).toArray();
+
+		return new CompactContractedGaussian(this.powers.getL(), this.powers.getM(), this.powers.getN(),
+				this.origin.getX(), this.origin.getY(), this.origin.getZ(), this.getNormalization(), primativeExponents,
+				primativeCoefficients, primativePrimnorms);
 	}
 
 	/**
@@ -780,8 +727,7 @@ public class ContractedGaussian {
 	 */
 	@Override
 	public String toString() {
-		return "Origin : " + origin + " Powers : " + powers
-				+ " Normalization : " + normalization + " Primitives : "
+		return "Origin : " + origin + " Powers : " + powers + " Normalization : " + normalization + " Primitives : "
 				+ primitives;
 	}
 }

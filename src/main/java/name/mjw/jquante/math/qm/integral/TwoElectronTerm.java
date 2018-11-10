@@ -4,6 +4,7 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.linear.RealMatrix;
 
 import name.mjw.jquante.math.qm.Density;
+import name.mjw.jquante.math.qm.basis.CompactContractedGaussian;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.math.qm.basis.Power;
 
@@ -14,6 +15,22 @@ import name.mjw.jquante.math.qm.basis.Power;
  * @version 2.0 (Part of MeTA v2.0)
  */
 public interface TwoElectronTerm extends IntegralsPackage {
+	
+	/**
+	 * 2E coulomb interactions between four contracted Gaussian functions.
+	 * 
+	 * @param a
+	 *            Contracted Gaussian function a.
+	 * @param b
+	 *            Contracted Gaussian function b.
+	 * @param c
+	 *            Contracted Gaussian function c.
+	 * @param d
+	 *            Contracted Gaussian function d.
+	 * @return Two-electron integral.
+	 */
+	public double coulomb(CompactContractedGaussian a, CompactContractedGaussian b,
+			CompactContractedGaussian c, CompactContractedGaussian d);
 
 	/**
 	 * 2E coulomb interactions between four contracted Gaussian functions.
@@ -95,5 +112,11 @@ public interface TwoElectronTerm extends IntegralsPackage {
 			Power aPower, double aAlpha, Vector3D b, double bNorm, Power bPower,
 			double bAlpha, Vector3D c, double cNorm, Power cPower,
 			double cAlpha, Vector3D d, double dNorm, Power dPower, double dAlpha);
+
+
+	double coulombRepulsion(double ax, double ay, double az, double aNorm, int al, int am, int an, double aAlpha,
+			double bx, double by, double bz, double bNorm, int bl, int bm, int bn, double bAlpha, double cx, double cy,
+			double cz, double cNorm, int cl, int cm, int cn, double cAlpha, double dx, double dy, double dz,
+			double dNorm, int dl, int dm, int dn, double dAlpha);
 
 }

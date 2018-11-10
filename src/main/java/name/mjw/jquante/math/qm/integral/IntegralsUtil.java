@@ -18,14 +18,10 @@ public final class IntegralsUtil {
 	/**
 	 * the Gaussian product theorem
 	 * 
-	 * @param alpha1
-	 *            exponent of Gaussian a
-	 * @param a
-	 *            centre of Gaussian a
-	 * @param alpha2
-	 *            exponent of Gaussian b
-	 * @param b
-	 *            centre of Gaussian b
+	 * @param alpha1 exponent of Gaussian a
+	 * @param a      centre of Gaussian a
+	 * @param alpha2 exponent of Gaussian b
+	 * @param b      centre of Gaussian b
 	 * 
 	 * @return centre of resulting two-centre product Gaussian
 	 */
@@ -34,6 +30,17 @@ public final class IntegralsUtil {
 		final double gamma = alpha1 + alpha2;
 		return new Vector3D((alpha1 * a.getX() + alpha2 * b.getX()) / gamma,
 				(alpha1 * a.getY() + alpha2 * b.getY()) / gamma, (alpha1 * a.getZ() + alpha2 * b.getZ()) / gamma);
+	}
+
+	public static Vector3D gaussianProductCenter(
+			final double alpha1, final double ax, final double ay, final double az,
+			final double alpha2, final double bx, final double by, final double bz) {
+		final double gamma = alpha1 + alpha2;
+		
+		return new Vector3D(
+				((alpha1 * ax + alpha2 * bx) / gamma),
+				((alpha1 * ay + alpha2 * by) / gamma), 
+				((alpha1 * az + alpha2 * bz)) / gamma);
 	}
 
 	/**
@@ -48,14 +55,10 @@ public final class IntegralsUtil {
 	 * 
 	 * ⟨ij|kl⟩=⟨ji|lk⟩=⟨kj|il⟩=⟨il|kj⟩=⟨kl|ij⟩=⟨lk|ji⟩=⟨il|kj⟩=⟨kj|il⟩
 	 * 
-	 * @param i
-	 *            the index of Gaussian i
-	 * @param j
-	 *            the index of Gaussian j
-	 * @param k
-	 *            the index of Gaussian k
-	 * @param l
-	 *            the index of Gaussian l
+	 * @param i the index of Gaussian i
+	 * @param j the index of Gaussian j
+	 * @param k the index of Gaussian k
+	 * @param l the index of Gaussian l
 	 * @return the index into the array
 	 */
 	public static int ijkl2intindex(int i, int j, int k, int l) {
@@ -87,10 +90,8 @@ public final class IntegralsUtil {
 	/**
 	 * Incomplete gamma function
 	 * 
-	 * @param m
-	 *            The parameter of the integral
-	 * @param x
-	 *            The upper bound for the interval of integration
+	 * @param m The parameter of the integral
+	 * @param x The upper bound for the interval of integration
 	 * @return &Gamma;
 	 */
 	public static double computeFGamma(final int m, double x) {
@@ -106,10 +107,8 @@ public final class IntegralsUtil {
 	 * zero to x of (exp(-t)t^(a-1))dt.
 	 * <p>
 	 * 
-	 * @param a
-	 *            The parameter of the integral
-	 * @param x
-	 *            The upper bound for the interval of integration
+	 * @param a The parameter of the integral
+	 * @param x The upper bound for the interval of integration
 	 * @return the incomplete gamma function P(a,x)
 	 */
 	public static double lowerIncompleteGamma(final double a, final double x) {
@@ -131,10 +130,8 @@ public final class IntegralsUtil {
 	 * Computes the incomplete Gamma function by using the continued fraction
 	 * representation. See NumRec sect 6.1
 	 *
-	 * @param a
-	 *            The parameter of the integral
-	 * @param x
-	 *            The upper bound for the interval of integration
+	 * @param a             The parameter of the integral
+	 * @param x             The upper bound for the interval of integration
 	 * @param EPS
 	 * @param FPMIN
 	 * @param MAX_ITERATION
@@ -181,10 +178,8 @@ public final class IntegralsUtil {
 	 * Computes the incomplete Gamma function by using the series representation.
 	 * See NumRec sect 6.1.
 	 *
-	 * @param a
-	 *            The parameter of the integral
-	 * @param x
-	 *            The upper bound for the interval of integration
+	 * @param a             The parameter of the integral
+	 * @param x             The upper bound for the interval of integration
 	 * @param EPS
 	 * @param MAX_ITERATION
 	 * @param gln
@@ -214,8 +209,7 @@ public final class IntegralsUtil {
 	/**
 	 * Computes the value of ln(gamma(x)) Numerical recipes, section 6.1
 	 * 
-	 * @param x
-	 *            Value
+	 * @param x Value
 	 * @return the complete Gamma(x) function
 	 */
 	public static double logGamma(final double x) {

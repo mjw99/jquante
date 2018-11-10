@@ -102,7 +102,7 @@ public class BasisFunctions {
 	 * 
 	 * @return Value of property basisFunctions.
 	 */
-	public List<ContractedGaussian> getBasisFunctions() {
+	public ArrayList<ContractedGaussian> getBasisFunctions() {
 		return this.basisFunctions;
 	}
 

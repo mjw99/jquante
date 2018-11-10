@@ -7,6 +7,7 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import name.mjw.jquante.math.qm.basis.CompactContractedGaussian;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.math.qm.basis.Power;
 import name.mjw.jquante.math.qm.basis.PrimitiveGaussian;
@@ -47,8 +48,7 @@ public class TwoElectronIntegrals {
 	/**
 	 * Creates a new instance of TwoElectronIntegrals
 	 * 
-	 * @param basisFunctions
-	 *            the basis functions to be used
+	 * @param basisFunctions the basis functions to be used
 	 */
 	public TwoElectronIntegrals(BasisFunctions basisFunctions) {
 		this(basisFunctions, false);
@@ -57,11 +57,10 @@ public class TwoElectronIntegrals {
 	/**
 	 * Creates a new instance of TwoElectronIntegrals
 	 * 
-	 * @param basisFunctions
-	 *            the basis functions to be used
-	 * @param onTheFly
-	 *            if true, the 2E integrals are not calculated and stored, they must
-	 *            be calculated individually by calling compute2E(i,j,k,l)
+	 * @param basisFunctions the basis functions to be used
+	 * @param onTheFly       if true, the 2E integrals are not calculated and
+	 *                       stored, they must be calculated individually by calling
+	 *                       compute2E(i,j,k,l)
 	 */
 	public TwoElectronIntegrals(BasisFunctions basisFunctions, boolean onTheFly) {
 		this.basisFunctions = basisFunctions;
@@ -91,13 +90,11 @@ public class TwoElectronIntegrals {
 	 * then the code will silently default to using the conventional way of
 	 * computing the two electron integrals.
 	 * 
-	 * @param basisFunctions
-	 *            Basis functions for the molecule.
-	 * @param molecule
-	 *            Molecule for the two electron integrals.
-	 * @param onTheFly
-	 *            if true, the 2E integrals are not calculated and stored, they must
-	 *            be calculated individually by calling compute2EShellPair(i,j,k,l)
+	 * @param basisFunctions Basis functions for the molecule.
+	 * @param molecule       Molecule for the two electron integrals.
+	 * @param onTheFly       if true, the 2E integrals are not calculated and
+	 *                       stored, they must be calculated individually by calling
+	 *                       compute2EShellPair(i,j,k,l)
 	 */
 	public TwoElectronIntegrals(BasisFunctions basisFunctions, Molecule molecule, boolean onTheFly) {
 		this.basisFunctions = basisFunctions;
@@ -116,15 +113,17 @@ public class TwoElectronIntegrals {
 							+ ignored.toString());
 					LOG.error(ignored);
 
+					System.out.println("Calling compute2E()");
 					compute2E(); // if it doesn't succeed then fall back to
 									// normal
 				} // end if
 			} catch (OutOfMemoryError e) {
+                                 System.out.println("Switching to direct integral evaluation");
 				// if no memory, resort to direct SCF
 				LOG.error("No memory for in-core integral evaluation" + ". Switching to direct integral evaluation.");
 				this.onTheFly = true;
-			} // end if
-		} // end if
+			}
+		}
 	}
 
 	/**
@@ -142,8 +141,6 @@ public class TwoElectronIntegrals {
 		final int noOfIntegrals = noOfBasisFunctions * (noOfBasisFunctions + 1)
 				* (noOfBasisFunctions * noOfBasisFunctions + noOfBasisFunctions + 2) / 8;
 
-		LOG.debug("noOfIntegrals is " + noOfIntegrals);
-
 		twoEIntegrals = new double[noOfIntegrals];
 
 		final SimpleParallelTaskExecuter pTaskExecuter = new SimpleParallelTaskExecuter();
@@ -159,7 +156,7 @@ public class TwoElectronIntegrals {
 	private Vector3D compute2EDerivativeElement(ContractedGaussian bfi, ContractedGaussian bfj, ContractedGaussian bfk,
 			ContractedGaussian bfl) {
 
-		Vector3D twoEDerEle = new Vector3D(0,0,0);
+		Vector3D twoEDerEle = new Vector3D(0, 0, 0);
 		int[] paramIdx;
 		Power currentPower;
 		Vector3D currentOrigin;
@@ -266,14 +263,12 @@ public class TwoElectronIntegrals {
 					* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		} // end if
 
-
 		if (m > 0) {
 			xPG.setPowers(new Power(l, m - 1, n));
 			xPG.normalize();
 			termby = -2.0 * m * FastMath.sqrt(currentAlpha / (2. * m - 1)) * coeff
 					* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		} // end if
-
 
 		if (n > 0) {
 			xPG.setPowers(new Power(l, m, n - 1));
@@ -282,10 +277,8 @@ public class TwoElectronIntegrals {
 					* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		} // end if
 
-
-		derEle = new Vector3D(derEle.getX() + terma + termbx, 
-				              derEle.getY() + terma + termby, 
-				              derEle.getZ() + terma + termbz);		
+		derEle = new Vector3D(derEle.getX() + terma + termbx, derEle.getY() + terma + termby,
+				derEle.getZ() + terma + termbz);
 	}
 
 	/**
@@ -298,7 +291,8 @@ public class TwoElectronIntegrals {
 	protected void compute2EShellPair() {
 		// TODO : parallel
 
-		List<ContractedGaussian> bfs = basisFunctions.getBasisFunctions();
+		// System.out.println("compute2EShellPair()");
+		ArrayList<ContractedGaussian> bfs = basisFunctions.getBasisFunctions();
 
 		// allocate required memory
 		int noOfBasisFunctions = bfs.size();
@@ -308,14 +302,16 @@ public class TwoElectronIntegrals {
 		twoEIntegrals = new double[noOfIntegrals];
 
 		int noOfAtoms = molecule.getNumberOfAtoms();
+
 		int naFunc;
 		int nbFunc;
 		int ncFunc;
 		int ndFunc;
 		int twoEIndx;
+
 		ArrayList<ContractedGaussian> aFunc;
 		ArrayList<ContractedGaussian> bFunc;
-		ArrayList<ContractedGaussian> cFunc; 
+		ArrayList<ContractedGaussian> cFunc;
 		ArrayList<ContractedGaussian> dFunc;
 		ContractedGaussian iaFunc;
 		ContractedGaussian jbFunc;
@@ -327,6 +323,7 @@ public class TwoElectronIntegrals {
 			aFunc = (ArrayList<ContractedGaussian>) molecule.getAtom(a).getUserDefinedAtomProperty("basisFunctions")
 					.getValue();
 			naFunc = aFunc.size();
+
 			// basis functions on a
 			for (int i = 0; i < naFunc; i++) {
 				iaFunc = aFunc.get(i);
@@ -362,6 +359,8 @@ public class TwoElectronIntegrals {
 												kcFunc.getIndex(), ldFunc.getIndex());
 
 										twoEIntegrals[twoEIndx] = compute2E(iaFunc, jbFunc, kcFunc, ldFunc);
+
+										//System.out.println(compute2E(iaFunc, jbFunc, kcFunc, ldFunc));
 									} // end for (l)
 								} // end for (d)
 							} // end for (k)
@@ -376,39 +375,36 @@ public class TwoElectronIntegrals {
 	 * 
 	 * Compute an integral centered at &lt;ij&#x7C;kl&gt;
 	 * 
-	 * @param i
-	 *            Index of contracted Gaussian function i.
-	 * @param j
-	 *            Index of contracted Gaussian function j.
-	 * @param k
-	 *            Index of contracted Gaussian function k.
-	 * @param l
-	 *            Index of contracted Gaussian function l.
+	 * @param i Index of contracted Gaussian function i.
+	 * @param j Index of contracted Gaussian function j.
+	 * @param k Index of contracted Gaussian function k.
+	 * @param l Index of contracted Gaussian function l.
 	 * @return the value of two integral electron
 	 */
 	public double compute2E(int i, int j, int k, int l) {
 		// if we really need to compute, go ahead!
-		List<ContractedGaussian> bfs = basisFunctions.getBasisFunctions();
+		ArrayList<ContractedGaussian> bfs = basisFunctions.getBasisFunctions();
 
-		return Integrals.coulomb(bfs.get(i), bfs.get(j), bfs.get(k), bfs.get(l));
+		return Integrals.coulomb(bfs.get(i).toCompactContractedGaussian(), 
+						bfs.get(j).toCompactContractedGaussian(), 
+						bfs.get(k).toCompactContractedGaussian(), 
+						bfs.get(l).toCompactContractedGaussian());
 	}
 
 	/**
 	 * Compute an integral centered at &lt;ij&#x7C;kl&gt;
 	 * 
-	 * @param cgi
-	 *            Contracted Gaussian function i.
-	 * @param cgj
-	 *            Contracted Gaussian function j.
-	 * @param cgk
-	 *            Contracted Gaussian function k.
-	 * @param cgl
-	 *            Contracted Gaussian function l.
+	 * @param cgi Contracted Gaussian function i.
+	 * @param cgj Contracted Gaussian function j.
+	 * @param cgk Contracted Gaussian function k.
+	 * @param cgl Contracted Gaussian function l.
 	 * @return the value of two integral electron
 	 */
 	public double compute2E(ContractedGaussian cgi, ContractedGaussian cgj, ContractedGaussian cgk,
 			ContractedGaussian cgl) {
-		return Integrals.coulomb(cgi, cgj, cgk, cgl);
+
+		return Integrals.coulomb(cgi.toCompactContractedGaussian(), cgj.toCompactContractedGaussian(),
+				cgk.toCompactContractedGaussian(), cgl.toCompactContractedGaussian());
 	}
 
 	/**
@@ -423,8 +419,7 @@ public class TwoElectronIntegrals {
 	/**
 	 * Setter for property twoEIntegrals.
 	 * 
-	 * @param twoEIntegrals
-	 *            New value of property twoEIntegrals.
+	 * @param twoEIntegrals New value of property twoEIntegrals.
 	 */
 	public void setTwoEIntegrals(double[] twoEIntegrals) {
 		this.twoEIntegrals = twoEIntegrals;
@@ -433,10 +428,8 @@ public class TwoElectronIntegrals {
 	/**
 	 * Return the derivatives of the two electron integrals.
 	 * 
-	 * @param atomIndex
-	 *            the reference atom index
-	 * @param scfMethod
-	 *            the reference SCF method
+	 * @param atomIndex the reference atom index
+	 * @param scfMethod the reference SCF method
 	 */
 	public void compute2EDerivatives(int atomIndex, SCFMethod scfMethod) {
 		this.atomIndex = atomIndex;
@@ -479,13 +472,13 @@ public class TwoElectronIntegrals {
 
 		private int startBasisFunction;
 		private int endBasisFunction;
-		private List<ContractedGaussian> bfs;
+		private ArrayList<ContractedGaussian> bfs;
 
 		public TwoElectronIntegralEvaluaterThread() {
 		}
 
 		public TwoElectronIntegralEvaluaterThread(final int startBasisFunction, final int endBasisFunction,
-				final List<ContractedGaussian> bfs) {
+				final ArrayList<ContractedGaussian> bfs) {
 			this.startBasisFunction = startBasisFunction;
 			this.endBasisFunction = endBasisFunction;
 
@@ -511,7 +504,9 @@ public class TwoElectronIntegrals {
 		/**
 		 * Actually compute the 2E integrals
 		 */
-		private void compute2E(final int startBasisFunction, final int endBasisFunction, final List<ContractedGaussian> bfs) {
+		private void compute2E(final int startBasisFunction, final int endBasisFunction,
+				final ArrayList<ContractedGaussian> bfs) {
+
 			final int noOfBasisFunctions = bfs.size();
 
 			int i;
@@ -524,6 +519,12 @@ public class TwoElectronIntegrals {
 
 			int ijkl;
 
+			final ArrayList<CompactContractedGaussian> cbfs = new ArrayList<>();
+
+			for (ContractedGaussian item : bfs) {
+				cbfs.add(item.toCompactContractedGaussian());
+			}
+
 			// we only need i <= j, k <= l, and ij >= kl
 			for (i = startBasisFunction; i < endBasisFunction; i++) {
 				for (j = 0; j < (i + 1); j++) {
@@ -535,13 +536,15 @@ public class TwoElectronIntegrals {
 								ijkl = IntegralsUtil.ijkl2intindex(i, j, k, l);
 
 								// record the 2E integrals
-								twoEIntegrals[ijkl] = Integrals.coulomb(bfs.get(i), bfs.get(j), bfs.get(k), bfs.get(l));
+								twoEIntegrals[ijkl] = Integrals.coulomb(cbfs.get(i), cbfs.get(j), cbfs.get(k),
+										cbfs.get(l));
 
 							}
 						}
 					}
 				}
 			}
+
 		}
 
 	}
@@ -572,8 +575,7 @@ public class TwoElectronIntegrals {
 		/**
 		 * Actually compute the 2E integrals derivatives
 		 */
-		private void compute2EDerivative(int startBasisFunction, int endBasisFunction,
-				List<ContractedGaussian> bfs) {
+		private void compute2EDerivative(int startBasisFunction, int endBasisFunction, List<ContractedGaussian> bfs) {
 
 			int i;
 			int j;
@@ -652,8 +654,7 @@ public class TwoElectronIntegrals {
 	/**
 	 * Set the value of onTheFly
 	 * 
-	 * @param onTheFly
-	 *            new value of onTheFly
+	 * @param onTheFly new value of onTheFly
 	 */
 	public void setOnTheFly(boolean onTheFly) {
 		this.onTheFly = onTheFly;

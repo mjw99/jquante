@@ -67,15 +67,11 @@ public class IntegralsPackageFactory {
 		TwoElectronTerm twoElectronTerm;
 
 		switch (type) {
-		case TWO_ELECTRON_HUZINAGA:
-			twoElectronTerm = new HuzinagaTwoElectronTerm();
-			break;
+
 		case TWO_ELECTRON_RYS:
 			twoElectronTerm = new RysTwoElectronTerm();
 			break;
-		case TWO_ELECTRON_HGP:
-			twoElectronTerm = new HGPTwoElectronTerm();
-			break;
+
 		default:
 			throw new UnsupportedOperationException("No 2E integral "
 					+ "package yet for: " + type);
