@@ -28,7 +28,7 @@ import net.jafama.FastMath;
  * @author Mark J. Williamson
  *
  */
-public class RysTwoElectronTerm implements TwoElectronTerm {
+public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	static final int MAX_ROOTS = 16;
 	static final int MAX_ROOTS_SQUARED = MAX_ROOTS * MAX_ROOTS;
@@ -37,7 +37,7 @@ public class RysTwoElectronTerm implements TwoElectronTerm {
 	 * 2E coulomb interactions between 4 contracted Gaussians
 	 */
 	@Override
-	public double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c, ContractedGaussian d) {
+	public final double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c, ContractedGaussian d) {
 
 		double value = 0.0;
 
@@ -134,7 +134,7 @@ public class RysTwoElectronTerm implements TwoElectronTerm {
 	 * Form coulomb repulsion integral by Rys quadrature
 	 */
 	@Override
-	public double coulombRepulsion(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
+	public final double coulombRepulsion(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
 			Power bPower, double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d,
 			double dNorm, Power dPower, double dAlpha) {
 
@@ -173,10 +173,10 @@ public class RysTwoElectronTerm implements TwoElectronTerm {
 
 		final double X = radiusPQSquared * rho;
 
-		double iX = 0;
-		double iY = 0;
-		double iZ = 0;
-		double t = 0;
+		double iX;
+		double iY;
+		double iZ;
+		double t;
 
 		selectRoots(nRoots, X, roots, weights);
 
@@ -1783,7 +1783,7 @@ public class RysTwoElectronTerm implements TwoElectronTerm {
 	}
 
 	@Override
-	public double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c, ContractedGaussian d,
+	public final double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c, ContractedGaussian d,
 			Density density, RealMatrix jMat, RealMatrix kMat) {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}

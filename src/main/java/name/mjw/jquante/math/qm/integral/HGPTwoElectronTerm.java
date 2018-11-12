@@ -23,7 +23,7 @@ import org.apache.commons.math3.linear.RealMatrix;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class HGPTwoElectronTerm implements TwoElectronTerm {
+public final class HGPTwoElectronTerm implements TwoElectronTerm {
 
 	private final double sqrt2PI = FastMath.sqrt(2.0) * FastMath.pow(Math.PI, 1.25);
 
@@ -31,7 +31,7 @@ public class HGPTwoElectronTerm implements TwoElectronTerm {
 	 * 2E coulomb interactions between four contracted Gaussians.
 	 */
 	@Override
-	public double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c, ContractedGaussian d) {
+	public final double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c, ContractedGaussian d) {
 		return (a.getNormalization() * b.getNormalization() * c.getNormalization() * d.getNormalization()
 				* contractedHrr(a.getOrigin(), a.getPowers(), a.getCoefficients(), a.getExponents(), a.getPrimNorms(),
 						b.getOrigin(), b.getPowers(), b.getCoefficients(), b.getExponents(), b.getPrimNorms(),
@@ -43,7 +43,7 @@ public class HGPTwoElectronTerm implements TwoElectronTerm {
 	 * Coulomb repulsion term
 	 */
 	@Override
-	public double coulombRepulsion(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
+	public final double coulombRepulsion(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
 			Power bPower, double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d,
 			double dNorm, Power dPower, double dAlpha) {
 		return vrr(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c, cNorm, cPower, cAlpha, d, dNorm, dAlpha, 0);
@@ -656,7 +656,7 @@ public class HGPTwoElectronTerm implements TwoElectronTerm {
 	}
 
 	@Override
-	public double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c, ContractedGaussian d,
+	public final double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c, ContractedGaussian d,
 			Density density, RealMatrix jMat, RealMatrix kMat) {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}

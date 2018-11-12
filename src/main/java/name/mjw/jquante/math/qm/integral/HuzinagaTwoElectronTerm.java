@@ -24,12 +24,12 @@ import net.jafama.FastMath;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class HuzinagaTwoElectronTerm implements TwoElectronTerm {
+public final class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 	/**
 	 * 2E coulomb interactions between four contracted Gaussians
 	 */
 	@Override
-	public double coulomb(ContractedGaussian a, ContractedGaussian b,
+	public final double coulomb(ContractedGaussian a, ContractedGaussian b,
 			ContractedGaussian c, ContractedGaussian d) {
 
 		double jij = 0.0;
@@ -114,7 +114,7 @@ public class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 	 * coulomb repulsion term
 	 */
 	@Override
-	public double coulombRepulsion(Vector3D a, double aNorm, Power aPower,
+	public final double coulombRepulsion(Vector3D a, double aNorm, Power aPower,
 			double aAlpha, Vector3D b, double bNorm, Power bPower,
 			double bAlpha, Vector3D c, double cNorm, Power cPower,
 			double cAlpha, Vector3D d, double dNorm, Power dPower, double dAlpha) {
@@ -244,7 +244,7 @@ public class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 	}
 
 	@Override
-	public double coulomb(ContractedGaussian a, ContractedGaussian b,
+	public final double coulomb(ContractedGaussian a, ContractedGaussian b,
 			ContractedGaussian c, ContractedGaussian d, Density density,
 			RealMatrix jMat, RealMatrix kMat) {
 		throw new UnsupportedOperationException("Not supported yet.");
