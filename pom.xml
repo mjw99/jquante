@@ -9,7 +9,7 @@
 	<name>jquante</name>
 
 	<properties>
-		<maven.min-version>3.0.4</maven.min-version>
+		<maven.min-version>3.0.5</maven.min-version>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
