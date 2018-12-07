@@ -2,6 +2,7 @@ package name.mjw.jquante.math.qm.basis;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import name.mjw.jquante.config.impl.AtomInfo;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
@@ -783,5 +784,27 @@ public class ContractedGaussian {
 		return "Origin : " + origin + " Powers : " + powers
 				+ " Normalization : " + normalization + " Primitives : "
 				+ primitives;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(centeredAtom, coefficients, exponents, index, normalization, origin, powers, primNorms,
+				primitives);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ContractedGaussian other = (ContractedGaussian) obj;
+		return Objects.equals(centeredAtom, other.centeredAtom) && Objects.equals(coefficients, other.coefficients)
+				&& Objects.equals(exponents, other.exponents) && index == other.index
+				&& Double.doubleToLongBits(normalization) == Double.doubleToLongBits(other.normalization)
+				&& Objects.equals(origin, other.origin) && Objects.equals(powers, other.powers)
+				&& Objects.equals(primNorms, other.primNorms) && Objects.equals(primitives, other.primitives);
 	}
 }

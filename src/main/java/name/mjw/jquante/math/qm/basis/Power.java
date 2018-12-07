@@ -1,5 +1,7 @@
 package name.mjw.jquante.math.qm.basis;
 
+import java.util.Objects;
+
 import net.jafama.FastMath;
 
 /**
@@ -28,12 +30,9 @@ public class Power {
 	/**
 	 * Creates a new instance of Power.
 	 * 
-	 * @param l
-	 *            the orbital power l
-	 * @param m
-	 *            the orbital power m
-	 * @param n
-	 *            the orbital power n
+	 * @param l the orbital power l
+	 * @param m the orbital power m
+	 * @param n the orbital power n
 	 */
 	public Power(final int l, final int m, final int n) {
 		this.l = l;
@@ -101,5 +100,22 @@ public class Power {
 	@Override
 	public String toString() {
 		return "[" + l + ", " + m + ", " + n + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(l, m, n);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Power other = (Power) obj;
+		return l == other.l && m == other.m && n == other.n;
 	}
 }

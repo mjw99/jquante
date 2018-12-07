@@ -45,9 +45,7 @@ public class ContractedGaussianTest {
 	@Test
 	public void testGetPowers() {
 		Power power = new Power(0, 0, 0);
-		assertEquals(power.getL(), cgtoS0.getPowers().getL());
-		assertEquals(power.getM(), cgtoS0.getPowers().getM());
-		assertEquals(power.getN(), cgtoS0.getPowers().getN());
+		assertEquals(power, cgtoS0.getPowers());
 	}
 
 	@Test
@@ -55,8 +53,7 @@ public class ContractedGaussianTest {
 		Power power = new Power(0, 0, 0);
 		PrimitiveGaussian pg = new PrimitiveGaussian(new Vector3D(0, 0, 0), power, 1, 1);
 
-		assertEquals(pg.getCoefficient(), cgtoS0.getPrimitives().get(0).getCoefficient(), delta);
-		assertEquals(pg.getExponent(), cgtoS0.getPrimitives().get(0).getExponent(), delta);
+		assertEquals(pg, cgtoS0.getPrimitives().get(0));
 	}
 
 	@Test

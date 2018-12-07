@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Objects;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
@@ -254,28 +255,6 @@ public class Atom implements Cloneable {
 				+ connectedList.toString();
 	}
 
-	/**
-	 * overloaded equals() method
-	 * 
-	 * @param obj
-	 *            The object to be compared with
-	 * @return true : they are same else not
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-
-		if ((obj == null) || (!(obj instanceof Atom))) {
-			return false;
-		} else {
-			Atom o = (Atom) obj;
-
-			return ((o.symbol.equals(symbol)) && (o.charge == charge)
-					&& (o.atomCenter.equals(atomCenter)) && (o.index == index));
-		} // end if
-	}
 
 	/**
 	 * Simple method to find the distance between two atom centers.
@@ -660,4 +639,23 @@ public class Atom implements Cloneable {
 
 		return null;
 	}
-} // end of class Atom
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(atomCenter, charge, index, symbol);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Atom other = (Atom) obj;
+		return Objects.equals(atomCenter, other.atomCenter)
+				&& Double.doubleToLongBits(charge) == Double.doubleToLongBits(other.charge) && index == other.index
+				&& Objects.equals(symbol, other.symbol);
+	}
+}

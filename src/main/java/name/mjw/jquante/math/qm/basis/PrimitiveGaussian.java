@@ -1,6 +1,9 @@
 package name.mjw.jquante.math.qm.basis;
 
 import name.mjw.jquante.math.MathUtil;
+
+import java.util.Objects;
+
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import name.mjw.jquante.math.qm.integral.Integrals;
 import net.jafama.FastMath;
@@ -366,5 +369,25 @@ public class PrimitiveGaussian {
 	public String toString() {
 		return "Origin : " + origin + " Powers : " + powers + " Normalization : " + normalization + " Coefficient : "
 				+ coefficient + " Exponent : " + exponent;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(coefficient, exponent, normalization, origin, powers);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PrimitiveGaussian other = (PrimitiveGaussian) obj;
+		return Double.doubleToLongBits(coefficient) == Double.doubleToLongBits(other.coefficient)
+				&& Double.doubleToLongBits(exponent) == Double.doubleToLongBits(other.exponent)
+				&& Double.doubleToLongBits(normalization) == Double.doubleToLongBits(other.normalization)
+				&& Objects.equals(origin, other.origin) && Objects.equals(powers, other.powers);
 	}
 }
