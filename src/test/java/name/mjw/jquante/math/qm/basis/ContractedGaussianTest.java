@@ -1,6 +1,7 @@
 package name.mjw.jquante.math.qm.basis;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
@@ -22,6 +23,7 @@ public class ContractedGaussianTest {
 		cgtoS0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(0, 0, 0));
 		cgtoS0.addPrimitive(1.0, 1.0);
 		cgtoS0.normalize();
+
 	}
 
 	@Test
@@ -73,6 +75,28 @@ public class ContractedGaussianTest {
 		cgto.normalize();
 
 		assertEquals(0.6282471373416881, cgto.amplitude(new Vector3D(0, 0, 0)), delta);
+	}
+
+	@Test
+	public void isSameShell() {
+		ContractedGaussian cgtoP0;
+		ContractedGaussian cgtoP1;
+
+		cgtoP0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(1, 0, 0));
+		cgtoP0.addPrimitive(5.0331513, 0.15591627);
+		cgtoP0.addPrimitive(1.1695961, 0.60768372);
+		cgtoP0.addPrimitive(0.380389, 0.39195739);
+		cgtoP0.normalize();
+
+		cgtoP1 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(0, 1, 0));
+		cgtoP1.addPrimitive(5.0331513, 0.15591627);
+		cgtoP1.addPrimitive(1.1695961, 0.60768372);
+		cgtoP1.addPrimitive(0.380389, 0.39195739);
+		cgtoP1.normalize();
+
+		assertTrue(cgtoP0.isSameShell(cgtoP1));
+		assertTrue(!cgtoS0.isSameShell(cgtoP1));
+
 	}
 
 }

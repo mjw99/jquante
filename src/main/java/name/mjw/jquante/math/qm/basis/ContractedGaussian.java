@@ -777,6 +777,34 @@ public class ContractedGaussian {
 	}
 
 	/**
+	 * isSameShell determines that two ContractedGaussian belong to the same shell.
+	 * A shell is a set of basis function with the same centre and same contracted
+	 * exponent, for example, sp shell, d shell.
+	 *
+	 * @param otherCg
+	 * @return
+	 */
+	public boolean isSameShell(ContractedGaussian otherCg) {
+
+		if (!this.origin.equals(otherCg.origin)) {
+			return false;
+		}
+
+		if (this.getPrimitives().size() != otherCg.getPrimitives().size()) {
+			return false;
+		}
+
+		for (int i = 0; i < this.getExponents().size(); i++) {
+			if (!this.getExponents().get(i).equals(otherCg.getExponents().get(i))) {
+				return false;
+			}
+
+		}
+
+		return true;
+	}
+
+	/**
 	 * overloaded toString()
 	 */
 	@Override
