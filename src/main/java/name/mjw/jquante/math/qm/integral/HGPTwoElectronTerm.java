@@ -1,7 +1,6 @@
 package name.mjw.jquante.math.qm.integral;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import name.mjw.jquante.math.qm.Density;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
