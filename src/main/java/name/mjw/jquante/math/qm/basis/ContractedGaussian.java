@@ -794,8 +794,13 @@ public class ContractedGaussian {
 			return false;
 		}
 
+		if (this.getTotalAngularMomentum() != otherCg.getTotalAngularMomentum()) {
+			return false;
+		}
+
 		for (int i = 0; i < this.getExponents().size(); i++) {
-			if (!this.getExponents().get(i).equals(otherCg.getExponents().get(i))) {
+			if (!this.getCoefficients().get(i).equals(otherCg.getCoefficients().get(i))) {
+
 				return false;
 			}
 
@@ -809,9 +814,7 @@ public class ContractedGaussian {
 	 */
 	@Override
 	public String toString() {
-		return "Origin : " + origin + " Powers : " + powers
-				+ " Normalization : " + normalization + " Primitives : "
-				+ primitives;
+		return "Origin : " + origin + " Powers : " + powers + "\n ";
 	}
 
 	@Override

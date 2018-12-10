@@ -1,11 +1,18 @@
 package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.ToIntFunction;
+import java.util.stream.IntStream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 
 import name.mjw.jquante.math.qm.basis.AtomicBasis;
 import name.mjw.jquante.math.qm.basis.BasisReader;
@@ -14,7 +21,6 @@ import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.math.qm.basis.Orbital;
 import name.mjw.jquante.math.qm.basis.Power;
 import name.mjw.jquante.math.qm.basis.PowerList;
-import name.mjw.jquante.math.qm.basis.ShellList;
 import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
 import name.mjw.jquante.molecule.UserDefinedAtomProperty;
@@ -36,7 +42,7 @@ public class BasisFunctions {
 	 */
 	private ArrayList<ContractedGaussian> basisFunctions;
 
-	private ShellList shellList;
+	private Multimap<Integer, ContractedGaussian> shells;
 
 	private Molecule molecule;
 
@@ -45,12 +51,9 @@ public class BasisFunctions {
 	/**
 	 * Creates a new instance of BasisFunctions.
 	 * 
-	 * @param molecule
-	 *            the Molecule whose basis function is requested.
-	 * @param basisName
-	 *            the name of the basis set (like sto3g).
-	 * @throws Exception
-	 *             the basisName was not found.
+	 * @param molecule  the Molecule whose basis function is requested.
+	 * @param basisName the name of the basis set (like sto3g).
+	 * @throws Exception the basisName was not found.
 	 *
 	 */
 	public BasisFunctions(Molecule molecule, String basisName) throws Exception {
@@ -90,8 +93,7 @@ public class BasisFunctions {
 	/**
 	 * Set the value of basisName
 	 * 
-	 * @param basisName
-	 *            new value of basisName
+	 * @param basisName new value of basisName
 	 */
 	public void setBasisName(String basisName) {
 		this.basisName = basisName;
@@ -106,22 +108,15 @@ public class BasisFunctions {
 		return this.basisFunctions;
 	}
 
-	/**
-	 * Getter for property shellList.
-	 * 
-	 * @return Value of property shellList.
-	 */
-	public ShellList getShellList() {
-		return this.shellList;
+	public Multimap<Integer, ContractedGaussian> getShells() {
+		return shells;
 	}
 
 	/**
 	 * Getter for property basisFunctions.
 	 * 
-	 * @param molecule
-	 *            the Molecule whose basis function is requested
-	 * @param basisName
-	 *            the name of the basis set (like sto3g)
+	 * @param molecule  the Molecule whose basis function is requested
+	 * @param basisName the name of the basis set (like sto3g)
 	 * @return Value of property basisFunctions.
 	 */
 	private ArrayList<ContractedGaussian> getBasisFunctions(Molecule molecule, String basisName) throws Exception {
@@ -180,11 +175,49 @@ public class BasisFunctions {
 	 * Initialise the shell list
 	 */
 	private void initShellList() {
-		shellList = new ShellList();
+		shells = ArrayListMultimap.create();
 
-		for (ContractedGaussian cg : basisFunctions) {
-			shellList.addShellPrimitive(cg);
+		for (int i = 0; i < basisFunctions.size(); i++) {
+
+			Boolean addToExistingShell = false;
+			Integer existingShellIndex = 0;
+
+			// First entry always goes in.
+			if (i == 0) {
+
+				shells.put(0, basisFunctions.get(0));
+
+			} else {
+
+				// Look to see if the basisfunction is already present in the known shells
+				Iterator<Integer> keyIterator = shells.keys().iterator();
+
+				while (keyIterator.hasNext()) {
+					Integer key = keyIterator.next();
+					Collection<ContractedGaussian> shellCgs = shells.get(key);
+
+					for (ContractedGaussian shellCg : shellCgs) {
+						if (basisFunctions.get(i).isSameShell(shellCg)) {
+							// Flag this to the existing shell.
+							// This is a workaround for Multimap checkForComodification exceptions.
+							addToExistingShell = true;
+							existingShellIndex = key;
+						}
+					}
+
+				}
+
+				if (addToExistingShell) {
+					shells.put(existingShellIndex, basisFunctions.get(i));
+				} else {
+					int max = shells.keys().stream().mapToInt(v -> v).max().getAsInt();
+					shells.put(max + 1, basisFunctions.get(i));
+				}
+
+			}
+
 		}
+
 	}
 
 }
