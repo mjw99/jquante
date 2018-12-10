@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 
 import name.mjw.jquante.math.qm.basis.AtomicBasis;
@@ -41,6 +42,8 @@ public class BasisFunctions {
 
 	private Multimap<Integer, ContractedGaussian> shells;
 
+	private Multimap<ContractedGaussian, ContractedGaussian> shellPairs;
+
 	private Molecule molecule;
 
 	private MoleculeStateChangeListener molStateChangeListener;
@@ -61,6 +64,9 @@ public class BasisFunctions {
 
 		// and initialise the shell list
 		initShellList();
+
+		// Shell Pair list
+		initShellPairList();
 
 		molStateChangeListener = new MoleculeStateChangeListener() {
 			@Override
@@ -107,6 +113,10 @@ public class BasisFunctions {
 
 	public Multimap<Integer, ContractedGaussian> getShells() {
 		return shells;
+	}
+
+	public Multimap<ContractedGaussian, ContractedGaussian> getShellPairs() {
+		return shellPairs;
 	}
 
 	/**
@@ -213,6 +223,18 @@ public class BasisFunctions {
 
 			}
 
+		}
+
+	}
+
+	private void initShellPairList() {
+
+		shellPairs = ArrayListMultimap.create();
+
+		for (int i = 0; i < shells.keySet().size(); i++) {
+			for (int j = 0; j <= i; j++) {
+				shellPairs.put(Iterables.get(shells.get(i), 0), Iterables.get(shells.get(j), 0));
+			}
 		}
 
 	}

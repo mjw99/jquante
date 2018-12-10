@@ -87,6 +87,7 @@ public class BasisFunctionsTest {
 		assertEquals(7, bf.getShells().entries().size());
 		assertEquals(5, bf.getShells().keySet().size());
 
+		assertEquals(15, bf.getShellPairs().size());
 	}
 
 	@Test
@@ -101,6 +102,8 @@ public class BasisFunctionsTest {
 		}
 		assertEquals(65, bf.getShells().entries().size());
 		assertEquals(22, bf.getShells().keySet().size());
+
+		assertEquals(253, bf.getShellPairs().size());
 
 	}
 
