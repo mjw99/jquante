@@ -184,43 +184,37 @@ public class BasisFunctions {
 	private void initShellList() {
 		shells = ArrayListMultimap.create();
 
-		for (int i = 0; i < basisFunctions.size(); i++) {
+		// First entry always goes in.
+		shells.put(0, basisFunctions.get(0));
+
+		for (int i = 1; i < basisFunctions.size(); i++) {
 
 			Boolean addToExistingShell = false;
 			Integer existingShellIndex = 0;
 
-			// First entry always goes in.
-			if (i == 0) {
+			// Look to see if the basisfunction is already present in the known shells
+			Iterator<Integer> keyIterator = shells.keys().iterator();
 
-				shells.put(0, basisFunctions.get(0));
+			while (keyIterator.hasNext()) {
+				Integer key = keyIterator.next();
+				Collection<ContractedGaussian> shellCgs = shells.get(key);
 
-			} else {
-
-				// Look to see if the basisfunction is already present in the known shells
-				Iterator<Integer> keyIterator = shells.keys().iterator();
-
-				while (keyIterator.hasNext()) {
-					Integer key = keyIterator.next();
-					Collection<ContractedGaussian> shellCgs = shells.get(key);
-
-					for (ContractedGaussian shellCg : shellCgs) {
-						if (basisFunctions.get(i).isSameShell(shellCg)) {
-							// Flag this to the existing shell.
-							// This is a workaround for Multimap checkForComodification exceptions.
-							addToExistingShell = true;
-							existingShellIndex = key;
-						}
+				for (ContractedGaussian shellCg : shellCgs) {
+					if (basisFunctions.get(i).isSameShell(shellCg)) {
+						// Flag this to the existing shell.
+						// This is a workaround for Multimap checkForComodification exceptions.
+						addToExistingShell = true;
+						existingShellIndex = key;
 					}
-
 				}
 
-				if (addToExistingShell) {
-					shells.put(existingShellIndex, basisFunctions.get(i));
-				} else {
-					int max = shells.keys().stream().mapToInt(v -> v).max().getAsInt();
-					shells.put(max + 1, basisFunctions.get(i));
-				}
+			}
 
+			if (addToExistingShell) {
+				shells.put(existingShellIndex, basisFunctions.get(i));
+			} else {
+				int max = shells.keys().stream().mapToInt(v -> v).max().getAsInt();
+				shells.put(max + 1, basisFunctions.get(i));
 			}
 
 		}
