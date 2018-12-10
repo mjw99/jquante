@@ -799,7 +799,7 @@ public class ContractedGaussian {
 		}
 
 		for (int i = 0; i < this.getExponents().size(); i++) {
-			if (!this.getCoefficients().get(i).equals(otherCg.getCoefficients().get(i))) {
+			if (!this.getExponents().get(i).equals(otherCg.getExponents().get(i))) {
 
 				return false;
 			}
