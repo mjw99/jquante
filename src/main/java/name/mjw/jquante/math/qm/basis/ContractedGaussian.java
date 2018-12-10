@@ -806,6 +806,14 @@ public class ContractedGaussian {
 
 		}
 
+		for (int i = 0; i < this.getCoefficients().size(); i++) {
+			if (!this.getCoefficients().get(i).equals(otherCg.getCoefficients().get(i))) {
+
+				return false;
+			}
+
+		}
+
 		return true;
 	}
 
@@ -814,7 +822,7 @@ public class ContractedGaussian {
 	 */
 	@Override
 	public String toString() {
-		return "Origin : " + origin + " Powers : " + powers + "\n ";
+		return "Origin : " + origin + " Powers : " + powers + " " + exponents + " " + coefficients + "\n ";
 	}
 
 	@Override

@@ -75,7 +75,7 @@ public class BasisFunctionsTest {
 	}
 
 	@Test
-	public void testShells() {
+	public void testShellsSTO3G() {
 
 		try {
 			bf = new BasisFunctions(water, "sto-3g");
@@ -84,9 +84,23 @@ public class BasisFunctionsTest {
 
 			e.printStackTrace();
 		}
-
 		assertEquals(7, bf.getShells().entries().size());
 		assertEquals(5, bf.getShells().keySet().size());
+
+	}
+
+	@Test
+	public void testShellsCcPvtz() {
+
+		try {
+			bf = new BasisFunctions(water, "cc-pvtz");
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		assertEquals(65, bf.getShells().entries().size());
+		assertEquals(22, bf.getShells().keySet().size());
 
 	}
 
