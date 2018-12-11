@@ -40,6 +40,10 @@ public class BasisFunctions {
 	 */
 	private ArrayList<ContractedGaussian> basisFunctions;
 
+	/**
+	 * A shell is a set of basis functions sharing common orbital exponents and a
+	 * common center
+	 */
 	private Multimap<Integer, ContractedGaussian> shells;
 
 	private Multimap<ContractedGaussian, ContractedGaussian> shellPairs;
