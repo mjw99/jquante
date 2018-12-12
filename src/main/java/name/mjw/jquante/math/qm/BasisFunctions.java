@@ -35,6 +35,8 @@ public class BasisFunctions {
 
 	private static final Logger LOG = LogManager.getLogger(BasisFunctions.class);
 
+	private String basisName;
+
 	/**
 	 * Holds value of property basisFunctions.
 	 */
@@ -85,8 +87,6 @@ public class BasisFunctions {
 		};
 		molecule.addMoleculeStateChangeListener(molStateChangeListener);
 	}
-
-	private String basisName;
 
 	/**
 	 * Get the value of basisName
