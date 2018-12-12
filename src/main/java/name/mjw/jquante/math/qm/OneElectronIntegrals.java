@@ -34,19 +34,19 @@ public class OneElectronIntegrals {
 	 */
 	private HCore hCore;
 
-	private BasisFunctions basisFunctions;
+	private BasisSetLibrary basisSetLibrary;
 	private Molecule molecule;
 
 	/**
 	 * Creates a new instance of OneElectronIntegrals
 	 * 
-	 * @param basisFunctions
+	 * @param basisSetLibrary
 	 *            the basis functions to be used
 	 * @param mol
 	 *            the Molecule object, of whose 1E integrals are to be evaluated
 	 */
-	public OneElectronIntegrals(BasisFunctions basisFunctions, Molecule mol) {
-		this.basisFunctions = basisFunctions;
+	public OneElectronIntegrals(BasisSetLibrary basisSetLibrary, Molecule mol) {
+		this.basisSetLibrary = basisSetLibrary;
 		this.molecule = mol;
 
 		// compute the 1E integrals, form S matrix and hCore
@@ -58,15 +58,15 @@ public class OneElectronIntegrals {
 	 * 
 	 * @return instance of basisFunctions
 	 */
-	public BasisFunctions getBasisFunctions() {
-		return basisFunctions;
+	public BasisSetLibrary getBasisSetLibrary() {
+		return basisSetLibrary;
 	}
 
 	/**
 	 * compute the 1E integrals, form S matrix and hCore
 	 */
 	protected void compute1E() {
-		List<ContractedGaussian> bfs = basisFunctions.getBasisFunctions();
+		List<ContractedGaussian> bfs = basisSetLibrary.getBasisFunctions();
 		int noOfBasisFunctions = bfs.size();
 		int i;
 
@@ -149,7 +149,7 @@ public class OneElectronIntegrals {
 		public SimpleParallelTask init(int startItem, int endItem) {
 			return new OneElectronIntegralEvaluaterThread(startItem, endItem,
 					OneElectronIntegrals.this.overlap, OneElectronIntegrals.this.hCore,
-					this.atomicNumbers, basisFunctions.getBasisFunctions());
+					this.atomicNumbers, basisSetLibrary.getBasisFunctions());
 		}
 
 		/**

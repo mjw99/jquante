@@ -27,7 +27,7 @@ import net.jafama.FastMath;
 public class TwoElectronIntegrals {
 	private static final Logger LOG = LogManager.getLogger(TwoElectronIntegrals.class);
 
-	private BasisFunctions basisFunctions;
+	private BasisSetLibrary basisSetLibrary;
 
 	private Molecule molecule;
 
@@ -47,24 +47,24 @@ public class TwoElectronIntegrals {
 	/**
 	 * Creates a new instance of TwoElectronIntegrals
 	 * 
-	 * @param basisFunctions
+	 * @param basisSetLibrary
 	 *            the basis functions to be used
 	 */
-	public TwoElectronIntegrals(BasisFunctions basisFunctions) {
-		this(basisFunctions, false);
+	public TwoElectronIntegrals(BasisSetLibrary basisSetLibrary) {
+		this(basisSetLibrary, false);
 	}
 
 	/**
 	 * Creates a new instance of TwoElectronIntegrals
 	 * 
-	 * @param basisFunctions
+	 * @param basisSetLibrary
 	 *            the basis functions to be used
 	 * @param onTheFly
 	 *            if true, the 2E integrals are not calculated and stored, they must
 	 *            be calculated individually by calling compute2E(i,j,k,l)
 	 */
-	public TwoElectronIntegrals(BasisFunctions basisFunctions, boolean onTheFly) {
-		this.basisFunctions = basisFunctions;
+	public TwoElectronIntegrals(BasisSetLibrary basisSetLibrary, boolean onTheFly) {
+		this.basisSetLibrary = basisSetLibrary;
 
 		this.onTheFly = onTheFly;
 
@@ -91,7 +91,7 @@ public class TwoElectronIntegrals {
 	 * then the code will silently default to using the conventional way of
 	 * computing the two electron integrals.
 	 * 
-	 * @param basisFunctions
+	 * @param basisSetLibrary
 	 *            Basis functions for the molecule.
 	 * @param molecule
 	 *            Molecule for the two electron integrals.
@@ -99,8 +99,8 @@ public class TwoElectronIntegrals {
 	 *            if true, the 2E integrals are not calculated and stored, they must
 	 *            be calculated individually by calling compute2EShellPair(i,j,k,l)
 	 */
-	public TwoElectronIntegrals(BasisFunctions basisFunctions, Molecule molecule, boolean onTheFly) {
-		this.basisFunctions = basisFunctions;
+	public TwoElectronIntegrals(BasisSetLibrary basisSetLibrary, Molecule molecule, boolean onTheFly) {
+		this.basisSetLibrary = basisSetLibrary;
 		this.molecule = molecule;
 
 		this.onTheFly = onTheFly;
@@ -135,7 +135,7 @@ public class TwoElectronIntegrals {
 	 * available.
 	 */
 	protected void compute2E() {
-		final List<ContractedGaussian> bfs = basisFunctions.getBasisFunctions();
+		final List<ContractedGaussian> bfs = basisSetLibrary.getBasisFunctions();
 
 		// allocate required memory
 		final int noOfBasisFunctions = bfs.size();
@@ -298,7 +298,7 @@ public class TwoElectronIntegrals {
 	protected void compute2EShellPair() {
 		// TODO : parallel
 
-		List<ContractedGaussian> bfs = basisFunctions.getBasisFunctions();
+		List<ContractedGaussian> bfs = basisSetLibrary.getBasisFunctions();
 
 		// allocate required memory
 		int noOfBasisFunctions = bfs.size();
@@ -388,7 +388,7 @@ public class TwoElectronIntegrals {
 	 */
 	public double compute2E(int i, int j, int k, int l) {
 		// if we really need to compute, go ahead!
-		List<ContractedGaussian> bfs = basisFunctions.getBasisFunctions();
+		List<ContractedGaussian> bfs = basisSetLibrary.getBasisFunctions();
 
 		return Integrals.coulomb(bfs.get(i), bfs.get(j), bfs.get(k), bfs.get(l));
 	}
@@ -456,7 +456,7 @@ public class TwoElectronIntegrals {
 
 		TwoElectronIntegralDerivativeEvaluaterThread tThread = new TwoElectronIntegralDerivativeEvaluaterThread();
 		tThread.setTaskName("TwoElectronIntegralDerivativeEvaluater Thread");
-		tThread.setTotalItems(basisFunctions.getBasisFunctions().size());
+		tThread.setTotalItems(basisSetLibrary.getBasisFunctions().size());
 
 		pTaskExecuter.execute(tThread);
 	}
@@ -505,7 +505,7 @@ public class TwoElectronIntegrals {
 		/** Overridden init() */
 		@Override
 		public SimpleParallelTask init(final int startItem, final int endItem) {
-			return new TwoElectronIntegralEvaluaterThread(startItem, endItem, basisFunctions.getBasisFunctions());
+			return new TwoElectronIntegralEvaluaterThread(startItem, endItem, basisSetLibrary.getBasisFunctions());
 		}
 
 		/**
@@ -636,7 +636,7 @@ public class TwoElectronIntegrals {
 		@Override
 		public SimpleParallelTask init(int startItem, int endItem) {
 			return new TwoElectronIntegralDerivativeEvaluaterThread(startItem, endItem,
-					basisFunctions.getBasisFunctions());
+					basisSetLibrary.getBasisFunctions());
 		}
 	} // end of class TwoElectronIntegralEvaluaterThread
 

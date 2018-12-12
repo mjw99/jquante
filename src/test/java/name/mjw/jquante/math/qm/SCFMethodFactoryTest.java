@@ -29,10 +29,10 @@ public class SCFMethodFactoryTest {
 
 		long t1 = System.currentTimeMillis();
 		// Read Basis
-		BasisFunctions bf = null;
+		BasisSetLibrary bsl = null;
 
 		try {
-			bf = new BasisFunctions(hydrogen, "sto-3g");
+			bsl = new BasisSetLibrary(hydrogen, "sto-3g");
 
 		} catch (Exception e) {
 
@@ -40,8 +40,8 @@ public class SCFMethodFactoryTest {
 		}
 
 		// compute integrals
-		OneElectronIntegrals e1 = new OneElectronIntegrals(bf, hydrogen);
-		TwoElectronIntegrals e2 = new TwoElectronIntegrals(bf);
+		OneElectronIntegrals e1 = new OneElectronIntegrals(bsl, hydrogen);
+		TwoElectronIntegrals e2 = new TwoElectronIntegrals(bsl);
 
 		long t2 = System.currentTimeMillis();
 
@@ -79,10 +79,10 @@ public class SCFMethodFactoryTest {
 
 		long t1 = System.currentTimeMillis();
 		// Read Basis
-		BasisFunctions bf = null;
+		BasisSetLibrary bf = null;
 
 		try {
-			bf = new BasisFunctions(hydrogenFluoride, "sto-3g");
+			bf = new BasisSetLibrary(hydrogenFluoride, "sto-3g");
 
 		} catch (Exception e) {
 
@@ -134,10 +134,10 @@ public class SCFMethodFactoryTest {
 
 		long t1 = System.currentTimeMillis();
 		// Read Basis
-		BasisFunctions bf = null;
+		BasisSetLibrary bf = null;
 
 		try {
-			bf = new BasisFunctions(water, "sto-3g");
+			bf = new BasisSetLibrary(water, "sto-3g");
 
 		} catch (Exception e) {
 
@@ -191,10 +191,10 @@ public class SCFMethodFactoryTest {
 
 		long t1 = System.currentTimeMillis();
 		// Read Basis
-		BasisFunctions bf = null;
+		BasisSetLibrary bf = null;
 
 		try {
-			bf = new BasisFunctions(water, "sto-3g");
+			bf = new BasisSetLibrary(water, "sto-3g");
 
 		} catch (Exception e) {
 
@@ -248,10 +248,10 @@ public class SCFMethodFactoryTest {
 
 		long t1 = System.currentTimeMillis();
 		// Read Basis
-		BasisFunctions bf = null;
+		BasisSetLibrary bf = null;
 
 		try {
-			bf = new BasisFunctions(water, "sto-3g");
+			bf = new BasisSetLibrary(water, "sto-3g");
 
 		} catch (Exception e) {
 

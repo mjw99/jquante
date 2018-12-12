@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
-import name.mjw.jquante.math.qm.BasisFunctions;
+import name.mjw.jquante.math.qm.BasisSetLibrary;
 import name.mjw.jquante.math.qm.OneElectronIntegrals;
 import name.mjw.jquante.math.qm.SCFMethod;
 import name.mjw.jquante.math.qm.SCFMethodFactory;
@@ -36,7 +36,7 @@ public class ElectronDensityTest {
 		water.addAtom(H2);
 
 		// Read Basis
-		BasisFunctions basisFunctions = new BasisFunctions(water, "sto-3g");
+		BasisSetLibrary basisFunctions = new BasisSetLibrary(water, "sto-3g");
 
 		// Compute integrals
 		OneElectronIntegrals oneElectronIntegrals = new OneElectronIntegrals(

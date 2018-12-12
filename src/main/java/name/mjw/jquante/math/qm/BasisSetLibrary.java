@@ -31,9 +31,9 @@ import name.mjw.jquante.molecule.event.MoleculeStateChangeListener;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class BasisFunctions {
+public class BasisSetLibrary {
 
-	private static final Logger LOG = LogManager.getLogger(BasisFunctions.class);
+	private static final Logger LOG = LogManager.getLogger(BasisSetLibrary.class);
 
 	private String basisName;
 
@@ -62,7 +62,7 @@ public class BasisFunctions {
 	 * @throws Exception the basisName was not found.
 	 *
 	 */
-	public BasisFunctions(Molecule molecule, String basisName) throws Exception {
+	public BasisSetLibrary(Molecule molecule, String basisName) throws Exception {
 		// initialise the basis functions
 		getBasisFunctions(molecule, basisName);
 		this.basisName = basisName;
@@ -78,7 +78,7 @@ public class BasisFunctions {
 			@Override
 			public void moleculeChanged(MoleculeStateChangeEvent event) {
 				try {
-					getBasisFunctions(BasisFunctions.this.molecule, BasisFunctions.this.basisName);
+					getBasisFunctions(BasisSetLibrary.this.molecule, BasisSetLibrary.this.basisName);
 					initShellList();
 				} catch (Exception e) {
 					LOG.error("Unable to update basis function! ");

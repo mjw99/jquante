@@ -6,7 +6,7 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
 
-import name.mjw.jquante.math.qm.BasisFunctions;
+import name.mjw.jquante.math.qm.BasisSetLibrary;
 import name.mjw.jquante.math.qm.Density;
 import name.mjw.jquante.math.qm.SCFMethod;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
@@ -34,7 +34,7 @@ public class ElectronDensity extends OneElectronProperty {
 	public ElectronDensity(SCFMethod scfMethod) {
 		super(scfMethod);
 
-		bfs = scfMethod.getOneEI().getBasisFunctions().getBasisFunctions();
+		bfs = scfMethod.getOneEI().getBasisSetLibrary().getBasisFunctions();
 		nbf = bfs.size();
 
 		dm = scfMethod.getDensity().getData();
@@ -43,13 +43,13 @@ public class ElectronDensity extends OneElectronProperty {
 	/**
 	 * Creates a new instance of ElectronDensity
 	 * 
-	 * @param bfs
+	 * @param bsl
 	 *            the basis functions of a given molecule and a basis set
 	 * @param den
 	 *            the density matrix
 	 */
-	public ElectronDensity(BasisFunctions bfs, Density den) {
-		this.bfs = bfs.getBasisFunctions();
+	public ElectronDensity(BasisSetLibrary bsl, Density den) {
+		this.bfs = bsl.getBasisFunctions();
 		this.nbf = this.bfs.size();
 
 		this.dm = den.getData();

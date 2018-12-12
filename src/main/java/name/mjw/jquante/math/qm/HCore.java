@@ -22,7 +22,7 @@ public class HCore extends Array2DRowRealMatrix {
 	private static final long serialVersionUID = 290891895527849860L;
 	protected int atomIndex;
 	private transient SCFMethod scfMethod;
-	private transient BasisFunctions bfs;
+	private transient BasisSetLibrary bsl;
 	private transient List<ContractedGaussian> cgs;
 
 	/**
@@ -48,8 +48,8 @@ public class HCore extends Array2DRowRealMatrix {
 	public List<HCore> computeDerivative(int atomIndex, SCFMethod scfMethod) {
 		this.atomIndex = atomIndex;
 		this.scfMethod = scfMethod;
-		this.bfs = scfMethod.getOneEI().getBasisFunctions();
-		this.cgs = this.bfs.getBasisFunctions();
+		this.bsl = scfMethod.getOneEI().getBasisSetLibrary();
+		this.cgs = this.bsl.getBasisFunctions();
 
 		ArrayList<HCore> dHCore = new ArrayList<>(3);
 

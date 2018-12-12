@@ -6,7 +6,7 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
 
-import name.mjw.jquante.math.qm.BasisFunctions;
+import name.mjw.jquante.math.qm.BasisSetLibrary;
 import name.mjw.jquante.math.qm.MolecularOrbitals;
 import name.mjw.jquante.math.qm.SCFMethod;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
@@ -36,7 +36,7 @@ public class MODensity extends OneElectronProperty {
 	public MODensity(SCFMethod scfMethod) {
 		super(scfMethod);
 
-		bfs = scfMethod.getOneEI().getBasisFunctions().getBasisFunctions();
+		bfs = scfMethod.getOneEI().getBasisSetLibrary().getBasisFunctions();
 		nbf = bfs.size();
 
 		mos = scfMethod.getMos().getCoefficients();
@@ -63,14 +63,14 @@ public class MODensity extends OneElectronProperty {
 	 *
 	 * @param molecule
 	 *            the molecule object.
-	 * @param bfs
+	 * @param bsl
 	 *            the basis functions of a given molecule and a basis set.
 	 * @param mos
 	 *            the molecular orbitals as a coefficient matrix.
 	 */
-	public MODensity(Molecule molecule, BasisFunctions bfs, MolecularOrbitals mos) {
+	public MODensity(Molecule molecule, BasisSetLibrary bsl, MolecularOrbitals mos) {
 
-		this.bfs = bfs.getBasisFunctions();
+		this.bfs = bsl.getBasisFunctions();
 		this.nbf = this.bfs.size();
 		this.mos = mos.getCoefficients();
 		this.monumber = molecule.getNumberOfElectrons() / 2;
@@ -81,7 +81,7 @@ public class MODensity extends OneElectronProperty {
 	 *
 	 * @param molecule
 	 *            the molecule.
-	 * @param bfs
+	 * @param bsl
 	 *            the basis functions of a given molecule and a basis set.
 	 * @param mos
 	 *            the molecular orbitals as a coefficient matrix.
@@ -89,9 +89,9 @@ public class MODensity extends OneElectronProperty {
 	 *            the number of molecular orbitals.
 	 *
 	 */
-	public MODensity(Molecule molecule, BasisFunctions bfs, MolecularOrbitals mos, int monumber) {
+	public MODensity(Molecule molecule, BasisSetLibrary bsl, MolecularOrbitals mos, int monumber) {
 
-		this.bfs = bfs.getBasisFunctions();
+		this.bfs = bsl.getBasisFunctions();
 		this.nbf = this.bfs.size();
 		this.mos = mos.getCoefficients();
 		this.monumber = monumber;

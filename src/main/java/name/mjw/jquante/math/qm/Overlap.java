@@ -121,9 +121,9 @@ public class Overlap extends Array2DRowRealMatrix {
 	 * Compute one of the Overlap derivative elements, with respect to an atomIndex
 	 */
 	private Vector3D computeOverlapDerElement(int i, int j) {
-		BasisFunctions bfs = scfMethod.getOneEI().getBasisFunctions();
-		ContractedGaussian cgi = bfs.getBasisFunctions().get(i);
-		ContractedGaussian cgj = bfs.getBasisFunctions().get(j);
+		BasisSetLibrary bsl = scfMethod.getOneEI().getBasisSetLibrary();
+		ContractedGaussian cgi = bsl.getBasisFunctions().get(i);
+		ContractedGaussian cgj = bsl.getBasisFunctions().get(j);
 
 		return cgi.overlapDerivative(atomIndex, cgj);
 	}

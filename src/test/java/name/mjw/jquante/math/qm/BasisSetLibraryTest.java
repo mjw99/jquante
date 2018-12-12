@@ -11,7 +11,7 @@ import name.mjw.jquante.molecule.impl.MoleculeImpl;
 import org.junit.Before;
 import org.junit.Test;
 
-public class BasisFunctionsTest {
+public class BasisSetLibraryTest {
 
 	double diff = 0.00001;
 
@@ -20,7 +20,7 @@ public class BasisFunctionsTest {
 	Atom H2;
 
 	Molecule water;
-	BasisFunctions bf = null;
+	BasisSetLibrary bsl = null;
 
 	@Before
 	public void setup() {
@@ -38,7 +38,7 @@ public class BasisFunctionsTest {
 	@Test
 	public void one() {
 
-		BasisFunctions bf = null;
+		BasisSetLibrary bsl = null;
 
 		Atom H1 = new Atom("H", 1.0, new Vector3D(0.752510, -0.454585, 0.000000));
 
@@ -46,17 +46,17 @@ public class BasisFunctionsTest {
 		hydrogen.addAtom(H1);
 
 		try {
-			bf = new BasisFunctions(hydrogen, "sto-3g");
+			bsl = new BasisSetLibrary(hydrogen, "sto-3g");
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		assertEquals(1, bf.getBasisFunctions().size());
+		assertEquals(1, bsl.getBasisFunctions().size());
 
-		assertEquals(3.425251, bf.getBasisFunctions().get(0).getExponents().get(0), diff);
+		assertEquals(3.425251, bsl.getBasisFunctions().get(0).getExponents().get(0), diff);
 
-		assertEquals(0.154329, bf.getBasisFunctions().get(0).getCoefficients().get(0), diff);
+		assertEquals(0.154329, bsl.getBasisFunctions().get(0).getCoefficients().get(0), diff);
 
 	}
 
@@ -64,13 +64,13 @@ public class BasisFunctionsTest {
 	public void two() {
 
 		try {
-			bf = new BasisFunctions(water, "sto-3g");
+			bsl = new BasisSetLibrary(water, "sto-3g");
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
-		assertEquals(7, bf.getBasisFunctions().size());
+		assertEquals(7, bsl.getBasisFunctions().size());
 
 	}
 
@@ -78,32 +78,32 @@ public class BasisFunctionsTest {
 	public void testShellsSTO3G() {
 
 		try {
-			bf = new BasisFunctions(water, "sto-3g");
+			bsl = new BasisSetLibrary(water, "sto-3g");
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
-		assertEquals(7, bf.getShells().entries().size());
-		assertEquals(5, bf.getShells().keySet().size());
+		assertEquals(7, bsl.getShells().entries().size());
+		assertEquals(5, bsl.getShells().keySet().size());
 
-		assertEquals(15, bf.getShellPairs().size());
+		assertEquals(15, bsl.getShellPairs().size());
 	}
 
 	@Test
 	public void testShellsCcPvtz() {
 
 		try {
-			bf = new BasisFunctions(water, "cc-pvtz");
+			bsl = new BasisSetLibrary(water, "cc-pvtz");
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
-		assertEquals(65, bf.getShells().entries().size());
-		assertEquals(22, bf.getShells().keySet().size());
+		assertEquals(65, bsl.getShells().entries().size());
+		assertEquals(22, bsl.getShells().keySet().size());
 
-		assertEquals(253, bf.getShellPairs().size());
+		assertEquals(253, bsl.getShellPairs().size());
 
 	}
 

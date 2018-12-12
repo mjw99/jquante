@@ -15,7 +15,7 @@ public class GMatrixTest {
 	double diff = 0.00001;
 	static Density density = null;
 	static TwoElectronIntegrals twoEI = null;
-	static BasisFunctions bf = null;
+	static BasisSetLibrary bf = null;
 
 	@BeforeClass
 	public static void setUp() {
@@ -28,7 +28,7 @@ public class GMatrixTest {
 		hydrogen.addAtom(H2);
 
 		try {
-			bf = new BasisFunctions(hydrogen, "sto-3g");
+			bf = new BasisSetLibrary(hydrogen, "sto-3g");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
