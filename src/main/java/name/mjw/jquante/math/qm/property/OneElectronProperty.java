@@ -76,9 +76,7 @@ public abstract class OneElectronProperty {
 	public double[] compute(Vector3D[] points) {
 		double[] fValues = new double[points.length];
 
-		IntStream.range(0, points.length).parallel().forEach(i -> {
-			fValues[i] = compute(points[i]);
-		});
+		IntStream.range(0, points.length).parallel().forEach(i -> fValues[i] = compute(points[i]));
 
 		return fValues;
 	}
