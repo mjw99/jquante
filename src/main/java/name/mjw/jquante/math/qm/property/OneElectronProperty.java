@@ -1,14 +1,13 @@
 package name.mjw.jquante.math.qm.property;
 
+import java.util.stream.IntStream;
+
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 import name.mjw.jquante.common.Utility;
 import name.mjw.jquante.math.qm.SCFMethod;
 import name.mjw.jquante.molecule.property.electronic.GridProperty;
 import name.mjw.jquante.molecule.property.electronic.PointProperty;
-import name.mjw.jquante.parallel.AbstractSimpleParallelTask;
-import name.mjw.jquante.parallel.SimpleParallelTask;
-import name.mjw.jquante.parallel.SimpleParallelTaskExecuter;
 
 /**
  * Abstract representation of an one-electron property.
@@ -77,43 +76,11 @@ public abstract class OneElectronProperty {
 	public double[] compute(Vector3D[] points) {
 		double[] fValues = new double[points.length];
 
-		SimpleParallelTask spt = new ComputeOverPoints(points, fValues);
-		SimpleParallelTaskExecuter spte = new SimpleParallelTaskExecuter();
-
-		spte.execute(spt);
+		IntStream.range(0, points.length).parallel().forEach(i -> {
+			fValues[i] = compute(points[i]);
+		});
 
 		return fValues;
-	}
-
-	/** Parallel task description to compute the property over a set of points */
-	private class ComputeOverPoints extends AbstractSimpleParallelTask {
-
-		private Vector3D[] points;
-		private double[] fValues;
-
-		public ComputeOverPoints(Vector3D[] points, double[] fValues) {
-			this.points = points;
-			this.fValues = fValues;
-
-			setTaskName("OneElectron property computation thread for: " + OneElectronProperty.class.toString());
-			setTotalItems(points.length);
-		}
-
-		@Override
-		public SimpleParallelTask init(int startItem, int endItem) {
-			ComputeOverPoints cop = new ComputeOverPoints(points, fValues);
-
-			cop.startItem = startItem;
-			cop.endItem = endItem;
-
-			return cop;
-		}
-
-		@Override
-		public void run() {
-			for (int i = startItem; i < endItem; i++)
-				fValues[i] = compute(points[i]);
-		}
 	}
 
 	/**
