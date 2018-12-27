@@ -137,12 +137,19 @@ public abstract class OneElectronProperty {
 				.getZIncrement();
 
 		Vector3D ul = gp.getBoundingBox().getUpperLeft();
-		double xmin = ul.getX(), ymin = ul.getY(), zmin = ul.getZ();
+		double xmin = ul.getX();
+		double ymin = ul.getY();
+		double zmin = ul.getZ();
 
 		Vector3D[] points = new Vector3D[nx * ny * nz];
 
-		double x, y, z;
-		int i, j, k, ii;
+		double x;
+		double y;
+		double z;
+		int i;
+		int j;
+		int k;
+		int ii;
 
 		ii = 0;
 		for (i = 0; i < nx; i++) {
