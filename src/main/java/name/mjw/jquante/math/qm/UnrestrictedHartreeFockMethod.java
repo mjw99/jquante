@@ -203,7 +203,7 @@ public class UnrestrictedHartreeFockMethod extends SCFMethod implements
 	}
 
 	/**
-	 * This gradient (or Force) calculation is based on Appendix C of Mordern
+	 * This gradient (or Force) calculation is based on Appendix C of Modern
 	 * Quantum Chemistry by Szabo and Ostland, which describes computing
 	 * analytic gradients and geometry optimization.
 	 */

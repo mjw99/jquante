@@ -84,4 +84,4 @@ public interface AtomGroup {
 	 */
 	public boolean union(AtomGroup atomGroup);
 
-} // end of interface AtomGroup
+}

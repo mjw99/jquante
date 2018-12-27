@@ -38,7 +38,7 @@ public class RingRecognizer implements SpecialStructureRecognizer {
 	private AtomGroupList theRings;
 
 	/** torsion tolerance for defining planarity - 5<sup>0</sup> */
-	protected static double TORSSIAN_ANGLE_TOLERANCE = FastMath.toRadians(5.0);
+	protected static final double TORSSIAN_ANGLE_TOLERANCE = FastMath.toRadians(5.0);
 
 	/**
 	 * Holds value of property maxRingSize.
@@ -83,14 +83,14 @@ public class RingRecognizer implements SpecialStructureRecognizer {
 		for (i = 0; i < noOfAtoms; i++) {
 			color[i] = WHITE;
 			parent[i] = -1;
-		} // end for
+		}
 
 		// now start the algo.
 		for (i = 0; i < noOfAtoms; i++) {
 			if (color[i] == WHITE) {
 				traverseAndRecordRing(i);
-			} // end if
-		} // end for
+			}
+		}
 
 		// remove the subset rings
 		removeSubsets();
@@ -98,7 +98,7 @@ public class RingRecognizer implements SpecialStructureRecognizer {
 		// and finally set the planarity of the rings detected
 		for (i = 0; i < theRings.getSize(); i++) {
 			setPlanarity(i);
-		} // end for
+		}
 	}
 
 	/**
@@ -141,14 +141,14 @@ public class RingRecognizer implements SpecialStructureRecognizer {
 							break;
 						} else {
 							theRing.addAtomIndex(vertex);
-						} // end if
-					} // end while
+						}
+					}
 
 					// record the ring
 					theRings.addGroup(theRing);
-				} // end if
-			} // end if
-		} // end while
+				}
+			}
+		}
 
 		// this node has been completely traversed, if we hit this node again
 		// we have a cycle!
@@ -216,9 +216,14 @@ public class RingRecognizer implements SpecialStructureRecognizer {
 			return;
 		} // end if
 
-		int i, i2, i3;
-		Vector3D a12, a23, a34;
-		Vector3D n1, n2;
+		int i;
+		int i2;
+		int i3;
+		Vector3D a12;
+		Vector3D a23;
+		Vector3D a34;
+		Vector3D n1;
+		Vector3D n2;
 		Vector3D[] points = new Vector3D[theRing.getSize()];
 
 		// get all the atom centers of the ring
@@ -247,12 +252,11 @@ public class RingRecognizer implements SpecialStructureRecognizer {
 			if (Vector3D.angle(n1,n2) > TORSSIAN_ANGLE_TOLERANCE) {
 				theRing.setPlanar(false); // not planar
 				return;
-			} // end if
-		} // end for
+			}
+		}
 
 		// if we reached here, the ring is probably planar
 		theRing.setPlanar(true);
-		return;
 	}
 
 	/**
@@ -298,4 +302,4 @@ public class RingRecognizer implements SpecialStructureRecognizer {
 		this.theRings = groupList;
 	}
 
-} // end of class RingRecognizer
+}

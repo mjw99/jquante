@@ -12,10 +12,10 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 public interface Force {
 
 	/**
-	 * Compute the total foce on the specified atom and return the results as a
-	 * Vector3D object. Note that the SCF calculaions should have been over
-	 * before calling this method. This method in no way gaurenties to check if
-	 * the SCF was performend prior to calling this method.
+	 * Compute the total force on the specified atom and return the results as a
+	 * Vector3D object. Note that the SCF calculations should have been over
+	 * before calling this method. This method in no way guarantees to check if
+	 * the SCF was performed prior to calling this method.
 	 * 
 	 * @param atomIndex
 	 *            the atom index for which the force is to be computed

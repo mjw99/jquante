@@ -22,12 +22,12 @@ public class Ring implements AtomGroup {
 	/**
 	 * Holds value of property planar.
 	 */
-	private boolean planar;
+	private boolean isPlanar;
 
 	/** Creates a new instance of Ring */
 	public Ring() {
-		ringAtoms = new LinkedHashSet<Integer>();
-		planar = false;
+		ringAtoms = new LinkedHashSet<>();
+		isPlanar = false;
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class Ring implements AtomGroup {
 	 *            a string representing the type for ring
 	 */
 	public Ring(String type) {
-		ringAtoms = new LinkedHashSet<Integer>();
+		ringAtoms = new LinkedHashSet<>();
 		setRingType(type);
 	}
 
@@ -109,7 +109,7 @@ public class Ring implements AtomGroup {
 	 */
 	public String toString() {
 		return ringAtoms.toString()
-				+ ((planar) ? ("- " + PLANAR) : ("- " + NON_PLANAR));
+				+ ((isPlanar) ? ("- " + PLANAR) : ("- " + NON_PLANAR));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class Ring implements AtomGroup {
 	 * @return Value of property atomList.
 	 */
 	public ArrayList<Integer> getAtomList() {
-		return new ArrayList<Integer>(ringAtoms);
+		return new ArrayList<>(ringAtoms);
 	}
 
 	/**
@@ -148,9 +148,9 @@ public class Ring implements AtomGroup {
 					ringAtoms.add((Integer) atoms[atoms.length - 1]);
 
 					return true;
-				} // end if
-			} // end if
-		} // end if
+				}
+			}
+		}
 
 		return false;
 	}
@@ -167,7 +167,7 @@ public class Ring implements AtomGroup {
 			ringAtoms.addAll(((Ring) atomGroup).ringAtoms);
 
 			return true;
-		} // end if
+		}
 
 		return false;
 	}
@@ -178,7 +178,7 @@ public class Ring implements AtomGroup {
 	 * @return Value of property planar.
 	 */
 	public boolean isPlanar() {
-		return this.planar;
+		return this.isPlanar;
 	}
 
 	/**
@@ -188,7 +188,7 @@ public class Ring implements AtomGroup {
 	 *            New value of property planar.
 	 */
 	public void setPlanar(boolean planar) {
-		this.planar = planar;
+		this.isPlanar = planar;
 	}
 
 	/**
@@ -213,7 +213,7 @@ public class Ring implements AtomGroup {
 			setPlanar(false);
 		} else {
 			throw new UnsupportedOperationException("Unknown ring type " + type);
-		} // end if
+		}
 	}
 
 	/**
@@ -223,7 +223,7 @@ public class Ring implements AtomGroup {
 		if ((obj == null) || (!(obj instanceof Ring)))
 			return false;
 
-		return ((ringAtoms.equals(((Ring) obj).ringAtoms)) && (planar == ((Ring) obj).planar));
+		return ((ringAtoms.equals(((Ring) obj).ringAtoms)) && (isPlanar == ((Ring) obj).isPlanar));
 	}
 
 }

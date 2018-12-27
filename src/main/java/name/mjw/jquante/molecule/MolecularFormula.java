@@ -105,7 +105,8 @@ public class MolecularFormula {
 	 */
 	private void sortKeys(Object[] keys, Object[] values) {
 		Object temp;
-		int i, j;
+		int i;
+		int j;
 
 		for (i = 0; i < keys.length; i++) {
 			for (j = 0; j < i; j++) {

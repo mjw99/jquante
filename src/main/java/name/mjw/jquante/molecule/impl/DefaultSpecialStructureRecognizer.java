@@ -1,9 +1,3 @@
-/*
- * DefaultSpecialStructureRecognizer.java
- *
- * Created on November 21, 2004, 9:06 AM
- */
-
 package name.mjw.jquante.molecule.impl;
 
 import name.mjw.jquante.molecule.AtomGroupList;
@@ -63,4 +57,4 @@ public class DefaultSpecialStructureRecognizer
 		this.atomGroup = atomGroup;
 	}
 
-} // end of class DefaultSpecialStructureRecognizer
+}

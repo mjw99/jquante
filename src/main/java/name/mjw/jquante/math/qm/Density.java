@@ -29,7 +29,7 @@ public class Density extends Array2DRowRealMatrix {
 
 	/**
 	 * Compute the density matrix. It is computed using the number of occupied
-	 * orbitals and the molecular oribitals coefficient matrix.
+	 * orbitals and the molecular orbitals coefficient matrix.
 	 * 
 	 * @param scfMethod
 	 *            The SCF method for which the density is to be formed

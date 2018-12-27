@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 
 /**
- * An interface definint list of AtomGroup instances.
+ * An interface defining a list of AtomGroup instances.
  * 
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
@@ -49,4 +49,4 @@ public interface AtomGroupList {
 	 */
 	public ArrayList<AtomGroup> getGroupList();
 
-} // end of interface AtomGroupList
+}

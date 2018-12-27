@@ -1,9 +1,3 @@
-/*
- * MoleculeStateChangeListener.java
- *
- * Created on February 1, 2004, 6:58 AM
- */
-
 package name.mjw.jquante.molecule.event;
 
 /**
@@ -24,4 +18,4 @@ public interface MoleculeStateChangeListener extends java.util.EventListener {
 	 */
 	public void moleculeChanged(MoleculeStateChangeEvent event);
 
-} // end of interface MoleculeStateChangeListener
+}

@@ -7,7 +7,7 @@
 package name.mjw.jquante.molecule;
 
 /**
- * Interface defination of how the SpecialStructureRecognizer should be
+ * Interface definition of how the SpecialStructureRecognizer should be
  * implimented.
  * 
  * @author V.Ganesh
@@ -41,4 +41,4 @@ public interface SpecialStructureRecognizer {
 	 */
 	public void setGroupList(AtomGroupList groupList);
 
-} // end of interface SpecialStructureRecognizer
+}

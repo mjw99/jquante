@@ -18,7 +18,7 @@ public class DefaultAtomGroup implements AtomGroup {
 
 	/** Creates a new instance of DefaultAtomGroup */
 	public DefaultAtomGroup() {
-		groupAtoms = new LinkedHashSet<Integer>();
+		groupAtoms = new LinkedHashSet<>();
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class DefaultAtomGroup implements AtomGroup {
 	 */
 	@Override
 	public ArrayList<Integer> getAtomList() {
-		return new ArrayList<Integer>(groupAtoms);
+		return new ArrayList<>(groupAtoms);
 	}
 
 	/**
@@ -136,9 +136,9 @@ public class DefaultAtomGroup implements AtomGroup {
 					groupAtoms.add((Integer) atoms[atoms.length - 1]);
 
 					return true;
-				} // end if
-			} // end if
-		} // end if
+				}
+			}
+		}
 
 		return false;
 	}
@@ -184,4 +184,4 @@ public class DefaultAtomGroup implements AtomGroup {
 				+ (this.groupAtoms != null ? this.groupAtoms.hashCode() : 0);
 		return hash;
 	}
-} // end of class DefaultAtomGroup
+}

@@ -1,9 +1,3 @@
-/*
- * AtomInfoChangeListener.java
- *
- * Created on December 4, 2003, 6:46 AM
- */
-
 package name.mjw.jquante.config.event;
 
 import java.util.EventListener;
@@ -25,4 +19,4 @@ public interface AtomInfoChangeListener extends EventListener {
 	 */
 	public void atomInfoChanged(AtomInfoChangeEvent event);
 
-} // end of interface AtomInfoChangeListener
+}

@@ -252,7 +252,7 @@ public class GMatrix extends Array2DRowRealMatrix {
 	}
 
 	/**
-	 * Class encapsulating the way for forming GMatrix in a way useful for Utilising
+	 * Class encapsulating the way for forming GMatrix in a way useful for utilising
 	 * multi core (processor) systems.
 	 */
 	protected class GMatrixFormationThread extends AbstractSimpleParallelTask {

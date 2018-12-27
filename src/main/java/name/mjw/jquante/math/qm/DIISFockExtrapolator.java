@@ -17,7 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * DIIS (Direct Inversion of iterative subspaces) proposed by Peter Pualay for
+ * DIIS (Direct Inversion of iterative subspaces) proposed by Peter Pulay for
  * HF convergence acceleration.
  * 
  * @author V.Ganesh

@@ -12,7 +12,6 @@ import name.mjw.jquante.common.EventListenerList;
 import name.mjw.jquante.math.geom.BoundingBox;
 import name.mjw.jquante.molecule.event.MoleculeStateChangeEvent;
 import name.mjw.jquante.molecule.event.MoleculeStateChangeListener;
-import name.mjw.jquante.molecule.CommonUserDefinedMolecularPropertyNames;
 
 /**
  * Defines an interface for Molecule object. Any implementation should define
@@ -430,7 +429,7 @@ public abstract class Molecule {
 
 	/**
 	 * The implementation of this method should update the coordinates of
-	 * exixting Atom objects which for this molecule. The new coordinates are
+	 * existing Atom objects which for this molecule. The new coordinates are
 	 * provided in a linear array, of size 3N, with the first three indices
 	 * representing coordinates for first atom as (x,y,z) and so on. In case
 	 * <code>updateConnectivity</code> is set to true, an appropriate event
@@ -440,7 +439,7 @@ public abstract class Molecule {
 	 * bounding box etc.
 	 * 
 	 * @param coords
-	 *            the corrds with size 3N
+	 *            the coords with size 3N
 	 * @param updateConnectivity
 	 *            is the connectivity to be updated?
 	 * @throws IllegalArgumentException
@@ -458,7 +457,7 @@ public abstract class Molecule {
 	/**
 	 * Get a canonical ordering of atoms as a new Molecule object. It is up to
 	 * the implementation as to how this ordering is done. Note: for the new
-	 * Molecule object, the connectivity must be explicitely build by the
+	 * Molecule object, the connectivity must be explicitly build by the
 	 * caller.
 	 * 
 	 * @return a new Molecule object with different ordering

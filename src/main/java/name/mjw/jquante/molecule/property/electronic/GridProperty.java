@@ -356,9 +356,9 @@ public class GridProperty {
 	 * @return the value
 	 */
 	public double getFunctionValueAt(double x, double y, double z) {
-		double xMin = boundingBox.getUpperLeft().getX(), yMin = boundingBox
-				.getUpperLeft().getY(), zMin = boundingBox.getUpperLeft()
-				.getZ();
+		double xMin = boundingBox.getUpperLeft().getX();
+		double yMin = boundingBox.getUpperLeft().getY();
+		double zMin = boundingBox.getUpperLeft().getZ();
 
 		int i = (int) FastMath.rint(FastMath.abs((x - xMin) / xIncrement));
 		int j = (int) FastMath.rint(FastMath.abs((y - yMin) / yIncrement));
@@ -532,21 +532,21 @@ public class GridProperty {
 		if (functionValues == null)
 			return null;
 
-		ArrayList<Double> fVals = new ArrayList<Double>();
+		ArrayList<Double> fVals = new ArrayList<>();
 
 		// just flip if not normal
 		if (lowerLimit > upperLimit) {
 			double temp = lowerLimit;
 			lowerLimit = upperLimit;
 			upperLimit = temp;
-		} // end if
+		}
 
 		for (int i = 0; i < functionValues.length; i++) {
 			if ((functionValues[i] >= lowerLimit)
 					&& (functionValues[i] <= upperLimit)) {
 				fVals.add(Double.valueOf(functionValues[i]));
-			} // end if
-		} // end for
+			}
+		}
 
 		return fVals;
 	}
@@ -573,14 +573,14 @@ public class GridProperty {
 			double temp = lowerLimit;
 			lowerLimit = upperLimit;
 			upperLimit = temp;
-		} // end if
+		}
 
 		for (int i = 0; i < functionValues.length; i++) {
 			if ((functionValues[i] >= lowerLimit)
 					&& (functionValues[i] <= upperLimit)) {
 				count++;
-			} // end if
-		} // end for
+			}
+		}
 
 		return count;
 	}
@@ -657,8 +657,13 @@ public class GridProperty {
 
 		// then fill in the new function values
 		double[] fvals = new double[nx * ny * nz];
-		int ii = 0, i, j, k;
-		double x, y, z;
+		int ii = 0;
+		int i;
+		int j;
+		int k;
+		double x;
+		double y;
+		double z;
 
 		for (x = newUL.getX(), i = 0; i < nx; x = newUL.getX() + (xInc * i), i++) {
 			for (y = newUL.getY(), j = 0; j < ny; y = newUL.getY() + (yInc * j), j++) {
@@ -666,9 +671,9 @@ public class GridProperty {
 						+ (zInc * k), k++) {
 					fvals[ii++] = getFunctionValueAt(x, y, z)
 							+ gp.getFunctionValueAt(x, y, z);
-				} // end for
-			} // end for
-		} // end for
+				}
+			}
+		}
 
 		return new GridProperty(newBB, xInc, yInc, zInc, nx, ny, nz, fvals);
 	}
@@ -701,8 +706,13 @@ public class GridProperty {
 
 		// then fill in the new function values
 		double[] fvals = new double[nx * ny * nz];
-		int ii = 0, i, j, k;
-		double x, y, z;
+		int ii = 0;
+		int i;
+		int j;
+		int k;
+		double x;
+		double y;
+		double z;
 
 		for (x = newUL.getX(), i = 0; i < nx; x = newUL.getX() + (xInc * i), i++) {
 			for (y = newUL.getY(), j = 0; j < ny; y = newUL.getY() + (yInc * j), j++) {
@@ -710,9 +720,9 @@ public class GridProperty {
 						+ (zInc * k), k++) {
 					fvals[ii++] = getFunctionValueAt(x, y, z)
 							- gp.getFunctionValueAt(x, y, z);
-				} // end for
-			} // end for
-		} // end for
+				}
+			}
+		}
 
 		return new GridProperty(newBB, xInc, yInc, zInc, nx, ny, nz, fvals);
 	}
@@ -745,8 +755,13 @@ public class GridProperty {
 
 		// then fill in the new function values
 		double[] fvals = new double[nx * ny * nz];
-		int ii = 0, i, j, k;
-		double x, y, z;
+		int ii = 0;
+		int i;
+		int j;
+		int k;
+		double x;
+		double y;
+		double z;
 
 		for (x = newUL.getX(), i = 0; i < nx; x = newUL.getX() + (xInc * i), i++) {
 			for (y = newUL.getY(), j = 0; j < ny; y = newUL.getY() + (yInc * j), j++) {
@@ -754,10 +769,10 @@ public class GridProperty {
 						+ (zInc * k), k++) {
 					fvals[ii++] = getFunctionValueAt(x, y, z)
 							* gp.getFunctionValueAt(x, y, z);
-				} // end for
-			} // end for
-		} // end for
-
+				}
+			}
+		}
+		
 		return new GridProperty(newBB, xInc, yInc, zInc, nx, ny, nz, fvals);
 	}
 
@@ -799,8 +814,15 @@ public class GridProperty {
 
 		// then fill in the new function values
 		double[] fvals = new double[nx * ny * nz];
-		int ii = 0, i, j, k;
-		double x, y, z, f1, f2;
+		int ii = 0;
+		int i;
+		int j;
+		int k;
+		double x;
+		double y;
+		double z;
+		double f1;
+		double f2;
 
 		for (x = newUL.getX(), i = 0; i < nx; x = newUL.getX() + (xInc * i), i++) {
 			for (y = newUL.getY(), j = 0; j < ny; y = newUL.getY() + (yInc * j), j++) {
@@ -812,11 +834,11 @@ public class GridProperty {
 					if (Math.signum(f1) != FastMath.signum(f2)) {
 						if (FastMath.abs(f1 + f2) < threshold) {
 							fvals[ii++] = f1 + f2;
-						} // end if
-					} // end if
-				} // end for
-			} // end for
-		} // end for
+						}
+					}
+				}
+			}
+		}
 
 		return new GridProperty(newBB, xInc, yInc, zInc, nx, ny, nz, fvals);
 	}
@@ -834,9 +856,9 @@ public class GridProperty {
 	 * @return the grid point near the specified point.
 	 */
 	public Vector3D getGridPointNear(double x, double y, double z) {
-		double xMin = boundingBox.getUpperLeft().getX(), yMin = boundingBox
-				.getUpperLeft().getY(), zMin = boundingBox.getUpperLeft()
-				.getZ();
+		double xMin = boundingBox.getUpperLeft().getX();
+		double yMin = boundingBox.getUpperLeft().getY();
+		double zMin = boundingBox.getUpperLeft().getZ();
 
 		int i = (int) FastMath.rint(FastMath.abs((x - xMin) / xIncrement));
 		int j = (int) FastMath.rint(FastMath.abs((y - yMin) / yIncrement));
@@ -881,9 +903,9 @@ public class GridProperty {
 	 * @return an interger array with three values indicating the index
 	 */
 	public int[] getGridIndexNear(double x, double y, double z) {
-		double xMin = boundingBox.getUpperLeft().getX(), yMin = boundingBox
-				.getUpperLeft().getY(), zMin = boundingBox.getUpperLeft()
-				.getZ();
+		double xMin = boundingBox.getUpperLeft().getX();
+		double yMin = boundingBox.getUpperLeft().getY();
+		double zMin = boundingBox.getUpperLeft().getZ();
 
 		return new int[] { (int) FastMath.rint(FastMath.abs((x - xMin) / xIncrement)),
 				(int) FastMath.rint(FastMath.abs((y - yMin) / yIncrement)),
@@ -903,9 +925,9 @@ public class GridProperty {
 	 * @return the grid point near the specified point.
 	 */
 	public Vector3D getGridPointNear(int i, int j, int k) {
-		double xMin = boundingBox.getUpperLeft().getX(), yMin = boundingBox
-				.getUpperLeft().getY(), zMin = boundingBox.getUpperLeft()
-				.getZ();
+		double xMin = boundingBox.getUpperLeft().getX();
+		double yMin = boundingBox.getUpperLeft().getY();
+		double zMin = boundingBox.getUpperLeft().getZ();
 
 		return new Vector3D(xMin + (i * xIncrement), yMin + (j * yIncrement),
 				zMin + (k * zIncrement));
@@ -943,8 +965,12 @@ public class GridProperty {
 
 			// and the collect the sub property values
 			ArrayList<Double> fVals = new ArrayList<Double>();
-			double x, y, z;
-			int i, j, k;
+			double x;
+			double y;
+			double z;
+			int i;
+			int j;
+			int k;
 
 			for (x = newUL.getX(), i = 0; i < newNX; x = newUL.getX()
 					+ (xIncrement * i), i++) {
@@ -953,9 +979,9 @@ public class GridProperty {
 					for (z = newUL.getZ(), k = 0; k < newNZ; z = newUL.getZ()
 							+ (zIncrement * k), k++) {
 						fVals.add(getFunctionValueAt(x, y, z));
-					} // end for
-				} // end for
-			} // end for
+					}
+				}
+			}
 
 			double[] newFunctionValues = new double[fVals.size()];
 			for (i = 0; i < fVals.size(); i++)
@@ -968,7 +994,7 @@ public class GridProperty {
 					newFunctionValues);
 		} else {
 			return this;
-		} // end if
+		}
 	}
 
 	/**
@@ -1014,8 +1040,12 @@ public class GridProperty {
 		// and re-form the function values
 		double[] fvals = new double[nx * ny * nz];
 
-		double x, y, z;
-		int i, j, k;
+		double x;
+		double y;
+		double z;
+		int i;
+		int j;
+		int k;
 		Vector3D ul = boundingBox.getUpperLeft();
 
 		int ii = 0;
@@ -1024,11 +1054,11 @@ public class GridProperty {
 				for (z = ul.getZ(), k = 0; k < nz; z = ul.getZ() + (k * zInc), k++) {
 					fvals[ii++] = getInterpolatedFunctionValueAt(x, y, z,
 							interpolater);
-				} // end for
-			} // end for
-		} // end for
+				}
+			}
+		}
 
 		return new GridProperty(boundingBox, xInc, yInc, zInc, nx, ny, nz,
 				fvals);
 	}
-} // end of class GridProperty
+}

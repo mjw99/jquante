@@ -25,7 +25,7 @@ public class MolecularVolumetricProperty {
 	public MolecularVolumetricProperty(Molecule molecule) {
 		this.molecule = molecule;
 
-		this.volumeItemList = new ArrayList<VolumeItem>();
+		this.volumeItemList = new ArrayList<>();
 	}
 
 	/**

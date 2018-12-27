@@ -189,7 +189,7 @@ public class RestrictedHartreeFockMethod extends SCFMethod implements
 	}
 
 	/**
-	 * This gradient (or Force) calculation is based on Appendix C of Mordern
+	 * This gradient (or Force) calculation is based on Appendix C of Modern
 	 * Quantum Chemistry by Szabo and Ostland, which describes computing
 	 * analytic gradients and geometry optimization.
 	 */
@@ -314,9 +314,9 @@ public class RestrictedHartreeFockMethod extends SCFMethod implements
 	}
 
 	/**
-	 * Getter for property hessian.
+	 * Getter for property Hessian.
 	 * 
-	 * @return Value of property hessian.
+	 * @return Value of property Hessian.
 	 */
 	@Override
 	public RealMatrix getHessian() {

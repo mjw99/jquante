@@ -58,7 +58,7 @@ public class MoleculeImpl extends Molecule {
 		this.title = title.trim();
 
 		// init values
-		atomList = new ArrayList<Atom>();
+		atomList = new ArrayList<>();
 
 		specialStructureRecognizerList = new HashSet<SpecialStructureRecognizer>(
 				10);
@@ -130,7 +130,7 @@ public class MoleculeImpl extends Molecule {
 	 */
 	@Override
 	public void removeAtomAt(int atomIndex) {
-		Atom atom = (Atom) atomList.get(atomIndex);
+		Atom atom = atomList.get(atomIndex);
 
 		// adjust the molecular weight and COM
 		double mass = atomInfo.getAtomicWeight(atom.getSymbol());
@@ -151,7 +151,7 @@ public class MoleculeImpl extends Molecule {
 		Atom atom1;
 
 		while (atoms.hasNext()) {
-			atom1 = ((Atom) atoms.next());
+			atom1 = atoms.next();
 			atom1.setIndex(index++);
 			atom1.removeAllConnections();
 		} // emd while
@@ -373,10 +373,10 @@ public class MoleculeImpl extends Molecule {
 				if (atm.getSymbol().equals(atom.getSymbol())) {
 					index = i;
 					break;
-				} // end if
-			} // end if
+				}
+			}
 			i++;
-		} // end for
+		}
 
 		return index;
 	}
@@ -451,7 +451,7 @@ public class MoleculeImpl extends Molecule {
 	 */
 	@Override
 	public boolean isBonded(int atomIndex1, int atomIndex2) {
-		return (((Atom) atomList.get(atomIndex1)).isConnected(atomIndex2));
+		return (atomList.get(atomIndex1).isConnected(atomIndex2));
 	}
 
 	/**
@@ -469,7 +469,7 @@ public class MoleculeImpl extends Molecule {
 	 */
 	@Override
 	public boolean isStronglyBonded(int atomIndex1, int atomIndex2) {
-		BondType bt = ((Atom) atomList.get(atomIndex1))
+		BondType bt = atomList.get(atomIndex1)
 				.getConnectivity(atomIndex2);
 
 		return bt.isStrongBond();
@@ -486,7 +486,7 @@ public class MoleculeImpl extends Molecule {
 	 */
 	@Override
 	public BondType getBondType(int atomIndex1, int atomIndex2) {
-		return (((Atom) atomList.get(atomIndex1)).getConnectivity(atomIndex2));
+		return ((atomList.get(atomIndex1)).getConnectivity(atomIndex2));
 	}
 
 	/**
@@ -503,8 +503,8 @@ public class MoleculeImpl extends Molecule {
 	 */
 	@Override
 	public void setBondType(int atomIndex1, int atomIndex2, BondType bondType) {
-		((Atom) atomList.get(atomIndex1)).addConnection(atomIndex2, bondType);
-		((Atom) atomList.get(atomIndex2)).addConnection(atomIndex1, bondType);
+		atomList.get(atomIndex1).addConnection(atomIndex2, bondType);
+		atomList.get(atomIndex2).addConnection(atomIndex1, bondType);
 
 		// no boolean value set as this doesn't affect the molecules bound
 		if (!bondType.equals(BondType.NO_BOND)) {
@@ -572,7 +572,7 @@ public class MoleculeImpl extends Molecule {
 				return new BoundingBox();
 			}
 
-			Atom atom = (Atom) atomList.get(0);
+			Atom atom = atomList.get(0);
 
 			double xmin = atom.getX();
 			double xmax = xmin;
@@ -581,10 +581,12 @@ public class MoleculeImpl extends Molecule {
 			double zmin = atom.getZ();
 			double zmax = zmin;
 
-			double x, y, z;
+			double x;
+			double y;
+			double z;
 
 			for (int i = 1; i < atomList.size(); i++) {
-				atom = (Atom) atomList.get(i);
+				atom = atomList.get(i);
 
 				x = atom.getX();
 
@@ -667,8 +669,8 @@ public class MoleculeImpl extends Molecule {
 
 			if (ssr instanceof RingRecognizer) {
 				return (RingRecognizer) ssr; // there , we do know rings
-			} // end if
-		} // end while
+			}
+		}
 
 		return null; // we did not find any relevent recognizer
 	}
@@ -733,7 +735,9 @@ public class MoleculeImpl extends Molecule {
 		centerOfMass = new Vector3D(0,0,0);
 
 		// if its ok, we assume all is well
-		double x, y, z;
+		double x;
+		double y; 
+		double z;
 		int idxCoord = 0;
 		for (Atom atom : atomList) {
 			x = coords[idxCoord];
@@ -770,7 +774,7 @@ public class MoleculeImpl extends Molecule {
 	 */
 	@Override
 	public java.util.Iterator<Integer> traversePath(int atomIndex) {
-		ArrayList<Integer> visited = new ArrayList<Integer>(atomList.size());
+		ArrayList<Integer> visited = new ArrayList<>(atomList.size());
 
 		// push the current index
 		visited.add(Integer.valueOf(atomIndex));
@@ -805,7 +809,7 @@ public class MoleculeImpl extends Molecule {
 		if (!noDepth)
 			return traversePath(atomIndex);
 
-		ArrayList<Integer> visited = new ArrayList<Integer>(atomList.size());
+		ArrayList<Integer> visited = new ArrayList<>(atomList.size());
 
 		// then traverse others and record
 		traverseAndRecordDFSNoWeak(atomIndex, visited);
@@ -833,7 +837,7 @@ public class MoleculeImpl extends Molecule {
 				continue;
 
 			// push the current index
-			visited.add(Integer.valueOf(toVisit));
+			visited.add(toVisit);
 
 			// avoid visit of "dead-end" atom
 			if (atomList.get(toVisit).getDegree() < 2)
@@ -851,10 +855,10 @@ public class MoleculeImpl extends Molecule {
 	 */
 	private void traverseAndRecordDFSNoWeak(int atomIndex,
 			ArrayList<Integer> visited) {
-		PriorityQueue<Integer> toVisitList = new PriorityQueue<Integer>();
+		PriorityQueue<Integer> toVisitList = new PriorityQueue<>();
 		toVisitList.add(atomIndex);
 
-		while (toVisitList.size() != 0) {
+		while (!toVisitList.isEmpty()) {
 			Integer toVisit = toVisitList.remove();
 
 			// visited already? then cycle
@@ -880,15 +884,15 @@ public class MoleculeImpl extends Molecule {
 
 				// mark it to be visted
 				toVisitList.add(visitThis);
-			} // end while
-		} // end while
+			}
+		}
 	}
 
 	/**
 	 * traverse and record the path .. BFS
 	 */
 	private void traverseAndRecordBFS(int atomIndex, ArrayList<Integer> visited) {
-		LinkedList<Integer> queue = new LinkedList<Integer>();
+		LinkedList<Integer> queue = new LinkedList<>();
 		Enumeration<Integer> connectList;
 
 		// do a BFS
@@ -918,7 +922,7 @@ public class MoleculeImpl extends Molecule {
 			} // end while
 
 			// if queue is empty, get out
-			if (queue.size() == 0)
+			if (queue.isEmpty())
 				break;
 
 			// else get the next unexplored node
@@ -944,8 +948,8 @@ public class MoleculeImpl extends Molecule {
 
 				// push the visited index
 				visited.add(toVisit);
-			} // end while
-		} // end for
+			}
+		}
 
 		// clean up
 		connectList = null;
@@ -976,13 +980,13 @@ public class MoleculeImpl extends Molecule {
 			System.err.println("Exception in getCanonicalOrdering(): "
 					+ e.toString());
 			e.printStackTrace();
-		} // end of try .. catch
+		}
 
 		// get center of mass
 		Vector3D com = mol.getCenterOfMass();
 		for (Atom atm : atomList) {
 			atm.setIndex(mol.closestTo(com));
-		} // end for
+		}
 
 		return mol;
 	}
@@ -1004,9 +1008,9 @@ public class MoleculeImpl extends Molecule {
 			if (atm.distanceFrom(point) <= dist) {
 				index = i;
 				break;
-			} // end if
+			}
 			i++;
-		} // end for
+		}
 
 		return index;
 	}
@@ -1020,6 +1024,6 @@ public class MoleculeImpl extends Molecule {
 
 		for (int i = 0; i < noOfAtoms; i++) {
 			getAtom(i).setIndex(i);
-		} // end for
+		}
 	}
 }

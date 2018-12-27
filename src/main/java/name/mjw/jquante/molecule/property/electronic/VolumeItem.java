@@ -1,8 +1,3 @@
-/**
- * VolumeItem.java
- *
- * Created on Feb 17, 2009
- */
 package name.mjw.jquante.molecule.property.electronic;
 
 import name.mjw.jquante.molecule.Molecule;

@@ -1,8 +1,3 @@
-/**
- * MolecularVolumetricPropertyType.java
- *
- * Created on Feb 18, 2009
- */
 package name.mjw.jquante.molecule.property.electronic;
 
 /**

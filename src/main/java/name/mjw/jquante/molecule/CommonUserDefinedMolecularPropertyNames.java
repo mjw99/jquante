@@ -1,9 +1,3 @@
-/**
- * CommonUserDefinedMolecularPropertyNames.java
- *
- * Created on 03/08/2009
- */
-
 package name.mjw.jquante.molecule;
 
 import java.io.Serializable;

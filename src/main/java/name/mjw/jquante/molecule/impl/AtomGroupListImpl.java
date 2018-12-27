@@ -19,7 +19,7 @@ public class AtomGroupListImpl implements AtomGroupList {
 
 	/** Creates a new instance of AtomGroupListImpl */
 	public AtomGroupListImpl() {
-		groupList = new ArrayList<AtomGroup>(10);
+		groupList = new ArrayList<>(10);
 	}
 
 	/**
@@ -82,4 +82,4 @@ public class AtomGroupListImpl implements AtomGroupList {
 	public String toString() {
 		return groupList.toString();
 	}
-} // end of class AtomGroupListImpl
+}
