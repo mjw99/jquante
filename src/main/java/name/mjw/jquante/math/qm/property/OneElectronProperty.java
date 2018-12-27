@@ -20,7 +20,7 @@ public abstract class OneElectronProperty {
 
 	/**
 	 * Creates a new instance of OneElectronProperty
-	 * */
+	 */
 	public OneElectronProperty() {
 		this.scfMethod = null;
 	}
@@ -28,8 +28,7 @@ public abstract class OneElectronProperty {
 	/**
 	 * Creates a new instance of OneElectronProperty.
 	 *
-	 * @param scfMethod
-	 *            the Self Consistent Field (SCF) method.
+	 * @param scfMethod the Self Consistent Field (SCF) method.
 	 */
 	public OneElectronProperty(SCFMethod scfMethod) {
 		this.scfMethod = scfMethod;
@@ -49,8 +48,7 @@ public abstract class OneElectronProperty {
 	/**
 	 * Set the value of scfMethod
 	 *
-	 * @param scfMethod
-	 *            new value of scfMethod
+	 * @param scfMethod new value of scfMethod
 	 */
 	public void setScfMethod(SCFMethod scfMethod) {
 		this.scfMethod = scfMethod;
@@ -62,20 +60,18 @@ public abstract class OneElectronProperty {
 	 * Note that the unit of Point3D object must be a.u. No attempt is made to
 	 * verify this.
 	 * 
-	 * @param point
-	 *            the point of interest
+	 * @param point the point of interest
 	 * @return the value of this property at this point
 	 */
 	public abstract double compute(Vector3D point);
 
 	/**
-	 * Computes the one electron property on the specified points and returns
-	 * its value at the specified points. <br>
+	 * Computes the one electron property on the specified points and returns its
+	 * value at the specified points. <br>
 	 * Note that the unit of Point3D object must be a.u. No attempt is made to
 	 * verify this.
 	 *
-	 * @param points
-	 *            the points of interest
+	 * @param points the points of interest
 	 * @return the values of this property at each of the point
 	 */
 	public double[] compute(Vector3D[] points) {
@@ -99,8 +95,7 @@ public abstract class OneElectronProperty {
 			this.points = points;
 			this.fValues = fValues;
 
-			setTaskName("OneElectron property computation thread for: "
-					+ OneElectronProperty.class.toString());
+			setTaskName("OneElectron property computation thread for: " + OneElectronProperty.class.toString());
 			setTotalItems(points.length);
 		}
 
@@ -123,18 +118,19 @@ public abstract class OneElectronProperty {
 
 	/**
 	 * Computes the one-electron property specified by the GridProperty object. <br>
-	 * The units of GridProperty are automatically converted to a.u. It is
-	 * always assumed that GridProperty is specified in angstroms.
+	 * The units of GridProperty are automatically converted to a.u. It is always
+	 * assumed that GridProperty is specified in angstroms.
 	 * 
-	 * @param gp
-	 *            the GridProperty object describing the region of interest to
-	 *            compute the one-electron properties
+	 * @param gp the GridProperty object describing the region of interest to
+	 *           compute the one-electron properties
 	 */
 	public void compute(GridProperty gp) {
-		int nx = gp.getNoOfPointsAlongX(), ny = gp.getNoOfPointsAlongY(), nz = gp
-				.getNoOfPointsAlongZ();
-		double xinc = gp.getXIncrement(), yinc = gp.getYIncrement(), zinc = gp
-				.getZIncrement();
+		int nx = gp.getNoOfPointsAlongX();
+		int ny = gp.getNoOfPointsAlongY();
+		int nz = gp.getNoOfPointsAlongZ();
+		double xinc = gp.getXIncrement();
+		double yinc = gp.getYIncrement();
+		double zinc = gp.getZIncrement();
 
 		Vector3D ul = gp.getBoundingBox().getUpperLeft();
 		double xmin = ul.getX();
@@ -168,13 +164,13 @@ public abstract class OneElectronProperty {
 	}
 
 	/**
-	 * Computes the one-electron property specified by the PointProperty object. <br>
+	 * Computes the one-electron property specified by the PointProperty object.
+	 * <br>
 	 * Note that the unit of Point3D object must be a.u. No attempt is made to
 	 * verify this.
 	 * 
-	 * @param pp
-	 *            the PointProperty object describing the region of interest to
-	 *            compute the one-electron properties
+	 * @param pp the PointProperty object describing the region of interest to
+	 *           compute the one-electron properties
 	 */
 	public void compute(PointProperty pp) {
 		pp.setValue(compute(pp.getPoint()));
