@@ -2,6 +2,7 @@ package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
@@ -34,8 +35,7 @@ public class GMatrix extends Array2DRowRealMatrix {
 	/**
 	 * Creates a new instance of square (NxN) Matrix
 	 * 
-	 * @param n
-	 *            the dimension
+	 * @param n the dimension
 	 */
 	public GMatrix(int n) {
 		super(n, n);
@@ -48,12 +48,9 @@ public class GMatrix extends Array2DRowRealMatrix {
 	/**
 	 * Form the GMatrix from two electron integrals and the density matrix.
 	 * 
-	 * @param scfType
-	 *            the SCFType
-	 * @param twoEI
-	 *            the 2E integrals
-	 * @param density
-	 *            the Density matrix
+	 * @param scfType the SCFType
+	 * @param twoEI   the 2E integrals
+	 * @param density the Density matrix
 	 */
 	public void compute(SCFType scfType, TwoElectronIntegrals twoEI, Density density) {
 		this.twoEI = twoEI;
@@ -73,8 +70,8 @@ public class GMatrix extends Array2DRowRealMatrix {
 	 * i.e. Form the 2J-K integrals corresponding to a density matrix
 	 */
 	protected void makeGMatrix() {
-		// make sure if this is really the case
-		// just if in case TwoElectronIntegrals class decided other wise
+		// make sure if this is really the case just in case TwoElectronIntegrals class
+		// decided other wise
 		if (twoEI.isOnTheFly()) {
 			makeGMatrixDirect();
 			return;
@@ -176,11 +173,9 @@ public class GMatrix extends Array2DRowRealMatrix {
 	/**
 	 * Compute GMatrix partial derivative for an atom index.
 	 * 
-	 * @param atomIndex
-	 *            the atom index with respect to which the derivative are to be
-	 *            evaluated
-	 * @param scfMethod
-	 *            the reference to the SCFMethod
+	 * @param atomIndex the atom index with respect to which the derivative are to
+	 *                  be evaluated
+	 * @param scfMethod the reference to the SCFMethod
 	 * @return three element array of GMatrix elements representing partial
 	 *         derivatives with respect to x, y and z of atom position
 	 */
@@ -251,6 +246,26 @@ public class GMatrix extends Array2DRowRealMatrix {
 		return gDer;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(density, partialGMatrixList);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GMatrix other = (GMatrix) obj;
+		return Objects.equals(density, other.density) && Objects.equals(partialGMatrixList, other.partialGMatrixList);
+	}
+
 	/**
 	 * Class encapsulating the way for forming GMatrix in a way useful for utilising
 	 * multi core (processor) systems.
@@ -284,7 +299,9 @@ public class GMatrix extends Array2DRowRealMatrix {
 			return new GMatrixFormationThread(startItem, endItem);
 		}
 
-		/** function to facilitate multi-threaded direct formation of GMatrix */
+		/**
+		 * Function to facilitate multi-threaded direct formation of GMatrix
+		 */
 		private void makeGMatrixDirect(int startBasisFunction, int endBasisFunction) {
 			int noOfBasisFunctions = density.getRowDimension();
 			GMatrix theGMatrix = new GMatrix(noOfBasisFunctions);
@@ -299,14 +316,10 @@ public class GMatrix extends Array2DRowRealMatrix {
 			int m;
 			int ij;
 			int kl;
-			int[] idx;
-			int[] jdx;
-			int[] kdx;
-			int[] ldx;
-			idx = new int[8];
-			jdx = new int[8];
-			kdx = new int[8];
-			ldx = new int[8];
+			int[] idx = new int[8];
+			int[] jdx = new int[8];
+			int[] kdx = new int[8];
+			int[] ldx = new int[8];
 			boolean[] validIdx = new boolean[8];
 			validIdx[0] = true;
 
@@ -354,10 +367,8 @@ public class GMatrix extends Array2DRowRealMatrix {
 								if ((i | j | k | l) == 0)
 									continue;
 
-								// else this is symmetry unique integral, so
-								// need to
-								// use this value for all 8 combinations
-								// (if unique)
+								// else this is symmetry unique integral, so need to
+								// use this value for all 8 combinations (if unique)
 								ldx[0] = l;
 								ldx[1] = l;
 								kdx[2] = l;
@@ -392,7 +403,9 @@ public class GMatrix extends Array2DRowRealMatrix {
 			partialGMatrixList.add(new GMatrix(gMatrix));
 		}
 
-		/** Set the GMatrix value for a given combination */
+		/**
+		 * Set the GMatrix value for a given combination
+		 */
 		private void setGMatrixElements(double[][] gMatrix, double[][] dMatrix, int i, int j, int k, int l,
 				double twoEIntVal2, double twoEIntValHalf) {
 			gMatrix[i][j] += dMatrix[k][l] * twoEIntVal2;
@@ -403,7 +416,9 @@ public class GMatrix extends Array2DRowRealMatrix {
 			gMatrix[j][l] -= dMatrix[i][k] * twoEIntValHalf;
 		}
 
-		/** find unique elements and mark the ones that are not */
+		/**
+		 * Find unique elements and mark the ones that are not
+		 */
 		private void filterUniqueElements(int[] idx, int[] jdx, int[] kdx, int[] ldx, boolean[] validIdx) {
 			int i;
 			int j;
