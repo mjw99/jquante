@@ -14,9 +14,7 @@ import name.mjw.jquante.math.qm.basis.PrimitiveGaussian;
 import name.mjw.jquante.math.qm.integral.Integrals;
 import name.mjw.jquante.math.qm.integral.IntegralsUtil;
 import name.mjw.jquante.molecule.Molecule;
-import name.mjw.jquante.parallel.AbstractSimpleParallelTask;
-import name.mjw.jquante.parallel.SimpleParallelTask;
-import name.mjw.jquante.parallel.SimpleParallelTaskExecuter;
+
 import net.jafama.FastMath;
 
 /**
@@ -432,6 +430,9 @@ public class TwoElectronIntegrals {
 	 * @param scfMethod the reference SCF method
 	 */
 	public void compute2EDerivatives(int atomIndex, SCFMethod scfMethod) {
+		final List<ContractedGaussian> bfs = basisSetLibrary.getBasisFunctions();
+		final int noOfBasisFunctions = bfs.size();
+
 		this.atomIndex = atomIndex;
 		this.scfMethod = scfMethod;
 
@@ -445,13 +446,34 @@ public class TwoElectronIntegrals {
 		twoEDer.add(dyTwoE);
 		twoEDer.add(dzTwoE);
 
-		SimpleParallelTaskExecuter pTaskExecuter = new SimpleParallelTaskExecuter();
+		// we only need i <= j, k <= l, and ij >= kl
+		IntStream.range(0, noOfBasisFunctions).parallel().forEach(i -> {
+			ContractedGaussian bfi = bfs.get(i);
 
-		TwoElectronIntegralDerivativeEvaluaterThread tThread = new TwoElectronIntegralDerivativeEvaluaterThread();
-		tThread.setTaskName("TwoElectronIntegralDerivativeEvaluater Thread");
-		tThread.setTotalItems(basisSetLibrary.getBasisFunctions().size());
+			IntStream.range(0, i + 1).parallel().forEach(j -> {
+				ContractedGaussian bfj = bfs.get(j);
+				int ij = i * (i + 1) / 2 + j;
+				IntStream.range(0, noOfBasisFunctions).parallel().forEach(k -> {
+					ContractedGaussian bfk = bfs.get(k);
+					IntStream.range(0, k + 1).parallel().forEach(l -> {
+						ContractedGaussian bfl = bfs.get(l);
+						int kl = k * (k + 1) / 2 + l;
 
-		pTaskExecuter.execute(tThread);
+						if (ij >= kl) {
+							int ijkl = IntegralsUtil.ijkl2intindex(i, j, k, l);
+
+							// record derivative of the 2E integrals
+							Vector3D twoEDerEle = compute2EDerivativeElement(bfi, bfj, bfk, bfl);
+
+							dxTwoE[ijkl] = twoEDerEle.getX();
+							dyTwoE[ijkl] = twoEDerEle.getY();
+							dzTwoE[ijkl] = twoEDerEle.getZ();
+
+						}
+					});
+				});
+			});
+		});
 	}
 
 	/**
@@ -463,99 +485,6 @@ public class TwoElectronIntegrals {
 	public ArrayList<double[]> getTwoEDer() {
 		return twoEDer;
 	}
-
-	/**
-	 * Class encapsulating the way to compute 2E electrons in a way useful for
-	 * utilizing multi core (processor) systems.
-	 */
-	protected class TwoElectronIntegralDerivativeEvaluaterThread extends AbstractSimpleParallelTask {
-
-		private int startBasisFunction;
-		private int endBasisFunction;
-		private List<ContractedGaussian> bfs;
-
-		public TwoElectronIntegralDerivativeEvaluaterThread() {
-		}
-
-		public TwoElectronIntegralDerivativeEvaluaterThread(int startBasisFunction, int endBasisFunction,
-				List<ContractedGaussian> bfs) {
-			this.startBasisFunction = startBasisFunction;
-			this.endBasisFunction = endBasisFunction;
-
-			this.bfs = bfs;
-
-			setTaskName("TwoElectronIntegralDerivativeEvaluater Thread");
-		}
-
-		/**
-		 * Actually compute the 2E integrals derivatives
-		 */
-		private void compute2EDerivative(int startBasisFunction, int endBasisFunction, List<ContractedGaussian> bfs) {
-
-			int i;
-			int j;
-			int k;
-			int l;
-			int ij;
-			int kl;
-			int ijkl;
-			int noOfBasisFunctions = bfs.size();
-
-			ContractedGaussian bfi;
-			ContractedGaussian bfj;
-			ContractedGaussian bfk;
-			ContractedGaussian bfl;
-
-			double[] dxTwoE = twoEDer.get(0);
-			double[] dyTwoE = twoEDer.get(1);
-			double[] dzTwoE = twoEDer.get(2);
-
-			// we only need i <= j, k <= l, and ij >= kl
-			for (i = startBasisFunction; i < endBasisFunction; i++) {
-				bfi = bfs.get(i);
-
-				for (j = 0; j < (i + 1); j++) {
-					bfj = bfs.get(j);
-					ij = i * (i + 1) / 2 + j;
-
-					for (k = 0; k < noOfBasisFunctions; k++) {
-						bfk = bfs.get(k);
-
-						for (l = 0; l < (k + 1); l++) {
-							bfl = bfs.get(l);
-
-							kl = k * (k + 1) / 2 + l;
-							if (ij >= kl) {
-								ijkl = IntegralsUtil.ijkl2intindex(i, j, k, l);
-
-								// record derivative of the 2E integrals
-								Vector3D twoEDerEle = compute2EDerivativeElement(bfi, bfj, bfk, bfl);
-
-								dxTwoE[ijkl] = twoEDerEle.getX();
-								dyTwoE[ijkl] = twoEDerEle.getY();
-								dzTwoE[ijkl] = twoEDerEle.getZ();
-							} // end if
-						} // end l loop
-					} // end k loop
-				} // end of j loop
-			} // end of i loop
-		}
-
-		/**
-		 * Overridden run()
-		 */
-		@Override
-		public void run() {
-			compute2EDerivative(startBasisFunction, endBasisFunction, bfs);
-		}
-
-		/** Overridden init() */
-		@Override
-		public SimpleParallelTask init(int startItem, int endItem) {
-			return new TwoElectronIntegralDerivativeEvaluaterThread(startItem, endItem,
-					basisSetLibrary.getBasisFunctions());
-		}
-	} // end of class TwoElectronIntegralEvaluaterThread
 
 	/**
 	 * Get the value of onTheFly
