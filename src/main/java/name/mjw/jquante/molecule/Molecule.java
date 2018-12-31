@@ -27,10 +27,10 @@ import name.mjw.jquante.molecule.event.MoleculeStateChangeListener;
 public abstract class Molecule {
 
 	/** Utility field used by event firing mechanism. */
-	protected transient EventListenerList<MoleculeStateChangeListener> listenerList = null;
+	protected EventListenerList<MoleculeStateChangeListener> listenerList = null;
 
 	/** Utility field for enabling / disabling event listeners */
-	protected transient boolean enableListeners = true;
+	protected boolean enableListeners = true;
 
 	/**
 	 * Holds value of property numberOfSingleBonds.
