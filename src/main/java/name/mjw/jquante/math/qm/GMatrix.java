@@ -79,28 +79,21 @@ public class GMatrix extends Array2DRowRealMatrix {
 		int noOfBasisFunctions = density.getRowDimension();
 
 		RealVector densityOneD = MathUtil.realMatrixToRealVector(density); // form 1D vector of density
-		RealVector tempVector = new ArrayRealVector(noOfBasisFunctions * noOfBasisFunctions);
 
 		double[] ints = twoEI.getTwoEIntegrals();
 
-		int i;
-		int j;
-		int k;
-		int l;
-		int kl;
-		int indexJ;
-		int indexK1;
-		int indexK2;
-		for (i = 0; i < noOfBasisFunctions; i++) {
-			for (j = 0; j < i + 1; j++) {
+		IntStream.range(0, noOfBasisFunctions).parallel().forEach(i -> {
+			IntStream.range(0, i + 1).parallel().forEach(j -> {
 
-				kl = 0;
+				RealVector tempVector = new ArrayRealVector(noOfBasisFunctions * noOfBasisFunctions);
+				int kl = 0;
 
-				for (k = 0; k < noOfBasisFunctions; k++) {
-					for (l = 0; l < noOfBasisFunctions; l++) {
-						indexJ = IntegralsUtil.ijkl2intindex(i, j, k, l);
-						indexK1 = IntegralsUtil.ijkl2intindex(i, k, j, l);
-						indexK2 = IntegralsUtil.ijkl2intindex(i, l, k, j);
+				for (int k = 0; k < noOfBasisFunctions; k++) {
+					for (int l = 0; l < noOfBasisFunctions; l++) {
+
+						int indexJ = IntegralsUtil.ijkl2intindex(i, j, k, l);
+						int indexK1 = IntegralsUtil.ijkl2intindex(i, k, j, l);
+						int indexK2 = IntegralsUtil.ijkl2intindex(i, l, k, j);
 
 						tempVector.setEntry(kl, (2.0 * ints[indexJ] - 0.5 * ints[indexK1] - 0.5 * ints[indexK2]));
 
@@ -110,8 +103,8 @@ public class GMatrix extends Array2DRowRealMatrix {
 
 				this.setEntry(i, j, tempVector.dotProduct(densityOneD));
 				this.setEntry(j, i, tempVector.dotProduct(densityOneD));
-			}
-		}
+			});
+		});
 		LOG.debug(this);
 	}
 
