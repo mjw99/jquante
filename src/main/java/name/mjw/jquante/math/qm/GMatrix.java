@@ -3,6 +3,7 @@ package name.mjw.jquante.math.qm;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
@@ -130,27 +131,16 @@ public class GMatrix extends Array2DRowRealMatrix {
 		int noOfBasisFunctions = density.getRowDimension();
 		GMatrix theGMatrix = new GMatrix(noOfBasisFunctions);
 
-		double[][] gMatrix = theGMatrix.getData();
-		double[][] dMatrix = density.getData();
+		IntStream.range(0, noOfBasisFunctions).parallel().forEach(i -> {
 
-		int i;
-		int j;
-		int k;
-		int l;
-		int m;
-		int ij;
-		int kl;
-		int[] idx = new int[8];
-		int[] jdx = new int[8];
-		int[] kdx = new int[8];
-		int[] ldx = new int[8];
-		boolean[] validIdx = new boolean[8];
-		validIdx[0] = true;
+			double[][] gMatrix = theGMatrix.getData();
+			double[][] dMatrix = density.getData();
 
-		double twoEIntVal;
-		double twoEIntVal2;
-		double twoEIntValHalf;
-		for (i = 0; i < noOfBasisFunctions; i++) {
+			int[] idx = new int[8];
+			int[] jdx = new int[8];
+			int[] kdx = new int[8];
+			int[] ldx = new int[8];
+
 			idx[0] = i;
 			jdx[1] = i;
 			jdx[2] = i;
@@ -159,8 +149,10 @@ public class GMatrix extends Array2DRowRealMatrix {
 			ldx[5] = i;
 			kdx[6] = i;
 			ldx[7] = i;
-			for (j = 0; j < (i + 1); j++) {
-				ij = i * (i + 1) / 2 + j;
+
+			for (int j = 0; j < (i + 1); j++) {
+				int ij = i * (i + 1) / 2 + j;
+
 				jdx[0] = j;
 				idx[1] = j;
 				idx[2] = j;
@@ -169,7 +161,7 @@ public class GMatrix extends Array2DRowRealMatrix {
 				kdx[5] = j;
 				ldx[6] = j;
 				kdx[7] = j;
-				for (k = 0; k < noOfBasisFunctions; k++) {
+				for (int k = 0; k < noOfBasisFunctions; k++) {
 					kdx[0] = k;
 					kdx[1] = k;
 					ldx[2] = k;
@@ -178,12 +170,16 @@ public class GMatrix extends Array2DRowRealMatrix {
 					jdx[5] = k;
 					idx[6] = k;
 					idx[7] = k;
-					for (l = 0; l < (k + 1); l++) {
-						kl = k * (k + 1) / 2 + l;
+					for (int l = 0; l < (k + 1); l++) {
+						int kl = k * (k + 1) / 2 + l;
+
 						if (ij >= kl) {
-							twoEIntVal = twoEI.compute2E(i, j, k, l);
-							twoEIntVal2 = twoEIntVal + twoEIntVal;
-							twoEIntValHalf = 0.5 * twoEIntVal;
+							double twoEIntVal = twoEI.compute2E(i, j, k, l);
+							double twoEIntVal2 = twoEIntVal + twoEIntVal;
+							double twoEIntValHalf = 0.5 * twoEIntVal;
+
+							boolean[] validIdx = new boolean[8];
+							validIdx[0] = true;
 
 							setGMatrixElements(gMatrix, dMatrix, i, j, k, l, twoEIntVal2, twoEIntValHalf);
 
@@ -213,7 +209,7 @@ public class GMatrix extends Array2DRowRealMatrix {
 							filterUniqueElements(idx, jdx, kdx, ldx, validIdx);
 
 							// and evaluate them
-							for (m = 1; m < 8; m++) {
+							for (int m = 1; m < 8; m++) {
 								if (validIdx[m]) {
 									setGMatrixElements(gMatrix, dMatrix, idx[m], jdx[m], kdx[m], ldx[m], twoEIntVal2,
 											twoEIntValHalf);
@@ -223,15 +219,15 @@ public class GMatrix extends Array2DRowRealMatrix {
 					}
 				}
 			}
-		}
-		partialGMatrixList.add(new GMatrix(gMatrix));
+			partialGMatrixList.add(new GMatrix(gMatrix));
+		});
 
 		// Zero this matrix... there must be a better way to do this
-		for (i = 0; i < this.getRowDimension(); i++) {
-			for (j = 0; j < this.getColumnDimension(); j++) {
+		IntStream.range(0, this.getRowDimension()).parallel().forEach(i -> {
+			IntStream.range(0, this.getColumnDimension()).parallel().forEach(j -> {
 				this.setEntry(i, j, 0.0);
-			}
-		}
+			});
+		});
 
 		if (!partialGMatrixList.isEmpty()) {
 			// collect the result and sum the partial contributions
@@ -240,21 +236,21 @@ public class GMatrix extends Array2DRowRealMatrix {
 			// sum up the partial results
 			for (GMatrix pgMat : partialGMatrixList) {
 
-				for (i = 0; i < n; i++) {
-					for (j = 0; j < n; j++) {
+				IntStream.range(0, n).parallel().forEach(i -> {
+					IntStream.range(0, n).parallel().forEach(j -> {
 						this.setEntry(i, j, (this.getEntry(i, j) + pgMat.getEntry(i, j)));
-					}
-				}
+					});
+				});
 
 			}
 
 			// half the elements
-			for (i = 0; i < n; i++) {
-				for (j = 0; j < n; j++) {
+			IntStream.range(0, n).parallel().forEach(i -> {
+				IntStream.range(0, n).parallel().forEach(j -> {
 					this.setEntry(i, j, (this.getEntry(i, j) * 0.5));
+				});
+			});
 
-				}
-			}
 		}
 	}
 
