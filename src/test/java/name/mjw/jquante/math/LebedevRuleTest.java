@@ -48,8 +48,7 @@ public class LebedevRuleTest {
 				}
 				// the integration of 1 should be 1 (the actual integral should be multiplied by
 				// 4pi r^2)
-				//TODO
-				//Assertions.assertEquals(Double.valueOf(LebedevRule.getRulePrecision(rule)) + rule, result, 1E-13);
+				Assertions.assertEquals(1.0, result, 1E-13);
 				// centroid is guaranteed to be zero due to symmetry of grid
 				Assertions.assertEquals(0.0, centroid.getNorm(), 1E-14);
 			}
