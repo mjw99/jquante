@@ -1,13 +1,14 @@
 package name.mjw.jquante.math.qm.basis;
 
-import static org.junit.Assert.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.junit.jupiter.api.Test;
 
 import name.mjw.jquante.math.qm.basis.Power;
 import name.mjw.jquante.math.qm.basis.PrimitiveGaussian;
 
-import org.junit.Test;
 
 public class PrimitiveGaussianTest {
 

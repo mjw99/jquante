@@ -1,10 +1,11 @@
 package name.mjw.jquante.math.qm;
 
-import static org.junit.Assert.assertArrayEquals;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
@@ -17,7 +18,7 @@ public class GMatrixTest {
 	static TwoElectronIntegrals twoEI = null;
 	static BasisSetLibrary bf = null;
 
-	@BeforeClass
+	@BeforeAll
 	public static void setUp() {
 		// Create molecule
 		Atom H1 = new Atom("H", 1.0, new Vector3D(0.00000000, 0.00000000, 0.00000000));

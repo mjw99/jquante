@@ -1,14 +1,16 @@
 package name.mjw.jquante.math.qm;
 
-import static org.junit.Assert.assertEquals;
+
 import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
 import name.mjw.jquante.molecule.impl.MoleculeImpl;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class SCFMethodFactoryTest {
 

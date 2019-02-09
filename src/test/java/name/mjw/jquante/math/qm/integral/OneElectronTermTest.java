@@ -1,9 +1,10 @@
 package name.mjw.jquante.math.qm.integral;
 
-import static org.junit.Assert.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import name.mjw.jquante.math.qm.basis.Power;
 

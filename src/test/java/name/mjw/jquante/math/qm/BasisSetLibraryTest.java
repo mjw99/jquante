@@ -1,29 +1,29 @@
 package name.mjw.jquante.math.qm;
 
-import static org.junit.Assert.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
 import name.mjw.jquante.molecule.impl.MoleculeImpl;
 
-import org.junit.Before;
-import org.junit.Test;
-
 public class BasisSetLibraryTest {
 
 	double diff = 0.00001;
 
-	Atom H1;
-	Atom O;
-	Atom H2;
+	static Atom H1;
+	static Atom O;
+	static Atom H2;
 
-	Molecule water;
+	static Molecule water;
 	BasisSetLibrary bsl = null;
 
-	@Before
-	public void setup() {
+	@BeforeAll
+	public static void setup() {
 
 		H1 = new Atom("H", 1.0, new Vector3D(0.752510, -0.454585, 0.000000));
 		O = new Atom("O", 6.0, new Vector3D(0.000000, 0.113671, 0.000000));

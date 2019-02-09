@@ -1,25 +1,26 @@
 package name.mjw.jquante.math.qm.basis;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.math.qm.basis.Power;
 import name.mjw.jquante.molecule.Atom;
 
-import org.junit.Before;
-import org.junit.Test;
 
 public class ContractedGaussianTest {
 
 	private final double delta = 0.000001;
 
-	ContractedGaussian cgtoS0;
+	static ContractedGaussian cgtoS0;
 
-	@Before
-	public void setUp() {
+	@BeforeAll
+	public static void setUp() {
 		cgtoS0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(0, 0, 0));
 		cgtoS0.addPrimitive(1.0, 1.0);
 		cgtoS0.normalize();
