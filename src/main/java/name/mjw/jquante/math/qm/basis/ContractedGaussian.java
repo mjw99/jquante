@@ -781,8 +781,8 @@ public class ContractedGaussian {
 	 * A shell is a set of basis function with the same centre and same contracted
 	 * exponent, for example, sp shell, d shell.
 	 *
-	 * @param otherCg
-	 * @return
+	 * @param otherCg The other contracted Gaussian.
+	 * @return True if otherCg is in the same shell.
 	 */
 	public boolean isSameShell(ContractedGaussian otherCg) {
 
