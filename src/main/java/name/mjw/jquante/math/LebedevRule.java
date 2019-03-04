@@ -8,28 +8,28 @@ import net.jafama.FastMath;
 /**
  * Static class for the generation of Lebedev rule's grid points for a given
  * order, for an approximation to the surface integral of a function over a
- * three-dimensional sphere.</br>
+ * three-dimensional sphere.<br>
  * The grid is constructed so to have octahedral rotation and inversion
  * symmetry. The number and location of the grid points together with a
  * corresponding set of integration weights are determined by enforcing the
  * exact integration of polynomials (or equivalently, spherical harmonics) up to
  * a given order, leading to a sequence of increasingly dense grids analogous to
- * the one-dimensional Gauss-Legendre scheme. </br>
- * </br>
+ * the one-dimensional Gauss-Legendre scheme. <br>
+ * <br>
  * Routines adapted from C++. Original routines written by Vyacheslav Ivanovich
  * Lebedev, Dmitri Laikov and John Burkardt under the
  * <a href="http://people.sc.fsu.edu/~jburkardt/txt/gnu_lgpl.txt">GNU LGPL
  * license</a>. (see <a href=
  * "http://people.sc.fsu.edu/~jburkardt/cpp_src/sphere_lebedev_rule/sphere_lebedev_rule.html"
- * >sphere_lebedev_rule.html</a>)</br>
- * </br>
- * <b>Reference:</b></br>
- * Vyacheslav Lebedev, Dmitri Laikov,</br>
+ * >sphere_lebedev_rule.html</a>)<br>
+ * <br>
+ * <b>Reference:</b><br>
+ * Vyacheslav Lebedev, Dmitri Laikov,<br>
  * <i>A quadrature formula for the sphere of the 131st algebraic order of
- * accuracy</i>,</br>
- * Russian Academy of Sciences Doklady Mathematics,</br>
- * Volume 59, Number 3, 1999, pages 477-481.</br>
- * </br>
+ * accuracy</i>,<br>
+ * Russian Academy of Sciences Doklady Mathematics,<br>
+ * Volume 59, Number 3, 1999, pages 477-481.<br>
+ * <br>
  * 
  * This code has been taken from the PATRIUS space dynamics Java library (see
  * <a href="https://logiciels.cnes.fr/en/content/patrius">PATRIUS</a>)
@@ -62,15 +62,15 @@ public final class LebedevRule {
 	}
 
 	/**
-	 * Returns a Lebedev angular grid given its order.</br>
-	 * </br>
-	 * <b>Discussion:</b></br>
+	 * Returns a Lebedev angular grid given its order.<br>
+	 * <br>
+	 * <b>Discussion:</b><br>
 	 * Only a certain set of such rules are available through this function, as
-	 * given by if(isRuleAvailable(rule) > 0) order = getRuleOrder(rule). </br>
-	 * </br>
-	 * <b>Original author:</b></br>
-	 * Dmitri Laikov (13 September 2010)</br>
-	 * </br>
+	 * given by if(isRuleAvailable(rule) > 0) order = getRuleOrder(rule). <br>
+	 * <br>
+	 * <b>Original author:</b><br>
+	 * Dmitri Laikov (13 September 2010)<br>
+	 * <br>
 	 * 
 	 * Available orders are : 6 14 26 38 50 74 86 110 146 170 194 230 266 302 350
 	 * 434 590 770 974 1202 1454 1730 2030 2354 2702 3074 3470 3890 4334 4802 5294
@@ -191,10 +191,10 @@ public final class LebedevRule {
 	}
 
 	/**
-	 * Returns the availability of a Lebedev rule.</br>
-	 * </br>
-	 * <b>Original author:</b></br>
-	 * John Burkardt (12 September 2010)</br>
+	 * Returns the availability of a Lebedev rule.<br>
+	 * <br>
+	 * <b>Original author:</b><br>
+	 * John Burkardt (12 September 2010)<br>
 	 * 
 	 * @param rule the index of the rule, between 1 and 65.
 	 * 
@@ -225,10 +225,10 @@ public final class LebedevRule {
 	}
 
 	/**
-	 * Returns the order of a Lebedev rule.</br>
-	 * </br>
-	 * <b>Original author:</b></br>
-	 * John Burkardt (11 September 2010)</br>
+	 * Returns the order of a Lebedev rule.<br>
+	 * <br>
+	 * <b>Original author:</b><br>
+	 * John Burkardt (11 September 2010)<br>
 	 * 
 	 * @param rule The index of the rule, between 1 and 65.
 	 * @return The order of the rule.
@@ -249,10 +249,10 @@ public final class LebedevRule {
 	}
 
 	/**
-	 * Returns the precision of a Lebedev rule.</br>
-	 * </br>
-	 * <b>Original author:</b></br>
-	 * John Burkardt (11 September 2010)</br>
+	 * Returns the precision of a Lebedev rule.<br>
+	 * <br>
+	 * <b>Original author:</b><br>
+	 * John Burkardt (11 September 2010)<br>
 	 * 
 	 * @param rule The index of the rule, between 1 and 65.
 	 * @return The precision of the rule = (1 + 2*rule).
@@ -273,35 +273,35 @@ public final class LebedevRule {
 	}
 
 	/**
-	 * Generates points under OH symmetry.</br>
-	 * </br>
-	 * <b>Reference:</b></br>
-	 * Vyacheslav Lebedev, Dmitri Laikov,</br>
+	 * Generates points under OH symmetry.<br>
+	 * <br>
+	 * <b>Reference:</b><br>
+	 * Vyacheslav Lebedev, Dmitri Laikov,<br>
 	 * <i>A quadrature formula for the sphere of the 131st algebraic order of
-	 * accuracy</i>,</br>
-	 * Russian Academy of Sciences Doklady Mathematics,</br>
-	 * Volume 59, Number 3, 1999, pages 477-481.</br>
-	 * </br>
-	 * <b>Discussion:</b></br>
+	 * accuracy</i>,<br>
+	 * Russian Academy of Sciences Doklady Mathematics,<br>
+	 * Volume 59, Number 3, 1999, pages 477-481.<br>
+	 * <br>
+	 * <b>Discussion:</b><br>
 	 * Given a point on a sphere, specified by A and B, this routine generates all
 	 * the equivalent points under OH symmetry, making grid points with weight
-	 * V.</br>
-	 * </br>
+	 * V.<br>
+	 * <br>
 	 * The variable NUM is increased by the number of different points
-	 * generated.</br>
-	 * </br>
+	 * generated.<br>
+	 * <br>
 	 * Depending on CODE, there are from 6 to 48 different but equivalent points
-	 * that are generated:</br>
-	 * </br>
-	 * CODE=1: (0,0,1) etc ( 6 points)</br>
-	 * CODE=2: (0,A,A) etc, A=1/sqrt(2) (12 points)</br>
-	 * CODE=3: (A,A,A) etc, A=1/sqrt(3) ( 8 points)</br>
-	 * CODE=4: (A,A,B) etc, B=sqrt(1-2 A^2) (24 points)</br>
-	 * CODE=5: (A,B,0) etc, B=sqrt(1-A^2), A input (24 points)</br>
-	 * CODE=6: (A,B,C) etc, C=sqrt(1-A^2-B^2), A, B input (48 points)</br>
-	 * </br>
-	 * <b>Original author:</b></br>
-	 * Dmitri Laikov (11 September 2010)</br>
+	 * that are generated:<br>
+	 * <br>
+	 * CODE=1: (0,0,1) etc ( 6 points)<br>
+	 * CODE=2: (0,A,A) etc, A=1/sqrt(2) (12 points)<br>
+	 * CODE=3: (A,A,A) etc, A=1/sqrt(3) ( 8 points)<br>
+	 * CODE=4: (A,A,B) etc, B=sqrt(1-2 A^2) (24 points)<br>
+	 * CODE=5: (A,B,0) etc, B=sqrt(1-A^2), A input (24 points)<br>
+	 * CODE=6: (A,B,C) etc, C=sqrt(1-A^2-B^2), A, B input (48 points)<br>
+	 * <br>
+	 * <b>Original author:</b><br>
+	 * Dmitri Laikov (11 September 2010)<br>
 	 * 
 	 * @param code selects the symmetry group.
 	 * @param a    information that may be needed to generate the coordinates of the
