@@ -66,7 +66,7 @@ public final class LebedevRule {
 	 * <br>
 	 * <b>Discussion:</b><br>
 	 * Only a certain set of such rules are available through this function, as
-	 * given by if(isRuleAvailable(rule) > 0) order = getRuleOrder(rule). <br>
+	 * given by if(isRuleAvailable(rule) &gt; 0) order = getRuleOrder(rule). <br>
 	 * <br>
 	 * <b>Original author:</b><br>
 	 * Dmitri Laikov (13 September 2010)<br>
