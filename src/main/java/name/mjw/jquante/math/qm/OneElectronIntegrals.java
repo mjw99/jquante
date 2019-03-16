@@ -92,7 +92,6 @@ public class OneElectronIntegrals {
 					hCore.setEntry(i, j, (hCore.getEntry(i, j)
 							+ atomicNumbers[k] * bfi.nuclear(bfj, molecule.getAtom(k).getAtomCenterInAU())));
 				}
-				;
 			});
 		});
 
