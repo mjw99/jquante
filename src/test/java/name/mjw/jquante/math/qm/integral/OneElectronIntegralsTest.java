@@ -47,13 +47,18 @@ class OneElectronIntegralsTest {
 	}
 
 	@Test
-	void testHCore() {
+	void testgetHCore() {
 		assertEquals(-32.70775590590571, e1.getHCore().getEntry(0, 0), diff);
 	}
 
 	@Test
 	void testgetOverlap() {
 		assertEquals(1.0, e1.getOverlap().getEntry(0, 0), diff);
+	}
+
+	@Test
+	void testgetBasisSetLibrary() {
+		assertEquals("sto-3g", e1.getBasisSetLibrary().getBasisName());
 	}
 
 }
