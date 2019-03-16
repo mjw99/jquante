@@ -84,9 +84,14 @@ public class BasisSetLibraryTest {
 
 			e.printStackTrace();
 		}
+
+		// 7 functions
 		assertEquals(7, bsl.getShells().entries().size());
+
+		// 5 shells
 		assertEquals(5, bsl.getShells().keySet().size());
 
+		// 15 unique shell pairs
 		assertEquals(15, bsl.getShellPairs().size());
 	}
 
@@ -100,9 +105,13 @@ public class BasisSetLibraryTest {
 
 			e.printStackTrace();
 		}
+		// 65 functions
 		assertEquals(65, bsl.getShells().entries().size());
+
+		// 22 shells
 		assertEquals(22, bsl.getShells().keySet().size());
 
+		// 253 unique shell pairs
 		assertEquals(253, bsl.getShellPairs().size());
 
 	}

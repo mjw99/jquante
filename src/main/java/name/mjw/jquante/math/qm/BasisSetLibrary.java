@@ -44,7 +44,7 @@ public class BasisSetLibrary {
 
 	/**
 	 * A shell is a set of basis functions sharing common orbital exponents and a
-	 * common center
+	 * common center, for example, sp shell or a d shell.
 	 */
 	private Multimap<Integer, ContractedGaussian> shells;
 
@@ -115,9 +115,16 @@ public class BasisSetLibrary {
 		return this.basisFunctions;
 	}
 
+	/**
+	 * Returns a set of basis function with the same centre and same contracted
+	 * exponent.
+	 *
+	 * @return A shell Multimap for the current molecule and basis.
+	 */
 	public Multimap<Integer, ContractedGaussian> getShells() {
 		return shells;
 	}
+
 
 	public Multimap<ContractedGaussian, ContractedGaussian> getShellPairs() {
 		return shellPairs;
