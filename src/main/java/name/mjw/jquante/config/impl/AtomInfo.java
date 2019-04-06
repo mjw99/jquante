@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -39,36 +39,36 @@ public class AtomInfo implements Configuration {
 	private String symbol = "symbol";
 
 	/** Holds value of property nameTable. */
-	private Hashtable<String, String> nameTable, originalNameTable;
+	private HashMap<String, String> nameTable, originalNameTable;
 
 	/** Holds value of property atomicNumberTable. */
-	private Hashtable<String, Integer> atomicNumberTable,
+	private HashMap<String, Integer> atomicNumberTable,
 			originalAtomicNumberTable;
 
 	/** Holds value of property atomicWeightTable. */
-	private Hashtable<String, Double> atomicWeightTable,
+	private HashMap<String, Double> atomicWeightTable,
 			originalAtomicWeightTable;
 
 	/** Holds value of property covalentRadiusTable. */
-	private Hashtable<String, Double> covalentRadiusTable,
+	private HashMap<String, Double> covalentRadiusTable,
 			originalCovalentRadiusTable;
 
 	/** Holds value of property vdwRadiusTable. */
-	private Hashtable<String, Double> vdwRadiusTable, originalVdwRadiusTable;
+	private HashMap<String, Double> vdwRadiusTable, originalVdwRadiusTable;
 
 	/** Holds value of property defaultValencyTable. */
-	private Hashtable<String, Integer> defaultValencyTable,
+	private HashMap<String, Integer> defaultValencyTable,
 			originalDefaultValencyTable;
 
 	/** Holds value of property weakBondAngleTable. */
-	private Hashtable<String, Double> weakBondAngleTable,
+	private HashMap<String, Double> weakBondAngleTable,
 			originalWeakBondAngleTable;
 
 	/** Holds value of property colorTable. */
-	private Hashtable<String, Color> colorTable, originalColorTable;
+	private HashMap<String, Color> colorTable, originalColorTable;
 
 	/** Holds value of property doubleBondOverlapTable. */
-	private Hashtable<String, Double> doubleBondOverlapTable,
+	private HashMap<String, Double> doubleBondOverlapTable,
 			originalDoubleBondOverlapTable;
 
 	/** Utility field used by event firing mechanism. */
@@ -76,32 +76,32 @@ public class AtomInfo implements Configuration {
 
 	/** Creates a new instance of AtomInfo */
 	public AtomInfo() {
-		nameTable = new Hashtable<String, String>(DEFAULT_TABLE_SIZE);
-		atomicNumberTable = new Hashtable<String, Integer>(DEFAULT_TABLE_SIZE);
-		atomicWeightTable = new Hashtable<String, Double>(DEFAULT_TABLE_SIZE);
-		covalentRadiusTable = new Hashtable<String, Double>(DEFAULT_TABLE_SIZE);
-		vdwRadiusTable = new Hashtable<String, Double>(DEFAULT_TABLE_SIZE);
-		weakBondAngleTable = new Hashtable<String, Double>(DEFAULT_TABLE_SIZE);
-		colorTable = new Hashtable<String, Color>(DEFAULT_TABLE_SIZE);
-		defaultValencyTable = new Hashtable<String, Integer>(DEFAULT_TABLE_SIZE);
-		doubleBondOverlapTable = new Hashtable<String, Double>(
+		nameTable = new HashMap<String, String>(DEFAULT_TABLE_SIZE);
+		atomicNumberTable = new HashMap<String, Integer>(DEFAULT_TABLE_SIZE);
+		atomicWeightTable = new HashMap<String, Double>(DEFAULT_TABLE_SIZE);
+		covalentRadiusTable = new HashMap<String, Double>(DEFAULT_TABLE_SIZE);
+		vdwRadiusTable = new HashMap<String, Double>(DEFAULT_TABLE_SIZE);
+		weakBondAngleTable = new HashMap<String, Double>(DEFAULT_TABLE_SIZE);
+		colorTable = new HashMap<String, Color>(DEFAULT_TABLE_SIZE);
+		defaultValencyTable = new HashMap<String, Integer>(DEFAULT_TABLE_SIZE);
+		doubleBondOverlapTable = new HashMap<String, Double>(
 				DEFAULT_TABLE_SIZE);
 
-		originalNameTable = new Hashtable<String, String>(DEFAULT_TABLE_SIZE);
-		originalAtomicNumberTable = new Hashtable<String, Integer>(
+		originalNameTable = new HashMap<String, String>(DEFAULT_TABLE_SIZE);
+		originalAtomicNumberTable = new HashMap<String, Integer>(
 				DEFAULT_TABLE_SIZE);
-		originalAtomicWeightTable = new Hashtable<String, Double>(
+		originalAtomicWeightTable = new HashMap<String, Double>(
 				DEFAULT_TABLE_SIZE);
-		originalCovalentRadiusTable = new Hashtable<String, Double>(
+		originalCovalentRadiusTable = new HashMap<String, Double>(
 				DEFAULT_TABLE_SIZE);
-		originalVdwRadiusTable = new Hashtable<String, Double>(
+		originalVdwRadiusTable = new HashMap<String, Double>(
 				DEFAULT_TABLE_SIZE);
-		originalWeakBondAngleTable = new Hashtable<String, Double>(
+		originalWeakBondAngleTable = new HashMap<String, Double>(
 				DEFAULT_TABLE_SIZE);
-		originalColorTable = new Hashtable<String, Color>(DEFAULT_TABLE_SIZE);
-		originalDefaultValencyTable = new Hashtable<String, Integer>(
+		originalColorTable = new HashMap<String, Color>(DEFAULT_TABLE_SIZE);
+		originalDefaultValencyTable = new HashMap<String, Integer>(
 				DEFAULT_TABLE_SIZE);
-		originalDoubleBondOverlapTable = new Hashtable<String, Double>(
+		originalDoubleBondOverlapTable = new HashMap<String, Double>(
 				DEFAULT_TABLE_SIZE);
 
 		// the initial parameters
@@ -431,8 +431,8 @@ public class AtomInfo implements Configuration {
 	/**
 	 * Copy one table to another (of strings)
 	 */
-	private void copyTableS(Hashtable<String, String> src,
-			Hashtable<String, String> dest) {
+	private void copyTableS(HashMap<String, String> src,
+			HashMap<String, String> dest) {
 		for (String key : src.keySet()) {
 			dest.put(key, src.get(key));
 		} // end for
@@ -441,8 +441,8 @@ public class AtomInfo implements Configuration {
 	/**
 	 * Copy one table to another (of ints)
 	 */
-	private void copyTableI(Hashtable<String, Integer> src,
-			Hashtable<String, Integer> dest) {
+	private void copyTableI(HashMap<String, Integer> src,
+			HashMap<String, Integer> dest) {
 		for (String key : src.keySet()) {
 			dest.put(key, src.get(key));
 		} // end for
@@ -451,8 +451,8 @@ public class AtomInfo implements Configuration {
 	/**
 	 * Copy one table to another (of doubles)
 	 */
-	private void copyTableD(Hashtable<String, Double> src,
-			Hashtable<String, Double> dest) {
+	private void copyTableD(HashMap<String, Double> src,
+			HashMap<String, Double> dest) {
 		for (String key : src.keySet()) {
 			dest.put(key, src.get(key));
 		} // end for
@@ -461,8 +461,8 @@ public class AtomInfo implements Configuration {
 	/**
 	 * Copy one table to another (of Color)
 	 */
-	private void copyTableC(Hashtable<String, Color> src,
-			Hashtable<String, Color> dest) {
+	private void copyTableC(HashMap<String, Color> src,
+			HashMap<String, Color> dest) {
 		for (String key : src.keySet()) {
 			dest.put(key, src.get(key));
 		} // end for
@@ -585,7 +585,7 @@ public class AtomInfo implements Configuration {
 	 * @return Value of property nameTable.
 	 * 
 	 */
-	public Hashtable<String, String> getNameTable() {
+	public HashMap<String, String> getNameTable() {
 		return this.nameTable;
 	}
 
@@ -596,7 +596,7 @@ public class AtomInfo implements Configuration {
 	 *            New value of property nameTable.
 	 * 
 	 */
-	public void setNameTable(Hashtable<String, String> nameTable) {
+	public void setNameTable(HashMap<String, String> nameTable) {
 		this.nameTable = nameTable;
 	}
 
@@ -606,7 +606,7 @@ public class AtomInfo implements Configuration {
 	 * @return Value of property atomicNumberTable.
 	 * 
 	 */
-	public Hashtable<String, Integer> getAtomicNumberTable() {
+	public HashMap<String, Integer> getAtomicNumberTable() {
 		return this.atomicNumberTable;
 	}
 
@@ -618,7 +618,7 @@ public class AtomInfo implements Configuration {
 	 * 
 	 */
 	public void setAtomicNumberTable(
-			Hashtable<String, Integer> atomicNumberTable) {
+			HashMap<String, Integer> atomicNumberTable) {
 		this.atomicNumberTable = atomicNumberTable;
 	}
 
@@ -628,7 +628,7 @@ public class AtomInfo implements Configuration {
 	 * @return Value of property atomicWeightTable.
 	 * 
 	 */
-	public Hashtable<String, Double> getAtomicWeightTable() {
+	public HashMap<String, Double> getAtomicWeightTable() {
 		return this.atomicWeightTable;
 	}
 
@@ -639,7 +639,7 @@ public class AtomInfo implements Configuration {
 	 *            New value of property atomicWeightTable.
 	 * 
 	 */
-	public void setAtomicWeightTable(Hashtable<String, Double> atomicWeightTable) {
+	public void setAtomicWeightTable(HashMap<String, Double> atomicWeightTable) {
 		this.atomicWeightTable = atomicWeightTable;
 	}
 
@@ -649,7 +649,7 @@ public class AtomInfo implements Configuration {
 	 * @return Value of property covalentRadiusTable.
 	 * 
 	 */
-	public Hashtable<String, Double> getCovalentRadiusTable() {
+	public HashMap<String, Double> getCovalentRadiusTable() {
 		return this.covalentRadiusTable;
 	}
 
@@ -661,7 +661,7 @@ public class AtomInfo implements Configuration {
 	 * 
 	 */
 	public void setCovalentRadiusTable(
-			Hashtable<String, Double> covalentRadiusTable) {
+			HashMap<String, Double> covalentRadiusTable) {
 		this.covalentRadiusTable = covalentRadiusTable;
 	}
 
@@ -671,7 +671,7 @@ public class AtomInfo implements Configuration {
 	 * @return Value of property vdwRadiusTable.
 	 * 
 	 */
-	public Hashtable<String, Double> getVdwRadiusTable() {
+	public HashMap<String, Double> getVdwRadiusTable() {
 		return this.vdwRadiusTable;
 	}
 
@@ -682,7 +682,7 @@ public class AtomInfo implements Configuration {
 	 *            New value of property vdwRadiusTable.
 	 * 
 	 */
-	public void setVdwRadiusTable(Hashtable<String, Double> vdwRadiusTable) {
+	public void setVdwRadiusTable(HashMap<String, Double> vdwRadiusTable) {
 		this.vdwRadiusTable = vdwRadiusTable;
 	}
 
@@ -692,7 +692,7 @@ public class AtomInfo implements Configuration {
 	 * @return Value of property defaultValencyTable.
 	 * 
 	 */
-	public Hashtable<String, Integer> getDefaultValencyTable() {
+	public HashMap<String, Integer> getDefaultValencyTable() {
 		return this.defaultValencyTable;
 	}
 
@@ -704,7 +704,7 @@ public class AtomInfo implements Configuration {
 	 * 
 	 */
 	public void setDefaultValencyTable(
-			Hashtable<String, Integer> defaultValencyTable) {
+			HashMap<String, Integer> defaultValencyTable) {
 		this.defaultValencyTable = defaultValencyTable;
 	}
 
@@ -714,7 +714,7 @@ public class AtomInfo implements Configuration {
 	 * @return Value of property weakBondAngleTable.
 	 * 
 	 */
-	public Hashtable<String, Double> getWeakBondAngleTable() {
+	public HashMap<String, Double> getWeakBondAngleTable() {
 		return this.weakBondAngleTable;
 	}
 
@@ -726,7 +726,7 @@ public class AtomInfo implements Configuration {
 	 * 
 	 */
 	public void setWeakBondAngleTable(
-			Hashtable<String, Double> weakBondAngleTable) {
+			HashMap<String, Double> weakBondAngleTable) {
 		this.weakBondAngleTable = weakBondAngleTable;
 	}
 
@@ -736,7 +736,7 @@ public class AtomInfo implements Configuration {
 	 * @return Value of property doubleBondOverlap.
 	 * 
 	 */
-	public Hashtable<String, Double> getDoubleBondOverlapTable() {
+	public HashMap<String, Double> getDoubleBondOverlapTable() {
 		return this.doubleBondOverlapTable;
 	}
 
@@ -748,7 +748,7 @@ public class AtomInfo implements Configuration {
 	 * 
 	 */
 	public void setDoubleBondOverlapTable(
-			Hashtable<String, Double> doubleBondOverlapTable) {
+		HashMap<String, Double> doubleBondOverlapTable) {
 		this.doubleBondOverlapTable = doubleBondOverlapTable;
 	}
 
@@ -758,7 +758,7 @@ public class AtomInfo implements Configuration {
 	 * @return Value of property colorTable.
 	 * 
 	 */
-	public Hashtable<String, Color> getColorTable() {
+	public HashMap<String, Color> getColorTable() {
 		return this.colorTable;
 	}
 
@@ -769,7 +769,7 @@ public class AtomInfo implements Configuration {
 	 *            New value of property colorTable.
 	 * 
 	 */
-	public void setColorTable(Hashtable<String, Color> colorTable) {
+	public void setColorTable(HashMap<String, Color> colorTable) {
 		this.colorTable = colorTable;
 	}
 
@@ -849,8 +849,8 @@ public class AtomInfo implements Configuration {
 	 *         found then "X" is returned.
 	 */
 	public String getSymbol(int atomicNumber) {
-		Enumeration<Integer> eles = atomicNumberTable.elements();
-		Enumeration<String> keys = atomicNumberTable.keys();
+		Enumeration<Integer> eles = (Enumeration<Integer>) atomicNumberTable.values();
+		Enumeration<String> keys = (Enumeration<String>) atomicNumberTable.keySet();
 
 		while (eles.hasMoreElements()) {
 			if (eles.nextElement() == atomicNumber)

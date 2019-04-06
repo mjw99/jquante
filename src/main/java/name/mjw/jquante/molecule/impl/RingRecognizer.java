@@ -2,7 +2,7 @@ package name.mjw.jquante.molecule.impl;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.util.FastMath;
@@ -111,8 +111,8 @@ public class RingRecognizer implements SpecialStructureRecognizer {
 	protected void traverseAndRecordRing(int v) {
 		color[v] = GRAY; // this vertex is to be processed now
 
-		Hashtable<Integer, BondType> connectedList = theMolecule.getAtom(v).getConnectedList();
-		Enumeration<Integer> atoms = connectedList.keys();
+		HashMap<Integer, BondType> connectedList = theMolecule.getAtom(v).getConnectedList();
+		Enumeration<Integer> atoms = (Enumeration<Integer>) connectedList.keySet();
 		int atomIndex;
 
 		// traverse the strongly connected ones only

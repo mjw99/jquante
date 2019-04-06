@@ -2,8 +2,8 @@ package name.mjw.jquante.molecule.impl;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
@@ -826,8 +826,8 @@ public class MoleculeImpl extends Molecule {
 		if (recursionLevel == 4)
 			return;
 
-		Enumeration<Integer> connectList = atomList.get(atomIndex)
-				.getConnectedList().keys();
+		Enumeration<Integer> connectList = (Enumeration<Integer>) atomList.get(atomIndex)
+				.getConnectedList().keySet();
 
 		while (connectList.hasMoreElements()) {
 			Integer toVisit = connectList.nextElement();
@@ -867,9 +867,9 @@ public class MoleculeImpl extends Molecule {
 
 			visited.add(toVisit);
 
-			Hashtable<Integer, BondType> connedAtoms = atomList.get(toVisit)
+			HashMap<Integer, BondType> connedAtoms = atomList.get(toVisit)
 					.getConnectedList();
-			Enumeration<Integer> connectList = connedAtoms.keys();
+			Enumeration<Integer> connectList = (Enumeration<Integer>) connedAtoms.keySet();
 
 			while (connectList.hasMoreElements()) {
 				Integer visitThis = connectList.nextElement();
@@ -898,7 +898,7 @@ public class MoleculeImpl extends Molecule {
 		// do a BFS
 		while (true) {
 			// traverse through its branches
-			connectList = atomList.get(atomIndex).getConnectedList().keys();
+			connectList = (Enumeration<Integer>) atomList.get(atomIndex).getConnectedList().keySet();
 
 			while (connectList.hasMoreElements()) {
 				Integer toVisit = connectList.nextElement();
@@ -933,7 +933,7 @@ public class MoleculeImpl extends Molecule {
 		int noOfAtoms = atomList.size();
 
 		for (int i = 0; i < noOfAtoms; i++) {
-			connectList = atomList.get(i).getConnectedList().keys();
+			connectList = (Enumeration<Integer>) atomList.get(i).getConnectedList().keySet();
 
 			while (connectList.hasMoreElements()) {
 				Integer toVisit = connectList.nextElement();

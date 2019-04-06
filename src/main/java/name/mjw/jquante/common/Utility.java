@@ -28,7 +28,7 @@ import java.net.URLClassLoader;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.xml.parsers.DocumentBuilder;
@@ -250,7 +250,7 @@ public final class Utility {
 	 * @return int - the int value intended. if the key is not found in the
 	 *         table a zero is returned instead.
 	 */
-	public static int getInteger(Hashtable<?, ?> table, Object key) {
+	public static int getInteger(HashMap<?, ?> table, Object key) {
 		int value = 0;
 
 		if (table.containsKey(key)) {
@@ -271,7 +271,7 @@ public final class Utility {
 	 * @return double - the double value intended. if the key is not found in
 	 *         the table a zero is returned instead.
 	 */
-	public static double getDouble(Hashtable<?, ?> table, Object key) {
+	public static double getDouble(HashMap<?, ?> table, Object key) {
 		double value = 0.0;
 
 		if (table.containsKey(key)) {
@@ -292,7 +292,7 @@ public final class Utility {
 	 * @return String - the String value intended. if the key is not found in
 	 *         the table a blank String is returned instead.
 	 */
-	public static String getString(Hashtable<?, ?> table, Object key) {
+	public static String getString(HashMap<?, ?> table, Object key) {
 		String value = " ";
 
 		if (table.containsKey(key)) {
@@ -313,7 +313,7 @@ public final class Utility {
 	 * @return Color - the Color value intended. if the key is not found in the
 	 *         table a Color(1.0, 1.0, 1.0, 1.0) :: white is returned instead.
 	 */
-	public static Color getColor(Hashtable<?, ?> table, Object key) {
+	public static Color getColor(HashMap<?, ?> table, Object key) {
 		Color value = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 
 		if (table.containsKey(key)) {

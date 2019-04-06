@@ -2,7 +2,7 @@ package name.mjw.jquante.molecule;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -32,7 +32,7 @@ public class Atom implements Cloneable {
 	 * atomIndices to which the present atom is connected serves as the
 	 * <I>key</I> of the table and the value contains object of class BondType.
 	 */
-	private Hashtable<Integer, BondType> connectedList;
+	private HashMap<Integer, BondType> connectedList;
 
 	/**
 	 * Holds information on the ZMatrix representation of this atom in the
@@ -56,7 +56,7 @@ public class Atom implements Cloneable {
 	 *            The nuclear center of the atom in Cartesian coordinates
 	 */
 	public Atom(String symbol, double charge, Vector3D atomCenter) {
-		this(symbol, charge, atomCenter, new Hashtable<Integer, BondType>(1),
+		this(symbol, charge, atomCenter, new HashMap<Integer, BondType>(1),
 				null, 0);
 	}
 
@@ -73,7 +73,7 @@ public class Atom implements Cloneable {
 	 *            The atom index of this atom
 	 */
 	public Atom(String symbol, double charge, Vector3D atomCenter, int atomIndex) {
-		this(symbol, charge, atomCenter, new Hashtable<Integer, BondType>(1),
+		this(symbol, charge, atomCenter, new HashMap<Integer, BondType>(1),
 				null, atomIndex);
 	}
 
@@ -94,7 +94,7 @@ public class Atom implements Cloneable {
 	 *            the atom index of this atom.
 	 */
 	private Atom(String symbol, double charge, Vector3D atomCenter,
-			Hashtable<Integer, BondType> connectedList,
+			HashMap<Integer, BondType> connectedList,
 			ArrayList<ZMatrixItem> zMatrixElement, int atomIndex) {
 		this.symbol = Utility.capitalise(symbol.toLowerCase());
 		this.charge = charge;
@@ -287,9 +287,9 @@ public class Atom implements Cloneable {
 	 */
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		Hashtable<Integer, BondType> theClonedConnection = new Hashtable<Integer, BondType>();
+		HashMap<Integer, BondType> theClonedConnection = new HashMap<Integer, BondType>();
 
-		Enumeration<Integer> keys = connectedList.keys();
+		Enumeration<Integer> keys = (Enumeration<Integer>) connectedList.keySet();
 		Integer key;
 
 		while (keys.hasMoreElements()) {
@@ -350,7 +350,7 @@ public class Atom implements Cloneable {
 	 * remove all the connections to this atom
 	 */
 	public void removeAllConnections() {
-		connectedList = new Hashtable<Integer, BondType>();
+		connectedList = new HashMap<Integer, BondType>();
 	}
 
 	/**
@@ -359,7 +359,7 @@ public class Atom implements Cloneable {
 	 * @return Value of property connectedList.
 	 * 
 	 */
-	public Hashtable<Integer, BondType> getConnectedList() {
+	public HashMap<Integer, BondType> getConnectedList() {
 		return this.connectedList;
 	}
 
@@ -370,7 +370,7 @@ public class Atom implements Cloneable {
 	 *            New value of property connectedList.
 	 * 
 	 */
-	public void setConnectedList(Hashtable<Integer, BondType> connectedList) {
+	public void setConnectedList(HashMap<Integer, BondType> connectedList) {
 		this.connectedList = connectedList;
 	}
 

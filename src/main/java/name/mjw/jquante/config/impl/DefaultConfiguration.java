@@ -8,7 +8,7 @@ package name.mjw.jquante.config.impl;
 
 import java.beans.PropertyVetoException;
 import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import name.mjw.jquante.common.resource.StringResource;
@@ -28,11 +28,11 @@ public class DefaultConfiguration implements GlobalConfiguration {
 
 	private static DefaultConfiguration _defaultConfiguration;
 
-	private Hashtable<String, Parameter> configuration;
+	private HashMap<String, Parameter> configuration;
 
 	/** Creates a new instance of DefaultConfiguration */
 	private DefaultConfiguration() {
-		configuration = new Hashtable<String, Parameter>();
+		configuration = new HashMap<String, Parameter>();
 
 		// the initial parameters
 		try {
