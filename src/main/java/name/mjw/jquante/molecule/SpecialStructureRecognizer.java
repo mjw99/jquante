@@ -1,9 +1,3 @@
-/*
- * SpecialStructureRecognizer.java
- *
- * Created on May 5, 2003, 6:31 AM
- */
-
 package name.mjw.jquante.molecule;
 
 /**

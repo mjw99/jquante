@@ -60,7 +60,7 @@ public class MoleculeImpl extends Molecule {
 		// init values
 		atomList = new ArrayList<>();
 
-		specialStructureRecognizerList = new HashSet<SpecialStructureRecognizer>(
+		specialStructureRecognizerList = new HashSet<>(
 				10);
 
 		stateChanged = true;
@@ -951,9 +951,6 @@ public class MoleculeImpl extends Molecule {
 			}
 		}
 
-		// clean up
-		connectList = null;
-		queue = null;
 	}
 
 	/**

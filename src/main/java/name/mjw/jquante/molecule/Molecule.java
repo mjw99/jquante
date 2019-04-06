@@ -1291,7 +1291,7 @@ public abstract class Molecule {
 		public void addUserDefinedMolecularProperty(
 				UserDefinedMolecularProperty uProp) {
 			if (userProperties == null)
-				userProperties = new ArrayList<UserDefinedMolecularProperty>();
+				userProperties = new ArrayList<>();
 
 			// first check if this property already exists
 			String name = uProp.getName();

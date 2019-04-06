@@ -166,7 +166,7 @@ public class DefaultAtomGroup implements AtomGroup {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if ((obj == null) || (!(obj instanceof DefaultAtomGroup)))
+		if (!(obj instanceof DefaultAtomGroup))
 			return false;
 
 		return (groupAtoms.equals(((DefaultAtomGroup) obj).groupAtoms));

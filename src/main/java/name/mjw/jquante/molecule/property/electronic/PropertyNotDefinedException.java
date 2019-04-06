@@ -33,6 +33,7 @@ public class PropertyNotDefinedException extends Exception {
 	/**
 	 * overloaded toString() method
 	 */
+	@Override
 	public String toString() {
 		return errMsg;
 	}

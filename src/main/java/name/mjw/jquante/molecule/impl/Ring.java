@@ -220,7 +220,7 @@ public class Ring implements AtomGroup {
 	 * checks if two rings are equal
 	 */
 	public boolean equals(Object obj) {
-		if ((obj == null) || (!(obj instanceof Ring)))
+		if (!(obj instanceof Ring))
 			return false;
 
 		return ((ringAtoms.equals(((Ring) obj).ringAtoms)) && (isPlanar == ((Ring) obj).isPlanar));

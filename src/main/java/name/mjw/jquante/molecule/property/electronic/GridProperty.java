@@ -987,8 +987,6 @@ public class GridProperty {
 			for (i = 0; i < fVals.size(); i++)
 				newFunctionValues[i] = fVals.get(i);
 
-			fVals = null;
-
 			return new GridProperty(new BoundingBox(newUL, newBR), xIncrement,
 					yIncrement, zIncrement, newNX, newNY, newNZ,
 					newFunctionValues);
