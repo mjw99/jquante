@@ -39,56 +39,65 @@ public class AtomInfo implements Configuration {
 	private String symbol = "symbol";
 
 	/** Holds value of property nameTable. */
-	private HashMap<String, String> nameTable, originalNameTable;
+	private HashMap<String, String> nameTable;
+	private HashMap<String, String> originalNameTable;
 
 	/** Holds value of property atomicNumberTable. */
-	private HashMap<String, Integer> atomicNumberTable, originalAtomicNumberTable;
+	private HashMap<String, Integer> atomicNumberTable;
+	private HashMap<String, Integer> originalAtomicNumberTable;
 
 	/** Holds value of property atomicWeightTable. */
-	private HashMap<String, Double> atomicWeightTable, originalAtomicWeightTable;
+	private HashMap<String, Double> atomicWeightTable;
+	private HashMap<String, Double> originalAtomicWeightTable;
 
 	/** Holds value of property covalentRadiusTable. */
-	private HashMap<String, Double> covalentRadiusTable, originalCovalentRadiusTable;
+	private HashMap<String, Double> covalentRadiusTable;
+	private HashMap<String, Double> originalCovalentRadiusTable;
 
 	/** Holds value of property vdwRadiusTable. */
-	private HashMap<String, Double> vdwRadiusTable, originalVdwRadiusTable;
+	private HashMap<String, Double> vdwRadiusTable;
+	private HashMap<String, Double> originalVdwRadiusTable;
 
 	/** Holds value of property defaultValencyTable. */
-	private HashMap<String, Integer> defaultValencyTable, originalDefaultValencyTable;
+	private HashMap<String, Integer> defaultValencyTable;
+	private HashMap<String, Integer> originalDefaultValencyTable;
 
 	/** Holds value of property weakBondAngleTable. */
-	private HashMap<String, Double> weakBondAngleTable, originalWeakBondAngleTable;
+	private HashMap<String, Double> weakBondAngleTable;
+	private HashMap<String, Double> originalWeakBondAngleTable;
 
 	/** Holds value of property colorTable. */
-	private HashMap<String, Color> colorTable, originalColorTable;
+	private HashMap<String, Color> colorTable;
+	private HashMap<String, Color> originalColorTable;
 
 	/** Holds value of property doubleBondOverlapTable. */
-	private HashMap<String, Double> doubleBondOverlapTable, originalDoubleBondOverlapTable;
+	private HashMap<String, Double> doubleBondOverlapTable;
+	private HashMap<String, Double> originalDoubleBondOverlapTable;
 
 	/** Utility field used by event firing mechanism. */
 	private EventListenerList<AtomInfoChangeListener> listenerList = null;
 
 	/** Creates a new instance of AtomInfo */
 	public AtomInfo() {
-		nameTable = new HashMap<String, String>(DEFAULT_TABLE_SIZE);
-		atomicNumberTable = new HashMap<String, Integer>(DEFAULT_TABLE_SIZE);
-		atomicWeightTable = new HashMap<String, Double>(DEFAULT_TABLE_SIZE);
-		covalentRadiusTable = new HashMap<String, Double>(DEFAULT_TABLE_SIZE);
-		vdwRadiusTable = new HashMap<String, Double>(DEFAULT_TABLE_SIZE);
-		weakBondAngleTable = new HashMap<String, Double>(DEFAULT_TABLE_SIZE);
-		colorTable = new HashMap<String, Color>(DEFAULT_TABLE_SIZE);
-		defaultValencyTable = new HashMap<String, Integer>(DEFAULT_TABLE_SIZE);
-		doubleBondOverlapTable = new HashMap<String, Double>(DEFAULT_TABLE_SIZE);
+		nameTable = new HashMap<>(DEFAULT_TABLE_SIZE);
+		atomicNumberTable = new HashMap<>(DEFAULT_TABLE_SIZE);
+		atomicWeightTable = new HashMap<>(DEFAULT_TABLE_SIZE);
+		covalentRadiusTable = new HashMap<>(DEFAULT_TABLE_SIZE);
+		vdwRadiusTable = new HashMap<>(DEFAULT_TABLE_SIZE);
+		weakBondAngleTable = new HashMap<>(DEFAULT_TABLE_SIZE);
+		colorTable = new HashMap<>(DEFAULT_TABLE_SIZE);
+		defaultValencyTable = new HashMap<>(DEFAULT_TABLE_SIZE);
+		doubleBondOverlapTable = new HashMap<>(DEFAULT_TABLE_SIZE);
 
-		originalNameTable = new HashMap<String, String>(DEFAULT_TABLE_SIZE);
-		originalAtomicNumberTable = new HashMap<String, Integer>(DEFAULT_TABLE_SIZE);
-		originalAtomicWeightTable = new HashMap<String, Double>(DEFAULT_TABLE_SIZE);
-		originalCovalentRadiusTable = new HashMap<String, Double>(DEFAULT_TABLE_SIZE);
-		originalVdwRadiusTable = new HashMap<String, Double>(DEFAULT_TABLE_SIZE);
-		originalWeakBondAngleTable = new HashMap<String, Double>(DEFAULT_TABLE_SIZE);
-		originalColorTable = new HashMap<String, Color>(DEFAULT_TABLE_SIZE);
-		originalDefaultValencyTable = new HashMap<String, Integer>(DEFAULT_TABLE_SIZE);
-		originalDoubleBondOverlapTable = new HashMap<String, Double>(DEFAULT_TABLE_SIZE);
+		originalNameTable = new HashMap<>(DEFAULT_TABLE_SIZE);
+		originalAtomicNumberTable = new HashMap<>(DEFAULT_TABLE_SIZE);
+		originalAtomicWeightTable = new HashMap<>(DEFAULT_TABLE_SIZE);
+		originalCovalentRadiusTable = new HashMap<>(DEFAULT_TABLE_SIZE);
+		originalVdwRadiusTable = new HashMap<>(DEFAULT_TABLE_SIZE);
+		originalWeakBondAngleTable = new HashMap<>(DEFAULT_TABLE_SIZE);
+		originalColorTable = new HashMap<>(DEFAULT_TABLE_SIZE);
+		originalDefaultValencyTable = new HashMap<>(DEFAULT_TABLE_SIZE);
+		originalDoubleBondOverlapTable = new HashMap<>(DEFAULT_TABLE_SIZE);
 
 		// the initial parameters
 		try {
@@ -429,13 +438,11 @@ public class AtomInfo implements Configuration {
 	 */
 	@Override
 	public Parameter getParameter(String key) {
-		AtomProperty ap = new AtomProperty((String) nameTable.get(key),
-				((Integer) atomicNumberTable.get(key)).intValue(), ((Double) atomicWeightTable.get(key)).doubleValue(),
-				((Integer) defaultValencyTable.get(key)).intValue(),
-				((Double) covalentRadiusTable.get(key)).doubleValue(), ((Double) vdwRadiusTable.get(key)).doubleValue(),
-				((Double) weakBondAngleTable.get(key)).doubleValue(),
-				((Double) doubleBondOverlapTable.get(key)).doubleValue(), (Color) colorTable.get(key));
-		return ap;
+		return new AtomProperty((String) nameTable.get(key), (atomicNumberTable.get(key)).intValue(),
+				(atomicWeightTable.get(key)).doubleValue(), (defaultValencyTable.get(key)).intValue(),
+				(covalentRadiusTable.get(key)).doubleValue(), (vdwRadiusTable.get(key)).doubleValue(),
+				(weakBondAngleTable.get(key)).doubleValue(), (doubleBondOverlapTable.get(key)).doubleValue(),
+				(Color) colorTable.get(key));
 	}
 
 	/**
@@ -707,7 +714,7 @@ public class AtomInfo implements Configuration {
 	 */
 	public synchronized void addAtomInfoChangeListener(AtomInfoChangeListener listener) {
 		if (listenerList == null) {
-			listenerList = new EventListenerList<AtomInfoChangeListener>();
+			listenerList = new EventListenerList<>();
 		}
 		listenerList.add(AtomInfoChangeListener.class, listener);
 	}
