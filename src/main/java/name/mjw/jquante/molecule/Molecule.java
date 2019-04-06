@@ -33,21 +33,6 @@ public abstract class Molecule {
 	protected boolean enableListeners = true;
 
 	/**
-	 * Holds value of property numberOfSingleBonds.
-	 */
-	protected int numberOfSingleBonds;
-
-	/**
-	 * Holds value of property numberOfMultipleBonds.
-	 */
-	protected int numberOfMultipleBonds;
-
-	/**
-	 * Holds value of property numberOfWeakBonds.
-	 */
-	protected int numberOfWeakBonds;
-
-	/**
 	 * Holds value of property molecularMass.
 	 */
 	protected double molecularMass;
@@ -555,12 +540,6 @@ public abstract class Molecule {
 		sb.append("Molecular mass          : ")
 				.append(new DecimalFormat("#.###").format(getMolecularMass()))
 				.append(" a.m.u \n");
-		sb.append("Number of single bonds  : ")
-				.append(getNumberOfSingleBonds()).append("\n");
-		sb.append("Number of multiple bonds: ")
-				.append(getNumberOfMultipleBonds()).append("\n");
-		sb.append("Number of weak bonds    : ").append(getNumberOfWeakBonds())
-				.append("\n");
 		sb.append("Center of mass          : ").append(getCenterOfMass())
 				.append("\n");
 		sb.append("Bounding box            : ").append(getBoundingBox())
@@ -593,133 +572,12 @@ public abstract class Molecule {
 	}
 
 	/**
-	 * Initialize the bond related metrics.
-	 */
-	public void initBondMetrics() {
-		numberOfSingleBonds = numberOfMultipleBonds = numberOfWeakBonds = 0;
-	}
-
-	/**
-	 * Getter for property numberOfSingleBonds.
-	 * 
-	 * @return Value of property numberOfSingleBonds.
-	 */
-	public int getNumberOfSingleBonds() {
-		return this.numberOfSingleBonds;
-	}
-
-	/**
-	 * Setter for property numberOfSingleBonds.
-	 * 
-	 * @param numberOfSingleBonds
-	 *            New value of property numberOfSingleBonds.
-	 */
-	public void setNumberOfSingleBonds(int numberOfSingleBonds) {
-		this.numberOfSingleBonds = numberOfSingleBonds;
-	}
-
-	/**
-	 * increment the metrics <code> numberOfSingleBonds </code>
-	 */
-	public void incrementNumberOfSingleBonds() {
-		this.numberOfSingleBonds++;
-	}
-
-	/**
-	 * decrement the metrics <code> numberOfSingleBonds </code>
-	 */
-	public void decrementNumberOfSingleBonds() {
-		if (this.numberOfSingleBonds > 0) {
-			this.numberOfSingleBonds--;
-		} // end if
-	}
-
-	/**
-	 * Getter for property numberOfMultipleBonds.
-	 * 
-	 * @return Value of property numberOfMultipleBonds.
-	 */
-	public int getNumberOfMultipleBonds() {
-		return this.numberOfMultipleBonds;
-	}
-
-	/**
-	 * Setter for property numberOfMultipleBonds.
-	 * 
-	 * @param numberOfMultipleBonds
-	 *            New value of property numberOfMultipleBonds.
-	 */
-	public void setNumberOfMultipleBonds(int numberOfMultipleBonds) {
-		this.numberOfMultipleBonds = numberOfMultipleBonds;
-	}
-
-	/**
-	 * increment the metrics <code> numberOfMultipleBonds </code>
-	 */
-	public void incrementNumberOfMultipleBonds() {
-		this.numberOfMultipleBonds++;
-	}
-
-	/**
-	 * decrement the metrics <code> numberOfMultipleBonds </code>
-	 */
-	public void decrementNumberOfMultipleBonds() {
-		if (this.numberOfMultipleBonds > 0) {
-			this.numberOfMultipleBonds--;
-		} // end if
-	}
-
-	/**
-	 * Getter for property numberOfWeakBonds.
-	 * 
-	 * @return Value of property numberOfWeakBonds.
-	 */
-	public int getNumberOfWeakBonds() {
-		return this.numberOfWeakBonds;
-	}
-
-	/**
-	 * Setter for property numberOfWeakBonds.
-	 * 
-	 * @param numberOfWeakBonds
-	 *            New value of property numberOfWeakBonds.
-	 */
-	public void setNumberOfWeakBonds(int numberOfWeakBonds) {
-		this.numberOfWeakBonds = numberOfWeakBonds;
-	}
-
-	/**
-	 * increment the metrics <code> numberOfWeakBonds </code>
-	 */
-	public void incrementNumberOfWeakBonds() {
-		this.numberOfWeakBonds++;
-	}
-
-	/**
-	 * decrement the metrics <code> numberOfWeakBonds </code>
-	 */
-	public void decrementNumberOfWeakBonds() {
-		if (this.numberOfWeakBonds > 0) {
-			this.numberOfWeakBonds--;
-		} // end if
-	}
-
-	/**
 	 * Getter for property molecularMass.
 	 * 
 	 * @return Value of property molecularMass.
 	 */
 	public double getMolecularMass() {
 		return this.molecularMass;
-	}
-
-	/**
-	 * Getter for property numberOfStrongBonds.
-	 * 
-	 * @return Value of property numberOfStrongBonds.
-	 */
-	public int getNumberOfStrongBonds() {
-		return (numberOfSingleBonds + numberOfMultipleBonds);
 	}
 
 	/**

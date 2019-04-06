@@ -65,7 +65,6 @@ public class MoleculeImpl extends Molecule {
 
 		stateChanged = true;
 
-		numberOfSingleBonds = numberOfMultipleBonds = numberOfWeakBonds = 0;
 		numberOfElectrons = 0;
 		molecularMass = 0.0;
 
