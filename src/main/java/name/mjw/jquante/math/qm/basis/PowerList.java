@@ -67,14 +67,14 @@ public class PowerList {
 	public static PowerList getInstance() {
 		if (_powerList == null) {
 			_powerList = new WeakReference<>(new PowerList());
-		} // end if
+		}
 
 		PowerList powerList = _powerList.get();
 
 		if (powerList == null) {
 			powerList = new PowerList();
 			_powerList = new WeakReference<>(powerList);
-		} // end if
+		}
 
 		return powerList;
 	}

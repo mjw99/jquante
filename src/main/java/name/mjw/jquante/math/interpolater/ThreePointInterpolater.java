@@ -14,8 +14,14 @@ public class ThreePointInterpolater extends Interpolater {
 		subInterpolater = new LinearInterpolater();
 	}
 
-	private double i1, i2, j1, j2, w1, w2;
-	private double[] x1 = new double[9], y1 = new double[8];
+	private double i1;
+	private double i2;
+	private double j1;
+	private double j2;
+	private double w1;
+	private double w2;
+	private double[] x1 = new double[9]; 
+	private double[] y1 = new double[8];
 	private double[] delta = new double[3];
 
 	/**

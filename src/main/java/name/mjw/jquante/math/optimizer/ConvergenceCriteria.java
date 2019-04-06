@@ -1,8 +1,3 @@
-/**
- * ConvergenceCriteria.java
- *
- * Created on Mar 24, 2009
- */
 package name.mjw.jquante.math.optimizer;
 
 import java.util.ArrayList;
@@ -91,7 +86,7 @@ public abstract class ConvergenceCriteria {
 	 */
 	public void addSubCriteria(ConvergenceCriteria cc) {
 		if (subCriteria == null)
-			subCriteria = new ArrayList<ConvergenceCriteria>();
+			subCriteria = new ArrayList<>();
 
 		subCriteria.add(cc);
 		composite = true;
@@ -109,7 +104,7 @@ public abstract class ConvergenceCriteria {
 
 		subCriteria.remove(cc);
 
-		if (subCriteria.size() == 0)
+		if (subCriteria.isEmpty())
 			composite = false;
 	}
 
@@ -128,7 +123,7 @@ public abstract class ConvergenceCriteria {
 	/** Ways to combine two criteria */
 	public enum CriteriaCombinationType {
 		AND, OR
-	};
+	}
 
 	protected CriteriaCombinationType criteriaCombinationType;
 

@@ -1,8 +1,3 @@
-/**
- * Units.java
- *
- * Created on Apr 3, 2009
- */
 package name.mjw.jquante.common;
 
 /**

@@ -60,7 +60,7 @@ public class EventListenerList<T> {
 
 		for (Class<T> listenerClass : listenerList.keySet()) {
 			listeners.addAll(listenerList.get(listenerClass));
-		} // end for
+		}
 
 		return listeners.toArray();
 	}
@@ -112,8 +112,8 @@ public class EventListenerList<T> {
 		for (Class<T> listenerClass : listenerList.keySet()) {
 			if (listenerClass.equals(theListenerClass)) {
 				listenerCount += listenerList.get(listenerClass).size();
-			} // end if
-		} // end if
+			}
+		}
 
 		return listenerCount;
 	}

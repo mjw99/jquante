@@ -111,12 +111,12 @@ public class Atom implements Cloneable {
 	/** initialize the ZMatrix Items */
 	private void initZMatrixItems() {
 		if (this.zMatrixElement == null) {
-			this.zMatrixElement = new ArrayList<ZMatrixItem>(3);
+			this.zMatrixElement = new ArrayList<>(3);
 
 			this.zMatrixElement.add(new ZMatrixItem(null, 0.0));
 			this.zMatrixElement.add(new ZMatrixItem(null, 0.0));
 			this.zMatrixElement.add(new ZMatrixItem(null, 0.0));
-		} // end if
+		}
 	}
 
 	/**
@@ -287,18 +287,17 @@ public class Atom implements Cloneable {
 	 */
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		HashMap<Integer, BondType> theClonedConnection = new HashMap<Integer, BondType>();
+		HashMap<Integer, BondType> theClonedConnection = new HashMap<>();
 
 		Enumeration<Integer> keys = (Enumeration<Integer>) connectedList.keySet();
 		Integer key;
 
 		while (keys.hasMoreElements()) {
 			key = keys.nextElement();
-			theClonedConnection.put(Integer.valueOf(key.intValue()),
-					connectedList.get(key));
-		} // end while
+			theClonedConnection.put(key, connectedList.get(key));
+		}
 
-		ArrayList<ZMatrixItem> theColonedZMatrixElement = new ArrayList<ZMatrixItem>();
+		ArrayList<ZMatrixItem> theColonedZMatrixElement = new ArrayList<>();
 
 		try {
 			for (ZMatrixItem item : zMatrixElement) {
@@ -395,10 +394,10 @@ public class Atom implements Cloneable {
 	 */
 	public BondType getConnectivity(int atomIndex) {
 		if (isConnected(atomIndex)) {
-			return (BondType) connectedList.get(Integer.valueOf(atomIndex));
+			return connectedList.get(Integer.valueOf(atomIndex));
 		} else {
 			return BondType.NO_BOND;
-		} // end if
+		}
 	}
 
 	/**
@@ -412,8 +411,8 @@ public class Atom implements Cloneable {
 			BondType bond = connectedListIter.next();
 			if (bond.isStrongBond()) {
 				bonds++;
-			} // end if
-		} // end while
+			}
+		}
 
 		return bonds;
 	}
@@ -428,7 +427,7 @@ public class Atom implements Cloneable {
 		while (connectedListIter.hasNext()) {
 			BondType bond = connectedListIter.next();
 			sumBondOrders += bond.getBondOrder();
-		} // end while
+		}
 
 		return sumBondOrders;
 	}
@@ -444,8 +443,8 @@ public class Atom implements Cloneable {
 			BondType bond = connectedListIter.next();
 			if (bond == BondType.DOUBLE_BOND) {
 				doubleBonds++;
-			} // end if
-		} // end while
+			}
+		}
 
 		return doubleBonds;
 	}
@@ -496,7 +495,7 @@ public class Atom implements Cloneable {
 		this.index = index;
 	}
 	/** Position of length reference in the ZMatrixElement */
-	private final static int LENGTH_REFERENCE_POS = 0;
+	private static final int LENGTH_REFERENCE_POS = 0;
 
 	/**
 	 * Getter for property lengthReference.
@@ -544,7 +543,7 @@ public class Atom implements Cloneable {
 	}
 
 	/** Position of dihedral reference in the ZMatrixElement */
-	private final static int DIHEDRAL_REFERENCE_POS = 2;
+	private static final int DIHEDRAL_REFERENCE_POS = 2;
 
 	/**
 	 * Getter for property dihedralReference.
@@ -579,7 +578,7 @@ public class Atom implements Cloneable {
 	 */
 	public void addUserDefinedAtomProperty(UserDefinedAtomProperty uProp) {
 		if (userProperties == null)
-			userProperties = new ArrayList<UserDefinedAtomProperty>();
+			userProperties = new ArrayList<>();
 
 		// first check if this property already exists
 		String name = uProp.getName();
@@ -587,8 +586,8 @@ public class Atom implements Cloneable {
 			if (uprop.getName().equals(name)) {
 				throw new UnsupportedOperationException("Property with name"
 						+ " '" + name + "' is already defined for this object!");
-			} // end if
-		} // end for
+			}
+		}
 
 		userProperties.add(uProp);
 	}

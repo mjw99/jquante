@@ -1,9 +1,3 @@
-/*
- * SCFEventListener.java
- *
- * Created on August 9, 2004, 10:15 PM
- */
-
 package name.mjw.jquante.math.qm.event;
 
 /**

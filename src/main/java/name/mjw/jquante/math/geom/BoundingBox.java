@@ -242,7 +242,7 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 			return true;
 		} else {
 			return false;
-		} // end if
+		}
 	}
 
 	/**

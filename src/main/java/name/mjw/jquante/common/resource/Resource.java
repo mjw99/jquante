@@ -1,9 +1,3 @@
-/*
- * Resource.java
- *
- * Created on June 15, 2003, 7:40 PM
- */
-
 package name.mjw.jquante.common.resource;
 
 /**
@@ -22,4 +16,4 @@ public interface Resource {
 	 */
 	public String getVersion();
 
-} // end of interface Resource
+}

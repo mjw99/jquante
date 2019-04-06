@@ -73,8 +73,8 @@ public class TwoElectronIntegrals {
 				// if no memory, resort to direct SCF
 				LOG.error("No memory for in-core integral evaluation" + ". Switching to direct integral evaluation.");
 				this.onTheFly = true;
-			} // end of try catch block
-		} // end if
+			}
+		}
 	}
 
 	/**
@@ -113,13 +113,13 @@ public class TwoElectronIntegrals {
 
 					compute2E(); // if it doesn't succeed then fall back to
 									// normal
-				} // end if
+				}
 			} catch (OutOfMemoryError e) {
 				// if no memory, resort to direct SCF
 				LOG.error("No memory for in-core integral evaluation" + ". Switching to direct integral evaluation.");
 				this.onTheFly = true;
-			} // end if
-		} // end if
+			}
+		}
 	}
 
 	/**

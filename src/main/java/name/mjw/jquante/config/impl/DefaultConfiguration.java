@@ -32,7 +32,7 @@ public class DefaultConfiguration implements GlobalConfiguration {
 
 	/** Creates a new instance of DefaultConfiguration */
 	private DefaultConfiguration() {
-		configuration = new HashMap<String, Parameter>();
+		configuration = new HashMap<>();
 
 		// the initial parameters
 		try {
@@ -85,7 +85,7 @@ public class DefaultConfiguration implements GlobalConfiguration {
 	 */
 	@Override
 	public Parameter getParameter(String key) {
-		return ((Parameter) configuration.get(key));
+		return configuration.get(key);
 	}
 
 	/**

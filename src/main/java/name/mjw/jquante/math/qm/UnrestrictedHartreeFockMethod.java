@@ -11,7 +11,6 @@ import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
 import name.mjw.jquante.molecule.UserDefinedAtomProperty;
 import net.jafama.FastMath;
-import name.mjw.jquante.math.qm.DIISFockExtrapolator;
 
 /**
  * Implements the Hartree-Fock (HF) SCF method for single point energy

@@ -60,7 +60,12 @@ public class TriLinearInterpolater extends Interpolater {
 	@Override
 	public double interpolate(double[] y, double[] x) {
 		double[] delta = new double[] { (x[3] - x[0]) / x[6], (x[4] - x[1]) / x[7], (x[5] - x[2]) / x[8] };
-		double i1, i2, j1, j2, w1, w2;
+		double i1;
+		double i2;
+		double j1;
+		double j2;
+		double w1;
+		double w2;
 
 		i1 = y[0] * (1.0 - delta[2]) + y[1] * delta[2];
 		i2 = y[2] * (1.0 - delta[2]) + y[3] * delta[2];
