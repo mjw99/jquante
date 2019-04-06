@@ -387,16 +387,6 @@ public abstract class Molecule {
 	public abstract Iterator<SpecialStructureRecognizer> getSpecialStructureRecognizers();
 
 	/**
-	 * Method to return the instance of RingRecognizer connected to this object,
-	 * if any.
-	 * 
-	 * @return a valid subclass of SpecialStructureRecognizer which recognizes
-	 *         rings; a null if no such recognizer is attached to this molecule
-	 *         object.
-	 */
-	public abstract SpecialStructureRecognizer getRingRecognizer();
-
-	/**
 	 * Method to return the instance of a default SpecialStructureRecognizer
 	 * which does not do any automatic recognision of structures.
 	 * 

@@ -649,30 +649,6 @@ public class MoleculeImpl extends Molecule {
 		return new BoundingBox(ul, br);
 	}
 
-	/**
-	 * Method to return the instance of RingRecognizer connected to this object,
-	 * if any.
-	 * 
-	 * @return a valid subclass of SpecialStructureRecognizer which recognizes
-	 *         rings; a null if no such recognizer is attached to this molecule
-	 *         object.
-	 */
-	@Override
-	public SpecialStructureRecognizer getRingRecognizer() {
-		Iterator<SpecialStructureRecognizer> ssrList = specialStructureRecognizerList
-				.iterator();
-		Object ssr;
-
-		while (ssrList.hasNext()) {
-			ssr = ssrList.next();
-
-			if (ssr instanceof RingRecognizer) {
-				return (RingRecognizer) ssr; // there , we do know rings
-			}
-		}
-
-		return null; // we did not find any relevent recognizer
-	}
 
 	/**
 	 * Method to return the instance of a default SpecialStructureRecognizer
