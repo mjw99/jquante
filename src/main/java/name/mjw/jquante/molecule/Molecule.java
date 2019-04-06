@@ -356,44 +356,7 @@ public abstract class Molecule {
 	public abstract Iterator<Integer> traversePath(int atomIndex,
 			boolean noDepth);
 
-	/**
-	 * The method defines an interface to add an implementation of
-	 * SpecialStructureRecognizer interface, so that certain special structures
-	 * like rings and special groups can be recognized.
-	 * 
-	 * @param ssr
-	 *            The implementation object of SpecialStructureRecognizer
-	 */
-	public abstract void addSpecialStructureRecognizer(
-			SpecialStructureRecognizer ssr);
-
-	/**
-	 * Removes an implemntation of SpecialStructureRecognizer interface, so that
-	 * certain structures may not be identified.
-	 * 
-	 * @param ssr
-	 *            The implementation object of SpecialStructureRecognizer
-	 */
-	public abstract void removeSpecialStructureRecognizer(
-			SpecialStructureRecognizer ssr);
-
-	/**
-	 * Method to get list of all SpecialStructureRecognizer s
-	 * 
-	 * @return Iterator object contatinig list of all in implementations of
-	 *         SpecialStructureRecognizer recorded with this instance of
-	 *         Molecule object
-	 */
-	public abstract Iterator<SpecialStructureRecognizer> getSpecialStructureRecognizers();
-
-	/**
-	 * Method to return the instance of a default SpecialStructureRecognizer
-	 * which does not do any automatic recognision of structures.
-	 * 
-	 * @return a valid subclass of SpecialStructureRecognizer which does no
-	 *         automatic recognision of structures.
-	 */
-	public abstract SpecialStructureRecognizer getDefaultSpecialStructureRecognizer();
+	
 
 	/**
 	 * Add a fragmentation scheme to this molecule object

@@ -3,11 +3,9 @@ package name.mjw.jquante.molecule.impl;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
-import java.util.Set;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
@@ -17,7 +15,6 @@ import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.BondType;
 import name.mjw.jquante.molecule.MolecularFormula;
 import name.mjw.jquante.molecule.Molecule;
-import name.mjw.jquante.molecule.SpecialStructureRecognizer;
 import name.mjw.jquante.molecule.UserDefinedAtomProperty;
 import name.mjw.jquante.molecule.event.MoleculeStateChangeEvent;
 
@@ -33,8 +30,6 @@ public class MoleculeImpl extends Molecule {
 
 	private ArrayList<Atom> atomList;
 
-	private Set<SpecialStructureRecognizer> specialStructureRecognizerList;
-
 	private BoundingBox boundingBox;
 
 	private boolean stateChanged;
@@ -44,8 +39,6 @@ public class MoleculeImpl extends Molecule {
 	private AtomInfo atomInfo;
 
 	private MolecularFormula molecularFormula;
-
-	private SpecialStructureRecognizer defaultSSR;
 
 	/** Creates a new instance of MoleculeImpl */
 	public MoleculeImpl() {
@@ -60,8 +53,6 @@ public class MoleculeImpl extends Molecule {
 		// init values
 		atomList = new ArrayList<>();
 
-		specialStructureRecognizerList = new HashSet<>(
-				10);
 
 		stateChanged = true;
 
@@ -73,10 +64,6 @@ public class MoleculeImpl extends Molecule {
 
 		// atom info..
 		atomInfo = AtomInfo.getInstance();
-
-		// default special structure recognizer
-		defaultSSR = new DefaultSpecialStructureRecognizer();
-		specialStructureRecognizerList.add(defaultSSR);
 
 		// default value for center of mass
 		centerOfMass = new Vector3D(0.0, 0.0, 0.0);
@@ -381,61 +368,6 @@ public class MoleculeImpl extends Molecule {
 	}
 
 	/**
-	 * The method defines an interface to add an implementation of
-	 * SpecialStructureRecognizer interface, so that certain special structures
-	 * like rings and special groups can be recognized. <br>
-	 * 
-	 * <pre>
-	 * WARNING!: this method in no way gaurentees the non duplication of 
-	 *           recognizer objects, and is the responsibility of the callie
-	 *           to ensure non duplication.
-	 * </pre>
-	 * 
-	 * @param ssr
-	 *            The implementation object of SpecialStructureRecognizer
-	 */
-	@Override
-	public void addSpecialStructureRecognizer(SpecialStructureRecognizer ssr) {
-		specialStructureRecognizerList.add(ssr);
-
-		// no boolean value set as this doesn't affect the molecules bound
-
-		msce.setEventType(MoleculeStateChangeEvent.STRUCTURE_ADDED);
-		msce.setSpecialStructureRecognizer(ssr);
-		fireMoleculeStateChangeListenerMoleculeChanged(msce);
-	}
-
-	/**
-	 * Removes an implementation of SpecialStructureRecognizer interface, so
-	 * that certain structures may not be identified.
-	 * 
-	 * @param ssr
-	 *            The implementation object of SpecialStructureRecognizer
-	 */
-	@Override
-	public void removeSpecialStructureRecognizer(SpecialStructureRecognizer ssr) {
-		specialStructureRecognizerList.remove(ssr);
-
-		// no boolean value set as this doesn't affect the molecules bound
-
-		msce.setEventType(MoleculeStateChangeEvent.STRUCTURE_REMOVED);
-		msce.setSpecialStructureRecognizer(ssr);
-		fireMoleculeStateChangeListenerMoleculeChanged(msce);
-	}
-
-	/**
-	 * Method to get list of all SpecialStructureRecognizer s
-	 * 
-	 * @return Iterator object containing list of all in implementations of
-	 *         SpecialStructureRecognizer recorded with this instance of
-	 *         Molecule object
-	 */
-	@Override
-	public Iterator<SpecialStructureRecognizer> getSpecialStructureRecognizers() {
-		return specialStructureRecognizerList.iterator();
-	}
-
-	/**
 	 * This method returns true or false indicating whether an atom pair is
 	 * bonded.
 	 * 
@@ -650,17 +582,6 @@ public class MoleculeImpl extends Molecule {
 	}
 
 
-	/**
-	 * Method to return the instance of a default SpecialStructureRecognizer
-	 * which does not do any automatic recognition of structures.
-	 * 
-	 * @return a valid subclass of SpecialStructureRecognizer which does no
-	 *         automatic recognition of structures.
-	 */
-	@Override
-	public SpecialStructureRecognizer getDefaultSpecialStructureRecognizer() {
-		return defaultSSR;
-	}
 
 	/**
 	 * Return an object of molecular formula, pertaining to this molecule

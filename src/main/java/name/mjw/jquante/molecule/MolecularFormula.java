@@ -20,9 +20,6 @@ public class MolecularFormula {
 	// the formula string
 	private String formulaString;
 
-	// the formula string as HTML
-	private String formulaHTMLString;
-
 	// make a hashtable hashed by symbols
 	private LinkedHashMap<String, Integer> uniqueSymbols;
 
@@ -128,26 +125,14 @@ public class MolecularFormula {
 	 * make the real string
 	 */
 	private void makeFormulaString(Object[] keys, Object[] values) {
-		formulaHTMLString = "";
 		formulaString = "";
 
 		for (int i = 0; i < keys.length; i++) {
 			formulaString += keys[i].toString() + values[i].toString() + " ";
-			formulaHTMLString += keys[i].toString() + "<sub>"
-					+ values[i].toString() + "</sub>";
+
 		}
-
-		formulaHTMLString += "";
 	}
 
-	/**
-	 * Returns the formula as a HTML string object
-	 * 
-	 * @return formulaHTMLString The formula as a HTML string object
-	 */
-	public String getHTMLFormula() {
-		return formulaHTMLString;
-	}
 
 	/**
 	 * Returns the formula as a string object
@@ -243,7 +228,7 @@ public class MolecularFormula {
 		if (this == obj)
 			return true;
 
-		if ((obj == null) || (!(obj instanceof MolecularFormula))) {
+		if (!(obj instanceof MolecularFormula)) {
 			return false;
 		} else {
 			// then do a deep compare
