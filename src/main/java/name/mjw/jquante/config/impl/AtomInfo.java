@@ -50,30 +50,6 @@ public class AtomInfo implements Configuration {
 	private HashMap<String, Double> atomicWeightTable;
 	private HashMap<String, Double> originalAtomicWeightTable;
 
-	/** Holds value of property covalentRadiusTable. */
-	private HashMap<String, Double> covalentRadiusTable;
-	private HashMap<String, Double> originalCovalentRadiusTable;
-
-	/** Holds value of property vdwRadiusTable. */
-	private HashMap<String, Double> vdwRadiusTable;
-	private HashMap<String, Double> originalVdwRadiusTable;
-
-	/** Holds value of property defaultValencyTable. */
-	private HashMap<String, Integer> defaultValencyTable;
-	private HashMap<String, Integer> originalDefaultValencyTable;
-
-	/** Holds value of property weakBondAngleTable. */
-	private HashMap<String, Double> weakBondAngleTable;
-	private HashMap<String, Double> originalWeakBondAngleTable;
-
-	/** Holds value of property colorTable. */
-	private HashMap<String, Color> colorTable;
-	private HashMap<String, Color> originalColorTable;
-
-	/** Holds value of property doubleBondOverlapTable. */
-	private HashMap<String, Double> doubleBondOverlapTable;
-	private HashMap<String, Double> originalDoubleBondOverlapTable;
-
 	/** Utility field used by event firing mechanism. */
 	private EventListenerList<AtomInfoChangeListener> listenerList = null;
 
@@ -82,22 +58,12 @@ public class AtomInfo implements Configuration {
 		nameTable = new HashMap<>(DEFAULT_TABLE_SIZE);
 		atomicNumberTable = new HashMap<>(DEFAULT_TABLE_SIZE);
 		atomicWeightTable = new HashMap<>(DEFAULT_TABLE_SIZE);
-		covalentRadiusTable = new HashMap<>(DEFAULT_TABLE_SIZE);
-		vdwRadiusTable = new HashMap<>(DEFAULT_TABLE_SIZE);
-		weakBondAngleTable = new HashMap<>(DEFAULT_TABLE_SIZE);
-		colorTable = new HashMap<>(DEFAULT_TABLE_SIZE);
-		defaultValencyTable = new HashMap<>(DEFAULT_TABLE_SIZE);
-		doubleBondOverlapTable = new HashMap<>(DEFAULT_TABLE_SIZE);
+
 
 		originalNameTable = new HashMap<>(DEFAULT_TABLE_SIZE);
 		originalAtomicNumberTable = new HashMap<>(DEFAULT_TABLE_SIZE);
 		originalAtomicWeightTable = new HashMap<>(DEFAULT_TABLE_SIZE);
-		originalCovalentRadiusTable = new HashMap<>(DEFAULT_TABLE_SIZE);
-		originalVdwRadiusTable = new HashMap<>(DEFAULT_TABLE_SIZE);
-		originalWeakBondAngleTable = new HashMap<>(DEFAULT_TABLE_SIZE);
-		originalColorTable = new HashMap<>(DEFAULT_TABLE_SIZE);
-		originalDefaultValencyTable = new HashMap<>(DEFAULT_TABLE_SIZE);
-		originalDoubleBondOverlapTable = new HashMap<>(DEFAULT_TABLE_SIZE);
+
 
 		// the initial parameters
 		try {
@@ -156,12 +122,6 @@ public class AtomInfo implements Configuration {
 		nameTable.put(symbol, originalNameTable.get(symbol));
 		atomicNumberTable.put(symbol, originalAtomicNumberTable.get(symbol));
 		atomicWeightTable.put(symbol, originalAtomicWeightTable.get(symbol));
-		covalentRadiusTable.put(symbol, originalCovalentRadiusTable.get(symbol));
-		vdwRadiusTable.put(symbol, originalVdwRadiusTable.get(symbol));
-		defaultValencyTable.put(symbol, originalDefaultValencyTable.get(symbol));
-		doubleBondOverlapTable.put(symbol, originalDoubleBondOverlapTable.get(symbol));
-		weakBondAngleTable.put(symbol, originalWeakBondAngleTable.get(symbol));
-		colorTable.put(symbol, originalColorTable.get(symbol));
 
 		AtomInfoChangeEvent changeEvent = new AtomInfoChangeEvent(this);
 
@@ -188,14 +148,8 @@ public class AtomInfo implements Configuration {
 			fos.write("\t<atom> \n".getBytes());
 			fos.write(("\t\t<physical symbol=\"" + key + "\" name=\"" + nameTable.get(key) + "\" atomicNumber=\""
 					+ atomicNumberTable.get(key) + "\" atomicWeight=\"" + atomicWeightTable.get(key)
-					+ "\" covalentRadius=\"" + covalentRadiusTable.get(key) + "\" vdwRadius=\""
-					+ vdwRadiusTable.get(key) + "\" defaultValency=\"" + defaultValencyTable.get(key)
-					+ "\" weakBondAngle=\"" + weakBondAngleTable.get(key) + "\" doubleBondOverlap=\""
-					+ doubleBondOverlapTable.get(key) + "\"/> \n").getBytes());
+					+ "\"/> \n").getBytes());
 			fos.write("\t\t<display> \n".getBytes());
-			Color theColor = colorTable.get(key);
-			fos.write(("\t\t\t<color r=\"" + theColor.getRed() + "\" g=\"" + theColor.getGreen() + "\" b=\""
-					+ theColor.getBlue() + "\"/>\n").getBytes());
 			fos.write("\t\t</display>\n".getBytes());
 			fos.write("\t</atom> \n".getBytes());
 		} // end for
@@ -240,18 +194,7 @@ public class AtomInfo implements Configuration {
 				originalAtomicNumberTable.put(symbol, Integer.valueOf(n.getNodeValue()));
 			} else if (nodeName.equals("atomicWeight")) {
 				originalAtomicWeightTable.put(symbol, Double.valueOf(n.getNodeValue()));
-			} else if (nodeName.equals("covalentRadius")) {
-				originalCovalentRadiusTable.put(symbol, Double.valueOf(n.getNodeValue()));
-			} else if (nodeName.equals("vdwRadius")) {
-				originalVdwRadiusTable.put(symbol, Double.valueOf(n.getNodeValue()));
-			} else if (nodeName.equals("defaultValency")) {
-				originalDefaultValencyTable.put(symbol, Integer.valueOf(n.getNodeValue()));
-			} else if (nodeName.equals("weakBondAngle")) {
-				originalWeakBondAngleTable.put(symbol, Double.valueOf(n.getNodeValue()));
-			} else if (nodeName.equals("doubleBondOverlap")) {
-				originalDoubleBondOverlapTable.put(symbol, Double.valueOf(n.getNodeValue()));
-			} // end if
-
+			}
 			break;
 		case Node.ELEMENT_NODE:
 			element = n.getNodeName();
@@ -265,11 +208,6 @@ public class AtomInfo implements Configuration {
 					Node att = atts.item(i);
 					saveOriginal(att);
 				} // end for
-			} else if (element.equals("color")) {
-				originalColorTable.put(symbol,
-						new Color(Integer.parseInt(atts.getNamedItem("r").getNodeValue()),
-								Integer.parseInt(atts.getNamedItem("g").getNodeValue()),
-								Integer.parseInt(atts.getNamedItem("b").getNodeValue())));
 			} else {
 				if (atts == null)
 					return;
@@ -307,18 +245,8 @@ public class AtomInfo implements Configuration {
 				atomicNumberTable.put(symbol, Integer.valueOf(n.getNodeValue()));
 			} else if (nodeName.equals("atomicWeight")) {
 				atomicWeightTable.put(symbol, Double.valueOf(n.getNodeValue()));
-			} else if (nodeName.equals("covalentRadius")) {
-				covalentRadiusTable.put(symbol, Double.valueOf(n.getNodeValue()));
-			} else if (nodeName.equals("vdwRadius")) {
-				vdwRadiusTable.put(symbol, Double.valueOf(n.getNodeValue()));
-			} else if (nodeName.equals("defaultValency")) {
-				defaultValencyTable.put(symbol, Integer.valueOf(n.getNodeValue()));
-			} else if (nodeName.equals("weakBondAngle")) {
-				weakBondAngleTable.put(symbol, Double.valueOf(n.getNodeValue()));
-			} else if (nodeName.equals("doubleBondOverlap")) {
-				doubleBondOverlapTable.put(symbol, Double.valueOf(n.getNodeValue()));
-			} // end if
 
+			}
 			break;
 		case Node.ELEMENT_NODE:
 			element = n.getNodeName();
@@ -332,11 +260,7 @@ public class AtomInfo implements Configuration {
 					Node att = atts.item(i);
 					saveUserNode(att);
 				} // end for
-			} else if (element.equals("color")) {
-				colorTable.put(symbol,
-						new Color(Integer.parseInt(atts.getNamedItem("r").getNodeValue()),
-								Integer.parseInt(atts.getNamedItem("g").getNodeValue()),
-								Integer.parseInt(atts.getNamedItem("b").getNodeValue())));
+
 			} else {
 				if (atts == null)
 					return;
@@ -364,12 +288,6 @@ public class AtomInfo implements Configuration {
 		copyTableS(originalNameTable, nameTable);
 		copyTableI(originalAtomicNumberTable, atomicNumberTable);
 		copyTableD(originalAtomicWeightTable, atomicWeightTable);
-		copyTableD(originalCovalentRadiusTable, covalentRadiusTable);
-		copyTableD(originalVdwRadiusTable, vdwRadiusTable);
-		copyTableI(originalDefaultValencyTable, defaultValencyTable);
-		copyTableD(originalDoubleBondOverlapTable, doubleBondOverlapTable);
-		copyTableD(originalWeakBondAngleTable, weakBondAngleTable);
-		copyTableC(originalColorTable, colorTable);
 	}
 
 	/**
@@ -439,10 +357,7 @@ public class AtomInfo implements Configuration {
 	@Override
 	public Parameter getParameter(String key) {
 		return new AtomProperty((String) nameTable.get(key), (atomicNumberTable.get(key)).intValue(),
-				(atomicWeightTable.get(key)).doubleValue(), (defaultValencyTable.get(key)).intValue(),
-				(covalentRadiusTable.get(key)).doubleValue(), (vdwRadiusTable.get(key)).doubleValue(),
-				(weakBondAngleTable.get(key)).doubleValue(), (doubleBondOverlapTable.get(key)).doubleValue(),
-				(Color) colorTable.get(key));
+				(atomicWeightTable.get(key)).doubleValue());
 	}
 
 	/**
@@ -462,24 +377,14 @@ public class AtomInfo implements Configuration {
 		changeEvent.setChangeType(AtomInfoChangeEvent.ALL_CANGED);
 
 		changeEvent.setOldValue(new AtomProperty(Utility.getString(nameTable, key),
-				Utility.getInteger(atomicNumberTable, key), Utility.getDouble(atomicWeightTable, key),
-				Utility.getInteger(defaultValencyTable, key), Utility.getDouble(covalentRadiusTable, key),
-				Utility.getDouble(vdwRadiusTable, key), Utility.getDouble(weakBondAngleTable, key),
-				Utility.getDouble(doubleBondOverlapTable, key), Utility.getColor(colorTable, key))); // old val
+				Utility.getInteger(atomicNumberTable, key), Utility.getDouble(atomicWeightTable, key))); // old val
 		changeEvent.setNewValue(ap); // new val
 		changeEvent.setAtomSymbol(key); // the atomic symbol
 
 		// change to new value
 		nameTable.put(key, ap.getName());
 		atomicNumberTable.put(key, Integer.valueOf(ap.getAtomicNumber()));
-		atomicWeightTable.put(key, Double.valueOf(ap.getAtomicWeight()));
-		defaultValencyTable.put(key, Integer.valueOf(ap.getDefaultValency()));
-		covalentRadiusTable.put(key, Double.valueOf(ap.getCovalentRadius()));
-		vdwRadiusTable.put(key, Double.valueOf(ap.getVdwRadius()));
-		weakBondAngleTable.put(key, Double.valueOf(ap.getWeakBondAngle()));
-		doubleBondOverlapTable.put(key, Double.valueOf(ap.getDoubleBondOverlap()));
-		colorTable.put(key, ap.getColor());
-
+		atomicWeightTable.put(key, Double.valueOf(ap.getAtomicWeight()));		
 		// fire the event!
 		fireAtomInfoChangeListenerAtomInfoChanged(changeEvent);
 	}
@@ -586,125 +491,9 @@ public class AtomInfo implements Configuration {
 		this.atomicWeightTable = atomicWeightTable;
 	}
 
-	/**
-	 * Getter for property covalentRadiusTable.
-	 * 
-	 * @return Value of property covalentRadiusTable.
-	 * 
-	 */
-	public HashMap<String, Double> getCovalentRadiusTable() {
-		return this.covalentRadiusTable;
-	}
 
-	/**
-	 * Setter for property covalentRadiusTable.
-	 * 
-	 * @param covalentRadiusTable New value of property covalentRadiusTable.
-	 * 
-	 */
-	public void setCovalentRadiusTable(HashMap<String, Double> covalentRadiusTable) {
-		this.covalentRadiusTable = covalentRadiusTable;
-	}
 
-	/**
-	 * Getter for property vdwRadiusTable.
-	 * 
-	 * @return Value of property vdwRadiusTable.
-	 * 
-	 */
-	public HashMap<String, Double> getVdwRadiusTable() {
-		return this.vdwRadiusTable;
-	}
 
-	/**
-	 * Setter for property vdwRadiusTable.
-	 * 
-	 * @param vdwRadiusTable New value of property vdwRadiusTable.
-	 * 
-	 */
-	public void setVdwRadiusTable(HashMap<String, Double> vdwRadiusTable) {
-		this.vdwRadiusTable = vdwRadiusTable;
-	}
-
-	/**
-	 * Getter for property defaultValencyTable.
-	 * 
-	 * @return Value of property defaultValencyTable.
-	 * 
-	 */
-	public HashMap<String, Integer> getDefaultValencyTable() {
-		return this.defaultValencyTable;
-	}
-
-	/**
-	 * Setter for property defaultValencyTable.
-	 * 
-	 * @param defaultValencyTable New value of property defaultValencyTable.
-	 * 
-	 */
-	public void setDefaultValencyTable(HashMap<String, Integer> defaultValencyTable) {
-		this.defaultValencyTable = defaultValencyTable;
-	}
-
-	/**
-	 * Getter for property weakBondAngleTable.
-	 * 
-	 * @return Value of property weakBondAngleTable.
-	 * 
-	 */
-	public HashMap<String, Double> getWeakBondAngleTable() {
-		return this.weakBondAngleTable;
-	}
-
-	/**
-	 * Setter for property weakBondAngleTable.
-	 * 
-	 * @param weakBondAngleTable New value of property weakBondAngleTable.
-	 * 
-	 */
-	public void setWeakBondAngleTable(HashMap<String, Double> weakBondAngleTable) {
-		this.weakBondAngleTable = weakBondAngleTable;
-	}
-
-	/**
-	 * Getter for property doubleBondOverlap.
-	 * 
-	 * @return Value of property doubleBondOverlap.
-	 * 
-	 */
-	public HashMap<String, Double> getDoubleBondOverlapTable() {
-		return this.doubleBondOverlapTable;
-	}
-
-	/**
-	 * Setter for property doubleBondOverlap.
-	 * 
-	 * @param doubleBondOverlapTable New value of property doubleBondOverlapTable.
-	 * 
-	 */
-	public void setDoubleBondOverlapTable(HashMap<String, Double> doubleBondOverlapTable) {
-		this.doubleBondOverlapTable = doubleBondOverlapTable;
-	}
-
-	/**
-	 * Getter for property colorTable.
-	 * 
-	 * @return Value of property colorTable.
-	 * 
-	 */
-	public HashMap<String, Color> getColorTable() {
-		return this.colorTable;
-	}
-
-	/**
-	 * Setter for property colorTable.
-	 * 
-	 * @param colorTable New value of property colorTable.
-	 * 
-	 */
-	public void setColorTable(HashMap<String, Color> colorTable) {
-		this.colorTable = colorTable;
-	}
 
 	/**
 	 * Registers AtomInfoChangeListener to receive events.
@@ -755,7 +544,7 @@ public class AtomInfo implements Configuration {
 	/**
 	 * Getter for property atomicNumber.
 	 * 
-	 * @param symbol - the atom symbol, IUPAC name!
+	 * @param symbol - the atom symbol, IUPAC name.
 	 * @return Value of property atomicNumber for the specified symbol
 	 */
 	public int getAtomicNumber(String symbol) {
@@ -763,14 +552,14 @@ public class AtomInfo implements Configuration {
 			return atomicNumberTable.get(symbol);
 		} catch (Exception e) {
 			return atomicNumberTable.get("X");
-		} // end of try catch block
+		}
 	}
 
 	/**
 	 * Getter for property symbol.
 	 * 
 	 * @param atomicNumber for the required symbol
-	 * @return symbol - the atom symbol, IUPAC name! If no such atomic number is
+	 * @return symbol - the atom symbol, IUPAC name. If no such atomic number is
 	 *         found then "X" is returned.
 	 */
 	public String getSymbol(int atomicNumber) {
@@ -840,141 +629,9 @@ public class AtomInfo implements Configuration {
 		fireAtomInfoChangeListenerAtomInfoChanged(changeEvent);
 	}
 
-	/**
-	 * Getter for property defaultValency.
-	 * 
-	 * @param symbol - the atom symbol, IUPAC name!
-	 * @return Value of property defaultValency for the specified symbol
-	 */
-	public int getDefaultValency(String symbol) {
-		try {
-			return defaultValencyTable.get(symbol);
-		} catch (Exception e) {
-			return defaultValencyTable.get("X");
-		} // end of try .. catch block
-	}
 
-	/**
-	 * Setter for property defaultValency.
-	 * 
-	 * @param symbol         - the atom symbol, IUPAC name!
-	 * @param defaultValency New value of property defaultValency.
-	 */
-	public void setDefaultValency(String symbol, int defaultValency) {
-		AtomInfoChangeEvent changeEvent = new AtomInfoChangeEvent(this);
 
-		changeEvent.setChangeType(AtomInfoChangeEvent.DEFAULT_VALENCY);
-		changeEvent.setAtomSymbol(symbol);
-		changeEvent.setOldValue(defaultValencyTable.get(symbol));
 
-		defaultValencyTable.put(symbol, Integer.valueOf(defaultValency));
-
-		changeEvent.setNewValue(Integer.valueOf(defaultValency));
-
-		fireAtomInfoChangeListenerAtomInfoChanged(changeEvent);
-	}
-
-	/**
-	 * Getter for property covalentRadius.
-	 * 
-	 * @param symbol - the atom symbol, IUPAC name!
-	 * @return Value of property covalentRadius for the specified symbol
-	 */
-	public double getCovalentRadius(String symbol) {
-		try {
-			return covalentRadiusTable.get(symbol);
-		} catch (Exception e) {
-			return covalentRadiusTable.get("X");
-		} // end of try ... catch block
-	}
-
-	/**
-	 * Setter for property covalentRadius.
-	 * 
-	 * @param symbol         - the atom symbol, IUPAC name!
-	 * @param covalentRadius New value of property covalentRadius.
-	 */
-	public void setCovalentRadius(String symbol, double covalentRadius) {
-		AtomInfoChangeEvent changeEvent = new AtomInfoChangeEvent(this);
-
-		changeEvent.setChangeType(AtomInfoChangeEvent.COVALENT_RADIUS);
-		changeEvent.setAtomSymbol(symbol);
-		changeEvent.setOldValue(covalentRadiusTable.get(symbol));
-
-		covalentRadiusTable.put(symbol, Double.valueOf(covalentRadius));
-
-		changeEvent.setNewValue(Double.valueOf(covalentRadius));
-
-		fireAtomInfoChangeListenerAtomInfoChanged(changeEvent);
-	}
-
-	/**
-	 * Getter for property vdwRadius.
-	 * 
-	 * @param symbol - the atom symbol, IUPAC name!
-	 * @return Value of property vdwRadius for the specified symbol
-	 */
-	public double getVdwRadius(String symbol) {
-		try {
-			return vdwRadiusTable.get(symbol);
-		} catch (Exception e) {
-			return vdwRadiusTable.get("X");
-		} // end try .. catch block
-	}
-
-	/**
-	 * Setter for property vdwRadius.
-	 * 
-	 * @param symbol    - the atom symbol, IUPAC name!
-	 * @param vdwRadius New value of property vdwRadius.
-	 */
-	public void setVdwRadius(String symbol, double vdwRadius) {
-		AtomInfoChangeEvent changeEvent = new AtomInfoChangeEvent(this);
-
-		changeEvent.setChangeType(AtomInfoChangeEvent.VDW_RADIUS);
-		changeEvent.setAtomSymbol(symbol);
-		changeEvent.setOldValue(vdwRadiusTable.get(symbol));
-
-		vdwRadiusTable.put(symbol, Double.valueOf(vdwRadius));
-
-		changeEvent.setNewValue(Double.valueOf(vdwRadius));
-
-		fireAtomInfoChangeListenerAtomInfoChanged(changeEvent);
-	}
-
-	/**
-	 * Getter for property weakBondAngle.
-	 * 
-	 * @param symbol - the atom symbol, IUPAC name!
-	 * @return Value of property weakBondAngle for the specified symbol
-	 */
-	public double getWeakBondAngle(String symbol) {
-		try {
-			return weakBondAngleTable.get(symbol);
-		} catch (Exception e) {
-			return weakBondAngleTable.get("X");
-		} // end of try .. catch block
-	}
-
-	/**
-	 * Setter for property weakBondAngle.
-	 * 
-	 * @param symbol        - the atom symbol, IUPAC name!
-	 * @param weakBondAngle New value of property weakBondAngle.
-	 */
-	public void setWeakBondAngle(String symbol, double weakBondAngle) {
-		AtomInfoChangeEvent changeEvent = new AtomInfoChangeEvent(this);
-
-		changeEvent.setChangeType(AtomInfoChangeEvent.WEAK_BOND_ANGLE);
-		changeEvent.setAtomSymbol(symbol);
-		changeEvent.setOldValue(weakBondAngleTable.get(symbol));
-
-		weakBondAngleTable.put(symbol, Double.valueOf(weakBondAngle));
-
-		changeEvent.setNewValue(Double.valueOf(weakBondAngle));
-
-		fireAtomInfoChangeListenerAtomInfoChanged(changeEvent);
-	}
 
 	/**
 	 * Getter for property name.
@@ -987,99 +644,11 @@ public class AtomInfo implements Configuration {
 			return nameTable.get(symbol);
 		} catch (Exception e) {
 			return nameTable.get("X");
-		} // end of try ... catch block
+		}
 	}
 
-	/**
-	 * Setter for property weakBondAngle.
-	 * 
-	 * @param symbol - the atom symbol, IUPAC name!
-	 * @param name   New value of property name.
-	 */
-	public void setName(String symbol, String name) {
-		AtomInfoChangeEvent changeEvent = new AtomInfoChangeEvent(this);
 
-		changeEvent.setChangeType(AtomInfoChangeEvent.ATOM_NAME);
-		changeEvent.setAtomSymbol(symbol);
-		changeEvent.setOldValue(nameTable.get(symbol));
 
-		nameTable.put(symbol, name);
 
-		changeEvent.setNewValue(name);
 
-		fireAtomInfoChangeListenerAtomInfoChanged(changeEvent);
-	}
-
-	/**
-	 * Getter for property color.
-	 * 
-	 * @param symbol - the atom symbol, IUPAC name!
-	 * @return Value of property color for the specified symbol
-	 */
-	public Color getColor(String symbol) {
-		try {
-			Color clr = colorTable.get(symbol);
-
-			if (clr == null)
-				return colorTable.get("X");
-
-			return clr;
-		} catch (Exception e) {
-			return colorTable.get("X");
-		} // end of try .. catch block
-	}
-
-	/**
-	 * Setter for property color.
-	 * 
-	 * @param symbol - the atom symbol, IUPAC name!
-	 * @param color  New value of property color.
-	 */
-	public void setColor(String symbol, Color color) {
-		AtomInfoChangeEvent changeEvent = new AtomInfoChangeEvent(this);
-
-		changeEvent.setChangeType(AtomInfoChangeEvent.COLOR_VALUE);
-		changeEvent.setAtomSymbol(symbol);
-		changeEvent.setOldValue(colorTable.get(symbol));
-
-		colorTable.put(symbol, color);
-
-		changeEvent.setNewValue(color);
-
-		fireAtomInfoChangeListenerAtomInfoChanged(changeEvent);
-	}
-
-	/**
-	 * Getter for property doubleBondOverlap.
-	 * 
-	 * @param symbol - the atom symbol, IUPAC name!
-	 * @return Value of property doubleBondOverlap for the specified symbol
-	 */
-	public double getDoubleBondOverlap(String symbol) {
-		try {
-			return doubleBondOverlapTable.get(symbol);
-		} catch (Exception e) {
-			return doubleBondOverlapTable.get("X");
-		} // end of try ... catch block
-	}
-
-	/**
-	 * Setter for property doubleBondOverlap.
-	 * 
-	 * @param symbol            - the atom symbol, IUPAC name!
-	 * @param doubleBondOverlap New value of property doubleBondOverlap.
-	 */
-	public void setDoubleBondOverlap(String symbol, double doubleBondOverlap) {
-		AtomInfoChangeEvent changeEvent = new AtomInfoChangeEvent(this);
-
-		changeEvent.setChangeType(AtomInfoChangeEvent.DOUBLE_BOND_OVERLAP);
-		changeEvent.setAtomSymbol(symbol);
-		changeEvent.setOldValue(doubleBondOverlapTable.get(symbol));
-
-		doubleBondOverlapTable.put(symbol, Double.valueOf(doubleBondOverlap));
-
-		changeEvent.setNewValue(Double.valueOf(doubleBondOverlap));
-
-		fireAtomInfoChangeListenerAtomInfoChanged(changeEvent);
-	}
 }

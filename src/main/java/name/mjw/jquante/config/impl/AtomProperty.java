@@ -15,65 +15,29 @@ public class AtomProperty implements Parameter {
 	/** Holds value of property name. */
 	private String name;
 
-	/** Holds value of property covalentRadius. */
-	private double covalentRadius;
-
-	/** Holds value of property vdwRadius. */
-	private double vdwRadius;
-
 	/** Holds value of property atomicNumber. */
 	private int atomicNumber;
-
-	/** Holds value of property defaultValency. */
-	private int defaultValency;
-
-	/** Holds value of property weakBondAngle. */
-	private double weakBondAngle;
-
-	/** Holds value of property color. */
-	private Color color;
 
 	/** Holds value of property atomicWeight. */
 	private double atomicWeight;
 
-	/** Holds value of property doubleBondOverlap. */
-	private double doubleBondOverlap;
-
 	/**
 	 * Creates a new instance of AtomProperty
 	 * 
-	 * @param name
-	 *            Name of atom.
-	 * @param atomicNumber
-	 *            Atomic nubmer of atom.
-	 * @param atomicWeight
-	 *            Atomic weight of atom.
-	 * @param defaultValency
-	 *            Valency of of atom.
-	 * @param covalentRadius
-	 *            Covalent radius of of atom.
-	 * @param vdwRadius
-	 *            Vdw radius of of atom.
-	 * @param weakBondAngle
-	 *            Weak bond Angle of atom.
-	 * @param doubleBondOverlap
-	 *            Double bond overlap of of atom.
-	 * @param color
-	 *            Display color of atom.
+	 * @param name           Name of atom.
+	 * @param atomicNumber   Atomic nubmer of atom.
+	 * @param atomicWeight   Atomic weight of atom.
+	 * @param defaultValency Valency of of atom.
+	 * @param covalentRadius Covalent radius of of atom.
+	 * @param vdwRadius      Vdw radius of of atom.
+	 * @param weakBondAngle  Weak bond Angle of atom.
+	 * @param color          Display color of atom.
 	 */
-	public AtomProperty(String name, int atomicNumber, double atomicWeight,
-			int defaultValency, double covalentRadius, double vdwRadius,
-			double weakBondAngle, double doubleBondOverlap, Color color) {
+	public AtomProperty(String name, int atomicNumber, double atomicWeight) {
 
 		this.name = name;
 		this.atomicNumber = atomicNumber;
 		this.atomicWeight = atomicWeight;
-		this.defaultValency = defaultValency;
-		this.covalentRadius = covalentRadius;
-		this.vdwRadius = vdwRadius;
-		this.weakBondAngle = weakBondAngle;
-		this.doubleBondOverlap = doubleBondOverlap;
-		this.color = color;
 	}
 
 	/**
@@ -89,54 +53,11 @@ public class AtomProperty implements Parameter {
 	/**
 	 * Setter for property name.
 	 * 
-	 * @param name
-	 *            New value of property name.
+	 * @param name New value of property name.
 	 * 
 	 */
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	/**
-	 * Getter for property covalentRadius.
-	 * 
-	 * @return Value of property covalentRadius.
-	 * 
-	 */
-	public double getCovalentRadius() {
-		return this.covalentRadius;
-	}
-
-	/**
-	 * Setter for property covalentRadius.
-	 * 
-	 * @param covalentRadius
-	 *            New value of property covalentRadius.
-	 * 
-	 */
-	public void setCovalentRadius(double covalentRadius) {
-		this.covalentRadius = covalentRadius;
-	}
-
-	/**
-	 * Getter for property vdwRadius.
-	 * 
-	 * @return Value of property vdwRadius.
-	 * 
-	 */
-	public double getVdwRadius() {
-		return this.vdwRadius;
-	}
-
-	/**
-	 * Setter for property vdwRadius.
-	 * 
-	 * @param vdwRadius
-	 *            New value of property vdwRadius.
-	 * 
-	 */
-	public void setVdwRadius(double vdwRadius) {
-		this.vdwRadius = vdwRadius;
 	}
 
 	/**
@@ -152,75 +73,11 @@ public class AtomProperty implements Parameter {
 	/**
 	 * Setter for property atomicNumber.
 	 * 
-	 * @param atomicNumber
-	 *            New value of property atomicNumber.
+	 * @param atomicNumber New value of property atomicNumber.
 	 * 
 	 */
 	public void setAtomicNumber(int atomicNumber) {
 		this.atomicNumber = atomicNumber;
-	}
-
-	/**
-	 * Getter for property defaultValency.
-	 * 
-	 * @return Value of property defaultValency.
-	 * 
-	 */
-	public int getDefaultValency() {
-		return this.defaultValency;
-	}
-
-	/**
-	 * Setter for property defaultValency.
-	 * 
-	 * @param defaultValency
-	 *            New value of property defaultValency.
-	 * 
-	 */
-	public void setDefaultValency(int defaultValency) {
-		this.defaultValency = defaultValency;
-	}
-
-	/**
-	 * Getter for property weakBondAngle.
-	 * 
-	 * @return Value of property weakBondAngle.
-	 * 
-	 */
-	public double getWeakBondAngle() {
-		return this.weakBondAngle;
-	}
-
-	/**
-	 * Setter for property weakBondAngle.
-	 * 
-	 * @param weakBondAngle
-	 *            New value of property weakBondAngle.
-	 * 
-	 */
-	public void setWeakBondAngle(double weakBondAngle) {
-		this.weakBondAngle = weakBondAngle;
-	}
-
-	/**
-	 * Getter for property color.
-	 * 
-	 * @return Value of property color.
-	 * 
-	 */
-	public Color getColor() {
-		return this.color;
-	}
-
-	/**
-	 * Setter for property color.
-	 * 
-	 * @param color
-	 *            New value of property color.
-	 * 
-	 */
-	public void setColor(Color color) {
-		this.color = color;
 	}
 
 	/**
@@ -236,8 +93,7 @@ public class AtomProperty implements Parameter {
 	/**
 	 * Setter for property atomicWeight.
 	 * 
-	 * @param atomicWeight
-	 *            New value of property atomicWeight.
+	 * @param atomicWeight New value of property atomicWeight.
 	 * 
 	 */
 	public void setAtomicWeight(double atomicWeight) {
@@ -256,33 +112,5 @@ public class AtomProperty implements Parameter {
 		this.name = ap.name;
 		this.atomicNumber = ap.atomicNumber;
 		this.atomicWeight = ap.atomicWeight;
-		this.defaultValency = ap.defaultValency;
-		this.covalentRadius = ap.covalentRadius;
-		this.vdwRadius = ap.vdwRadius;
-		this.weakBondAngle = ap.weakBondAngle;
-		this.doubleBondOverlap = ap.doubleBondOverlap;
-		this.color = ap.color;
 	}
-
-	/**
-	 * Getter for property doubleBondOverlap.
-	 * 
-	 * @return Value of property doubleBondOverlap.
-	 * 
-	 */
-	public double getDoubleBondOverlap() {
-		return this.doubleBondOverlap;
-	}
-
-	/**
-	 * Setter for property doubleBondOverlap.
-	 * 
-	 * @param doubleBondOverlap
-	 *            New value of property doubleBondOverlap.
-	 * 
-	 */
-	public void setDoubleBondOverlap(double doubleBondOverlap) {
-		this.doubleBondOverlap = doubleBondOverlap;
-	}
-
 }

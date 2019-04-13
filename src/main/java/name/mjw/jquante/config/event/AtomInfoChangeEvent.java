@@ -25,12 +25,6 @@ public class AtomInfoChangeEvent extends EventObject {
 	public static final int ATOM_NAME = 0;
 	public static final int ATOMIC_NUMBER = 1;
 	public static final int ATOMIC_WEIGHT = 2;
-	public static final int COVALENT_RADIUS = 3;
-	public static final int VDW_RADIUS = 4;
-	public static final int DEFAULT_VALENCY = 5;
-	public static final int WEAK_BOND_ANGLE = 6;
-	public static final int COLOR_VALUE = 7;
-	public static final int DOUBLE_BOND_OVERLAP = 8;
 	public static final int ALL_CANGED = 100;
 
 	/** Holds value of property atomSymbol. */
@@ -130,4 +124,4 @@ public class AtomInfoChangeEvent extends EventObject {
 		this.atomSymbol = atomSymbol;
 	}
 
-} // end of class AtomInfoChangeEvent
+}
