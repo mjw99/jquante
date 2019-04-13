@@ -303,28 +303,6 @@ public final class Utility {
 	}
 
 	/**
-	 * method to get an Color out of Hashtable. If the key is not present, then
-	 * a Color(1.0, 1.0, 1.0, 1.0) :: white is returned
-	 * 
-	 * @param table
-	 *            - the hashtable containing Double objects
-	 * @param key
-	 *            - the key
-	 * @return Color - the Color value intended. if the key is not found in the
-	 *         table a Color(1.0, 1.0, 1.0, 1.0) :: white is returned instead.
-	 */
-	public static Color getColor(HashMap<?, ?> table, Object key) {
-		Color value = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-
-		if (table.containsKey(key)) {
-			value = (Color) table.get(key);
-		} // end if
-
-		return value;
-	}
-
-
-	/**
 	 * Get the file name sans extension
 	 * 
 	 * @param file
