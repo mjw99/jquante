@@ -1,7 +1,5 @@
 package name.mjw.jquante.config.impl;
 
-import java.awt.Color;
-
 import name.mjw.jquante.config.Parameter;
 
 /**
@@ -27,11 +25,6 @@ public class AtomProperty implements Parameter {
 	 * @param name           Name of atom.
 	 * @param atomicNumber   Atomic nubmer of atom.
 	 * @param atomicWeight   Atomic weight of atom.
-	 * @param defaultValency Valency of of atom.
-	 * @param covalentRadius Covalent radius of of atom.
-	 * @param vdwRadius      Vdw radius of of atom.
-	 * @param weakBondAngle  Weak bond Angle of atom.
-	 * @param color          Display color of atom.
 	 */
 	public AtomProperty(String name, int atomicNumber, double atomicWeight) {
 

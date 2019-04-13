@@ -1,6 +1,5 @@
 package name.mjw.jquante.config.impl;
 
-import java.awt.Color;
 import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -339,14 +338,6 @@ public class AtomInfo implements Configuration {
 		} // end for
 	}
 
-	/**
-	 * Copy one table to another (of Color)
-	 */
-	private void copyTableC(HashMap<String, Color> src, HashMap<String, Color> dest) {
-		for (String key : src.keySet()) {
-			dest.put(key, src.get(key));
-		} // end for
-	}
 
 	/**
 	 * Method returns the value of parameter pertaining to the key.
