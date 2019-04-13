@@ -3,6 +3,8 @@ package name.mjw.jquante.math.qm;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 
+import name.mjw.jquante.math.MathUtil;
+
 /**
  * Represents the Density P matrix or the charge order bond density matrix (DM).
  * 
@@ -62,5 +64,10 @@ public class Density extends Array2DRowRealMatrix {
 
 		this.setSubMatrix(dVector.transpose().multiply(dVector).getData(), 0, 0);
 
+	}
+
+	@Override
+	public String toString() {
+		return MathUtil.MatrixToString(this);
 	}
 }

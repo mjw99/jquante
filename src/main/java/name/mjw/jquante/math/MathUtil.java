@@ -1,11 +1,15 @@
 package name.mjw.jquante.math;
 
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealMatrixFormat;
 import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.util.CombinatoricsUtils;
 
 import net.jafama.FastMath;
+
+import java.text.DecimalFormat;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
@@ -151,5 +155,11 @@ public final class MathUtil {
 		}
 		return vec;
 
+	}
+
+	public static String MatrixToString(Array2DRowRealMatrix array2DRowRealMatrix) {
+		DecimalFormat df = new DecimalFormat("+#,##0.000;-#");
+		RealMatrixFormat mf = new RealMatrixFormat("\n", "", "", "", "\n", " ", df);
+		return mf.format(array2DRowRealMatrix);
 	}
 }

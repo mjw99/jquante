@@ -1,6 +1,9 @@
 package name.mjw.jquante.math.qm;
 
+
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+
+import name.mjw.jquante.math.MathUtil;
 
 /**
  * Represents the Fock matrix.
@@ -42,5 +45,10 @@ public class Fock extends Array2DRowRealMatrix {
 	 */
 	public void compute(HCore hCore, GMatrix gMatrix) {
 		setSubMatrix((hCore.add(gMatrix)).getData(), 0, 0);
+	}
+
+	@Override
+	public String toString() {
+		return MathUtil.MatrixToString(this);
 	}
 }

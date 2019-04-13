@@ -9,6 +9,8 @@ import org.apache.commons.math3.linear.RealVector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import name.mjw.jquante.math.MathUtil;
+
 /**
  * Represents the Molecular orbitals as a coefficient matrix and the
  * corresponding eigenvalues representing the orbital energies.
@@ -93,6 +95,11 @@ public class MolecularOrbitals extends Array2DRowRealMatrix {
 		this.setSubMatrix(sortedEig.getVT().multiply(x).getData(), 0, 0);
 
 		LOG.debug("MO::values :" + this);
+	}
+
+	@Override
+	public String toString() {
+		return MathUtil.MatrixToString(this);
 	}
 
 }

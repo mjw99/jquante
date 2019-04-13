@@ -11,6 +11,7 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import name.mjw.jquante.math.MathUtil;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import net.jafama.FastMath;
 
@@ -126,5 +127,10 @@ public class Overlap extends Array2DRowRealMatrix {
 		ContractedGaussian cgj = bsl.getBasisFunctions().get(j);
 
 		return cgi.overlapDerivative(atomIndex, cgj);
+	}
+
+	@Override
+	public String toString() {
+		return MathUtil.MatrixToString(this);
 	}
 }

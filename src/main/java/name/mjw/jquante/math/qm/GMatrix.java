@@ -378,4 +378,9 @@ public class GMatrix extends Array2DRowRealMatrix {
 		GMatrix other = (GMatrix) obj;
 		return Objects.equals(density, other.density) && Objects.equals(partialGMatrixList, other.partialGMatrixList);
 	}
+
+	@Override
+	public String toString() {
+		return MathUtil.MatrixToString(this);
+	}
 }
