@@ -48,7 +48,6 @@ class OneElectronIntegralsTest {
 
 	@Test
 	void testgetHCore() {
-		System.out.println(e1.getHCore());
 		assertEquals(-32.70775590590571, e1.getHCore().getEntry(0, 0), diff);
 		assertEquals(-1.7016641597, e1.getHCore().getEntry(6, 0), diff);
 		assertEquals(-5.0309028634, e1.getHCore().getEntry(6, 6), diff);
