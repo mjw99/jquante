@@ -99,7 +99,7 @@ public class MolecularOrbitals extends Array2DRowRealMatrix {
 
 	@Override
 	public String toString() {
-		return MathUtil.MatrixToString(this);
+		return MathUtil.matrixToString(this);
 	}
 
 }

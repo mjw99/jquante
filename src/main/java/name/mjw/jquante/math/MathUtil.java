@@ -157,7 +157,7 @@ public final class MathUtil {
 
 	}
 
-	public static String MatrixToString(Array2DRowRealMatrix array2DRowRealMatrix) {
+	public static String matrixToString(Array2DRowRealMatrix array2DRowRealMatrix) {
 		DecimalFormat df = new DecimalFormat("+#,##0.000;-#");
 		RealMatrixFormat mf = new RealMatrixFormat("\n", "", "", "", "\n", " ", df);
 		return mf.format(array2DRowRealMatrix);
