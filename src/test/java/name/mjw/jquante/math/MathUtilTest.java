@@ -3,7 +3,6 @@ package name.mjw.jquante.math;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math3.util.FastMath;
 import org.junit.jupiter.api.Test;
 
 public class MathUtilTest {
@@ -38,7 +37,7 @@ public class MathUtilTest {
 		Vector3D k = new Vector3D(58.827194, 65.911911, 13.835642);
 		Vector3D l = new Vector3D(59.367950, 66.384277, 15.233553);
 
-		assertEquals(59.66383, FastMath.toDegrees(MathUtil.findDihedral(i, j, k, l)), diff);
+		assertEquals(59.66383, Math.toDegrees(MathUtil.findDihedral(i, j, k, l)), diff);
 
 	}
 
@@ -50,7 +49,7 @@ public class MathUtilTest {
 		Vector3D k = new Vector3D(31.643818, 71.563255, 36.873047);
 		Vector3D l = new Vector3D(31.253489, 70.131218, 37.371773);
 
-		assertEquals(-115.172063, FastMath.toDegrees(MathUtil.findDihedral(i, j, k, l)), diff);
+		assertEquals(-115.172063, Math.toDegrees(MathUtil.findDihedral(i, j, k, l)), diff);
 
 	}
 
