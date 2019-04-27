@@ -21,27 +21,27 @@ public final class ContractedGaussian {
 	/**
 	 * Holds value of property origin.
 	 */
-	private Vector3D origin;
+	private final Vector3D origin;
 
 	/**
 	 * Holds value of property powers, whole array size is 3.
 	 */
-	private Power powers;
+	private final Power powers;
 
 	/**
 	 * The Primitive Gaussians (PGs) that make up this Contracted Gaussian.
 	 */
-	private ArrayList<PrimitiveGaussian> primitives;
+	private final ArrayList<PrimitiveGaussian> primitives;
 
 	/**
 	 * The list of exponents for this Gaussian.
 	 */
-	private ArrayList<Double> exponents;
+	private final ArrayList<Double> exponents;
 
 	/**
 	 * Holds value of property coefficients.
 	 */
-	private ArrayList<Double> coefficients;
+	private final ArrayList<Double> coefficients;
 
 	/**
 	 * Holds value of property normalization.
@@ -99,15 +99,6 @@ public final class ContractedGaussian {
 	}
 
 	/**
-	 * Set the value of centeredAtom
-	 * 
-	 * @param centeredAtom new value of centeredAtom
-	 */
-	public void setCenteredAtom(Atom centeredAtom) {
-		this.centeredAtom = centeredAtom;
-	}
-
-	/**
 	 * Adds a primitive gaussian (PG) to this contracted gaussian list
 	 * 
 	 * @param exponent    the exponent for this PG
@@ -130,30 +121,12 @@ public final class ContractedGaussian {
 	}
 
 	/**
-	 * Setter for property origin.
-	 * 
-	 * @param origin New value of property origin.
-	 */
-	public void setOrigin(Vector3D origin) {
-		this.origin = origin;
-	}
-
-	/**
 	 * Getter for property powers.
 	 * 
 	 * @return Value of property powers.
 	 */
 	public Power getPowers() {
 		return this.powers;
-	}
-
-	/**
-	 * Setter for property powers.
-	 * 
-	 * @param powers New value of property powers.
-	 */
-	public void setPowers(Power powers) {
-		this.powers = powers;
 	}
 
 	/**
@@ -166,30 +139,12 @@ public final class ContractedGaussian {
 	}
 
 	/**
-	 * Setter for property primitives.
-	 * 
-	 * @param primitives New value of property primitives.
-	 */
-	public void setPrimitives(ArrayList<PrimitiveGaussian> primitives) {
-		this.primitives = primitives;
-	}
-
-	/**
 	 * Getter for property exponents.
 	 * 
 	 * @return Value of property exponents.
 	 */
 	public ArrayList<Double> getExponents() {
 		return this.exponents;
-	}
-
-	/**
-	 * Setter for property exponents.
-	 * 
-	 * @param exponents New value of property exponents.
-	 */
-	public void setExponents(ArrayList<Double> exponents) {
-		this.exponents = exponents;
 	}
 
 	/**
@@ -202,30 +157,12 @@ public final class ContractedGaussian {
 	}
 
 	/**
-	 * Setter for property coefficients.
-	 * 
-	 * @param coefficients New value of property coefficients.
-	 */
-	public void setCoefficients(ArrayList<Double> coefficients) {
-		this.coefficients = coefficients;
-	}
-
-	/**
 	 * Getter for property normalisation.
 	 * 
 	 * @return Value of property normalisation.
 	 */
 	public double getNormalization() {
 		return this.normalization;
-	}
-
-	/**
-	 * Setter for property normalisation.
-	 * 
-	 * @param normalization New value of property normalisation.
-	 */
-	public void setNormalization(double normalization) {
-		this.normalization = normalization;
 	}
 
 	/**
@@ -643,15 +580,6 @@ public final class ContractedGaussian {
 	 */
 	public ArrayList<Double> getPrimNorms() {
 		return this.primNorms;
-	}
-
-	/**
-	 * Setter for property primNorms.
-	 * 
-	 * @param primNorms New value of property primNorms.
-	 */
-	public void setPrimNorms(ArrayList<Double> primNorms) {
-		this.primNorms = primNorms;
 	}
 
 	/**
