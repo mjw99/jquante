@@ -24,7 +24,7 @@ import net.jafama.FastMath;
  * @author mw529
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class PrimitiveGaussian {
+public final class PrimitiveGaussian {
 
 	/**
 	 * Holds value of property exponent.

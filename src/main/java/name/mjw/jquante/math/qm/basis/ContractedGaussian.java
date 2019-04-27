@@ -16,7 +16,7 @@ import net.jafama.FastMath;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class ContractedGaussian {
+public final class ContractedGaussian {
 
 	/**
 	 * Holds value of property origin.
