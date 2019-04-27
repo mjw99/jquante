@@ -331,7 +331,7 @@ public class ContractedGaussian {
 
 		double terma = FastMath.sqrt(alpha * (2.0 * l + 1.0)) * coeff
 				* xPG.overlap(jPG);
-		double termbx;
+		double termbx = 0;
 		double termby;
 		double termbz;
 
