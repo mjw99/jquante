@@ -126,7 +126,7 @@ public class BasisSetLibrary {
 	}
 
 
-	public Multimap<ContractedGaussian, ContractedGaussian> getShellPairs() {
+	public Multimap<ContractedGaussian, ContractedGaussian> getUniqueShellPairs() {
 		return shellPairs;
 	}
 

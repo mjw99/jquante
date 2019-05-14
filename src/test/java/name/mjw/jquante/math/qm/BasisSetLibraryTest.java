@@ -92,7 +92,7 @@ public class BasisSetLibraryTest {
 		assertEquals(5, bsl.getShells().keySet().size());
 
 		// 15 unique shell pairs
-		assertEquals(15, bsl.getShellPairs().size());
+		assertEquals(15, bsl.getUniqueShellPairs().size());
 	}
 
 	@Test
@@ -112,7 +112,7 @@ public class BasisSetLibraryTest {
 		assertEquals(22, bsl.getShells().keySet().size());
 
 		// 253 unique shell pairs
-		assertEquals(253, bsl.getShellPairs().size());
+		assertEquals(253, bsl.getUniqueShellPairs().size());
 
 	}
 
