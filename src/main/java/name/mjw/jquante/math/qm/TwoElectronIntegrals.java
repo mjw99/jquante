@@ -500,4 +500,26 @@ public class TwoElectronIntegrals {
 		this.onTheFly = onTheFly;
 	}
 
+	public void printCompleteIntegralList() {
+
+		int noOfBasisFunctions = basisSetLibrary.getBasisFunctions().size();
+
+		System.out.println("");
+		System.out.println("Complete integral list");
+		System.out.println("======================");
+		for (int i = 0; i < noOfBasisFunctions; i++) {
+			for (int j = 0; j < noOfBasisFunctions; j++) {
+				for (int k = 0; k < noOfBasisFunctions; k++) {
+					for (int l = 0; l < noOfBasisFunctions; l++) {
+						int ijkl = IntegralsUtil.ijkl2intindex(i, j, k, l);
+						System.out.println(i + " " + j + " " + k + " " + l + "\t\t" + twoEIntegrals[ijkl]);
+
+					}
+
+				}
+
+			}
+
+		}
+	}
 }

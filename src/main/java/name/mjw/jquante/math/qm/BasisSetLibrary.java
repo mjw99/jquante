@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -125,7 +126,6 @@ public class BasisSetLibrary {
 		return shells;
 	}
 
-
 	public Multimap<ContractedGaussian, ContractedGaussian> getUniqueShellPairs() {
 		return uniqueShellPairs;
 	}
@@ -242,6 +242,26 @@ public class BasisSetLibrary {
 			}
 		}
 
+	}
+
+	public void printCompleteBasisFunctionList() {
+		System.out.println("");
+		System.out.println("Complete basis function list");
+		System.out.println("============================");
+		for (ContractedGaussian bfs : this.getBasisFunctions()) {
+			System.out.println(bfs.getIndex() + " " + bfs.getCenteredAtom());
+		}
+	}
+
+	public void printUniqueShellList() {
+		System.out.println("");
+		System.out.println("Unique shell list (basic function indexing)");
+		System.out.println("===========================================");
+
+		for (Entry<ContractedGaussian, ContractedGaussian> entry : this.getUniqueShellPairs().entries()) {
+			System.out.println(entry.getKey().getIndex() + "\t" + entry.getValue().getIndex());
+
+		}
 	}
 
 }
