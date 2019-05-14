@@ -48,7 +48,7 @@ public class BasisSetLibrary {
 	 */
 	private Multimap<Integer, ContractedGaussian> shells;
 
-	private Multimap<ContractedGaussian, ContractedGaussian> shellPairs;
+	private Multimap<ContractedGaussian, ContractedGaussian> uniqueShellPairs;
 
 	private Molecule molecule;
 
@@ -72,7 +72,7 @@ public class BasisSetLibrary {
 		initShellList();
 
 		// Shell Pair list
-		initShellPairList();
+		initUniqueShellPairList();
 
 		molStateChangeListener = new MoleculeStateChangeListener() {
 			@Override
@@ -127,7 +127,7 @@ public class BasisSetLibrary {
 
 
 	public Multimap<ContractedGaussian, ContractedGaussian> getUniqueShellPairs() {
-		return shellPairs;
+		return uniqueShellPairs;
 	}
 
 	/**
@@ -232,13 +232,13 @@ public class BasisSetLibrary {
 
 	}
 
-	private void initShellPairList() {
+	private void initUniqueShellPairList() {
 
-		shellPairs = ArrayListMultimap.create();
+		uniqueShellPairs = ArrayListMultimap.create();
 
 		for (int i = 0; i < shells.keySet().size(); i++) {
 			for (int j = 0; j <= i; j++) {
-				shellPairs.put(Iterables.get(shells.get(i), 0), Iterables.get(shells.get(j), 0));
+				uniqueShellPairs.put(Iterables.get(shells.get(i), 0), Iterables.get(shells.get(j), 0));
 			}
 		}
 
