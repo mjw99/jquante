@@ -25,10 +25,10 @@ public class ElectronDensityTest {
 	@Test
 	public void test() throws Exception {
 		// Create a molecule of water
-		Atom O = new Atom("O", 6.0, new Vector3D(0.0000000, 0.000000, 0.119748));
-		Atom H1 = new Atom("H", 1.0, new Vector3D(0.00000000, 0.761561,
+		Atom O = new Atom("O", new Vector3D(0.0000000, 0.000000, 0.119748));
+		Atom H1 = new Atom("H", new Vector3D(0.00000000, 0.761561,
 				-0.478993));
-		Atom H2 = new Atom("H", 1.0, new Vector3D(0.00000000, -0.761561,
+		Atom H2 = new Atom("H", new Vector3D(0.00000000, -0.761561,
 				-0.478993));
 
 		Molecule water = new MoleculeImpl("water");

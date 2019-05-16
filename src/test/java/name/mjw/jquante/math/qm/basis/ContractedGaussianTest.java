@@ -34,7 +34,7 @@ public class ContractedGaussianTest {
 
 	@Test
 	public void testGetCenteredAtom() {
-		Atom H = new Atom("H", 1, new Vector3D(0, 0, 0));
+		Atom H = new Atom("H", new Vector3D(0, 0, 0));
 		ContractedGaussian cgto = new ContractedGaussian(H, new Power(0, 0, 0));
 
 		assertEquals(H, cgto.getCenteredAtom());

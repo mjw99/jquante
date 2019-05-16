@@ -21,8 +21,8 @@ public class GMatrixTest {
 	@BeforeAll
 	public static void setUp() {
 		// Create molecule
-		Atom H1 = new Atom("H", 1.0, new Vector3D(0.00000000, 0.00000000, 0.00000000));
-		Atom H2 = new Atom("H", 1.0, new Vector3D(0.74000000, 0.00000000, 0.00000000));
+		Atom H1 = new Atom("H", new Vector3D(0.00000000, 0.00000000, 0.00000000));
+		Atom H2 = new Atom("H", new Vector3D(0.74000000, 0.00000000, 0.00000000));
 
 		Molecule hydrogen = new MoleculeImpl("hydrogen");
 		hydrogen.addAtom(H1);

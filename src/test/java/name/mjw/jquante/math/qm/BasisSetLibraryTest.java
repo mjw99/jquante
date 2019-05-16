@@ -25,9 +25,9 @@ public class BasisSetLibraryTest {
 	@BeforeAll
 	public static void setup() {
 
-		H1 = new Atom("H", 1.0, new Vector3D(0.752510, -0.454585, 0.000000));
-		O = new Atom("O", 6.0, new Vector3D(0.000000, 0.113671, 0.000000));
-		H2 = new Atom("H", 1.0, new Vector3D(-0.752510, -0.454585, 0.000000));
+		H1 = new Atom("H", new Vector3D(0.752510, -0.454585, 0.000000));
+		O = new Atom("O", new Vector3D(0.000000, 0.113671, 0.000000));
+		H2 = new Atom("H", new Vector3D(-0.752510, -0.454585, 0.000000));
 
 		water = new MoleculeImpl("water");
 		water.addAtom(H1);
@@ -40,7 +40,7 @@ public class BasisSetLibraryTest {
 
 		BasisSetLibrary bsl = null;
 
-		Atom H1 = new Atom("H", 1.0, new Vector3D(0.752510, -0.454585, 0.000000));
+		Atom H1 = new Atom("H", new Vector3D(0.752510, -0.454585, 0.000000));
 
 		Molecule hydrogen = new MoleculeImpl("hydrogen");
 		hydrogen.addAtom(H1);

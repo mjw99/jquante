@@ -170,22 +170,7 @@ public class MoleculeImpl extends Molecule {
 	 */
 	@Override
 	public void addAtom(String symbol, Vector3D atomCenter) {
-		addAtom(new Atom(symbol, 0.0, atomCenter));
-	}
-
-	/**
-	 * Overloaded addAtom() method.
-	 * 
-	 * @param symbol
-	 *            the atom symbol
-	 * @param charge
-	 *            is the charge on the atom (the atomic number in many cases)
-	 * @param atomCenter
-	 *            the Cartesian coordinates of the atom stored as Point3D object
-	 */
-	@Override
-	public void addAtom(String symbol, double charge, Vector3D atomCenter) {
-		addAtom(new Atom(symbol, charge, atomCenter));
+		addAtom(new Atom(symbol, atomCenter));
 	}
 
 	/**
@@ -202,7 +187,7 @@ public class MoleculeImpl extends Molecule {
 	 */
 	@Override
 	public void addAtom(String symbol, double x, double y, double z) {
-		addAtom(new Atom(symbol, 0.0, new Vector3D(x, y, z)));
+		addAtom(new Atom(symbol, new Vector3D(x, y, z)));
 	}
 
 	/**
@@ -227,7 +212,7 @@ public class MoleculeImpl extends Molecule {
 	 */
 	public void addAtom(String symbol, double x, double y, double z, double xi,
 			double yj, double zk, int index) {
-		Atom atm = new Atom(symbol, 0.0, new Vector3D(x, y, z));
+		Atom atm = new Atom(symbol, new Vector3D(x, y, z));
 		atm.addUserDefinedAtomProperty(new UserDefinedAtomProperty(
 				"baseCenter", new Vector3D(xi, yj, zk)));
 		addAtom(atm);
@@ -249,50 +234,9 @@ public class MoleculeImpl extends Molecule {
 	 */
 	@Override
 	public void addAtom(String symbol, double x, double y, double z, int index) {
-		addAtom(new Atom(symbol, 0.0, new Vector3D(x, y, z), index));
+		addAtom(new Atom(symbol, new Vector3D(x, y, z), index));
 	}
 
-	/**
-	 * Overloaded addAtom() method.
-	 * 
-	 * @param symbol
-	 *            the atom symbol
-	 * @param charge
-	 *            is the charge on the atom (the atomic number in many cases)
-	 * @param x
-	 *            X coordinate of the atom
-	 * @param y
-	 *            Y coordinate of the atom
-	 * @param z
-	 *            Z coordinate of the atom
-	 */
-	@Override
-	public void addAtom(String symbol, double charge, double x, double y,
-			double z) {
-		addAtom(new Atom(symbol, charge, new Vector3D(x, y, z)));
-	}
-
-	/**
-	 * Overloaded addAtom() method.
-	 * 
-	 * @param symbol
-	 *            the atom symbol
-	 * @param charge
-	 *            is the charge on the atom (the atomic number in many cases)
-	 * @param x
-	 *            X coordinate of the atom
-	 * @param y
-	 *            Y coordinate of the atom
-	 * @param z
-	 *            Z coordinate of the atom
-	 * @param index
-	 *            the atom index
-	 */
-	@Override
-	public void addAtom(String symbol, double charge, double x, double y,
-			double z, int index) {
-		addAtom(new Atom(symbol, charge, new Vector3D(x, y, z), index));
-	}
 
 	/**
 	 * Method to get a particular atom from the lists of atoms.

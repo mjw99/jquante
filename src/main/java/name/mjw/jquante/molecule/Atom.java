@@ -21,9 +21,6 @@ public class Atom implements Cloneable {
 	/** Holds value of property symbol. */
 	private String symbol;
 
-	/** Holds value of property charge. */
-	private double charge;
-
 	/** Holds value of property atomCenter. */
 	private Vector3D atomCenter;
 
@@ -55,8 +52,8 @@ public class Atom implements Cloneable {
 	 * @param atomCenter
 	 *            The nuclear center of the atom in Cartesian coordinates
 	 */
-	public Atom(String symbol, double charge, Vector3D atomCenter) {
-		this(symbol, charge, atomCenter, new HashMap<Integer, BondType>(1),
+	public Atom(String symbol, Vector3D atomCenter) {
+		this(symbol, atomCenter, new HashMap<Integer, BondType>(1),
 				null, 0);
 	}
 
@@ -72,8 +69,8 @@ public class Atom implements Cloneable {
 	 * @param atomIndex
 	 *            The atom index of this atom
 	 */
-	public Atom(String symbol, double charge, Vector3D atomCenter, int atomIndex) {
-		this(symbol, charge, atomCenter, new HashMap<Integer, BondType>(1),
+	public Atom(String symbol, Vector3D atomCenter, int atomIndex) {
+		this(symbol, atomCenter, new HashMap<Integer, BondType>(1),
 				null, atomIndex);
 	}
 
@@ -82,8 +79,6 @@ public class Atom implements Cloneable {
 	 * 
 	 * @param symbol
 	 *            The atom symbol
-	 * @param charge
-	 *            The charge on the atom
 	 * @param atomCenter
 	 *            The nuclear center of the atom in Cartesian coordinates
 	 * @param connectedList
@@ -93,11 +88,10 @@ public class Atom implements Cloneable {
 	 * @param atomIndex
 	 *            the atom index of this atom.
 	 */
-	private Atom(String symbol, double charge, Vector3D atomCenter,
+	private Atom(String symbol, Vector3D atomCenter,
 			HashMap<Integer, BondType> connectedList,
 			ArrayList<ZMatrixItem> zMatrixElement, int atomIndex) {
 		this.symbol = Utility.capitalise(symbol.toLowerCase());
-		this.charge = charge;
 		this.index = atomIndex;
 		this.atomCenter = atomCenter;
 
@@ -136,25 +130,6 @@ public class Atom implements Cloneable {
 	 */
 	public void setSymbol(String symbol) {
 		this.symbol = symbol;
-	}
-
-	/**
-	 * Getter for property charge.
-	 * 
-	 * @return Value of property charge.
-	 */
-	public double getCharge() {
-		return this.charge;
-	}
-
-	/**
-	 * Setter for property charge.
-	 * 
-	 * @param charge
-	 *            New value of property charge.
-	 */
-	public void setCharge(double charge) {
-		this.charge = charge;
 	}
 
 	/**
@@ -242,7 +217,7 @@ public class Atom implements Cloneable {
 	 */
 	@Override
 	public String toString() {
-		return symbol + " " + charge + " " + atomCenter.toString();
+		return symbol + " " + atomCenter.toString();
 	}
 
 	/**
@@ -251,7 +226,7 @@ public class Atom implements Cloneable {
 	 * @return An extended description!
 	 */
 	public String toExtendedString() {
-		return symbol + " " + charge + " " + atomCenter.toString() + " "
+		return symbol + " " + atomCenter.toString() + " "
 				+ connectedList.toString();
 	}
 
@@ -307,8 +282,7 @@ public class Atom implements Cloneable {
 			theColonedZMatrixElement = null;
 		} // end of try .. catch block
 
-		return new Atom(this.symbol, this.charge,
-				new Vector3D (this.atomCenter.toArray()), theClonedConnection,
+		return new Atom(this.symbol, new Vector3D(this.atomCenter.toArray()), theClonedConnection,
 				theColonedZMatrixElement, index);
 	}
 
@@ -641,7 +615,7 @@ public class Atom implements Cloneable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(atomCenter, charge, index, symbol);
+		return Objects.hash(atomCenter, index, symbol);
 	}
 
 	@Override
@@ -654,7 +628,7 @@ public class Atom implements Cloneable {
 			return false;
 		Atom other = (Atom) obj;
 		return Objects.equals(atomCenter, other.atomCenter)
-				&& Double.doubleToLongBits(charge) == Double.doubleToLongBits(other.charge) && index == other.index
+				&& index == other.index
 				&& Objects.equals(symbol, other.symbol);
 	}
 }
