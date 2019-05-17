@@ -47,8 +47,6 @@ public class Atom implements Cloneable {
 	 * 
 	 * @param symbol
 	 *            The atom symbol
-	 * @param charge
-	 *            The charge on the atom
 	 * @param atomCenter
 	 *            The nuclear center of the atom in Cartesian coordinates
 	 */
@@ -62,8 +60,6 @@ public class Atom implements Cloneable {
 	 * 
 	 * @param symbol
 	 *            The atom symbol
-	 * @param charge
-	 *            The charge on the atom
 	 * @param atomCenter
 	 *            The nuclear center of the atom in Cartesian coordinates
 	 * @param atomIndex
