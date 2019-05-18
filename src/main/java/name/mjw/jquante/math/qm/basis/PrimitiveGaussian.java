@@ -24,7 +24,7 @@ import net.jafama.FastMath;
  * @author mw529
  * @version 2.0 (Part of MeTA v2.0)
  */
-public final class PrimitiveGaussian {
+public final class PrimitiveGaussian implements Comparable<PrimitiveGaussian>{
 
 	/**
 	 * Holds value of property exponent.
@@ -321,5 +321,17 @@ public final class PrimitiveGaussian {
 				&& Double.doubleToLongBits(exponent) == Double.doubleToLongBits(other.exponent)
 				&& Double.doubleToLongBits(normalization) == Double.doubleToLongBits(other.normalization)
 				&& Objects.equals(origin, other.origin) && Objects.equals(powers, other.powers);
+	}
+
+	@Override
+	/**
+	 * Libint ordering; sort exponents in ascending order.
+	 */
+	public int compareTo(PrimitiveGaussian other) {
+		if (this.exponent > other.exponent) {
+			return 1;
+		} else {
+			return -1;
+		}
 	}
 }
