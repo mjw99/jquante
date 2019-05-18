@@ -100,4 +100,21 @@ public class ContractedGaussianTest {
 
 	}
 
+	@Test
+	public void order() {
+		ContractedGaussian cgta = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(0, 0, 2));
+		cgta.addPrimitive(5.0331513, 0.15591627);
+		cgta.addPrimitive(1.1695961, 0.60768372);
+		cgta.addPrimitive(0.380389, 0.39195739);
+		cgta.normalize();
+
+		ContractedGaussian cgtb = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(1, 0, 0));
+		cgtb.addPrimitive(5.0331513, 0.15591627);
+		cgtb.addPrimitive(1.1695961, 0.60768372);
+		cgtb.addPrimitive(0.380389, 0.39195739);
+		cgtb.normalize();
+
+		assertEquals(1, cgta.compareTo(cgtb));
+	}
+
 }

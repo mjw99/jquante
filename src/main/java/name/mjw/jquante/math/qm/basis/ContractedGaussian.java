@@ -6,6 +6,9 @@ import java.util.Objects;
 
 import name.mjw.jquante.config.impl.AtomInfo;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+
+import com.google.common.collect.ComparisonChain;
+
 import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
 import net.jafama.FastMath;
@@ -16,7 +19,7 @@ import net.jafama.FastMath;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public final class ContractedGaussian {
+public final class ContractedGaussian implements Comparable<ContractedGaussian> {
 
 	/**
 	 * Holds value of property origin.
@@ -719,6 +722,17 @@ public final class ContractedGaussian {
 		return Objects.hash(centeredAtom, coefficients, exponents, index, normalization, origin, powers, primNorms,
 				primitives);
 	}
+
+	  @Override
+	  public int compareTo( ContractedGaussian other ) {
+	    return ComparisonChain.start()
+	      .compare( index, other.index )
+	      .compare( powers.getMaximumAngularMomentum(), other.powers.getMaximumAngularMomentum() )
+	      .compare( this.powers.getL(), other.powers.getL() )
+	      .compare( this.powers.getM(), other.powers.getM() )
+	      .compare( this.powers.getN(), other.powers.getN() )
+	      .result();
+	  }
 
 	@Override
 	public boolean equals(Object obj) {

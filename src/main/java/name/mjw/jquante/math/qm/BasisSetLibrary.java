@@ -2,6 +2,7 @@ package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -186,6 +187,7 @@ public class BasisSetLibrary {
 			}
 		}
 
+		Collections.sort(basisFunctions);
 		return this.basisFunctions;
 	}
 
@@ -249,7 +251,8 @@ public class BasisSetLibrary {
 		System.out.println("Complete basis function list");
 		System.out.println("============================");
 		for (ContractedGaussian bfs : this.getBasisFunctions()) {
-			System.out.println(bfs.getIndex() + " " + bfs.getCenteredAtom());
+			System.out.println(bfs.getIndex() + " " + bfs.getCenteredAtom() + " " + bfs.getPowers()
+			+ " " + bfs.getExponents() + " " + bfs.getCoefficients() );
 		}
 	}
 
@@ -261,6 +264,15 @@ public class BasisSetLibrary {
 		for (Entry<ContractedGaussian, ContractedGaussian> entry : this.getUniqueShellPairs().entries()) {
 			System.out.println(entry.getKey().getIndex() + "\t" + entry.getValue().getIndex());
 
+		}
+	}
+
+	public void printShells() {
+		System.out.println("");
+		System.out.println("Complete shell list");
+		System.out.println("======================");
+		for (Entry<Integer, ContractedGaussian> entry : this.getShells().entries()) {
+			System.out.print(entry.getKey() + "\t" + entry.getValue());
 		}
 	}
 
