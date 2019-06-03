@@ -36,7 +36,51 @@ public class BasisSetLibraryTest {
 	}
 
 	@Test
-	public void one() {
+	public void testSTO3G() {
+
+		try {
+			bsl = new BasisSetLibrary(water, "sto-3g");
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		// 7 functions
+		assertEquals(7, bsl.getBasisFunctions().size());
+		assertEquals(7, bsl.getShells().entries().size());
+
+		// 5 shells
+		assertEquals(5, bsl.getShells().keySet().size());
+
+		// 15 unique shell pairs
+		assertEquals(15, bsl.getUniqueShellPairs().size());
+	}
+
+	@Test
+	public void testCcPvtz() {
+
+		try {
+			bsl = new BasisSetLibrary(water, "cc-pvtz");
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		// 65 functions
+		assertEquals(65, bsl.getBasisFunctions().size());
+		assertEquals(65, bsl.getShells().entries().size());
+
+		// 22 shells
+		assertEquals(22, bsl.getShells().keySet().size());
+
+		// 253 unique shell pairs
+		assertEquals(253, bsl.getUniqueShellPairs().size());
+
+	}
+
+	@Test
+	public void testPrimitiveOrdering() {
 
 		BasisSetLibrary bsl = null;
 
@@ -54,66 +98,14 @@ public class BasisSetLibraryTest {
 
 		assertEquals(1, bsl.getBasisFunctions().size());
 
-		assertEquals(3.425251, bsl.getBasisFunctions().get(0).getExponents().get(0), diff);
+		assertEquals(0.1688554, bsl.getBasisFunctions().get(0).getExponents().get(0), diff);
+		assertEquals(0.44463454, bsl.getBasisFunctions().get(0).getCoefficients().get(0), diff);
 
-		assertEquals(0.154329, bsl.getBasisFunctions().get(0).getCoefficients().get(0), diff);
+		assertEquals(0.62391373, bsl.getBasisFunctions().get(0).getExponents().get(1), diff);
+		assertEquals(0.53532814, bsl.getBasisFunctions().get(0).getCoefficients().get(1), diff);
 
-	}
-
-	@Test
-	public void two() {
-
-		try {
-			bsl = new BasisSetLibrary(water, "sto-3g");
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-		assertEquals(7, bsl.getBasisFunctions().size());
-
-	}
-
-	@Test
-	public void testShellsSTO3G() {
-
-		try {
-			bsl = new BasisSetLibrary(water, "sto-3g");
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-		// 7 functions
-		assertEquals(7, bsl.getShells().entries().size());
-
-		// 5 shells
-		assertEquals(5, bsl.getShells().keySet().size());
-
-		// 15 unique shell pairs
-		assertEquals(15, bsl.getUniqueShellPairs().size());
-	}
-
-	@Test
-	public void testShellsCcPvtz() {
-
-		try {
-			bsl = new BasisSetLibrary(water, "cc-pvtz");
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-		// 65 functions
-		assertEquals(65, bsl.getShells().entries().size());
-
-		// 22 shells
-		assertEquals(22, bsl.getShells().keySet().size());
-
-		// 253 unique shell pairs
-		assertEquals(253, bsl.getUniqueShellPairs().size());
-
+		assertEquals(3.42525091, bsl.getBasisFunctions().get(0).getExponents().get(2), diff);
+		assertEquals(0.15432897, bsl.getBasisFunctions().get(0).getCoefficients().get(2), diff);
 	}
 
 }

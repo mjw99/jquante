@@ -299,8 +299,8 @@ public final class PrimitiveGaussian implements Comparable<PrimitiveGaussian>{
 	 */
 	@Override
 	public String toString() {
-		return "Origin : " + origin + " Powers : " + powers + " Normalization : " + normalization + " Coefficient : "
-				+ coefficient + " Exponent : " + exponent;
+		return "Origin : " + origin + " Powers : " + powers + " Exponent : " + exponent + " Coefficient : "
+				+ coefficient + " Normalization : " + normalization + "\n";
 	}
 
 	@Override
@@ -323,10 +323,10 @@ public final class PrimitiveGaussian implements Comparable<PrimitiveGaussian>{
 				&& Objects.equals(origin, other.origin) && Objects.equals(powers, other.powers);
 	}
 
-	@Override
 	/**
 	 * Libint ordering; sort exponents in ascending order.
 	 */
+	@Override
 	public int compareTo(PrimitiveGaussian other) {
 		if (this.exponent > other.exponent) {
 			return 1;

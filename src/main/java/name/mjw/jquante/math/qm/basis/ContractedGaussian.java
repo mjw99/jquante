@@ -1,6 +1,7 @@
 package name.mjw.jquante.math.qm.basis;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,6 +18,7 @@ import net.jafama.FastMath;
  * The class defines a contracted Gaussian and the operations on it.
  * 
  * @author V.Ganesh
+ * @author mw529
  * @version 2.0 (Part of MeTA v2.0)
  */
 public final class ContractedGaussian implements Comparable<ContractedGaussian> {
@@ -47,16 +49,14 @@ public final class ContractedGaussian implements Comparable<ContractedGaussian> 
 	private final ArrayList<Double> coefficients;
 
 	/**
+	 * Normalization factors for each PG
+	 */
+	private ArrayList<Double> primNorms;
+
+	/**
 	 * Holds value of property normalization.
 	 */
 	private double normalization;
-
-	/**
-	 * Holds value of property primNorms.
-	 * 
-	 * normalization factors for PGs
-	 */
-	private ArrayList<Double> primNorms;
 
 	protected Atom centeredAtom;
 
@@ -102,7 +102,10 @@ public final class ContractedGaussian implements Comparable<ContractedGaussian> 
 	}
 
 	/**
-	 * Adds a primitive gaussian (PG) to this contracted gaussian list
+	 * Adds a primitive gaussian (PG) to this contracted gaussian list. This method
+	 * will re-sort the primitives in this class according to the
+	 * {@link PrimitiveGaussian#compareTo Libint logic}, everytime another primitive
+	 * is added.
 	 * 
 	 * @param exponent    the exponent for this PG
 	 * @param coefficient the coefficient of this PG
@@ -110,8 +113,22 @@ public final class ContractedGaussian implements Comparable<ContractedGaussian> 
 	public void addPrimitive(double exponent, double coefficient) {
 		primitives.add(new PrimitiveGaussian(origin, powers, exponent, coefficient));
 
-		exponents.add(exponent);
-		coefficients.add(coefficient);
+		Collections.sort(primitives);
+
+		this.exponents.clear();
+		for (int i = 0; i < this.primitives.size(); i++) {
+			exponents.add(primitives.get(i).getExponent());
+		}
+
+		this.coefficients.clear();
+		for (int i = 0; i < this.primitives.size(); i++) {
+			coefficients.add(primitives.get(i).getCoefficient());
+		}
+
+		this.primNorms.clear();
+		for (int i = 0; i < this.primitives.size(); i++) {
+			primNorms.add(primitives.get(i).getNormalization());
+		}
 	}
 
 	/**
@@ -158,10 +175,10 @@ public final class ContractedGaussian implements Comparable<ContractedGaussian> 
 	public ArrayList<Double> getCoefficients() {
 		return this.coefficients;
 	}
-	
+
 	/**
 	 * Getter for property primNorms.
-	 *
+	 *	
 	 * @return Value of property primNorms.
 	 */
 	public ArrayList<Double> getPrimNorms() {
