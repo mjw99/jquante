@@ -158,6 +158,15 @@ public final class ContractedGaussian implements Comparable<ContractedGaussian> 
 	public ArrayList<Double> getCoefficients() {
 		return this.coefficients;
 	}
+	
+	/**
+	 * Getter for property primNorms.
+	 *
+	 * @return Value of property primNorms.
+	 */
+	public ArrayList<Double> getPrimNorms() {
+		return this.primNorms;
+	}
 
 	/**
 	 * Getter for property normalisation.
@@ -574,15 +583,6 @@ public final class ContractedGaussian implements Comparable<ContractedGaussian> 
 			grad.add(pg.gradient(point));
 
 		return grad.scalarMultiply(normalization);
-	}
-
-	/**
-	 * Getter for property primNorms.
-	 * 
-	 * @return Value of property primNorms.
-	 */
-	public ArrayList<Double> getPrimNorms() {
-		return this.primNorms;
 	}
 
 	/**
