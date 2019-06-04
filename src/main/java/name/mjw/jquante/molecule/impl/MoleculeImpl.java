@@ -87,6 +87,7 @@ public class MoleculeImpl extends Molecule {
 	 */
 	@Override
 	public void addAtom(Atom atom) {
+		atom.setIndex(atomList.size());
 		atomList.add(atom);
 
 		// adjust the molecular weight, and center of mass
