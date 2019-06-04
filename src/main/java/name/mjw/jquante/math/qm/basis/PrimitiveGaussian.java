@@ -329,9 +329,9 @@ public final class PrimitiveGaussian implements Comparable<PrimitiveGaussian>{
 	@Override
 	public int compareTo(PrimitiveGaussian other) {
 		if (this.exponent > other.exponent) {
-			return 1;
-		} else {
 			return -1;
+		} else {
+			return 1;
 		}
 	}
 }

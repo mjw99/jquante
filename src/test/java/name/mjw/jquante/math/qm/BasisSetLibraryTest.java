@@ -98,14 +98,15 @@ public class BasisSetLibraryTest {
 
 		assertEquals(1, bsl.getBasisFunctions().size());
 
-		assertEquals(0.1688554, bsl.getBasisFunctions().get(0).getExponents().get(0), diff);
-		assertEquals(0.44463454, bsl.getBasisFunctions().get(0).getCoefficients().get(0), diff);
+		assertEquals(3.42525091, bsl.getBasisFunctions().get(0).getExponents().get(0), diff);
+		assertEquals(0.15432897, bsl.getBasisFunctions().get(0).getCoefficients().get(0), diff);
 
 		assertEquals(0.62391373, bsl.getBasisFunctions().get(0).getExponents().get(1), diff);
 		assertEquals(0.53532814, bsl.getBasisFunctions().get(0).getCoefficients().get(1), diff);
 
-		assertEquals(3.42525091, bsl.getBasisFunctions().get(0).getExponents().get(2), diff);
-		assertEquals(0.15432897, bsl.getBasisFunctions().get(0).getCoefficients().get(2), diff);
+		assertEquals(0.1688554, bsl.getBasisFunctions().get(0).getExponents().get(2), diff);
+		assertEquals(0.44463454, bsl.getBasisFunctions().get(0).getCoefficients().get(2), diff);
+
 	}
 
 }

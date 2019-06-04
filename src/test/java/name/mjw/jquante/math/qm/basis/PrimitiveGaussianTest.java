@@ -37,8 +37,8 @@ public class PrimitiveGaussianTest {
 		PrimitiveGaussian a = new PrimitiveGaussian(new Vector3D(0, 0, 0), new Power(0, 0, 0), 1.0, 1.0);
 		PrimitiveGaussian b = new PrimitiveGaussian(new Vector3D(0, 0, 0), new Power(0, 0, 0), 2.0, 1.0);
 
-		assertEquals(1, b.compareTo(a));
-		assertEquals(-1, a.compareTo(b));
+		assertEquals(-1, b.compareTo(a));
+		assertEquals(1, a.compareTo(b));
 
 	}
 }
