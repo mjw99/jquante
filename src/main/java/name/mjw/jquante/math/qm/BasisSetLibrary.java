@@ -256,9 +256,9 @@ public class BasisSetLibrary {
 		}
 	}
 
-	public void printUniqueShellList() {
+	public void printUniqueShellPairList() {
 		System.out.println("");
-		System.out.println("Unique shell list (basic function indexing)");
+		System.out.println("Unique shell list (basis function indexing)");
 		System.out.println("===========================================");
 
 		for (Entry<ContractedGaussian, ContractedGaussian> entry : this.getUniqueShellPairs().entries()) {
@@ -267,7 +267,7 @@ public class BasisSetLibrary {
 		}
 	}
 
-	public void printShells() {
+	public void printShellList() {
 		System.out.println("");
 		System.out.println("Complete shell list");
 		System.out.println("======================");
