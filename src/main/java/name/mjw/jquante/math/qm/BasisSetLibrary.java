@@ -258,8 +258,8 @@ public class BasisSetLibrary {
 
 	public void printUniqueShellPairList() {
 		System.out.println("");
-		System.out.println("Unique shell list (basis function indexing)");
-		System.out.println("===========================================");
+		System.out.println("Unique shellpair list (basis function indexing)");
+		System.out.println("===============================================");
 
 		for (Entry<ContractedGaussian, ContractedGaussian> entry : this.getUniqueShellPairs().entries()) {
 			System.out.println(entry.getKey().getIndex() + "\t" + entry.getValue().getIndex());
