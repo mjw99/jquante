@@ -270,7 +270,7 @@ public class BasisSetLibrary {
 	public void printShellList() {
 		System.out.println("");
 		System.out.println("Complete shell list");
-		System.out.println("======================");
+		System.out.println("===================");
 		for (Entry<Integer, ContractedGaussian> entry : this.getShells().entries()) {
 			System.out.print(entry.getKey() + "\t" + entry.getValue());
 		}
