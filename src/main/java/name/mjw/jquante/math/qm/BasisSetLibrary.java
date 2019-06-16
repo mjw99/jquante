@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 
 import name.mjw.jquante.math.qm.basis.AtomicBasis;
 import name.mjw.jquante.math.qm.basis.BasisReader;
@@ -236,7 +237,7 @@ public class BasisSetLibrary {
 
 	private void initUniqueShellPairList() {
 
-		uniqueShellPairs = ArrayListMultimap.create();
+		uniqueShellPairs = MultimapBuilder.treeKeys().linkedListValues().build();
 
 		for (int i = 0; i < shells.keySet().size(); i++) {
 			for (int j = 0; j <= i; j++) {
