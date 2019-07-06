@@ -247,10 +247,10 @@ public class BasisSetLibrary {
 
 	}
 
-	public void printCompleteBasisFunctionList() {
+	public void printBasisFunctionList() {
 		System.out.println("");
-		System.out.println("Complete basis function list");
-		System.out.println("============================");
+		System.out.println("Basis function list");
+		System.out.println("===================");
 		for (ContractedGaussian bfs : this.getBasisFunctions()) {
 			System.out.println(bfs.getIndex() + " " + bfs.getCenteredAtom() + " " + bfs.getPowers()
 			+ " " + bfs.getExponents() + " " + bfs.getCoefficients() );
@@ -270,8 +270,8 @@ public class BasisSetLibrary {
 
 	public void printShellList() {
 		System.out.println("");
-		System.out.println("Complete shell list");
-		System.out.println("===================");
+		System.out.println("Shell list");
+		System.out.println("==========");
 		for (Entry<Integer, ContractedGaussian> entry : this.getShells().entries()) {
 			System.out.print(entry.getKey() + "\t" + entry.getValue());
 		}
