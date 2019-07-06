@@ -731,7 +731,7 @@ public final class ContractedGaussian implements Comparable<ContractedGaussian> 
 	 */
 	@Override
 	public String toString() {
-		return "Origin : " + origin + " Powers : " + powers + " " + exponents + " " + coefficients + "\n ";
+		return "Origin : " + origin + " Powers : " + powers + " " + exponents + " " + coefficients + "\n";
 	}
 
 	@Override
