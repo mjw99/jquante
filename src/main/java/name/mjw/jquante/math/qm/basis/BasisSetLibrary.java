@@ -1,4 +1,4 @@
-package name.mjw.jquante.math.qm;
+package name.mjw.jquante.math.qm.basis;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,13 +15,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 
-import name.mjw.jquante.math.qm.basis.AtomicBasis;
-import name.mjw.jquante.math.qm.basis.BasisReader;
-import name.mjw.jquante.math.qm.basis.BasisSet;
-import name.mjw.jquante.math.qm.basis.ContractedGaussian;
-import name.mjw.jquante.math.qm.basis.Orbital;
-import name.mjw.jquante.math.qm.basis.Power;
-import name.mjw.jquante.math.qm.basis.PowerList;
 import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
 import name.mjw.jquante.molecule.UserDefinedAtomProperty;
