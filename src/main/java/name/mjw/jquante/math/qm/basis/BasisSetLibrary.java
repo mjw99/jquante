@@ -162,10 +162,10 @@ public class BasisSetLibrary {
 
 					while (coeff.hasNext()) { // build the CG from PGs
 						cg.addPrimitive(exp.next().doubleValue(), coeff.next().doubleValue());
-					} // end while
+					}
 
 					cg.normalize();
-					cg.setIndex(basisFunctions.size()); // send an index
+					cg.setBasisFunctionIndex(basisFunctions.size()); // set an index
 					basisFunctions.add(cg); // add this CG to list
 					atomicFunctions.add(cg); // add the reference to atom list
 				}
@@ -245,7 +245,7 @@ public class BasisSetLibrary {
 		System.out.println("Basis function list");
 		System.out.println("===================");
 		for (ContractedGaussian bfs : this.getBasisFunctions()) {
-			System.out.println(bfs.getIndex() + " " + bfs.getCenteredAtom() + " " + bfs.getPowers()
+			System.out.println(bfs.getBasisFunctionIndex() + " " + bfs.getCenteredAtom() + " " + bfs.getPowers()
 			+ " " + bfs.getExponents() + " " + bfs.getCoefficients() );
 		}
 	}
@@ -256,7 +256,7 @@ public class BasisSetLibrary {
 		System.out.println("===============================================");
 
 		for (Entry<ContractedGaussian, ContractedGaussian> entry : this.getUniqueShellPairs().entries()) {
-			System.out.println(entry.getKey().getIndex() + "\t" + entry.getValue().getIndex());
+			System.out.println(entry.getKey().getBasisFunctionIndex() + "\t" + entry.getValue().getBasisFunctionIndex());
 
 		}
 	}

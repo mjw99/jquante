@@ -357,8 +357,8 @@ public class TwoElectronIntegrals {
 									for (int l = 0; l < ndFunc; l++) {
 										ldFunc = dFunc.get(l);
 
-										twoEIndx = IntegralsUtil.ijkl2intindex(iaFunc.getIndex(), jbFunc.getIndex(),
-												kcFunc.getIndex(), ldFunc.getIndex());
+										twoEIndx = IntegralsUtil.ijkl2intindex(iaFunc.getBasisFunctionIndex(), jbFunc.getBasisFunctionIndex(),
+												kcFunc.getBasisFunctionIndex(), ldFunc.getBasisFunctionIndex());
 
 										twoEIntegrals[twoEIndx] = compute2E(iaFunc, jbFunc, kcFunc, ldFunc);
 									} // end for (l)

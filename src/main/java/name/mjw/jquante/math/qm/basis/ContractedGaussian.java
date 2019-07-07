@@ -60,7 +60,7 @@ public final class ContractedGaussian implements Comparable<ContractedGaussian> 
 
 	protected Atom centeredAtom;
 
-	protected int index;
+	protected int basisFunctionIndex;
 
 	/**
 	 * Creates a new instance of ContractedGaussian
@@ -634,8 +634,8 @@ public final class ContractedGaussian implements Comparable<ContractedGaussian> 
 	 * 
 	 * @return the value of index
 	 */
-	public int getIndex() {
-		return index;
+	public int getBasisFunctionIndex() {
+		return basisFunctionIndex;
 	}
 
 	/**
@@ -643,8 +643,8 @@ public final class ContractedGaussian implements Comparable<ContractedGaussian> 
 	 * 
 	 * @param index new value of index
 	 */
-	public void setIndex(int index) {
-		this.index = index;
+	public void setBasisFunctionIndex(int index) {
+		this.basisFunctionIndex = index;
 	}
 
 	/**
@@ -736,14 +736,14 @@ public final class ContractedGaussian implements Comparable<ContractedGaussian> 
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(centeredAtom, coefficients, exponents, index, normalization, origin, powers, primNorms,
+		return Objects.hash(centeredAtom, coefficients, exponents, basisFunctionIndex, normalization, origin, powers, primNorms,
 				primitives);
 	}
 
 	  @Override
 	  public int compareTo( ContractedGaussian other ) {
 	    return ComparisonChain.start()
-	      .compare( index, other.index )
+	      .compare( basisFunctionIndex, other.basisFunctionIndex )
 	      .compare( powers.getMaximumAngularMomentum(), other.powers.getMaximumAngularMomentum() )
 	      .compare( this.powers.getL(), other.powers.getL() )
 	      .compare( this.powers.getM(), other.powers.getM() )
@@ -761,7 +761,7 @@ public final class ContractedGaussian implements Comparable<ContractedGaussian> 
 			return false;
 		ContractedGaussian other = (ContractedGaussian) obj;
 		return Objects.equals(centeredAtom, other.centeredAtom) && Objects.equals(coefficients, other.coefficients)
-				&& Objects.equals(exponents, other.exponents) && index == other.index
+				&& Objects.equals(exponents, other.exponents) && basisFunctionIndex == other.basisFunctionIndex
 				&& Double.doubleToLongBits(normalization) == Double.doubleToLongBits(other.normalization)
 				&& Objects.equals(origin, other.origin) && Objects.equals(powers, other.powers)
 				&& Objects.equals(primNorms, other.primNorms) && Objects.equals(primitives, other.primitives);
