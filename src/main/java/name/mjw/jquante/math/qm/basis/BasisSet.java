@@ -42,16 +42,6 @@ public class BasisSet {
 	}
 
 	/**
-	 * Setter for property name.
-	 * 
-	 * @param name
-	 *            New value of property name.
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
 	 * Add a relevant atomic basis to this basis set
 	 * 
 	 * @param basis
