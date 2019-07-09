@@ -648,7 +648,8 @@ public final class ContractedGaussian implements Comparable<ContractedGaussian> 
 	}
 
 	/**
-	 * Determines if two ContractedGaussian belong to the same shell.
+	 * Determines if two ContractedGaussians belong to the same shell.
+	 * 
 	 * A shell is a set of basis function with the same centre and same contracted
 	 * exponents, for example, sp shell, d shell.
 	 *
