@@ -648,29 +648,30 @@ public final class ContractedGaussian implements Comparable<ContractedGaussian> 
 	}
 
 	/**
-	 * isSameShell determines that two ContractedGaussian belong to the same shell.
+	 * Determines if two ContractedGaussians belong to the same shell.
+	 * 
 	 * A shell is a set of basis function with the same centre and same contracted
-	 * exponent, for example, sp shell, d shell.
+	 * exponents, for example, sp shell, d shell.
 	 *
-	 * @param otherCg The other contracted Gaussian.
+	 * @param that The other contracted Gaussian.
 	 * @return True if otherCg is in the same shell.
 	 */
-	public boolean isSameShell(ContractedGaussian otherCg) {
+	public boolean isSameShell(ContractedGaussian that) {
 
-		if (!this.origin.equals(otherCg.origin)) {
+		if (!this.origin.equals(that.origin)) {
 			return false;
 		}
 
-		if (this.getPrimitives().size() != otherCg.getPrimitives().size()) {
+		if (this.getPrimitives().size() != that.getPrimitives().size()) {
 			return false;
 		}
 
-		if (this.getTotalAngularMomentum() != otherCg.getTotalAngularMomentum()) {
+		if (this.getTotalAngularMomentum() != that.getTotalAngularMomentum()) {
 			return false;
 		}
 
 		for (int i = 0; i < this.getExponents().size(); i++) {
-			if (!this.getExponents().get(i).equals(otherCg.getExponents().get(i))) {
+			if (!this.getExponents().get(i).equals(that.getExponents().get(i))) {
 
 				return false;
 			}
@@ -678,7 +679,7 @@ public final class ContractedGaussian implements Comparable<ContractedGaussian> 
 		}
 
 		for (int i = 0; i < this.getCoefficients().size(); i++) {
-			if (!this.getCoefficients().get(i).equals(otherCg.getCoefficients().get(i))) {
+			if (!this.getCoefficients().get(i).equals(that.getCoefficients().get(i))) {
 
 				return false;
 			}
