@@ -1,7 +1,6 @@
 package name.mjw.jquante.math.qm;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -67,7 +66,7 @@ public class OneElectronIntegrals {
 		int noOfBasisFunctions = bfs.size();
 		int atomIndex;
 
-		// allocate memory
+		// Create the S matrix and the hCore h
 		this.overlap = new Overlap(noOfBasisFunctions);
 		this.hCore = new HCore(noOfBasisFunctions);
 
@@ -79,22 +78,24 @@ public class OneElectronIntegrals {
 			atomicNumbers[atomIndex] = ai.getAtomicNumber(molecule.getAtom(atomIndex).getSymbol());
 		}
 
-		// set up the S matrix and the hCore h
-		IntStream.range(0, noOfBasisFunctions).parallel().forEach(i -> {
+		// Populate the S matrix and the hCore h
+		for (int i = 0; i < noOfBasisFunctions; i++) {
 			ContractedGaussian bfi = bfs.get(i);
 
-			IntStream.range(0, noOfBasisFunctions).parallel().forEach(j -> {
+			for (int j = 0; j < noOfBasisFunctions; j++) {
 				ContractedGaussian bfj = bfs.get(j);
 
 				overlap.setEntry(i, j, bfi.overlap(bfj)); // the overlap matrix
-				hCore.setEntry(i, j, bfi.kinetic(bfj));// KE matrix elements
+				  hCore.setEntry(i, j, bfi.kinetic(bfj)); // KE matrix elements
 
 				for (int k = 0; k < atomicNumbers.length; k++) {
 					hCore.setEntry(i, j, (hCore.getEntry(i, j)
 							+ atomicNumbers[k] * bfi.nuclear(bfj, molecule.getAtom(k).getAtomCenterInAU())));
 				}
-			});
-		});
+			}
+
+		}
+
 
 	}
 
