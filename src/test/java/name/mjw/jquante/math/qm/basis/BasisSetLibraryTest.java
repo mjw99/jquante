@@ -1,6 +1,5 @@
 package name.mjw.jquante.math.qm.basis;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
@@ -16,8 +15,8 @@ public class BasisSetLibraryTest {
 
 	double diff = 0.00001;
 
-	static Atom H1;
 	static Atom O;
+	static Atom H1;
 	static Atom H2;
 
 	static Molecule water;
@@ -26,13 +25,13 @@ public class BasisSetLibraryTest {
 	@BeforeAll
 	public static void setup() {
 
-		H1 = new Atom("H", new Vector3D(0.752510, -0.454585, 0.000000));
-		O = new Atom("O", new Vector3D(0.000000, 0.113671, 0.000000));
-		H2 = new Atom("H", new Vector3D(-0.752510, -0.454585, 0.000000));
+		O = new Atom("O", new Vector3D(0.00000000, 0.000000, 0.119748));
+		H1 = new Atom("H", new Vector3D(0.00000000, 0.761561, -0.478993));
+		H2 = new Atom("H", new Vector3D(0.00000000, -0.761561, -0.478993));
 
 		water = new MoleculeImpl("water");
-		water.addAtom(H1);
 		water.addAtom(O);
+		water.addAtom(H1);
 		water.addAtom(H2);
 	}
 
@@ -49,10 +48,9 @@ public class BasisSetLibraryTest {
 
 		// 7 functions
 		assertEquals(7, bsl.getBasisFunctions().size());
-		assertEquals(7, bsl.getShells().entries().size());
 
 		// 5 shells
-		assertEquals(5, bsl.getShells().keySet().size());
+		assertEquals(5, bsl.getShells().size());
 
 		// 15 unique shell pairs
 		assertEquals(15, bsl.getUniqueShellPairs().size());
@@ -70,10 +68,9 @@ public class BasisSetLibraryTest {
 		}
 		// 65 functions
 		assertEquals(65, bsl.getBasisFunctions().size());
-		assertEquals(65, bsl.getShells().entries().size());
 
 		// 22 shells
-		assertEquals(22, bsl.getShells().keySet().size());
+		assertEquals(22, bsl.getShells().size());
 
 		// 253 unique shell pairs
 		assertEquals(253, bsl.getUniqueShellPairs().size());
@@ -107,6 +104,29 @@ public class BasisSetLibraryTest {
 
 		assertEquals(0.1688554, bsl.getBasisFunctions().get(0).getExponents().get(2), diff);
 		assertEquals(0.44463454, bsl.getBasisFunctions().get(0).getCoefficients().get(2), diff);
+
+	}
+
+	@Test
+	public void testShellBasisFunctionIndexing() {
+
+		try {
+			bsl = new BasisSetLibrary(water, "sto-3g");
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		Shell shell = bsl.getShells().get(1);
+
+		assertEquals(1, shell.getFirstBasisFunctionIndex());
+		assertEquals(1, shell.getLastBasisFunctionIndex());
+
+		shell = bsl.getShells().get(2);
+
+		assertEquals(2, shell.getFirstBasisFunctionIndex());
+		assertEquals(4, shell.getLastBasisFunctionIndex());
 
 	}
 
