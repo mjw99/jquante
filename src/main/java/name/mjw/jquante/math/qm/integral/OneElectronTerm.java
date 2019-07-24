@@ -30,18 +30,21 @@ public class OneElectronTerm implements IntegralsPackage {
 	 *            the location of primitive Gaussian b.
 	 * @return the Overlap integral
 	 */
-	public double overlap(double alpha1, Power power1, Vector3D a,
-			double alpha2, Power power2, Vector3D b) {
-		double radiusABSquared = a.distanceSq(b);
-		double gamma = alpha1 + alpha2;
-		Vector3D product = IntegralsUtil.gaussianProductCenter(alpha1, a,
+	public final double overlap(final double alpha1, final Power power1, final Vector3D a,
+			final double alpha2, final Power power2, final Vector3D b) {
+		
+		final double radiusABSquared = a.distanceSq(b);
+		final double gamma = alpha1 + alpha2;
+		final Vector3D product = IntegralsUtil.gaussianProductCenter(alpha1, a,
 				alpha2, b);
 
-		double wx = overlap1D(power1.getL(), power2.getL(),
+		final double wx = overlap1D(power1.getL(), power2.getL(),
 				product.getX() - a.getX(), product.getX() - b.getX(), gamma);
-		double wy = overlap1D(power1.getM(), power2.getM(),
+		
+		final double wy = overlap1D(power1.getM(), power2.getM(),
 				product.getY() - a.getY(), product.getY() - b.getY(), gamma);
-		double wz = overlap1D(power1.getN(), power2.getN(),
+		
+		final double wz = overlap1D(power1.getN(), power2.getN(),
 				product.getZ() - a.getZ(), product.getZ() - b.getZ(), gamma);
 
 		return (FastMath.pow(FastMath.PI / gamma, 1.5)
@@ -67,7 +70,7 @@ public class OneElectronTerm implements IntegralsPackage {
 	 */
 	public double overlap1D(int l1, int l2, double pax, double pbx, double gamma) {
 		double sum = 0.0;
-		int k = 1 + (int) FastMath.floor(0.5 * (l1 + l2));
+		final int k = 1 + (int) FastMath.floor(0.5 * (l1 + l2));
 
 		for (int i = 0; i < k; i++) {
 			sum += (MathUtil.binomialPrefactor(2 * i, l1, l2, pax, pbx) * MathUtil
