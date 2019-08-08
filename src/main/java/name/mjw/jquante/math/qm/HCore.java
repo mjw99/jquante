@@ -19,7 +19,7 @@ import name.mjw.jquante.math.qm.basis.ContractedGaussian;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class HCore extends Array2DRowRealMatrix {
+public final class HCore extends Array2DRowRealMatrix {
 
 	private static final long serialVersionUID = 290891895527849860L;
 	protected int atomIndex;

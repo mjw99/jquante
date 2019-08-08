@@ -16,7 +16,7 @@ import name.mjw.jquante.molecule.Molecule;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class OneElectronIntegrals {
+public final class OneElectronIntegrals {
 
 	private static final Logger LOG = LogManager.getLogger(OneElectronIntegrals.class);
 

@@ -8,7 +8,7 @@ import java.util.HashMap;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class BasisSet {
+public final class BasisSet {
 
 	/**
 	 * Holds value of property name.

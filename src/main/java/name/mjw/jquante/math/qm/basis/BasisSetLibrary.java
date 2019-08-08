@@ -25,7 +25,7 @@ import name.mjw.jquante.molecule.event.MoleculeStateChangeListener;
  * @author V.Ganesh
  * @author mw529
  */
-public class BasisSetLibrary {
+public final class BasisSetLibrary {
 
 	private static final Logger LOG = LogManager.getLogger(BasisSetLibrary.class);
 

@@ -24,7 +24,7 @@ import net.jafama.FastMath;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class TwoElectronIntegrals {
+public final class TwoElectronIntegrals {
 	private static final Logger LOG = LogManager.getLogger(TwoElectronIntegrals.class);
 
 	private BasisSetLibrary basisSetLibrary;

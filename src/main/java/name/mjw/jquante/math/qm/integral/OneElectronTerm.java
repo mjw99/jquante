@@ -10,7 +10,7 @@ import net.jafama.FastMath;
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
-public class OneElectronTerm implements IntegralsPackage {
+public final class OneElectronTerm implements IntegralsPackage {
 	/**
 	 * Overlap matrix element taken from <br>
 	 * <i> Taken from http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.12 </i>
