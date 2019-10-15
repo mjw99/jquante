@@ -5,6 +5,8 @@ jdk:
 - openjdk12
 - openjdk13
 
+sudo: false
+
 cache:
   directories:
   - $HOME/.m2
