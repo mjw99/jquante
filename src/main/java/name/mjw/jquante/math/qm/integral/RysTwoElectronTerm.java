@@ -1472,16 +1472,15 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 		double[] f = new double[MAX_ROOTS * 2 + 1];
 
-		final double SQRTPIE4 = .8862269254527580136490837416705725913987747280611935641069038949264;
-
 		if (t < m + 1.5) {
 			double b = m + 0.5;
-			double x = 1;
-			double s = 1;
-			double e = .5 * FastMath.exp(-t);
+			final double e = .5 * FastMath.exp(-t);
+
 			if (t < 10E-5) {
 				f[m] = .5 / b;
 			} else {
+				double x = 1;
+				double s = 1;
 				for (int i = 1; x > 1.0e-16; i++) {
 					x *= t / (b + i);
 					s += x;
@@ -1495,12 +1494,13 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 				}
 			}
 		} else {
-			double pi2 = SQRTPIE4;
-			double tt = FastMath.sqrt(t);
-			f[0] = pi2 / tt * Erf.erf(tt);
+			final double SQRTPIE4 = .8862269254527580136490837416705725913987747280611935641069038949264;
+			final double tt = FastMath.sqrt(t);
+			f[0] = SQRTPIE4 / tt * Erf.erf(tt);
+
 			if (m > 0) {
-				double e = FastMath.exp(-t);
-				double b = .5 / t;
+				final double e = FastMath.exp(-t);
+				final double b = .5 / t;
 				for (int i = 1; i <= m; i++)
 					f[i] = b * ((2 * i - 1) * f[i - 1] - e);
 			}
