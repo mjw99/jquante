@@ -1673,15 +1673,18 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 	// Equ. 10
 	private final double int1d(double t, int la, int lb, int lc, int ld, double xa, double xb, double xc, double xd,
 			double aAlpha, double bAlpha, double cAlpha, double dAlpha) {
+        final int n = la + lb;
+        final int m = lc + ld;
 
-		final double[][] g = recur(t, la, lb, lc, ld, xa, xb, xc, xd, aAlpha, bAlpha, cAlpha, dAlpha);
+        final double[][] g = recur(t, n, m, xa, xb, xc, xd, aAlpha, bAlpha, cAlpha, dAlpha);
+
 		return shift(g, la, lb, lc, ld, (xa - xb), (xc - xd));
 	}
 
 	/**
 	 * Form G(n,m)=I(n,0,m,0) intermediate values for a Rys polynomial
 	 */
-	private static final double[][] recur(double t, int la, int lb, int lc, int ld, double xa, double xb, double xc,
+	private static final double[][] recur(double t, int n, int m, double xa, double xb, double xc,
 			double xd, double aAlpha, double bAlpha, double cAlpha, double dAlpha) {
 
 		final double a = aAlpha + bAlpha;
@@ -1699,9 +1702,6 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 		final double C = (pX - xa) / (1 + t) + (b * (qX - xa) + a * (pX - xa)) * fact;
 		final double Cp = (qX - xc) / (1 + t) + (b * (qX - xc) + a * (pX - xc)) * fact;
-
-		final int n = la + lb;
-		final int m = lc + ld;
 
 		double[][] g = initialiseG(xa, xb, xc, xd, aAlpha, bAlpha, cAlpha, dAlpha, a, b, n, m);
 
