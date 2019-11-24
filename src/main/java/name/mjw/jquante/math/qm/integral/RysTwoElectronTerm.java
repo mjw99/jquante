@@ -161,11 +161,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		double[] roots = new double[nRoots];
 		double[] weights = new double[nRoots];
 
-		final Vector3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
-		final Vector3D q = IntegralsUtil.gaussianProductCenter(cAlpha, c, dAlpha, d);
-
-		// [ABD] eq. 4
-		final double radiusPQSquared = p.distanceSq(q);
+		final double radiusPQSquared = calculateRadiusPQSquared(a, aAlpha, b, bAlpha, c, cAlpha, d, dAlpha);
 
 		final double gamma1 = aAlpha + bAlpha;
 		final double gamma2 = cAlpha + dAlpha;
@@ -196,6 +192,14 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		// [ABD] eq. 9
 		return 2 * FastMath.sqrt(rho / FastMath.PI) * aNorm * bNorm * cNorm * dNorm * sum;
 
+	}
+
+	private double calculateRadiusPQSquared(Vector3D a, double aAlpha, Vector3D b, double bAlpha, Vector3D c,
+			double cAlpha, Vector3D d, double dAlpha) {
+		final Vector3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
+		final Vector3D q = IntegralsUtil.gaussianProductCenter(cAlpha, c, dAlpha, d);
+
+		return p.distanceSq(q);
 	}
 
 	private static final void selectRoots(int nroots, double x, double[] roots, double[] weights) {
