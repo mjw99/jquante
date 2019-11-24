@@ -163,11 +163,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 		final double radiusPQSquared = calculateRadiusPQSquared(a, aAlpha, b, bAlpha, c, cAlpha, d, dAlpha);
 
-		final double gamma1 = aAlpha + bAlpha;
-		final double gamma2 = cAlpha + dAlpha;
-
-		// [ABD] eq. 4
-		final double rho = gamma1 * gamma2 / (gamma1 + gamma2);
+		final double rho = calculateRho(aAlpha, bAlpha, cAlpha, dAlpha);
 
 		final double X = radiusPQSquared * rho;
 
@@ -192,6 +188,14 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		// [ABD] eq. 9
 		return 2 * FastMath.sqrt(rho / FastMath.PI) * aNorm * bNorm * cNorm * dNorm * sum;
 
+	}
+
+	private double calculateRho(double aAlpha, double bAlpha, double cAlpha, double dAlpha) {
+		final double gamma1 = aAlpha + bAlpha;
+		final double gamma2 = cAlpha + dAlpha;
+
+		// [ABD] eq. 4
+		return gamma1 * gamma2 / (gamma1 + gamma2);
 	}
 
 	private double calculateRadiusPQSquared(Vector3D a, double aAlpha, Vector3D b, double bAlpha, Vector3D c,
