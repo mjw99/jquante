@@ -1673,6 +1673,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 	// Equ. 10
 	private final double int1d(double t, int la, int lb, int lc, int ld, double xa, double xb, double xc, double xd,
 			double aAlpha, double bAlpha, double cAlpha, double dAlpha) {
+
         final int n = la + lb;
         final int m = lc + ld;
 
@@ -1696,7 +1697,6 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		// [ABD] eqs 12-14: recurFactors (from GAMESS)
 		final double fact = t / (a + b) / (1 + t);
 
-		final double B0 = 0.5 * fact;
 		final double B1 = 1 / (2 * a * (1 + t)) + 0.5 * fact;
 		final double B1p = 1 / (2 * b * (1 + t)) + 0.5 * fact;
 
@@ -1711,6 +1711,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 			return g;
 		}
 
+		final double B0 = 0.5 * fact;
 		return finaliseG(B0, B1p, Cp, n, m, g);
 	}
 
