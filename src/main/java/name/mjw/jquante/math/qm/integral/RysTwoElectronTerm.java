@@ -165,14 +165,14 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 		final double rho = calculateRho(aAlpha, bAlpha, cAlpha, dAlpha);
 
-		final double X = radiusPQSquared * rho;
+		final double x = radiusPQSquared * rho;
 
 		double iX;
 		double iY;
 		double iZ;
 		double t;
 
-		selectRoots(nRoots, X, roots, weights);
+		selectRoots(nRoots, x, roots, weights);
 
 		double sum = 0;
 		for (int i = 0; i < roots.length; i++) {
