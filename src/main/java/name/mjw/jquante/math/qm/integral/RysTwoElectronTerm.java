@@ -33,6 +33,8 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 	static final int MAX_ROOTS = 16;
 	static final int MAX_ROOTS_SQUARED = MAX_ROOTS * MAX_ROOTS;
 
+	static final double PI_OVER_FOUR = 7.85398163397448E-01;
+
 	/**
 	 * 2E coulomb interactions between 4 contracted Gaussians
 	 */
@@ -236,8 +238,6 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		double e;
 		double y;
 
-		final double PIE4 = 7.85398163397448E-01;
-
 		if (x < 3.e-7) {
 
 			rt1 = 0.5E+00 - x / 5.0E+00;
@@ -275,7 +275,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 			e = FastMath.exp(-x);
 			ww1 = ((((((4.6897511375022E-01 / x - 6.9955602298985E-01) / x + 5.3689283271887E-01) / x
 					- 3.2883030418398E-01) / x + 2.4645596956002E-01) / x - 4.9984072848436E-01) / x
-					- 3.1501078774085E-06) * e + FastMath.sqrt(PIE4 / x);
+					- 3.1501078774085E-06) * e + FastMath.sqrt(PI_OVER_FOUR / x);
 			f1 = (ww1 - e) / (x + x);
 
 			rt1 = f1 / (ww1 - f1);
@@ -283,7 +283,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		} else if (x < 15) {
 			e = FastMath.exp(-x);
 			ww1 = (((-1.8784686463512E-01 / x + 2.2991849164985E-01) / x - 4.9893752514047E-01) / x
-					- 2.1916512131607E-05) * e + FastMath.sqrt(PIE4 / x);
+					- 2.1916512131607E-05) * e + FastMath.sqrt(PI_OVER_FOUR / x);
 			f1 = (ww1 - e) / (x + x);
 
 			rt1 = f1 / (ww1 - f1);
@@ -291,13 +291,13 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		} else if (x < 33) {
 			e = FastMath.exp(-x);
 			ww1 = ((1.9623264149430E-01 / x - 4.9695241464490E-01) / x - 6.0156581186481E-05) * e
-					+ FastMath.sqrt(PIE4 / x);
+					+ FastMath.sqrt(PI_OVER_FOUR / x);
 			f1 = (ww1 - e) / (x + x);
 
 			rt1 = f1 / (ww1 - f1);
 
 		} else {
-			ww1 = FastMath.sqrt(PIE4 / x);
+			ww1 = FastMath.sqrt(PI_OVER_FOUR / x);
 
 			rt1 = 0.5E+00 / (x - 0.5E+00);
 
@@ -320,7 +320,6 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		double y;
 
 		final double R12 = 2.75255128608411E-01;
-		final double PIE4 = 7.85398163397448E-01;
 		final double R22 = 2.72474487139158E+00;
 		final double W22 = 9.17517095361369E-02;
 
@@ -389,7 +388,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 			e = FastMath.exp(-x);
 			ww1 = ((((((4.6897511375022E-01 / x - 6.9955602298985E-01) / x + 5.3689283271887E-01) / x
 					- 3.2883030418398E-01) / x + 2.4645596956002E-01) / x - 4.9984072848436E-01) / x
-					- 3.1501078774085E-06) * e + FastMath.sqrt(PIE4 / x);
+					- 3.1501078774085E-06) * e + FastMath.sqrt(PI_OVER_FOUR / x);
 			f1 = (ww1 - e) / (x + x);
 
 			y = x - 7.5E+00;
@@ -409,7 +408,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		} else if (x < 15) {
 			e = FastMath.exp(-x);
 			ww1 = (((-1.8784686463512E-01 / x + 2.2991849164985E-01) / x - 4.9893752514047E-01) / x
-					- 2.1916512131607E-05) * e + FastMath.sqrt(PIE4 / x);
+					- 2.1916512131607E-05) * e + FastMath.sqrt(PI_OVER_FOUR / x);
 			f1 = (ww1 - e) / (x + x);
 
 			rt1 = ((((-1.01041157064226E-05 * x + 1.19483054115173E-03) * x - 6.73760231824074E-02) * x
@@ -427,7 +426,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		} else if (x < 33) {
 			e = FastMath.exp(-x);
 			ww1 = ((1.9623264149430E-01 / x - 4.9695241464490E-01) / x - 6.0156581186481E-05) * e
-					+ FastMath.sqrt(PIE4 / x);
+					+ FastMath.sqrt(PI_OVER_FOUR / x);
 			f1 = (ww1 - e) / (x + x);
 
 			rt1 = ((((-1.14906395546354E-06 * x + 1.76003409708332E-04) * x - 1.71984023644904E-02) * x
@@ -440,7 +439,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 			ww1 = ww1 - ww2;
 
 		} else {
-			ww1 = FastMath.sqrt(PIE4 / x);
+			ww1 = FastMath.sqrt(PI_OVER_FOUR / x);
 
 			if (x < 40) {
 				e = FastMath.exp(-x);
@@ -482,8 +481,6 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		double a1;
 		double a2;
 		double y;
-
-		final double PIE4 = 7.85398163397448E-01;
 
 		final double R13 = 1.90163509193487E-01;
 		final double R23 = 1.78449274854325E+00;
@@ -591,7 +588,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 			e = FastMath.exp(-x);
 			ww1 = ((((((4.6897511375022E-01 / x - 6.9955602298985E-01) / x + 5.3689283271887E-01) / x
 					- 3.2883030418398E-01) / x + 2.4645596956002E-01) / x - 4.9984072848436E-01) / x
-					- 3.1501078774085E-06) * e + FastMath.sqrt(PIE4 / x);
+					- 3.1501078774085E-06) * e + FastMath.sqrt(PI_OVER_FOUR / x);
 			f1 = (ww1 - e) / (x + x);
 
 			f2 = (f1 + f1 + f1 - e) / (x + x);
@@ -623,7 +620,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		} else if (x < 15) {
 			e = FastMath.exp(-x);
 			ww1 = (((-1.8784686463512E-01 / x + 2.2991849164985E-01) / x - 4.9893752514047E-01) / x
-					- 2.1916512131607E-05) * e + FastMath.sqrt(PIE4 / x);
+					- 2.1916512131607E-05) * e + FastMath.sqrt(PI_OVER_FOUR / x);
 			f1 = (ww1 - e) / (x + x);
 
 			f2 = (f1 + f1 + f1 - e) / (x + x);
@@ -655,7 +652,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		} else if (x < 33) {
 			e = FastMath.exp(-x);
 			ww1 = ((1.9623264149430E-01 / x - 4.9695241464490E-01) / x - 6.0156581186481E-05) * e
-					+ FastMath.sqrt(PIE4 / x);
+					+ FastMath.sqrt(PI_OVER_FOUR / x);
 			f1 = (ww1 - e) / (x + x);
 
 			f2 = (f1 + f1 + f1 - e) / (x + x);
@@ -693,7 +690,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 			ww2 = (t3 * a1 - a2) / ((t3 - t2) * (t2 - t1));
 			ww1 = ww1 - ww2 - ww3;
 		} else {
-			ww1 = FastMath.sqrt(PIE4 / x);
+			ww1 = FastMath.sqrt(PI_OVER_FOUR / x);
 
 			if (x < 47) {
 				e = FastMath.exp(-x);
@@ -742,7 +739,6 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		double e;
 
 		final double R14 = 1.45303521503316E-01;
-		final double PIE4 = 7.85398163397448E-01;
 		final double R24 = 1.33909728812636E+00;
 		final double W24 = 2.34479815323517E-01;
 		final double R34 = 3.92696350135829E+00;
@@ -898,9 +894,9 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 					* y + 1.356478091922E-06) * y - 2.08065576105639E-05) * y + 2.52396730332340E-04) * y
 					- 2.94484050194539E-03) * y + 6.01396183129168E-02;
 			ww1 = (((-1.8784686463512E-01 / x + 2.2991849164985E-01) / x - 4.9893752514047E-01) / x
-					- 2.1916512131607E-05) * FastMath.exp(-x) + FastMath.sqrt(PIE4 / x) - ww4 - ww3 - ww2;
+					- 2.1916512131607E-05) * FastMath.exp(-x) + FastMath.sqrt(PI_OVER_FOUR / x) - ww4 - ww3 - ww2;
 		} else if (x <= 20) {
-			ww1 = FastMath.sqrt(PIE4 / x);
+			ww1 = FastMath.sqrt(PI_OVER_FOUR / x);
 			y = x - 17.5E+00;
 			rt1 = (((((((((((4.36701759531398E-17 * y - 1.12860600219889E-16) * y - 6.149849164164E-15) * y
 					+ 5.820231579541E-14) * y + 4.396602872143E-13) * y - 1.24330365320172E-11) * y
@@ -940,7 +936,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 			ww1 = ((1.9623264149430E-01 / x - 4.9695241464490E-01) / x - 6.0156581186481E-05) * FastMath.exp(-x) + ww1
 					- ww2 - ww3 - ww4;
 		} else if (x <= 35) {
-			ww1 = FastMath.sqrt(PIE4 / x);
+			ww1 = FastMath.sqrt(PI_OVER_FOUR / x);
 			e = FastMath.exp(-x);
 			rt1 = ((((((-4.45711399441838E-05 * x + 1.27267770241379E-03) * x - 2.36954961381262E-01) * x
 					+ 1.54330657903756E+01) * x - 5.22799159267808E+02) * x + 1.05951216669313E+04) * x
@@ -976,7 +972,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 			ww1 = ((1.9623264149430E-01 / x - 4.9695241464490E-01) / x - 6.0156581186481E-05) * e + ww1 - ww2 - ww3
 					- ww4;
 		} else if (x <= 53) {
-			ww1 = FastMath.sqrt(PIE4 / x);
+			ww1 = FastMath.sqrt(PI_OVER_FOUR / x);
 			e = FastMath.exp(-x) * FastMath.pow(x, 4);
 			rt4 = ((-2.19135070169653E-03 * x - 1.19108256987623E-01) * x - 7.50238795695573E-01) * e + R44 / (x - R44);
 			rt3 = ((-9.65842534508637E-04 * x - 4.49822013469279E-02) * x + 6.08784033347757E-01) * e + R34 / (x - R34);
@@ -987,7 +983,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 			ww2 = ((6.16374517326469E-04 * x - 1.26711744680092E-02) * x + 8.14504890732155E-02) * e + W24 * ww1;
 			ww1 = ww1 - ww2 - ww3 - ww4;
 		} else {
-			ww1 = FastMath.sqrt(PIE4 / x);
+			ww1 = FastMath.sqrt(PI_OVER_FOUR / x);
 			rt1 = R14 / (x - R14);
 			rt2 = R24 / (x - R24);
 			rt3 = R34 / (x - R34);
@@ -1023,7 +1019,6 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		double xxx;
 
 		final double R15 = 1.17581320211778E-01;
-		final double PIE4 = 7.85398163397448E-01;
 		final double R25 = 1.07456201243690E+00;
 		final double W25 = 2.70967405960535E-01;
 		final double R35 = 3.08593744371754E+00;
@@ -1307,7 +1302,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 					- 1.17842611094141E-09) * y + 7.80430641995926E-09) * y - 5.97767417400540E-08) * y
 					+ 1.65186146094969E-06;
 		} else if (x < 40) {
-			ww1 = FastMath.sqrt(PIE4 / x);
+			ww1 = FastMath.sqrt(PI_OVER_FOUR / x);
 			e = FastMath.exp(-x);
 			rt1 = ((((((((-1.73363958895356E-06 * x + 1.19921331441483E-04) * x - 1.59437614121125E-02) * x
 					+ 1.13467897349442E+00) * x - 4.47216460864586E+01) * x + 1.06251216612604E+03) * x
@@ -1345,7 +1340,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 					+ 1.10255055017664E+05) * x - 8.92528122219324E+05) * x + 3.10638627744347E+06) * e + W25 * ww1;
 			ww1 = ww1 - 0.01962E+00 * e - ww2 - ww3 - ww4 - ww5;
 		} else if (x < 59.0) {
-			ww1 = FastMath.sqrt(PIE4 / x);
+			ww1 = FastMath.sqrt(PI_OVER_FOUR / x);
 			xxx = FastMath.pow(x, 3);
 			e = xxx * FastMath.exp(-x);
 			rt1 = (((-2.43758528330205E-02 * x + 2.07301567989771E+00) * x - 6.45964225381113E+01) * x
@@ -1365,7 +1360,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 			ww2 = ((2.09539509123135E-05 * x - 6.87646614786982E-04) * x + 6.68743788585688E-03) * e + W25 * ww1;
 			ww1 = ww1 - ww2 - ww3 - ww4 - ww5;
 		} else {
-			ww1 = FastMath.sqrt(PIE4 / x);
+			ww1 = FastMath.sqrt(PI_OVER_FOUR / x);
 			rt1 = R15 / (x - R15);
 			rt2 = R25 / (x - R25);
 			rt3 = R35 / (x - R35);
@@ -1494,9 +1489,9 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 				}
 			}
 		} else {
-			final double SQRTPIE4 = .8862269254527580136490837416705725913987747280611935641069038949264;
+			final double SQRTPI4 = .8862269254527580136490837416705725913987747280611935641069038949264;
 			final double tt = FastMath.sqrt(t);
-			f[0] = SQRTPIE4 / tt * Erf.erf(tt);
+			f[0] = SQRTPI4 / tt * Erf.erf(tt);
 
 			if (m > 0) {
 				final double e = FastMath.exp(-t);
