@@ -1561,7 +1561,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 				System.err.println("rys_roots negative value in sqrt for roots " + n);
 				System.exit(0);
 			}
-			fac = 1 / Math.sqrt(fac);
+			fac = 1 / FastMath.sqrt(fac);
 			cs[j + j * MAX_ROOTS] = fac;
 			for (int k = 0; k < kmax; ++k) {
 				cs[k + j * MAX_ROOTS] = fac * v[k];
