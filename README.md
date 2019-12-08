@@ -11,6 +11,8 @@ The code aims to:
 
 *Note, this code is in development and is very likely to contain errors.*
 
+Please see [jquante-jmh](https://github.com/mjw99/jquante-jmh) for benchmarks.
+
 # Compiling from Source
 ## [Debian Wheezy](http://www.debian.org/releases/wheezy/) / [Ubuntu Precise](http://releases.ubuntu.com/precise/) / [Ubuntu Trusty](http://releases.ubuntu.com/trusty/)
 This will compile and install the Jquante to the Debian based OS.
