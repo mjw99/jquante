@@ -45,7 +45,6 @@ public final class OneElectronIntegrals {
 		this.basisSetLibrary = basisSetLibrary;
 		this.molecule = mol;
 
-		// compute the 1E integrals, form S matrix and hCore
 		compute1E();
 	}
 
