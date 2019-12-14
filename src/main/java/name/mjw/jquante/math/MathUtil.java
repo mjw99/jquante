@@ -1,17 +1,17 @@
 package name.mjw.jquante.math;
 
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.RealMatrixFormat;
-import org.apache.commons.math3.linear.RealVector;
-import org.apache.commons.math3.util.CombinatoricsUtils;
+import org.hipparchus.linear.Array2DRowRealMatrix;
+import org.hipparchus.linear.ArrayRealVector;
+import org.hipparchus.linear.RealMatrix;
+import org.hipparchus.linear.RealMatrixFormat;
+import org.hipparchus.linear.RealVector;
+import org.hipparchus.util.CombinatoricsUtils;
 
 import net.jafama.FastMath;
 
 import java.text.DecimalFormat;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.hipparchus.geometry.euclidean.threed.Vector3D;
 
 /**
  * A collection of few misc. utility math functions. All methods are static and

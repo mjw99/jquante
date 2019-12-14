@@ -3,10 +3,10 @@ package name.mjw.jquante.math.qm.integral;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.special.Erf;
-import org.apache.commons.math3.util.CombinatoricsUtils;
+import org.hipparchus.geometry.euclidean.threed.Vector3D;
+import org.hipparchus.linear.RealMatrix;
+import org.hipparchus.special.Erf;
+import org.hipparchus.util.CombinatoricsUtils;
 
 import name.mjw.jquante.math.qm.Density;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;

@@ -2,8 +2,8 @@ package name.mjw.jquante.math.qm.integral;
 
 import java.util.ArrayList;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math3.linear.RealMatrix;
+import org.hipparchus.geometry.euclidean.threed.Vector3D;
+import org.hipparchus.linear.RealMatrix;
 
 import name.mjw.jquante.math.MathUtil;
 import name.mjw.jquante.math.qm.Density;
