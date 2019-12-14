@@ -69,7 +69,7 @@ public final class OneElectronTerm implements IntegralsPackage {
 	/**
 	 * The Kinetic Energy (KE) component. <br>
 	 * 
-	 * <i> Taken from THO eq. 2.13 </i>
+	 * <i> Taken from http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.13 </i>
 	 *
 	 * @param alpha1 the coefficient of primitive Gaussian a.
 	 * @param power1 the orbital powers of primitive Gaussian a.
