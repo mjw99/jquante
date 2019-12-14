@@ -22,7 +22,7 @@ public final class OneElectronTerm implements IntegralsPackage {
 	 * @param gamma the sum of both Gaussian's exponent.
 	 * @return the 1D overlap.
 	 */
-	public final double overlap1D(int l1, int l2, double pax, double pbx, double gamma) {
+	public final double overlap1D(final int l1, final int l2, final double pax, final double pbx, final double gamma) {
 		double sum = 0.0;
 		final int k = 1 + (int) FastMath.floor(0.5 * (l1 + l2));
 
@@ -80,7 +80,8 @@ public final class OneElectronTerm implements IntegralsPackage {
 	 * @param b      the location of primitive Gaussian b.
 	 * @return the Kinetic Energy integral
 	 */
-	public final double kinetic(double alpha1, Power power1, Vector3D a, double alpha2, Power power2, Vector3D b) {
+	public final double kinetic(final double alpha1, final Power power1, final Vector3D a, final double alpha2,
+			final Power power2, final Vector3D b) {
 		final int l2 = power2.getL();
 		final int m2 = power2.getM();
 		final int n2 = power2.getN();
