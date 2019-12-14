@@ -88,7 +88,7 @@ public final class OneElectronTerm implements IntegralsPackage {
 
 		double term = alpha2 * (2 * (l2 + m2 + n2) + 3) * overlap(alpha1, power1, a, alpha2, power2, b);
 
-		term += -2.0 * FastMath.pow(alpha2, 2.0)
+		term += -2.0 * FastMath.pow2(alpha2)
 				* (overlap(alpha1, power1, a, alpha2, new Power(l2 + 2, m2, n2), b)
 						+ overlap(alpha1, power1, a, alpha2, new Power(l2, m2 + 2, n2), b)
 						+ overlap(alpha1, power1, a, alpha2, new Power(l2, m2, n2 + 2), b));
