@@ -1778,10 +1778,10 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 			ijm0 = 0;
 			/* I(i,j,m,0)<-I(n,0,m,0) */
 			for (n = 0; n < j + 1; n++) {
-				ijm0 += CombinatoricsUtils.binomialCoefficient(j, n) * FastMath.pow(xij, (j - n)) * g[n + i][m + k];
+				ijm0 += CombinatoricsUtils.binomialCoefficientDouble(j, n) * FastMath.pow(xij, (j - n)) * g[n + i][m + k];
 			}
 			/* I(i,j,k,l)<-I(i,j,m,0) */
-			ijkl += CombinatoricsUtils.binomialCoefficient(l, m) * FastMath.pow(xkl, (l - m)) * ijm0;
+			ijkl += CombinatoricsUtils.binomialCoefficientDouble(l, m) * FastMath.pow(xkl, (l - m)) * ijm0;
 		}
 		return ijkl;
 	}
