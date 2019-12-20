@@ -49,34 +49,34 @@ public final class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 		double kcNorm;
 		double repulsionTerm;
 
-		ArrayList<Double> aExps = a.getExponents();
-		ArrayList<Double> aCoefs = a.getCoefficients();
-		ArrayList<Double> aNorms = a.getPrimNorms();
-		Vector3D aOrigin = a.getOrigin();
-		Power aPower = a.getPowers();
+		final ArrayList<Double> aExps = a.getExponents();
+		final ArrayList<Double> aCoefs = a.getCoefficients();
+		final ArrayList<Double> aNorms = a.getPrimNorms();
+		final Vector3D aOrigin = a.getOrigin();
+		final Power aPower = a.getPowers();
 
-		ArrayList<Double> bExps = b.getExponents();
-		ArrayList<Double> bCoefs = b.getCoefficients();
-		ArrayList<Double> bNorms = b.getPrimNorms();
-		Vector3D bOrigin = b.getOrigin();
-		Power bPower = b.getPowers();
+		final ArrayList<Double> bExps = b.getExponents();
+		final ArrayList<Double> bCoefs = b.getCoefficients();
+		final ArrayList<Double> bNorms = b.getPrimNorms();
+		final Vector3D bOrigin = b.getOrigin();
+		final Power bPower = b.getPowers();
 
-		ArrayList<Double> cExps = c.getExponents();
-		ArrayList<Double> cCoefs = c.getCoefficients();
-		ArrayList<Double> cNorms = c.getPrimNorms();
-		Vector3D cOrigin = c.getOrigin();
-		Power cPower = c.getPowers();
+		final ArrayList<Double> cExps = c.getExponents();
+		final ArrayList<Double> cCoefs = c.getCoefficients();
+		final ArrayList<Double> cNorms = c.getPrimNorms();
+		final Vector3D cOrigin = c.getOrigin();
+		final Power cPower = c.getPowers();
 
-		ArrayList<Double> dExps = d.getExponents();
-		ArrayList<Double> dCoefs = d.getCoefficients();
-		ArrayList<Double> dNorms = d.getPrimNorms();
-		Vector3D dOrigin = d.getOrigin();
-		Power dPower = d.getPowers();
+		final ArrayList<Double> dExps = d.getExponents();
+		final ArrayList<Double> dCoefs = d.getCoefficients();
+		final ArrayList<Double> dNorms = d.getPrimNorms();
+		final Vector3D dOrigin = d.getOrigin();
+		final Power dPower = d.getPowers();
 
-		int asz = aExps.size();
-		int bsz = bExps.size();
-		int csz = cExps.size();
-		int dsz = dExps.size();
+		final int asz = aExps.size();
+		final int bsz = bExps.size();
+		final int csz = cExps.size();
+		final int dsz = dExps.size();
 
 		for (i = 0; i < asz; i++) {
 			iaCoef = aCoefs.get(i);
@@ -124,29 +124,29 @@ public final class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 		int j;
 		int k;
 
-		double radiusABSquared = a.distanceSq(b);
-		double radiusCDSquared = c.distanceSq(d);
+		final double radiusABSquared = a.distanceSq(b);
+		final double radiusCDSquared = c.distanceSq(d);
 
 		Vector3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
 		Vector3D q = IntegralsUtil.gaussianProductCenter(cAlpha, c, dAlpha, d);
 
-		double radiusPQSquared = p.distanceSq(q);
+		final double radiusPQSquared = p.distanceSq(q);
 
-		double gamma1 = aAlpha + bAlpha;
-		double gamma2 = cAlpha + dAlpha;
-		double delta = 0.25 * (1 / gamma1 + 1 / gamma2);
+		final double gamma1 = aAlpha + bAlpha;
+		final double gamma2 = cAlpha + dAlpha;
+		final double delta = 0.25 * (1 / gamma1 + 1 / gamma2);
 
-		double quartRadiusPQSquaredOverDelta = 0.25 * radiusPQSquared / delta;
+		final double quartRadiusPQSquaredOverDelta = 0.25 * radiusPQSquared / delta;
 
-		double[] bx = constructBArray(aPower.getL(), bPower.getL(),
+		final double[] bx = constructBArray(aPower.getL(), bPower.getL(),
 				cPower.getL(), dPower.getL(), p.getX(), a.getX(), b.getX(),
 				q.getX(), c.getX(), d.getX(), gamma1, gamma2, delta);
 
-		double[] by = constructBArray(aPower.getM(), bPower.getM(),
+		final double[] by = constructBArray(aPower.getM(), bPower.getM(),
 				cPower.getM(), dPower.getM(), p.getY(), a.getY(), b.getY(),
 				q.getY(), c.getY(), d.getY(), gamma1, gamma2, delta);
 
-		double[] bz = constructBArray(aPower.getN(), bPower.getN(),
+		final double[] bz = constructBArray(aPower.getN(), bPower.getN(),
 				cPower.getN(), dPower.getN(), p.getZ(), a.getZ(), b.getZ(),
 				q.getZ(), c.getZ(), d.getZ(), gamma1, gamma2, delta);
 
@@ -186,7 +186,7 @@ public final class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 		int u;
 		int index;
 
-		int iMax = l1 + l2 + l3 + l4 + 1;
+		final int iMax = l1 + l2 + l3 + l4 + 1;
 		double[] bArr = new double[iMax];
 
 		for (i1 = 0; i1 < (l1 + l2 + 1); i1++) {
