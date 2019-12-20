@@ -107,7 +107,7 @@ public final class MathUtil {
 	 *            the second term
 	 * @return ( a! / b! / (a-2*b)! )
 	 */
-	public static final double factorialRatioSquared(int a, int b) {
+	public static final double factorialRatioSquared(final int a, final int b) {
 		return CombinatoricsUtils.factorialDouble(a) / CombinatoricsUtils.factorialDouble(b)
 				/ CombinatoricsUtils.factorialDouble(a - 2 * b);
 	}
@@ -130,7 +130,8 @@ public final class MathUtil {
 	 *            xpb
 	 * @return Pre-factor of binomial expansion.
 	 */
-	public static final double binomialPrefactor(int s, int ia, int ib, double xpa, double xpb) {
+	public static final double binomialPrefactor(final int s, final int ia, final int ib, final double xpa,
+			final double xpb) {
 		double sum = 0.0;
 
 		for (int t = 0; t < (s + 1); t++) {
