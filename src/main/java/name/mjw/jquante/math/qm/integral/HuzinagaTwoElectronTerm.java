@@ -15,9 +15,9 @@ import net.jafama.FastMath;
  * The Huzinaga integral package.
  * 
  * The equations herein are based upon: <br>
- * 'Gaussian Expansion Methods for Molecular Orbitals.' <a
- * href="http://dx.doi.org/10.1143/JPSJ.21.2313"> H. Taketa, S. Huzinaga, and K.
- * O-ohata. <i> H. Phys. Soc. Japan, </i> <b>21</b>, 2313, 1966.)</a> [THO
+ * 'Gaussian Expansion Methods for Molecular Orbitals.'
+ * <a href="http://dx.doi.org/10.1143/JPSJ.21.2313"> H. Taketa, S. Huzinaga, and
+ * K. O-ohata. <i> H. Phys. Soc. Japan, </i> <b>21</b>, 2313, 1966.)</a> [THO
  * paper]. <br>
  * and PyQuante (<a href="http://pyquante.sf.net"> http://pyquante.sf.net </a>).
  * 
@@ -29,15 +29,11 @@ public final class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 	 * 2E coulomb interactions between four contracted Gaussians
 	 */
 	@Override
-	public final double coulomb(ContractedGaussian a, ContractedGaussian b,
-			ContractedGaussian c, ContractedGaussian d) {
+	public final double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c,
+			ContractedGaussian d) {
 
 		double jij = 0.0;
 
-		int i;
-		int j;
-		int k;
-		int l;
 		double iaExp;
 		double iaCoef;
 		double iaNorm;
@@ -78,51 +74,44 @@ public final class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 		final int csz = cExps.size();
 		final int dsz = dExps.size();
 
-		for (i = 0; i < asz; i++) {
+		for (int i = 0; i < asz; i++) {
 			iaCoef = aCoefs.get(i);
 			iaExp = aExps.get(i);
 			iaNorm = aNorms.get(i);
 
-			for (j = 0; j < bsz; j++) {
+			for (int j = 0; j < bsz; j++) {
 				jbCoef = bCoefs.get(j);
 				jbExp = bExps.get(j);
 				jbNorm = bNorms.get(j);
 
-				for (k = 0; k < csz; k++) {
+				for (int k = 0; k < csz; k++) {
 					kcCoef = cCoefs.get(k);
 					kcExp = cExps.get(k);
 					kcNorm = cNorms.get(k);
 
-					for (l = 0; l < dsz; l++) {
-						repulsionTerm = coulombRepulsion(aOrigin, iaNorm,
-								aPower, iaExp, bOrigin, jbNorm, bPower, jbExp,
-								cOrigin, kcNorm, cPower, kcExp, dOrigin,
-								dNorms.get(l), dPower, dExps.get(l));
+					for (int l = 0; l < dsz; l++) {
+						repulsionTerm = coulombRepulsion(aOrigin, iaNorm, aPower, iaExp, bOrigin, jbNorm, bPower, jbExp,
+								cOrigin, kcNorm, cPower, kcExp, dOrigin, dNorms.get(l), dPower, dExps.get(l));
 
-						jij += iaCoef * jbCoef * kcCoef * dCoefs.get(l)
-								* repulsionTerm;
+						jij += iaCoef * jbCoef * kcCoef * dCoefs.get(l) * repulsionTerm;
 					}
 				}
 			}
 		}
 
-		return (a.getNormalization() * b.getNormalization()
-				* c.getNormalization() * d.getNormalization() * jij);
+		return (a.getNormalization() * b.getNormalization() * c.getNormalization() * d.getNormalization() * jij);
 	}
 
 	/**
 	 * coulomb repulsion term
 	 */
 	@Override
-	public final double coulombRepulsion(Vector3D a, double aNorm, Power aPower,
-			double aAlpha, Vector3D b, double bNorm, Power bPower,
-			double bAlpha, Vector3D c, double cNorm, Power cPower,
-			double cAlpha, Vector3D d, double dNorm, Power dPower, double dAlpha) {
+	public final double coulombRepulsion(final Vector3D a, final double aNorm, final Power aPower, final double aAlpha,
+			final Vector3D b, final double bNorm, final Power bPower, final double bAlpha, final Vector3D c,
+			final double cNorm, final Power cPower, final double cAlpha, final Vector3D d, final double dNorm,
+			final Power dPower, final double dAlpha) {
 
 		double sum = 0.0;
-		int i;
-		int j;
-		int k;
 
 		final double radiusABSquared = a.distanceSq(b);
 		final double radiusCDSquared = c.distanceSq(d);
@@ -138,36 +127,27 @@ public final class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 
 		final double quartRadiusPQSquaredOverDelta = 0.25 * radiusPQSquared / delta;
 
-		final double[] bx = constructBArray(aPower.getL(), bPower.getL(),
-				cPower.getL(), dPower.getL(), p.getX(), a.getX(), b.getX(),
-				q.getX(), c.getX(), d.getX(), gamma1, gamma2, delta);
+		final double[] bx = constructBArray(aPower.getL(), bPower.getL(), cPower.getL(), dPower.getL(), p.getX(),
+				a.getX(), b.getX(), q.getX(), c.getX(), d.getX(), gamma1, gamma2, delta);
 
-		final double[] by = constructBArray(aPower.getM(), bPower.getM(),
-				cPower.getM(), dPower.getM(), p.getY(), a.getY(), b.getY(),
-				q.getY(), c.getY(), d.getY(), gamma1, gamma2, delta);
+		final double[] by = constructBArray(aPower.getM(), bPower.getM(), cPower.getM(), dPower.getM(), p.getY(),
+				a.getY(), b.getY(), q.getY(), c.getY(), d.getY(), gamma1, gamma2, delta);
 
-		final double[] bz = constructBArray(aPower.getN(), bPower.getN(),
-				cPower.getN(), dPower.getN(), p.getZ(), a.getZ(), b.getZ(),
-				q.getZ(), c.getZ(), d.getZ(), gamma1, gamma2, delta);
+		final double[] bz = constructBArray(aPower.getN(), bPower.getN(), cPower.getN(), dPower.getN(), p.getZ(),
+				a.getZ(), b.getZ(), q.getZ(), c.getZ(), d.getZ(), gamma1, gamma2, delta);
 
-
-		for (i = 0; i < bx.length; i++) {
-			for (j = 0; j < by.length; j++) {
-				for (k = 0; k < bz.length; k++) {
-					sum += bx[i]
-							* by[j]
-							* bz[k]
-							* IntegralsUtil.computeFGamma(i + j + k,
-									quartRadiusPQSquaredOverDelta);
+		for (int i = 0; i < bx.length; i++) {
+			for (int j = 0; j < by.length; j++) {
+				for (int k = 0; k < bz.length; k++) {
+					sum += bx[i] * by[j] * bz[k]
+							* IntegralsUtil.computeFGamma(i + j + k, quartRadiusPQSquaredOverDelta);
 				}
 			}
 		}
 
-		return (2 * FastMath.pow(Math.PI, 2.5)
-				/ (gamma1 * gamma2 * FastMath.sqrt(gamma1 + gamma2))
+		return (2 * FastMath.pow(Math.PI, 2.5) / (gamma1 * gamma2 * FastMath.sqrt(gamma1 + gamma2))
 				* FastMath.exp(-aAlpha * bAlpha * radiusABSquared / gamma1)
-				* FastMath.exp(-cAlpha * dAlpha * radiusCDSquared / gamma2) * sum
-				* aNorm * bNorm * cNorm * dNorm);
+				* FastMath.exp(-cAlpha * dAlpha * radiusCDSquared / gamma2) * sum * aNorm * bNorm * cNorm * dNorm);
 	}
 
 	/**
@@ -175,9 +155,9 @@ public final class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 	 * 
 	 * <i> http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.22 </i>
 	 */
-	private double[] constructBArray(int l1, int l2, int l3, int l4, double p,
-			double a, double b, double q, double c, double d, double g1,
-			double g2, double delta) {
+	private final double[] constructBArray(final int l1, final int l2, final int l3, final int l4, final double p,
+			final double a, final double b, final double q, final double c, final double d, final double g1,
+			final double g2, final double delta) {
 
 		int i1;
 		int i2;
@@ -187,7 +167,7 @@ public final class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 		int index;
 
 		final int iMax = l1 + l2 + l3 + l4 + 1;
-		double[] bArr = new double[iMax];
+		final double[] bArr = new double[iMax];
 
 		for (i1 = 0; i1 < (l1 + l2 + 1); i1++) {
 			for (i2 = 0; i2 < (l3 + l4 + 1); i2++) {
@@ -196,8 +176,7 @@ public final class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 						for (u = 0; u < ((i1 + i2) / 2 - r1 - r2 + 1); u++) {
 							index = i1 + i2 - 2 * (r1 + r2) - u;
 
-							bArr[index] += constructBTerm(i1, i2, r1, r2, u,
-									l1, l2, l3, l4, p, a, b, q, c, d, g1, g2,
+							bArr[index] += constructBTerm(i1, i2, r1, r2, u, l1, l2, l3, l4, p, a, b, q, c, d, g1, g2,
 									delta);
 						}
 					}
@@ -213,40 +192,36 @@ public final class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 	 * 
 	 * <i> http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.22 </i>
 	 */
-	private double constructBTerm(int i1, int i2, int r1, int r2, int u,
-			int l1, int l2, int l3, int l4, double px, double ax, double bx,
-			double qx, double cx, double dx, double gamma1, double gamma2,
-			double delta) {
+	private final double constructBTerm(final int i1, final int i2, final int r1, final int r2, final int u,
+			final int l1, final int l2, final int l3, final int l4, final double px, final double ax, final double bx,
+			final double qx, final double cx, final double dx, final double gamma1, final double gamma2,
+			final double delta) {
 
-		return (functionB(i1, l1, l2, px, ax, bx, r1, gamma1)
-				* FastMath.pow(-1, i2)
-				* functionB(i2, l3, l4, qx, cx, dx, r2, gamma2)
-				* FastMath.pow(-1, u)
+		return (functionB(i1, l1, l2, px, ax, bx, r1, gamma1) * FastMath.pow(-1, i2)
+				* functionB(i2, l3, l4, qx, cx, dx, r2, gamma2) * FastMath.pow(-1, u)
 				* MathUtil.factorialRatioSquared(i1 + i2 - 2 * (r1 + r2), u)
-				* FastMath.pow(qx - px, i1 + i2 - 2 * (r1 + r2) - 2d * u) / Math
-					.pow(delta, i1 + i2 - 2d * (r1 + r2) - u));
+				* FastMath.pow(qx - px, i1 + i2 - 2 * (r1 + r2) - 2d * u)
+				/ Math.pow(delta, i1 + i2 - 2d * (r1 + r2) - u));
 	}
 
 	/**
 	 * the function B, taken from PyQuante
 	 */
-	private double functionB(int i, int l1, int l2, double p, double a,
-			double b, int r, double g) {
-		return (MathUtil.binomialPrefactor(i, l1, l2, p - a, p - b) * functionB0(
-				i, r, g));
+	private final double functionB(final int i, final int l1, final int l2, final double p, final double a, final double b,
+			final int r, final double g) {
+		return (MathUtil.binomialPrefactor(i, l1, l2, p - a, p - b) * functionB0(i, r, g));
 	}
 
 	/**
 	 * the function B0, taken from PyQuante
 	 */
-	private double functionB0(int i, int r, double g) {
+	private final double functionB0(final int i, final int r, final double g) {
 		return (MathUtil.factorialRatioSquared(i, r) * FastMath.pow(4 * g, r - i));
 	}
 
 	@Override
-	public final double coulomb(ContractedGaussian a, ContractedGaussian b,
-			ContractedGaussian c, ContractedGaussian d, Density density,
-			RealMatrix jMat, RealMatrix kMat) {
+	public final double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c, ContractedGaussian d,
+			Density density, RealMatrix jMat, RealMatrix kMat) {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 }
