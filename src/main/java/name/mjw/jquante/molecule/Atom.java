@@ -213,7 +213,8 @@ public class Atom implements Cloneable {
 	 */
 	@Override
 	public String toString() {
-		return symbol + index + " " + atomCenter.toString();
+		return String.format("%s%2d % f % f % f", symbol, index, atomCenter.getX(), atomCenter.getY(),
+				atomCenter.getZ());
 	}
 
 	/**
