@@ -14,15 +14,12 @@ The code aims to:
 Please see [jquante-jmh](https://github.com/mjw99/jquante-jmh) for benchmarks.
 
 # Compiling from Source
-## [Debian Wheezy](http://www.debian.org/releases/wheezy/) / [Ubuntu Precise](http://releases.ubuntu.com/precise/) / [Ubuntu Trusty](http://releases.ubuntu.com/trusty/)
+## [Ubuntu Bionic](http://releases.ubuntu.com/bionic/)
 This will compile and install the Jquante to the Debian based OS.
 
-1) Install the needed packages and configure Java.
+1) Install the needed packages.
 ```bash
-    sudo apt-get install git maven openjdk-8-jdk
-    # Ensure java8 is selected
-    sudo update-alternatives --config java
-    sudo update-alternatives --config javac
+    sudo apt-get install git maven openjdk-11-jdk
 ```
 2) Clone, build and install locally
 ```bash
