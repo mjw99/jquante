@@ -30,7 +30,8 @@ public final class HGPTwoElectronTerm implements TwoElectronTerm {
 	 * 2E coulomb interactions between four contracted Gaussians.
 	 */
 	@Override
-	public final double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c, ContractedGaussian d) {
+	public final double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c,
+			ContractedGaussian d) {
 		return (a.getNormalization() * b.getNormalization() * c.getNormalization() * d.getNormalization()
 				* contractedHrr(a.getOrigin(), a.getPowers(), a.getCoefficients(), a.getExponents(), a.getPrimNorms(),
 						b.getOrigin(), b.getPowers(), b.getCoefficients(), b.getExponents(), b.getPrimNorms(),
@@ -42,60 +43,44 @@ public final class HGPTwoElectronTerm implements TwoElectronTerm {
 	 * Coulomb repulsion term
 	 */
 	@Override
-	public final double coulombRepulsion(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
-			Power bPower, double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d,
-			double dNorm, Power dPower, double dAlpha) {
+	public final double coulombRepulsion(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b,
+			double bNorm, Power bPower, double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha,
+			Vector3D d, double dNorm, Power dPower, double dAlpha) {
 		return vrr(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c, cNorm, cPower, cAlpha, d, dNorm, dAlpha, 0);
 	}
 
 	/**
 	 * Contracted HRR (Horizontal Recurrence Relation)
 	 * 
-	 * @param a
-	 *            Center of contracted Gaussian function a.
-	 * @param aPower
-	 *            Angular momentum of Gaussian function a.
-	 * @param aCoeff
-	 *            Coefficients of primitives in contracted Gaussian function a.
-	 * @param aExps
-	 *            Orbital exponents of primitives in contracted Gaussian function a.
-	 * @param aNorms
-	 *            Primitive normalisation coefficients of primitives in contracted
-	 *            Gaussian function a.
+	 * @param a      Center of contracted Gaussian function a.
+	 * @param aPower Angular momentum of Gaussian function a.
+	 * @param aCoeff Coefficients of primitives in contracted Gaussian function a.
+	 * @param aExps  Orbital exponents of primitives in contracted Gaussian function
+	 *               a.
+	 * @param aNorms Primitive normalisation coefficients of primitives in
+	 *               contracted Gaussian function a.
 	 * 
-	 * @param b
-	 *            Center of contracted Gaussian function b.
-	 * @param bPower
-	 *            Angular momentum of Gaussian function b.
-	 * @param bCoeff
-	 *            Coefficients of primitives in contracted Gaussian function b.
-	 * @param bExps
-	 *            Orbital exponents of primitives in contracted Gaussian function b.
-	 * @param bNorms
-	 *            Primitive normalisation coefficients of primitives in contracted
-	 *            Gaussian function b.
-	 * @param c
-	 *            Center of contracted Gaussian function c.
-	 * @param cPower
-	 *            Angular momentum of Gaussian function c.
-	 * @param cCoeff
-	 *            Coefficients of primitives in contracted Gaussian function c.
-	 * @param cExps
-	 *            Orbital exponents of primitives in contracted Gaussian function c.
-	 * @param cNorms
-	 *            Primitive normalisation coefficients of primitives in contracted
-	 *            Gaussian function c.
-	 * @param d
-	 *            Center of contracted Gaussian function d.
-	 * @param dPower
-	 *            Angular momentum of Gaussian function d.
-	 * @param dCoeff
-	 *            Coefficients of primitives in contracted Gaussian function d.
-	 * @param dExps
-	 *            Orbital exponents of primitives in contracted Gaussian function d.
-	 * @param dNorms
-	 *            Primitive normalisation coefficients of primitives in contracted
-	 *            Gaussian function d.
+	 * @param b      Center of contracted Gaussian function b.
+	 * @param bPower Angular momentum of Gaussian function b.
+	 * @param bCoeff Coefficients of primitives in contracted Gaussian function b.
+	 * @param bExps  Orbital exponents of primitives in contracted Gaussian function
+	 *               b.
+	 * @param bNorms Primitive normalisation coefficients of primitives in
+	 *               contracted Gaussian function b.
+	 * @param c      Center of contracted Gaussian function c.
+	 * @param cPower Angular momentum of Gaussian function c.
+	 * @param cCoeff Coefficients of primitives in contracted Gaussian function c.
+	 * @param cExps  Orbital exponents of primitives in contracted Gaussian function
+	 *               c.
+	 * @param cNorms Primitive normalisation coefficients of primitives in
+	 *               contracted Gaussian function c.
+	 * @param d      Center of contracted Gaussian function d.
+	 * @param dPower Angular momentum of Gaussian function d.
+	 * @param dCoeff Coefficients of primitives in contracted Gaussian function d.
+	 * @param dExps  Orbital exponents of primitives in contracted Gaussian function
+	 *               d.
+	 * @param dNorms Primitive normalisation coefficients of primitives in
+	 *               contracted Gaussian function d.
 	 * 
 	 * @return Contribution to Horizontal Recurrence Relation.
 	 */
@@ -166,49 +151,35 @@ public final class HGPTwoElectronTerm implements TwoElectronTerm {
 	/**
 	 * Contracted VRR (Vertical Recurrence Relation) contribution
 	 * 
-	 * @param a
-	 *            Center of contracted Gaussian function a.
-	 * @param aPower
-	 *            Angular momentum of Gaussian function a.
-	 * @param aCoeff
-	 *            Coefficients of primitives in contracted Gaussian function a.
-	 * @param aExps
-	 *            Orbital exponents of primitives in contracted Gaussian function a.
-	 * @param aNorms
-	 *            Primitive normalisation coefficients of primitives in contracted
-	 *            Gaussian function a.
+	 * @param a      Center of contracted Gaussian function a.
+	 * @param aPower Angular momentum of Gaussian function a.
+	 * @param aCoeff Coefficients of primitives in contracted Gaussian function a.
+	 * @param aExps  Orbital exponents of primitives in contracted Gaussian function
+	 *               a.
+	 * @param aNorms Primitive normalisation coefficients of primitives in
+	 *               contracted Gaussian function a.
 	 * 
-	 * @param b
-	 *            Center of contracted Gaussian function b. *
-	 * @param bCoeff
-	 *            Coefficients of primitives in contracted Gaussian function b.
-	 * @param bExps
-	 *            Orbital exponents of primitives in contracted Gaussian function b.
-	 * @param bNorms
-	 *            Primitive normalisation coefficients of primitives in contracted
-	 *            Gaussian function b.
+	 * @param b      Center of contracted Gaussian function b. *
+	 * @param bCoeff Coefficients of primitives in contracted Gaussian function b.
+	 * @param bExps  Orbital exponents of primitives in contracted Gaussian function
+	 *               b.
+	 * @param bNorms Primitive normalisation coefficients of primitives in
+	 *               contracted Gaussian function b.
 	 * 
-	 * @param c
-	 *            Center of contracted Gaussian function c.
-	 * @param cPower
-	 *            Angular momentum of Gaussian function c.
-	 * @param cCoeff
-	 *            Coefficients of primitives in contracted Gaussian function c.
-	 * @param cExps
-	 *            Orbital exponents of primitives in contracted Gaussian function c.
-	 * @param cNorms
-	 *            Primitive normalisation coefficients of primitives in contracted
-	 *            Gaussian function c.
+	 * @param c      Center of contracted Gaussian function c.
+	 * @param cPower Angular momentum of Gaussian function c.
+	 * @param cCoeff Coefficients of primitives in contracted Gaussian function c.
+	 * @param cExps  Orbital exponents of primitives in contracted Gaussian function
+	 *               c.
+	 * @param cNorms Primitive normalisation coefficients of primitives in
+	 *               contracted Gaussian function c.
 	 * 
-	 * @param d
-	 *            Center of contracted Gaussian function d. *
-	 * @param dCoeff
-	 *            Coefficients of primitives in contracted Gaussian function d.
-	 * @param dExps
-	 *            Orbital exponents of primitives in contracted Gaussian function d.
-	 * @param dNorms
-	 *            Primitive normalisation coefficients of primitives in contracted
-	 *            Gaussian function d.
+	 * @param d      Center of contracted Gaussian function d. *
+	 * @param dCoeff Coefficients of primitives in contracted Gaussian function d.
+	 * @param dExps  Orbital exponents of primitives in contracted Gaussian function
+	 *               d.
+	 * @param dNorms Primitive normalisation coefficients of primitives in
+	 *               contracted Gaussian function d.
 	 * 
 	 * @return Contribution to Vertical Recurrence Relation.
 	 */
@@ -260,41 +231,26 @@ public final class HGPTwoElectronTerm implements TwoElectronTerm {
 	/**
 	 * VRR (Vertical Recurrence Relation) contribution
 	 * 
-	 * @param a
-	 *            Center of primitive Gaussian function a.
-	 * @param aNorm
-	 *            Normalisation coefficients of primitive Gaussian function a.
-	 * @param aPower
-	 *            Angular momentum of primitive Gaussian function a.
-	 * @param aAlpha
-	 *            Orbital exponent of primitiveGaussian function a.
+	 * @param a      Center of primitive Gaussian function a.
+	 * @param aNorm  Normalisation coefficients of primitive Gaussian function a.
+	 * @param aPower Angular momentum of primitive Gaussian function a.
+	 * @param aAlpha Orbital exponent of primitiveGaussian function a.
 	 * 
-	 * @param b
-	 *            Center of primitive Gaussian function b.
-	 * @param bNorm
-	 *            Normalisation coefficients of primitive Gaussian function b.
-	 * @param bAlpha
-	 *            Orbital exponent of primitiveGaussian function b.
+	 * @param b      Center of primitive Gaussian function b.
+	 * @param bNorm  Normalisation coefficients of primitive Gaussian function b.
+	 * @param bAlpha Orbital exponent of primitiveGaussian function b.
 	 * 
-	 * @param c
-	 *            Center of primitive Gaussian function c.
-	 * @param cNorm
-	 *            Normalisation coefficients of primitive Gaussian function c.
-	 * @param cPower
-	 *            Angular momentum of primitive Gaussian function c.
-	 * @param cAlpha
-	 *            Orbital exponent of primitiveGaussian function c.
+	 * @param c      Center of primitive Gaussian function c.
+	 * @param cNorm  Normalisation coefficients of primitive Gaussian function c.
+	 * @param cPower Angular momentum of primitive Gaussian function c.
+	 * @param cAlpha Orbital exponent of primitiveGaussian function c.
 	 * 
-	 * @param d
-	 *            Center of primitive Gaussian function d.
-	 * @param dNorm
-	 *            Normalisation coefficients of primitive Gaussian function d.
-	 * @param dAlpha
-	 *            Orbital exponent of primitiveGaussian function d.
+	 * @param d      Center of primitive Gaussian function d.
+	 * @param dNorm  Normalisation coefficients of primitive Gaussian function d.
+	 * @param dAlpha Orbital exponent of primitiveGaussian function d.
 	 * 
-	 * @param m
-	 *            If equal to 0, ERI is true, else greater than 0, ERI is an
-	 *            auxiliary integral.
+	 * @param m      If equal to 0, ERI is true, else greater than 0, ERI is an
+	 *               auxiliary integral.
 	 * @return Contribution to Vertical Recurrence Relation.
 	 */
 	protected final double vrrWrapper(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
@@ -307,8 +263,9 @@ public final class HGPTwoElectronTerm implements TwoElectronTerm {
 	/**
 	 * VRR (Vertical Recurrence Relation)
 	 */
-	private final double vrr(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm, double bAlpha,
-			Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d, double dNorm, double dAlpha, int m) {
+	private final double vrr(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
+			double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d, double dNorm,
+			double dAlpha, int m) {
 		double val;
 
 		final Vector3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
@@ -457,9 +414,9 @@ public final class HGPTwoElectronTerm implements TwoElectronTerm {
 	/**
 	 * VRR (Vertical Recurrence Relation)
 	 */
-	private final double vrrNonRecursive(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
-			double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d, double dNorm,
-			double dAlpha, int m) {
+	private final double vrrNonRecursive(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b,
+			double bNorm, double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d,
+			double dNorm, double dAlpha, int m) {
 
 		Vector3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
 		Vector3D q = IntegralsUtil.gaussianProductCenter(cAlpha, c, dAlpha, d);
