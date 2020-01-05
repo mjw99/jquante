@@ -220,11 +220,6 @@ public final class HGPTwoElectronTerm implements TwoElectronTerm {
 
 		double value = 0.0;
 
-		int i;
-		int j;
-		int k;
-		int l;
-
 		double iaExp;
 		double iaCoef;
 		double iaNorm;
@@ -237,22 +232,22 @@ public final class HGPTwoElectronTerm implements TwoElectronTerm {
 		double kcCoef;
 		double kcNorm;
 
-		for (i = 0; i < aExps.size(); i++) {
+		for (int i = 0; i < aExps.size(); i++) {
 			iaCoef = aCoeff.get(i);
 			iaExp = aExps.get(i);
 			iaNorm = aNorms.get(i);
 
-			for (j = 0; j < bExps.size(); j++) {
+			for (int j = 0; j < bExps.size(); j++) {
 				jbCoef = bCoeff.get(j);
 				jbExp = bExps.get(j);
 				jbNorm = bNorms.get(j);
 
-				for (k = 0; k < cExps.size(); k++) {
+				for (int k = 0; k < cExps.size(); k++) {
 					kcCoef = cCoeff.get(k);
 					kcExp = cExps.get(k);
 					kcNorm = cNorms.get(k);
 
-					for (l = 0; l < dExps.size(); l++) {
+					for (int l = 0; l < dExps.size(); l++) {
 						value += iaCoef * jbCoef * kcCoef * dCoeff.get(l) * vrrWrapper(a, iaNorm, aPower, iaExp, b,
 								jbNorm, jbExp, c, kcNorm, cPower, kcExp, d, dNorms.get(l), dExps.get(l), 0);
 					}
