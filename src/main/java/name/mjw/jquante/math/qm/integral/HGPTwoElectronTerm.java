@@ -219,7 +219,7 @@ public final class HGPTwoElectronTerm implements TwoElectronTerm {
 					kcNorm = cNorms.get(k);
 
 					for (int l = 0; l < dExps.size(); l++) {
-						value += iaCoef * jbCoef * kcCoef * dCoeff.get(l) * vrrWrapper(a, iaNorm, aPower, iaExp, b,
+						value += iaCoef * jbCoef * kcCoef * dCoeff.get(l) * vrr(a, iaNorm, aPower, iaExp, b,
 								jbNorm, jbExp, c, kcNorm, cPower, kcExp, d, dNorms.get(l), dExps.get(l), 0);
 					}
 				}
@@ -253,17 +253,7 @@ public final class HGPTwoElectronTerm implements TwoElectronTerm {
 	 *               auxiliary integral.
 	 * @return Contribution to Vertical Recurrence Relation.
 	 */
-	protected final double vrrWrapper(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
-			double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d, double dNorm,
-			double dAlpha, int m) {
-
-		return vrr(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c, cNorm, cPower, cAlpha, d, dNorm, dAlpha, m);
-	}
-
-	/**
-	 * VRR (Vertical Recurrence Relation)
-	 */
-	private final double vrr(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
+	final double vrr(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
 			double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d, double dNorm,
 			double dAlpha, int m) {
 		double val;
@@ -409,197 +399,6 @@ public final class HGPTwoElectronTerm implements TwoElectronTerm {
 
 		return aNorm * bNorm * cNorm * dNorm * Kab * Kcd / FastMath.sqrt(zetaPlusEta)
 				* IntegralsUtil.computeFGamma(m, T);
-	}
-
-	/**
-	 * VRR (Vertical Recurrence Relation)
-	 */
-	private final double vrrNonRecursive(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b,
-			double bNorm, double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d,
-			double dNorm, double dAlpha, int m) {
-
-		Vector3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
-		Vector3D q = IntegralsUtil.gaussianProductCenter(cAlpha, c, dAlpha, d);
-		double zeta = aAlpha + bAlpha;
-		double eta = cAlpha + dAlpha;
-		double zetaPlusEta = zeta + eta;
-		double zetaByZetaPlusEta = zeta / zetaPlusEta;
-		double etaByZetaPlusEta = eta / zetaPlusEta;
-		Vector3D w = IntegralsUtil.gaussianProductCenter(zeta, p, eta, q);
-
-		int la = aPower.getL();
-		int ma = aPower.getM();
-		int na = aPower.getN();
-
-		int lc = cPower.getL();
-		int mc = cPower.getM();
-		int nc = cPower.getN();
-
-		int mtot = la + ma + na + lc + mc + nc + m; // total angular momentum
-
-		double[] fGammaTerms = new double[mtot + 1];
-
-		int i, j, k, qp, r, s, im;
-
-		double px = p.getX(), py = p.getY(), pz = p.getZ();
-		double qx = q.getX(), qy = q.getY(), qz = q.getZ();
-		double wx = w.getX(), wy = w.getY(), wz = w.getZ();
-		double xa = a.getX(), ya = a.getY(), za = a.getZ();
-		double xc = c.getX(), yc = c.getY(), zc = c.getZ();
-
-		double rab2 = a.distanceSq(b);
-		double Kab = sqrt2PI / zeta * FastMath.exp(-aAlpha * bAlpha / zeta * rab2);
-		double rcd2 = c.distanceSq(d);
-		double Kcd = sqrt2PI / eta * FastMath.exp(-cAlpha * dAlpha / eta * rcd2);
-		double rpq2 = p.distanceSq(q);
-		double T = zeta * eta / zetaPlusEta * rpq2;
-
-		// form [0]^m
-		fGammaTerms[mtot] = IntegralsUtil.computeFGamma(mtot, T);
-		for (im = mtot - 1; im >= 0; im--)
-			fGammaTerms[im] = (2.0 * T * fGammaTerms[im + 1] + FastMath.exp(-T)) / (2.0 * im + 1);
-
-		int maxam = 5; // la*ma*na*lc*mc*nc*mtot;
-		double[] vrrTerms = new double[187500];
-
-		for (im = 0; im < mtot + 1; im++)
-			vrrTerms[iindex(0, 0, 0, 0, 0, 0, im, maxam)] = aNorm * bNorm * cNorm * dNorm * Kab * Kcd
-					/ FastMath.sqrt(zeta + eta) * fGammaTerms[im];
-
-		// construct the other set of terms from the above [0]^m terms
-
-		// the following code breaks the recursive steps in to a series of
-		// iterations
-		for (i = 0; i < la; i++) {
-			for (im = 0; im < mtot - i; im++) {
-				vrrTerms[iindex(i + 1, 0, 0, 0, 0, 0, im, maxam)] = (px - xa)
-						* vrrTerms[iindex(i, 0, 0, 0, 0, 0, im, maxam)]
-						+ (wx - px) * vrrTerms[iindex(i, 0, 0, 0, 0, 0, im + 1, maxam)];
-
-				if (i > 0) {
-					vrrTerms[iindex(i + 1, 0, 0, 0, 0, 0, im, maxam)] += i / 2.0 / zeta
-							* (vrrTerms[iindex(i - 1, 0, 0, 0, 0, 0, im, maxam)]
-									- etaByZetaPlusEta * vrrTerms[iindex(i - 1, 0, 0, 0, 0, 0, im + 1, maxam)]);
-				} // end if
-			} // end for
-		} // end for
-
-		for (j = 0; j < ma; j++) {
-			for (i = 0; i < la + 1; i++) {
-				for (im = 0; im < mtot - i - j; im++) {
-					vrrTerms[iindex(i, j + 1, 0, 0, 0, 0, im, maxam)] = (py - ya)
-							* vrrTerms[iindex(i, j, 0, 0, 0, 0, im, maxam)]
-							+ (wy - py) * vrrTerms[iindex(i, j, 0, 0, 0, 0, im + 1, maxam)];
-
-					if (j > 0) {
-						vrrTerms[iindex(i, j + 1, 0, 0, 0, 0, im, maxam)] += j / 2.0 / zeta
-								* (vrrTerms[iindex(i, j - 1, 0, 0, 0, 0, im, maxam)]
-										- etaByZetaPlusEta * vrrTerms[iindex(i, j - 1, 0, 0, 0, 0, im + 1, maxam)]);
-					} // end if
-				} // end for
-			} // end for
-		} // end for
-
-		for (k = 0; k < na; k++) {
-			for (j = 0; j < ma + 1; j++) {
-				for (i = 0; i < la + 1; i++) {
-					for (im = 0; im < mtot - i - j - k; im++) {
-						vrrTerms[iindex(i, j, k + 1, 0, 0, 0, im, maxam)] = (pz - za)
-								* vrrTerms[iindex(i, j, k, 0, 0, 0, im, maxam)]
-								+ (wz - pz) * vrrTerms[iindex(i, j, k, 0, 0, 0, im + 1, maxam)];
-						if (k > 0) {
-							vrrTerms[iindex(i, j, k + 1, 0, 0, 0, im, maxam)] += k / 2.0 / zeta
-									* (vrrTerms[iindex(i, j, k - 1, 0, 0, 0, im, maxam)]
-											- etaByZetaPlusEta * vrrTerms[iindex(i, j, k - 1, 0, 0, 0, im + 1, maxam)]);
-						} // end if
-					} // end for
-				} // end for
-			} // end for
-		} // end for
-
-		for (qp = 0; qp < lc; qp++) {
-			for (k = 0; k < na + 1; k++) {
-				for (j = 0; j < ma + 1; j++) {
-					for (i = 0; i < la + 1; i++) {
-						for (im = 0; im < mtot - i - j - k - qp; im++) {
-							vrrTerms[iindex(i, j, k, qp + 1, 0, 0, im, maxam)] = (qx - xc)
-									* vrrTerms[iindex(i, j, k, qp, 0, 0, im, maxam)]
-									+ (wx - qx) * vrrTerms[iindex(i, j, k, qp, 0, 0, im + 1, maxam)];
-							if (qp > 0) {
-								vrrTerms[iindex(i, j, k, qp + 1, 0, 0, im, maxam)] += qp / 2.0 / eta
-										* (vrrTerms[iindex(i, j, k, qp - 1, 0, 0, im, maxam)] - zetaByZetaPlusEta
-												* vrrTerms[iindex(i, j, k, qp - 1, 0, 0, im + 1, maxam)]);
-							} // end if
-							if (i > 0) {
-								vrrTerms[iindex(i, j, k, qp + 1, 0, 0, im, maxam)] += i / 2.0 / zetaPlusEta
-										* vrrTerms[iindex(i - 1, j, k, qp, 0, 0, im + 1, maxam)];
-							} // end if
-						} // end for
-					} // end for
-				} // end for
-			} // end for
-		} // end for
-
-		for (r = 0; r < mc; r++) {
-			for (qp = 0; qp < lc + 1; qp++) {
-				for (k = 0; k < na + 1; k++) {
-					for (j = 0; j < ma + 1; j++) {
-						for (i = 0; i < la + 1; i++) {
-							for (im = 0; im < mtot - i - j - k - qp - r; im++) {
-								vrrTerms[iindex(i, j, k, qp, r + 1, 0, im, maxam)] = (qy - yc)
-										* vrrTerms[iindex(i, j, k, qp, r, 0, im, maxam)]
-										+ (wy - qy) * vrrTerms[iindex(i, j, k, qp, r, 0, im + 1, maxam)];
-								if (r > 0) {
-									vrrTerms[iindex(i, j, k, qp, r + 1, 0, im, maxam)] += r / 2.0 / eta
-											* (vrrTerms[iindex(i, j, k, qp, r - 1, 0, im, maxam)] - zetaByZetaPlusEta
-													* vrrTerms[iindex(i, j, k, qp, r - 1, 0, im + 1, maxam)]);
-								} // end if
-								if (j > 0) {
-									vrrTerms[iindex(i, j, k, qp, r + 1, 0, im, maxam)] += j / 2.0 / zetaPlusEta
-											* vrrTerms[iindex(i, j - 1, k, qp, r, 0, im + 1, maxam)];
-								} // end if
-							} // end for
-						} // end for
-					} // end for
-				} // end for
-			} // end for
-		} // end for
-
-		for (s = 0; s < nc; s++) {
-			for (r = 0; r < mc + 1; r++) {
-				for (qp = 0; qp < lc + 1; qp++) {
-					for (k = 0; k < na + 1; k++) {
-						for (j = 0; j < ma + 1; j++) {
-							for (i = 0; i < la + 1; i++) {
-								for (im = 0; im < mtot - i - j - k - qp - r - s; im++) {
-									vrrTerms[iindex(i, j, k, qp, r, s + 1, im, maxam)] = (qz - zc)
-											* vrrTerms[iindex(i, j, k, qp, r, s, im, maxam)]
-											+ (wz - qz) * vrrTerms[iindex(i, j, k, qp, r, s, im + 1, maxam)];
-									if (s > 0) {
-										vrrTerms[iindex(i, j, k, qp, r, s + 1, im, maxam)] += s / 2.0 / eta
-												* (vrrTerms[iindex(i, j, k, qp, r, s - 1, im, maxam)]
-														- zetaByZetaPlusEta * vrrTerms[iindex(i, j, k, qp, r, s - 1,
-																im + 1, maxam)]);
-									} // end if
-									if (k > 0) {
-										vrrTerms[iindex(i, j, k, qp, r, s + 1, im, maxam)] += k / 2.0 / zetaPlusEta
-												* vrrTerms[iindex(i, j, k - 1, qp, r, s, im + 1, maxam)];
-									} // end if
-								} // end for
-							} // end for
-						} // end for
-					} // end for
-				} // end for
-			} // end for
-		} // end for
-
-		return vrrTerms[iindex(la, ma, na, lc, mc, nc, m, maxam)];
-	}
-
-	/* Convert the 7-dimensional indices to a 1d iindex */
-	private final int iindex(int la, int ma, int na, int lc, int mc, int nc, int m, int maxam) {
-		return (la + ma * maxam + na * maxam * maxam + lc * maxam * maxam * maxam + nc * maxam * maxam * maxam * maxam
-				+ mc * maxam * maxam * maxam * maxam * maxam + m * maxam * maxam * maxam * maxam * maxam * maxam);
 	}
 
 	@Override
