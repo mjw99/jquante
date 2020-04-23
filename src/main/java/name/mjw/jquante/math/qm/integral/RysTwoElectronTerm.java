@@ -1761,14 +1761,14 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 			Density density, RealMatrix jMat, RealMatrix kMat) {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
-	
+
 
 	public final double coulombRepulsion(Vector3D a, double aNorm,
 			Power aPower, double aAlpha, Vector3D b, double bNorm, Power bPower,
 			double bAlpha, Vector3D c, double cNorm, Power cPower,
 			double cAlpha, Vector3D d, double dNorm, Power dPower, double dAlpha) {
-		
+
 		return 0;
-		
+
 	}
 }

@@ -44,7 +44,7 @@ public final class IntegralsUtil {
 
 		return new double[] {
 				(alpha1 * aCoord[0] + alpha2 * bCoord[0]) / gamma,
-				(alpha1 * aCoord[1] + alpha2 * bCoord[1]) / gamma, 
+				(alpha1 * aCoord[1] + alpha2 * bCoord[1]) / gamma,
 				(alpha1 * aCoord[2] + alpha2 * bCoord[2]) / gamma};
 	}
 

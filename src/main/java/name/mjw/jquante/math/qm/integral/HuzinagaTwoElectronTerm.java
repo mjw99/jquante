@@ -226,8 +226,8 @@ public final class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 	}
 	@Override
 	public final double coulombRepulsion(
-			double[] aCoord, double aNorm, int[] aPowers, double aAlpha, 
-			double[] bCoord, double bNorm, int[] bPowers, double bAlpha, 
+			double[] aCoord, double aNorm, int[] aPowers, double aAlpha,
+			double[] bCoord, double bNorm, int[] bPowers, double bAlpha,
 			double[] cCoord, double cNorm, int[] cPowers, double cAlpha,
 			double[] dCoord, double dNorm, int[] dPowers, double dAlpha) {
 		return 0;
