@@ -44,11 +44,11 @@ public final class BasisSet {
 	/**
 	 * Add a relevant atomic basis to this basis set
 	 * 
-	 * @param basis
+	 * @param atomicBasis
 	 *            the instance of AtomicBasis to be added to this basis set
 	 */
-	public void addAtomicBasis(AtomicBasis basis) {
-		basisSet.put(basis.getSymbol(), basis);
+	public void addAtomicBasis(AtomicBasis atomicBasis) {
+		basisSet.put(atomicBasis.getSymbol(), atomicBasis);
 	}
 
 	/**
@@ -61,12 +61,12 @@ public final class BasisSet {
 	 * @return instance of AtomicBasis
 	 */
 	public AtomicBasis getAtomicBasis(String symbol) {
-		AtomicBasis basis = basisSet.get(symbol);
+		AtomicBasis atomicBasis = basisSet.get(symbol);
 
-		if (basis == null) {
+		if (atomicBasis == null) {
 			throw new BasisNotFoundException("Basis for atom '" + symbol
 					+ "' is not defined in : " + name);
 		}
-		return basis;
+		return atomicBasis;
 	}
 }
