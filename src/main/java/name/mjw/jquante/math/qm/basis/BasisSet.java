@@ -11,7 +11,7 @@ import java.util.HashMap;
 public final class BasisSet {
 
 	/**
-	 * Holds value of property name.
+	 * The name of the basis set.
 	 */
 	private String name;
 
@@ -29,7 +29,7 @@ public final class BasisSet {
 	public BasisSet(String name) {
 		this.name = name;
 
-		basisSet = new HashMap<>(80);
+		basisSet = new HashMap<>();
 	}
 
 	/**
@@ -48,7 +48,7 @@ public final class BasisSet {
 	 *            the instance of AtomicBasis to be added to this basis set
 	 */
 	public void addAtomicBasis(AtomicBasis atomicBasis) {
-		basisSet.put(atomicBasis.getSymbol(), atomicBasis);
+		basisSet.put(atomicBasis.getChemicalSymbol(), atomicBasis);
 	}
 
 	/**
@@ -56,15 +56,15 @@ public final class BasisSet {
 	 * <code>BasisNotFoundException</code> if the basis set does not contain
 	 * atomic basis for the requested atomic symbol.
 	 * 
-	 * @param symbol
+	 * @param chemicalSymbol
 	 *            for which the basis is requested
 	 * @return instance of AtomicBasis
 	 */
-	public AtomicBasis getAtomicBasis(String symbol) {
-		AtomicBasis atomicBasis = basisSet.get(symbol);
+	public AtomicBasis getAtomicBasis(String chemicalSymbol) {
+		AtomicBasis atomicBasis = basisSet.get(chemicalSymbol);
 
 		if (atomicBasis == null) {
-			throw new BasisNotFoundException("Basis for atom '" + symbol
+			throw new BasisNotFoundException("Basis for atom '" + chemicalSymbol
 					+ "' is not defined in : " + name);
 		}
 		return atomicBasis;
