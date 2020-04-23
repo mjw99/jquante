@@ -283,8 +283,8 @@ public final class BasisSetLibrary {
 
 	public void printUniqueShellPairList() {
 		System.out.println("");
-		System.out.println("Unique shellpair list");
-		System.out.println("=====================");
+		System.out.println("Unique shellpair list (" + this.uniqueShellPairs.size() + " pairs)");
+		System.out.println("=================================");
 		for (List<Shell> uniqueShellPair : this.uniqueShellPairs) {
 			System.out.print(uniqueShellPair);
 		}
