@@ -286,7 +286,12 @@ public final class BasisSetLibrary {
 		System.out.println("Unique shellpair list (" + this.uniqueShellPairs.size() + " pairs)");
 		System.out.println("=================================");
 		for (List<Shell> uniqueShellPair : this.uniqueShellPairs) {
-			System.out.print(uniqueShellPair);
+			System.out.print(
+					(shells.indexOf(uniqueShellPair.get(0)) + 1) + " " + (shells.indexOf(uniqueShellPair.get(1)) + 1)+ "\n"
+					//+ uniqueShellPair.get(0)
+					//+ uniqueShellPair.get(1) + "\n"
+					);					
+			
 		}
 	}
 
