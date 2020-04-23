@@ -742,6 +742,12 @@ public final class ContractedGaussian implements Comparable<ContractedGaussian> 
 	}
 
 	  @Override
+	  /**
+	   * Use LibInt ordering:
+	   * 	Sort first by increasing index of center,
+	   * 	then by increasing angular momentum,
+	   *    last by decreasing exponent.
+	   */
 	  public int compareTo( ContractedGaussian other ) {
 	    return ComparisonChain.start()
 	      .compare( basisFunctionIndex, other.basisFunctionIndex )
