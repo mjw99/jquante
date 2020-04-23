@@ -132,7 +132,7 @@ public final class BasisSetLibrary {
 	 * @return Value of property basisFunctions.
 	 */
 	private ArrayList<ContractedGaussian> getBasisFunctions(Molecule molecule, String basisName) throws Exception {
-		BasisSet basis = BasisReader.getInstance().readBasis(basisName);
+		BasisSet basisSet = BasisSetReader.getInstance().readBasisSet(basisName);
 		Iterator<Atom> atoms = molecule.getAtoms();
 
 		basisFunctions = new ArrayList<>();
@@ -141,7 +141,7 @@ public final class BasisSetLibrary {
 		AtomicBasis atomicBasis;
 		while (atoms.hasNext()) { // loop over atoms
 			atom = atoms.next();
-			atomicBasis = basis.getAtomicBasis(atom.getSymbol());
+			atomicBasis = basisSet.getAtomicBasis(atom.getSymbol());
 
 			Iterator<Orbital> orbitals = atomicBasis.getOrbitals().iterator();
 			Orbital orbital;
