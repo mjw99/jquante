@@ -1,12 +1,13 @@
 package name.mjw.jquante.math.qm.integral;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
 import org.hipparchus.linear.RealMatrix;
 import org.hipparchus.special.Erf;
 import org.hipparchus.util.CombinatoricsUtils;
+
+import com.google.common.primitives.Doubles;
 
 import name.mjw.jquante.math.qm.Density;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
@@ -39,90 +40,49 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 	 * 2E coulomb interactions between 4 contracted Gaussians
 	 */
 	@Override
-	public final double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c, ContractedGaussian d) {
+	public final double coulomb(final ContractedGaussian a, final ContractedGaussian b, final ContractedGaussian c,
+			final ContractedGaussian d) {
+
+		final double[] aExps  = Doubles.toArray(a.getExponents());
+		final double[] aCoefs = Doubles.toArray(a.getCoefficients());
+		final double[] aNorms = Doubles.toArray(a.getPrimNorms());
+		final int[]   aPowers = { a.getPowers().getL(), a.getPowers().getM(), a.getPowers().getN() };
+		final double[] aCoord = { a.getOrigin().getX(), a.getOrigin().getY(), a.getOrigin().getZ() };
+
+		final double[] bExps = Doubles.toArray(b.getExponents());
+		final double[] bCoefs = Doubles.toArray(b.getCoefficients());
+		final double[] bNorms = Doubles.toArray(b.getPrimNorms());
+		final int[] bPowers = { b.getPowers().getL(), b.getPowers().getM(), b.getPowers().getN() };
+		final double[] bCoord = { b.getOrigin().getX(), b.getOrigin().getY(), b.getOrigin().getZ() };
+
+		final double[] cExps = Doubles.toArray(c.getExponents());
+		final double[] cCoefs = Doubles.toArray(c.getCoefficients());
+		final double[] cNorms = Doubles.toArray(c.getPrimNorms());
+		final int[] cPowers = { c.getPowers().getL(), c.getPowers().getM(), c.getPowers().getN() };
+		final double[] cCoord = { c.getOrigin().getX(), c.getOrigin().getY(), c.getOrigin().getZ() };
+
+		final double[] dExps = Doubles.toArray(d.getExponents());
+		final double[] dCoefs = Doubles.toArray(d.getCoefficients());
+		final double[] dNorms = Doubles.toArray(d.getPrimNorms());
+		final int[] dPowers = { d.getPowers().getL(), d.getPowers().getM(), d.getPowers().getN() };
+		final double[] dCoord = { d.getOrigin().getX(), d.getOrigin().getY(), d.getOrigin().getZ() };
 
 		double value = 0.0;
 
-		int i;
-		int j;
-		int k;
-		int l;
-		double iaExp;
-		double iaCoef;
-		double iaNorm;
-		double jbExp;
-		double jbCoef;
-		double jbNorm;
-		double kcExp;
-		double kcCoef;
-		double kcNorm;
 		double repulsionTerm;
 
-		ArrayList<Double> aExps;
-		ArrayList<Double> aCoefs;
-		ArrayList<Double> aNorms;
+		for (int i = 0; i < aExps.length; i++) {
+			for (int j = 0; j < bExps.length; j++) {
+				for (int k = 0; k < cExps.length; k++) {
+					for (int l = 0; l < dExps.length; l++) {
 
-		ArrayList<Double> bExps;
-		ArrayList<Double> bCoefs;
-		ArrayList<Double> bNorms;
+						repulsionTerm = coulombRepulsion(
+								aCoord, aNorms[i], aPowers, aExps[i],
+								bCoord, bNorms[j], bPowers, bExps[j],
+								cCoord, cNorms[k], cPowers, cExps[k],
+								dCoord, dNorms[l], dPowers, dExps[l]);
 
-		ArrayList<Double> cExps;
-		ArrayList<Double> cCoefs;
-		ArrayList<Double> cNorms;
-
-		ArrayList<Double> dExps;
-		ArrayList<Double> dCoefs;
-		ArrayList<Double> dNorms;
-
-		aExps = a.getExponents();
-		aCoefs = a.getCoefficients();
-		aNorms = a.getPrimNorms();
-		Vector3D aOrigin = a.getOrigin();
-		Power aPower = a.getPowers();
-
-		bExps = b.getExponents();
-		bCoefs = b.getCoefficients();
-		bNorms = b.getPrimNorms();
-		Vector3D bOrigin = b.getOrigin();
-		Power bPower = b.getPowers();
-
-		cExps = c.getExponents();
-		cCoefs = c.getCoefficients();
-		cNorms = c.getPrimNorms();
-		Vector3D cOrigin = c.getOrigin();
-		Power cPower = c.getPowers();
-
-		dExps = d.getExponents();
-		dCoefs = d.getCoefficients();
-		dNorms = d.getPrimNorms();
-		Vector3D dOrigin = d.getOrigin();
-		Power dPower = d.getPowers();
-
-		int asz = aExps.size();
-		int bsz = bExps.size();
-		int csz = cExps.size();
-		int dsz = dExps.size();
-
-		for (i = 0; i < asz; i++) {
-			iaCoef = aCoefs.get(i);
-			iaExp = aExps.get(i);
-			iaNorm = aNorms.get(i);
-
-			for (j = 0; j < bsz; j++) {
-				jbCoef = bCoefs.get(j);
-				jbExp = bExps.get(j);
-				jbNorm = bNorms.get(j);
-
-				for (k = 0; k < csz; k++) {
-					kcCoef = cCoefs.get(k);
-					kcExp = cExps.get(k);
-					kcNorm = cNorms.get(k);
-
-					for (l = 0; l < dsz; l++) {
-						repulsionTerm = coulombRepulsion(aOrigin, iaNorm, aPower, iaExp, bOrigin, jbNorm, bPower, jbExp,
-								cOrigin, kcNorm, cPower, kcExp, dOrigin, dNorms.get(l), dPower, dExps.get(l));
-
-						value += iaCoef * jbCoef * kcCoef * dCoefs.get(l) * repulsionTerm;
+						value += aCoefs[i] * bCoefs[j] * cCoefs[k] * dCoefs[l] * repulsionTerm;
 					}
 				}
 			}
@@ -135,33 +95,34 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 	/**
 	 * Form coulomb repulsion integral by Rys quadrature
 	 */
-	@Override
-	public final double coulombRepulsion(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
-			Power bPower, double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d,
-			double dNorm, Power dPower, double dAlpha) {
+	public final double coulombRepulsion(
+			double[] aCoord, double aNorm, int[] aPowers, double aAlpha, 
+			double[] bCoord, double bNorm, int[] bPowers, double bAlpha, 
+			double[] cCoord, double cNorm, int[] cPowers, double cAlpha,
+			double[] dCoord, double dNorm, int[] dPowers, double dAlpha) {
 
-		final int la = aPower.getL();
-		final int ma = aPower.getM();
-		final int na = aPower.getN();
+		final int la = aPowers[0];
+		final int ma = aPowers[1];
+		final int na = aPowers[2];
 
-		final int lb = bPower.getL();
-		final int mb = bPower.getM();
-		final int nb = bPower.getN();
+		final int lb = bPowers[0];
+		final int mb = bPowers[1];
+		final int nb = bPowers[2];
 
-		final int lc = cPower.getL();
-		final int mc = cPower.getM();
-		final int nc = cPower.getN();
+		final int lc = cPowers[0];
+		final int mc = cPowers[1];
+		final int nc = cPowers[2];
 
-		final int ld = dPower.getL();
-		final int md = dPower.getM();
-		final int nd = dPower.getN();
+		final int ld = dPowers[0];
+		final int md = dPowers[1];
+		final int nd = dPowers[2];
 
 		final int nRoots = (la + ma + na + lb + nb + mb + lc + mc + nc + ld + md + nd) / 2 + 1;
 
 		double[] roots = new double[nRoots];
 		double[] weights = new double[nRoots];
 
-		final double radiusPQSquared = calculateRadiusPQSquared(a, aAlpha, b, bAlpha, c, cAlpha, d, dAlpha);
+		final double radiusPQSquared = calculateRadiusPQSquared(aCoord, aAlpha, bCoord, bAlpha, cCoord, cAlpha, dCoord, dAlpha);
 
 		final double rho = calculateRho(aAlpha, bAlpha, cAlpha, dAlpha);
 
@@ -178,9 +139,9 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		for (int i = 0; i < roots.length; i++) {
 			t = roots[i];
 
-			iX = int1d(t, la, lb, lc, ld, a.getX(), b.getX(), c.getX(), d.getX(), aAlpha, bAlpha, cAlpha, dAlpha);
-			iY = int1d(t, ma, mb, mc, md, a.getY(), b.getY(), c.getY(), d.getY(), aAlpha, bAlpha, cAlpha, dAlpha);
-			iZ = int1d(t, na, nb, nc, nd, a.getZ(), b.getZ(), c.getZ(), d.getZ(), aAlpha, bAlpha, cAlpha, dAlpha);
+			iX = int1d(t, la, lb, lc, ld, aCoord[0], bCoord[0], cCoord[0], dCoord[0], aAlpha, bAlpha, cAlpha, dAlpha);
+			iY = int1d(t, ma, mb, mc, md, aCoord[1], bCoord[1], cCoord[1], dCoord[1], aAlpha, bAlpha, cAlpha, dAlpha);
+			iZ = int1d(t, na, nb, nc, nd, aCoord[2], bCoord[2], cCoord[2], dCoord[2], aAlpha, bAlpha, cAlpha, dAlpha);
 
 			sum += iX * iY * iZ * weights[i];
 		}
@@ -190,7 +151,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
-	private double calculateRho(double aAlpha, double bAlpha, double cAlpha, double dAlpha) {
+	private static final double calculateRho(double aAlpha, double bAlpha, double cAlpha, double dAlpha) {
 		final double gamma1 = aAlpha + bAlpha;
 		final double gamma2 = cAlpha + dAlpha;
 
@@ -198,12 +159,20 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		return gamma1 * gamma2 / (gamma1 + gamma2);
 	}
 
-	private double calculateRadiusPQSquared(Vector3D a, double aAlpha, Vector3D b, double bAlpha, Vector3D c,
-			double cAlpha, Vector3D d, double dAlpha) {
-		final Vector3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
-		final Vector3D q = IntegralsUtil.gaussianProductCenter(cAlpha, c, dAlpha, d);
+	private static final double calculateRadiusPQSquared(
+			double[] aCoord, double aAlpha,
+			double[] bCoord, double bAlpha,
+			double[] cCoord, double cAlpha,
+			double[] dCoord, double dAlpha) {
 
-		return p.distanceSq(q);
+		final double[] p = IntegralsUtil.gaussianProductCenter(aAlpha, aCoord, bAlpha, bCoord);
+		final double[] q = IntegralsUtil.gaussianProductCenter(cAlpha, cCoord, dAlpha, dCoord);
+
+
+        final double dx = q[0] - p[0];
+        final double dy = q[1] - p[1];
+        final double dz = q[2] - p[2];
+        return dx * dx + dy * dy + dz * dz;
 	}
 
 	private static final void selectRoots(int nroots, double x, double[] roots, double[] weights) {
@@ -237,7 +206,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
-	private static final void root1(double x, double[] roots, double[] weights) {
+	private static final void root1(final double x, double[] roots, double[] weights) {
 
 		double rt1;
 		double ww1;
@@ -316,7 +285,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
-	private static final void root2(double x, double[] roots, double[] weights) {
+	private static final void root2(final double x, double[] roots, double[] weights) {
 		double rt1;
 		double rt2;
 		double ww1;
@@ -472,7 +441,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
-	private static final void root3(double x, double[] roots, double[] weights) {
+	private static final void root3(final double x, double[] roots, double[] weights) {
 		double rt1;
 		double rt2;
 		double rt3;
@@ -734,7 +703,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
-	private static final void root4(double x, double[] roots, double[] weights) {
+	private static final void root4(final double x, double[] roots, double[] weights) {
 		double rt1;
 		double rt2;
 		double rt3;
@@ -1011,7 +980,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		weights[3] = ww4;
 	}
 
-	private static final void root5(double x, double[] roots, double[] weights) {
+	private static final void root5(final double x, double[] roots, double[] weights) {
 		double rt1;
 		double rt2;
 		double rt3;
@@ -1392,7 +1361,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		weights[4] = ww5;
 	}
 
-	private static final void rRoot(int nRoots, double x, double[] roots, double[] weights) {
+	private static final void rRoot(final int nRoots, final double x, double[] roots, double[] weights) {
 
 		double[] r = new double[MAX_ROOTS_SQUARED];
 		double[] w = new double[MAX_ROOTS_SQUARED];
@@ -1674,13 +1643,13 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 	}
 
 	// Equ. 10
-	private final double int1d(double t, int la, int lb, int lc, int ld, double xa, double xb, double xc, double xd,
+	private static final double int1d(double t, int la, int lb, int lc, int ld, double xa, double xb, double xc, double xd,
 			double aAlpha, double bAlpha, double cAlpha, double dAlpha) {
 
-        final int n = la + lb;
-        final int m = lc + ld;
+		final int n = la + lb;
+		final int m = lc + ld;
 
-        final double[][] g = recur(t, n, m, xa, xb, xc, xd, aAlpha, bAlpha, cAlpha, dAlpha);
+		final double[][] g = recur(t, n, m, xa, xb, xc, xd, aAlpha, bAlpha, cAlpha, dAlpha);
 
 		return shift(g, la, lb, lc, ld, (xa - xb), (xc - xd));
 	}
@@ -1688,8 +1657,8 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 	/**
 	 * Form G(n,m)=I(n,0,m,0) intermediate values for a Rys polynomial
 	 */
-	private static final double[][] recur(double t, int n, int m, double xa, double xb, double xc,
-			double xd, double aAlpha, double bAlpha, double cAlpha, double dAlpha) {
+	private static final double[][] recur(double t, int n, int m, double xa, double xb, double xc, double xd,
+			double aAlpha, double bAlpha, double cAlpha, double dAlpha) {
 
 		final double a = aAlpha + bAlpha;
 		final double b = cAlpha + dAlpha;
@@ -1766,7 +1735,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 	 * 
 	 * xij = xi-xj xkl = xk-xl
 	 */
-	private final double shift(final double[][] g, final int i, final int j, final int k, final int l, final double xij,
+	private static final double shift(final double[][] g, final int i, final int j, final int k, final int l, final double xij,
 			final double xkl) {
 		double ijkl;
 		double ijm0;
@@ -1778,7 +1747,8 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 			ijm0 = 0;
 			/* I(i,j,m,0)<-I(n,0,m,0) */
 			for (n = 0; n < j + 1; n++) {
-				ijm0 += CombinatoricsUtils.binomialCoefficientDouble(j, n) * FastMath.pow(xij, (j - n)) * g[n + i][m + k];
+				ijm0 += CombinatoricsUtils.binomialCoefficientDouble(j, n) * FastMath.pow(xij, (j - n))
+						* g[n + i][m + k];
 			}
 			/* I(i,j,k,l)<-I(i,j,m,0) */
 			ijkl += CombinatoricsUtils.binomialCoefficientDouble(l, m) * FastMath.pow(xkl, (l - m)) * ijm0;
@@ -1790,5 +1760,15 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 	public final double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c, ContractedGaussian d,
 			Density density, RealMatrix jMat, RealMatrix kMat) {
 		throw new UnsupportedOperationException("Not supported yet.");
+	}
+	
+
+	public final double coulombRepulsion(Vector3D a, double aNorm,
+			Power aPower, double aAlpha, Vector3D b, double bNorm, Power bPower,
+			double bAlpha, Vector3D c, double cNorm, Power cPower,
+			double cAlpha, Vector3D d, double dNorm, Power dPower, double dAlpha) {
+		
+		return 0;
+		
 	}
 }

@@ -7,4 +7,5 @@ package name.mjw.jquante.math.qm.integral;
  * @version 2.0 (Part of MeTA v2.0)
  */
 public interface IntegralsPackage {
+
 }

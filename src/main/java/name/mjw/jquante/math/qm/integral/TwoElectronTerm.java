@@ -91,9 +91,18 @@ public interface TwoElectronTerm extends IntegralsPackage {
 	 *            Orbital exponent of Gaussian function d.
 	 * @return Two-electron integral.
 	 */
-	public abstract double coulombRepulsion(Vector3D a, double aNorm,
+	public double coulombRepulsion(Vector3D a, double aNorm,
 			Power aPower, double aAlpha, Vector3D b, double bNorm, Power bPower,
 			double bAlpha, Vector3D c, double cNorm, Power cPower,
 			double cAlpha, Vector3D d, double dNorm, Power dPower, double dAlpha);
+	
+	
+	public double coulombRepulsion(
+			double[] aCoord, double aNorm, int[] aPowers, double aAlpha, 
+			double[] bCoord, double bNorm, int[] bPowers, double bAlpha, 
+			double[] cCoord, double cNorm, int[] cPowers, double cAlpha,
+			double[] dCoord, double dNorm, int[] dPowers, double dAlpha);
+
+
 
 }
