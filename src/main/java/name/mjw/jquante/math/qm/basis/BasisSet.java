@@ -18,7 +18,7 @@ public final class BasisSet {
 	/**
 	 * Holds the collection of atomic basis, with the symbol as the key
 	 */
-	private HashMap<String, AtomicBasis> basisSet;
+	private HashMap<String, AtomicBasis> atomicBasisSet;
 
 	/**
 	 * Creates a new instance of Basis
@@ -29,7 +29,7 @@ public final class BasisSet {
 	public BasisSet(String name) {
 		this.name = name;
 
-		basisSet = new HashMap<>();
+		atomicBasisSet = new HashMap<>();
 	}
 
 	/**
@@ -48,11 +48,11 @@ public final class BasisSet {
 	 *            the instance of AtomicBasis to be added to this basis set
 	 */
 	public void addAtomicBasis(AtomicBasis atomicBasis) {
-		basisSet.put(atomicBasis.getChemicalSymbol(), atomicBasis);
+		atomicBasisSet.put(atomicBasis.getChemicalSymbol(), atomicBasis);
 	}
 
 	/**
-	 * Returns appropriate basis for a given atomic symbol. Will throw
+	 * Returns appropriate basis for a given chemical symbol. Will throw
 	 * <code>BasisNotFoundException</code> if the basis set does not contain
 	 * atomic basis for the requested atomic symbol.
 	 * 
@@ -61,7 +61,7 @@ public final class BasisSet {
 	 * @return instance of AtomicBasis
 	 */
 	public AtomicBasis getAtomicBasis(String chemicalSymbol) {
-		AtomicBasis atomicBasis = basisSet.get(chemicalSymbol);
+		AtomicBasis atomicBasis = atomicBasisSet.get(chemicalSymbol);
 
 		if (atomicBasis == null) {
 			throw new BasisNotFoundException("Basis for atom '" + chemicalSymbol
