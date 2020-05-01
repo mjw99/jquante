@@ -324,7 +324,7 @@ public final class PrimitiveGaussian implements Comparable<PrimitiveGaussian>{
 	}
 
 	/**
-	 * Libint ordering; sort exponents in ascending order.
+	 * Sort exponents in decending order.
 	 */
 	@Override
 	public int compareTo(PrimitiveGaussian other) {
