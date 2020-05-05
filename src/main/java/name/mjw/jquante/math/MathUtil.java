@@ -163,4 +163,12 @@ public final class MathUtil {
 		RealMatrixFormat mf = new RealMatrixFormat("\n", "", "", "", "\n", " ", df);
 		return mf.format(array2DRowRealMatrix);
 	}
+
+	public static final double distanceSq(double[] a, double[] b) {
+		final double dx = b[0] - a[0];
+		final double dy = b[1] - a[1];
+		final double dz = b[2] - a[2];
+
+		return dx * dx + dy * dy + dz * dz;
+	}
 }

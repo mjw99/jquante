@@ -32,8 +32,10 @@ public final class IntegralsUtil {
 	public static final Vector3D gaussianProductCenter(final double alpha1, final Vector3D a, final double alpha2,
 			final Vector3D b) {
 		final double gamma = alpha1 + alpha2;
-		return new Vector3D((alpha1 * a.getX() + alpha2 * b.getX()) / gamma,
-				(alpha1 * a.getY() + alpha2 * b.getY()) / gamma, (alpha1 * a.getZ() + alpha2 * b.getZ()) / gamma);
+		return new Vector3D(
+				(alpha1 * a.getX() + alpha2 * b.getX()) / gamma,
+				(alpha1 * a.getY() + alpha2 * b.getY()) / gamma, 
+				(alpha1 * a.getZ() + alpha2 * b.getZ()) / gamma);
 	}
 
 	public static final double[] gaussianProductCenter(

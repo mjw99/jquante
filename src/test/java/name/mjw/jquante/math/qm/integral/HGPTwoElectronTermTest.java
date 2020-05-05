@@ -1,6 +1,5 @@
 package name.mjw.jquante.math.qm.integral;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
@@ -9,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.math.qm.basis.Power;
-
 
 public class HGPTwoElectronTermTest {
 	private final double delta = 0.000001;
@@ -89,40 +87,45 @@ public class HGPTwoElectronTermTest {
 	@Test
 	public void vrrS0000() {
 		assertEquals(4.37335456733,
-				e2.vrr(new Vector3D(0, 0, 0), 1.0, new Power(0, 0, 0), 1.0, new Vector3D(0, 0, 0), 1.0, 1.0,
-						new Vector3D(0, 0, 0), 1.0, new Power(0, 0, 0), 1.0, new Vector3D(0, 0, 0), 1.0, 1.0, 0),
+				e2.vrr(new double[] { 0, 0, 0 }, 1.0, new int[] { 0, 0, 0 }, 1.0, new double[] { 0, 0, 0 }, 1.0, 1.0,
+						new double[] { 0, 0, 0 }, 1.0, new int[] { 0, 0, 0 }, 1.0, new double[] { 0, 0, 0 }, 1.0, 1.0,
+						0),
 				delta);
 	}
 
 	@Test
 	public void vrrP0000() {
 		assertEquals(0.182223107579,
-				e2.vrr(new Vector3D(0, 0, 0), 1.0, new Power(1, 0, 0), 1.0, new Vector3D(0, 0, 0), 1.0, 1.0,
-						new Vector3D(0, 0, 0), 1.0, new Power(1, 0, 0), 1.0, new Vector3D(0, 0, 0), 1.0, 1.0, 0),
+				e2.vrr(new double[] { 0, 0, 0 }, 1.0, new int[] { 1, 0, 0 }, 1.0, new double[] { 0, 0, 0 }, 1.0, 1.0,
+						new double[] { 0, 0, 0 }, 1.0, new int[] { 1, 0, 0 }, 1.0, new double[] { 0, 0, 0 }, 1.0, 1.0,
+						0),
 				delta);
 	}
 
 	@Test
 	public void vrrD0000() {
 		assertEquals(0.223223306785,
-				e2.vrr(new Vector3D(0, 0, 0), 1.0, new Power(2, 0, 0), 1.0, new Vector3D(0, 0, 0), 1.0, 1.0,
-						new Vector3D(0, 0, 0), 1.0, new Power(2, 0, 0), 1.0, new Vector3D(0, 0, 0), 1.0, 1.0, 0),
+				e2.vrr(new double[] { 0, 0, 0 }, 1.0, new int[] { 2, 0, 0 }, 1.0, new double[] { 0, 0, 0 }, 1.0, 1.0,
+						new double[] { 0, 0, 0 }, 1.0, new int[] { 2, 0, 0 }, 1.0, new double[] { 0, 0, 0 }, 1.0, 1.0,
+						0),
 				delta);
 	}
 
 	@Test
 	public void vrrP1000() {
 		assertEquals(-5.63387712455e-06,
-				e2.vrr(new Vector3D(1, 2, 3), 1.0, new Power(1, 0, 0), 1.0, new Vector3D(0, 0, 0), 1.0, 1.0,
-						new Vector3D(0, 0, 0), 1.0, new Power(1, 0, 0), 1.0, new Vector3D(0, 0, 0), 1.0, 1.0, 0),
+				e2.vrr(new double[] { 1, 2, 3 }, 1.0, new int[] { 1, 0, 0 }, 1.0, new double[] { 0, 0, 0 }, 1.0, 1.0,
+						new double[] { 0, 0, 0 }, 1.0, new int[] { 1, 0, 0 }, 1.0, new double[] { 0, 0, 0 }, 1.0, 1.0,
+						0),
 				delta);
 	}
 
 	@Test
 	public void vrrD1000() {
 		assertEquals(0.00022503308545040895,
-				e2.vrr(new Vector3D(1, 2, 3), 1.0, new Power(2, 0, 0), 1.0, new Vector3D(0, 0, 0), 1.0, 1.0,
-						new Vector3D(0, 0, 0), 1.0, new Power(2, 0, 0), 1.0, new Vector3D(0, 0, 0), 1.0, 1.0, 0),
+				e2.vrr(new double[] { 1, 2, 3 }, 1.0, new int[] { 2, 0, 0 }, 1.0, new double[] { 0, 0, 0 }, 1.0, 1.0,
+						new double[] { 0, 0, 0 }, 1.0, new int[] { 2, 0, 0 }, 1.0, new double[] { 0, 0, 0 }, 1.0, 1.0,
+						0),
 				delta);
 	}
 }

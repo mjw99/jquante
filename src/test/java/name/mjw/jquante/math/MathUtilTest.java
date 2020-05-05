@@ -1,5 +1,6 @@
 package name.mjw.jquante.math;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
@@ -51,6 +52,14 @@ public class MathUtilTest {
 
 		assertEquals(-115.172063, Math.toDegrees(MathUtil.findDihedral(i, j, k, l)), diff);
 
+	}
+	
+	@Test
+	public void TestDistanceSq() {
+		double[] a = { 1, 2, 3 };
+		double[] b = { 4, 5, 6 };
+
+		assertEquals(27, MathUtil.distanceSq(a, b));
 	}
 
 }
