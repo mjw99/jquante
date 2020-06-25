@@ -2,6 +2,8 @@ package name.mjw.jquante.test;
 
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
 
+import name.mjw.jquante.math.qm.basis.ContractedGaussian;
+import name.mjw.jquante.math.qm.basis.Power;
 import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
 import name.mjw.jquante.molecule.impl.MoleculeImpl;
@@ -44,6 +46,46 @@ public class Fixtures {
 
 		return hydrogenFluoride;
 
+	}
+
+	static public ContractedGaussian getCgtoS0() {
+		ContractedGaussian cgtoS0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(0, 0, 0));
+		cgtoS0.addPrimitive(1.0, 1.0);
+		cgtoS0.normalize();
+
+		return cgtoS0;
+	}
+
+	static public ContractedGaussian getCgtoS1() {
+		ContractedGaussian cgtoS1 = new ContractedGaussian(new Vector3D(0, 0, 1), new Power(0, 0, 0));
+		cgtoS1.addPrimitive(1.0, 1.0);
+		cgtoS1.normalize();
+
+		return cgtoS1;
+	}
+
+	static public ContractedGaussian getCgtoP0() {
+		ContractedGaussian cgtoP0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(1, 0, 0));
+		cgtoP0.addPrimitive(1.0, 1.0);
+		cgtoP0.normalize();
+
+		return cgtoP0;
+	}
+
+	static public ContractedGaussian getCgtoD0() {
+		ContractedGaussian cgtoD0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(2, 0, 0));
+		cgtoD0.addPrimitive(1.0, 1.0);
+		cgtoD0.normalize();
+
+		return cgtoD0;
+	}
+
+	static public ContractedGaussian getCgtoF0() {
+		ContractedGaussian cgtoF0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(3, 0, 0));
+		cgtoF0.addPrimitive(1.0, 1.0);
+		cgtoF0.normalize();
+
+		return cgtoF0;
 	}
 
 }

@@ -1,15 +1,11 @@
 package name.mjw.jquante.math.qm.integral;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.hipparchus.geometry.euclidean.threed.Vector3D;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
-import name.mjw.jquante.math.qm.basis.Power;
-
+import name.mjw.jquante.test.Fixtures;
 
 class HuzinagaTwoElectronTermTest {
 
@@ -17,35 +13,11 @@ class HuzinagaTwoElectronTermTest {
 
 	HuzinagaTwoElectronTerm e2 = new HuzinagaTwoElectronTerm();
 
-	static ContractedGaussian cgtoS0;
-	static ContractedGaussian cgtoS1;
-	static ContractedGaussian cgtoP0;
-	static ContractedGaussian cgtoD0;
-	static ContractedGaussian cgtoF0;
-
-	@BeforeAll
-	static void setUp() {
-
-		cgtoS0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(0, 0, 0));
-		cgtoS0.addPrimitive(1.0, 1.0);
-		cgtoS0.normalize();
-
-		cgtoS1 = new ContractedGaussian(new Vector3D(0, 0, 1), new Power(0, 0, 0));
-		cgtoS1.addPrimitive(1.0, 1.0);
-		cgtoS1.normalize();
-
-		cgtoP0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(1, 0, 0));
-		cgtoP0.addPrimitive(1.0, 1.0);
-		cgtoP0.normalize();
-
-		cgtoD0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(2, 0, 0));
-		cgtoD0.addPrimitive(1.0, 1.0);
-		cgtoD0.normalize();
-
-		cgtoF0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(3, 0, 0));
-		cgtoF0.addPrimitive(1.0, 1.0);
-		cgtoF0.normalize();
-	}
+	static ContractedGaussian cgtoS0 = Fixtures.getCgtoS0();
+	static ContractedGaussian cgtoS1 = Fixtures.getCgtoS1();
+	static ContractedGaussian cgtoP0 = Fixtures.getCgtoP0();
+	static ContractedGaussian cgtoD0 = Fixtures.getCgtoD0();
+	static ContractedGaussian cgtoF0 = Fixtures.getCgtoF0();
 
 	@Test
 	void ss00() {
