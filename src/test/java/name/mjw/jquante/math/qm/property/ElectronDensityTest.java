@@ -18,12 +18,12 @@ import name.mjw.jquante.molecule.impl.MoleculeImpl;
 import name.mjw.jquante.molecule.property.electronic.GridProperty;
 
 
-public class ElectronDensityTest {
+class ElectronDensityTest {
 
 	double diff = 0.0001;
 
 	@Test
-	public void test() throws Exception {
+	void test() throws Exception {
 		// Create a molecule of water
 		Atom O = new Atom("O", new Vector3D(0.0000000, 0.000000, 0.119748));
 		Atom H1 = new Atom("H", new Vector3D(0.00000000, 0.761561,

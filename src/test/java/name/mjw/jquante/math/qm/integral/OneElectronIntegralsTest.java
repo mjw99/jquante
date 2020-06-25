@@ -18,7 +18,7 @@ class OneElectronIntegralsTest {
 	static OneElectronIntegrals e1 = null;
 
 	@BeforeAll
-	public static void setUp() {
+	static void setUp() {
 
 		// Create molecule
 		Atom O = new Atom("O", new Vector3D(0.00000000, 0.000000, 0.119748));

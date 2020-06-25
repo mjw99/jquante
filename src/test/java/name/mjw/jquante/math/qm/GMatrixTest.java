@@ -12,7 +12,7 @@ import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
 import name.mjw.jquante.molecule.impl.MoleculeImpl;
 
-public class GMatrixTest {
+class GMatrixTest {
 
 	double diff = 0.00001;
 	static Density density = null;
@@ -20,7 +20,7 @@ public class GMatrixTest {
 	static BasisSetLibrary bf = null;
 
 	@BeforeAll
-	public static void setUp() {
+	static void setUp() {
 		// Create molecule
 		Atom H1 = new Atom("H", new Vector3D(0.00000000, 0.00000000, 0.00000000));
 		Atom H2 = new Atom("H", new Vector3D(0.74000000, 0.00000000, 0.00000000));
@@ -41,7 +41,7 @@ public class GMatrixTest {
 	}
 
 	@Test
-	public void testComputeInCore() {
+	void testComputeInCore() {
 		GMatrix gMatrix = new GMatrix(density.getRowDimension());
 
 		gMatrix.compute(SCFType.HARTREE_FOCK, twoEI, density);
@@ -54,7 +54,7 @@ public class GMatrixTest {
 	}
 
 	@Test
-	public void testComputeDirect() {
+	void testComputeDirect() {
 		GMatrix gMatrix = new GMatrix(density.getRowDimension());
 
 		gMatrix.compute(SCFType.HARTREE_FOCK_DIRECT, twoEI, density);

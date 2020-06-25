@@ -13,14 +13,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
 
-public class SCFMethodFactoryTest {
+class SCFMethodFactoryTest {
 
 	private final Logger LOG = LogManager.getLogger(SCFMethodFactoryTest.class);
 
 	double diff = 0.0001;
 
 	@Test
-	public void SinglePointHFHydrogenSTO3G() {
+	void SinglePointHFHydrogenSTO3G() {
 
 		// Create molecule
 		Atom H1 = new Atom("H", new Vector3D(0.00000000, 0.00000000, 0.00000000));
@@ -70,7 +70,7 @@ public class SCFMethodFactoryTest {
 
 	@Test
 	// Values checked with NWChem 6.6
-	public void SinglePointHFHydrogenFluorideSTO3G() {
+	void SinglePointHFHydrogenFluorideSTO3G() {
 
 		// Create molecule
 		Atom H = new Atom("H", new Vector3D(0.00000000, 0.00000000, 0.00000000));
@@ -123,7 +123,7 @@ public class SCFMethodFactoryTest {
 	}
 
 	@Test
-	public void SinglePointHFWaterSTO3G() {
+	void SinglePointHFWaterSTO3G() {
 
 		// Create molecule
 		Atom O = new Atom("O", new Vector3D(0.00000000, 0.000000, 0.119748));
@@ -180,7 +180,7 @@ public class SCFMethodFactoryTest {
 	}
 
 	@Test
-	public void SinglePointHFWaterSTO3GDirect() {
+	void SinglePointHFWaterSTO3GDirect() {
 
 		// Create molecule
 		Atom O = new Atom("O", new Vector3D(0.00000000, 0.000000, 0.119748));
@@ -237,7 +237,7 @@ public class SCFMethodFactoryTest {
 	}
 
 	@Test
-	public void SinglePointHFWaterSTO3GShellPair() {
+	void SinglePointHFWaterSTO3GShellPair() {
 
 		// Create molecule
 		Atom O = new Atom("O", new Vector3D(0.00000000, 0.000000, 0.119748));
