@@ -1,7 +1,6 @@
 package name.mjw.jquante.math.qm.basis;
 
 import name.mjw.jquante.common.Utility;
-import name.mjw.jquante.common.resource.StringResource;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -65,11 +64,10 @@ public class BasisSetReader {
 	 * @throws ParserConfigurationException if there is a serious configuration error.
 	 */
 	public BasisSet readBasisSet(String basisSetName) throws ParserConfigurationException, SAXException, IOException {
-		StringResource strings = StringResource.getInstance();
-
+		String basisLibraryPath = "/name/mjw/jquante/math/qm/basis/basis_";
 		// read the XML config file
 		Document basisDoc = Utility
-				.parseXML(getClass().getResourceAsStream(strings.getBasisLibraryPath() + basisSetName + ".xml"));
+				.parseXML(getClass().getResourceAsStream(basisLibraryPath + basisSetName + ".xml"));
 
 		// and save the basis info. properly
 		saveIt(basisDoc);

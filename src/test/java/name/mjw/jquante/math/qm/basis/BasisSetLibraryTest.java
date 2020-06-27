@@ -9,33 +9,23 @@ import org.junit.jupiter.api.Test;
 import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
 import name.mjw.jquante.molecule.impl.MoleculeImpl;
+import name.mjw.jquante.test.Fixtures;
 
-public class BasisSetLibraryTest {
+class BasisSetLibraryTest {
 
 	double diff = 0.00001;
-
-	static Atom O;
-	static Atom H1;
-	static Atom H2;
 
 	static Molecule water;
 	BasisSetLibrary bsl = null;
 
 	@BeforeAll
-	public static void setup() {
+	static void setup() {
 
-		O = new Atom("O", new Vector3D(0.00000000, 0.000000, 0.119748));
-		H1 = new Atom("H", new Vector3D(0.00000000, 0.761561, -0.478993));
-		H2 = new Atom("H", new Vector3D(0.00000000, -0.761561, -0.478993));
-
-		water = new MoleculeImpl("water");
-		water.addAtom(O);
-		water.addAtom(H1);
-		water.addAtom(H2);
+		water = Fixtures.getWaterMolecule();
 	}
 
 	@Test
-	public void testSTO3G() {
+	void testSTO3G() {
 
 		try {
 			bsl = new BasisSetLibrary(water, "sto-3g");
@@ -56,7 +46,7 @@ public class BasisSetLibraryTest {
 	}
 
 	@Test
-	public void testCcPvtz() {
+	void testCcPvtz() {
 
 		try {
 			bsl = new BasisSetLibrary(water, "cc-pvtz");
@@ -77,7 +67,7 @@ public class BasisSetLibraryTest {
 	}
 
 	@Test
-	public void testPrimitiveOrdering() {
+	void testPrimitiveOrdering() {
 
 		BasisSetLibrary bsl = null;
 
@@ -107,7 +97,7 @@ public class BasisSetLibraryTest {
 	}
 
 	@Test
-	public void testShellBasisFunctionIndexing() {
+	void testShellBasisFunctionIndexing() {
 
 		try {
 			bsl = new BasisSetLibrary(water, "sto-3g");

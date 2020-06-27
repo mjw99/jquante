@@ -337,7 +337,7 @@ public abstract class Molecule {
 	 *             (a RuntimeException), if the array size does not match 3N.
 	 */
 	public abstract void resetAtomCoordinates(double[] coords,
-			boolean updateConnectivity) throws IllegalArgumentException;
+			boolean updateConnectivity);
 
 	/**
 	 * A way to indicate the implementation that all Atom objects are added and
@@ -384,7 +384,7 @@ public abstract class Molecule {
 	public synchronized void addMoleculeStateChangeListener(
 			MoleculeStateChangeListener listener) {
 		if (listenerList == null) {
-			listenerList = new EventListenerList<MoleculeStateChangeListener>();
+			listenerList = new EventListenerList<>();
 		}
 		listenerList.add(MoleculeStateChangeListener.class, listener);
 	}

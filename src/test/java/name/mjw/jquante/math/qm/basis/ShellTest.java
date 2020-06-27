@@ -6,13 +6,13 @@ import org.hipparchus.geometry.euclidean.threed.Vector3D;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class ShellTest {
+class ShellTest {
 
 	static ContractedGaussian cgtoS0;
 	static Shell shell;
 
 	@BeforeAll
-	public static void setUp() {
+	static void setUp() {
 		cgtoS0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(0, 0, 0));
 		cgtoS0.addPrimitive(1.0, 1.0);
 		cgtoS0.normalize();
@@ -22,14 +22,14 @@ public class ShellTest {
 	}
 
 	@Test
-	public void testFirstBasisFunctionIndex() {
+	void testFirstBasisFunctionIndex() {
 		shell.setFirstBasisFunctionIndex(1);
 
 		assertEquals(1, shell.getFirstBasisFunctionIndex());
 	}
 
 	@Test
-	public void testLastBasisFunctionIndex() {
+	void testLastBasisFunctionIndex() {
 		shell.setLastBasisFunctionIndex(2);
 
 		assertEquals(2, shell.getLastBasisFunctionIndex());
