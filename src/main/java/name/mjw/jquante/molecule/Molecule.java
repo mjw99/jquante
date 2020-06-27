@@ -520,52 +520,6 @@ public abstract class Molecule {
 	}
 
 	/**
-	 * Sets the value for a common user defined property
-	 * 
-	 * @param molProp
-	 *            the property
-	 * @param value
-	 *            and its value
-	 */
-	public void setCommonUserDefinedProperty(
-			CommonUserDefinedMolecularPropertyNames molProp, Serializable value) {
-		if (additionalInformation == null) {
-			additionalInformation = new AdditionalInformation();
-			additionalInformationAvailable = true;
-		} // end if
-
-		UserDefinedMolecularProperty udmp = additionalInformation
-				.getUserDefinedMolecularProperty(molProp.toString());
-
-		if (udmp == null) {
-			udmp = new UserDefinedMolecularProperty(molProp.toString(), value);
-			additionalInformation.addUserDefinedMolecularProperty(udmp);
-		} // end if
-
-		udmp.setValue(value);
-	}
-
-	/**
-	 * Get the value for a common user defined property
-	 * 
-	 * @param molProp
-	 *            the property
-	 * @return the value of the this property, null if non exists
-	 */
-	public Object getCommonUserDefinedProperty(
-			CommonUserDefinedMolecularPropertyNames molProp) {
-		if (!additionalInformationAvailable)
-			return false;
-
-		try {
-			return additionalInformation.getUserDefinedMolecularProperty(
-					molProp.toString()).getValue();
-		} catch (Exception err) {
-			return false;
-		}
-	}
-
-	/**
 	 * information additional to a Molecule object
 	 */
 	public static final class AdditionalInformation {
