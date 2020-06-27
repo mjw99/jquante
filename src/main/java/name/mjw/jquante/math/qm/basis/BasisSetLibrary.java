@@ -61,7 +61,6 @@ public final class BasisSetLibrary {
 
 		// Shell Pair list
 		initUniqueShellPairList();
-
 	}
 
 	/**
@@ -162,6 +161,7 @@ public final class BasisSetLibrary {
 		}
 
 		Collections.sort(basisFunctions);
+		basisFunctions.trimToSize();
 		return this.basisFunctions;
 	}
 
@@ -195,6 +195,7 @@ public final class BasisSetLibrary {
 			}
 
 		}
+		shells.trimToSize();
 
 	}
 
