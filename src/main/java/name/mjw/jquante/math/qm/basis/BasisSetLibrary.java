@@ -16,8 +16,6 @@ import com.google.common.collect.Sets;
 import name.mjw.jquante.molecule.Atom;
 import name.mjw.jquante.molecule.Molecule;
 import name.mjw.jquante.molecule.UserDefinedAtomProperty;
-import name.mjw.jquante.molecule.event.MoleculeStateChangeEvent;
-import name.mjw.jquante.molecule.event.MoleculeStateChangeListener;
 
 /**
  * Class to construct basis functions of a given molecule and a basis set
@@ -44,9 +42,6 @@ public final class BasisSetLibrary {
 
 	private List<List<Shell>> uniqueShellPairs;
 
-	private Molecule molecule;
-
-	private MoleculeStateChangeListener molStateChangeListener;
 
 	/**
 	 * Creates a new instance of BasisFunctions.
@@ -60,7 +55,6 @@ public final class BasisSetLibrary {
 		// initialise the basis functions
 		getBasisFunctions(molecule, basisName);
 		this.basisName = basisName;
-		this.molecule = molecule;
 
 		// and initialise the shell list
 		initShellList();
@@ -68,19 +62,6 @@ public final class BasisSetLibrary {
 		// Shell Pair list
 		initUniqueShellPairList();
 
-
-		molStateChangeListener = new MoleculeStateChangeListener() {
-			@Override
-			public void moleculeChanged(MoleculeStateChangeEvent event) {
-				try {
-					getBasisFunctions(BasisSetLibrary.this.molecule, BasisSetLibrary.this.basisName);
-					initShellList();
-				} catch (Exception e) {
-					LOG.error("Unable to update basis function! ");
-				}
-			}
-		};
-		molecule.addMoleculeStateChangeListener(molStateChangeListener);
 	}
 
 	/**
