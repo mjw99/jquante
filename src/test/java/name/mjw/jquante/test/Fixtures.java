@@ -48,6 +48,41 @@ public class Fixtures {
 
 	}
 
+	static public Molecule getBenzene() {
+		Atom C1 = new Atom("C", new Vector3D( 0.000,  1.396, 0.000));
+		Atom C2 = new Atom("C", new Vector3D( 1.209,  0.698, 0.000));
+		Atom C3 = new Atom("C", new Vector3D( 1.209, -0.698, 0.000));
+		Atom C4 = new Atom("C", new Vector3D( 0.000, -1.396, 0.000));
+		Atom C5 = new Atom("C", new Vector3D(-1.209, -0.698, 0.000));
+		Atom C6 = new Atom("C", new Vector3D(-1.209,  0.698, 0.000));
+
+		Atom H1 = new Atom("H", new Vector3D( 0.000,  2.479, 0.000));
+		Atom H2 = new Atom("H", new Vector3D( 2.147,  1.240, 0.000));
+		Atom H3 = new Atom("H", new Vector3D( 2.147, -1.240, 0.000));
+		Atom H4 = new Atom("H", new Vector3D( 0.000, -2.479, 0.000));
+		Atom H5 = new Atom("H", new Vector3D(-2.147, -1.240, 0.000));
+		Atom H6 = new Atom("H", new Vector3D(-2.147,  1.240, 0.000));
+
+		Molecule benzene = new MoleculeImpl("benzene");
+
+		benzene.addAtom(C1);
+		benzene.addAtom(C2);
+		benzene.addAtom(C3);
+		benzene.addAtom(C4);
+		benzene.addAtom(C5);
+		benzene.addAtom(C6);
+
+		benzene.addAtom(H1);
+		benzene.addAtom(H2);
+		benzene.addAtom(H3);
+		benzene.addAtom(H4);
+		benzene.addAtom(H5);
+		benzene.addAtom(H6);
+
+		return benzene;
+	}
+
+
 	static public ContractedGaussian getCgtoS0() {
 		ContractedGaussian cgtoS0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(0, 0, 0));
 		cgtoS0.addPrimitive(1.0, 1.0);
