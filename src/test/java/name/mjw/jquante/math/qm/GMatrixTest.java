@@ -19,7 +19,7 @@ class GMatrixTest {
 	@BeforeAll
 	static void setUp() {
 		// Create molecule
-		Molecule hydrogen = Fixtures.getHydrogenMolecule();
+		Molecule hydrogen = Fixtures.getHydrogen();
 
 		try {
 			bf = new BasisSetLibrary(hydrogen, "sto-3g");

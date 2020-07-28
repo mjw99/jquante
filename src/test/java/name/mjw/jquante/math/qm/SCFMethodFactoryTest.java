@@ -20,7 +20,7 @@ class SCFMethodFactoryTest {
 	void SinglePointHFHydrogenSTO3G() {
 
 		// Create molecule
-		Molecule hydrogen = Fixtures.getHydrogenMolecule();
+		Molecule hydrogen = Fixtures.getHydrogen();
 
 		// Read Basis
 		BasisSetLibrary bsl = null;
@@ -96,7 +96,7 @@ class SCFMethodFactoryTest {
 	void SinglePointHFWaterSTO3G() {
 
 		// Create molecule
-		Molecule water = Fixtures.getWaterMolecule();
+		Molecule water = Fixtures.getWater();
 
 		// Read Basis
 		BasisSetLibrary bf = null;
@@ -137,7 +137,7 @@ class SCFMethodFactoryTest {
 	void SinglePointHFWaterSTO3GDirect() {
 
 		// Create molecule
-		Molecule water = Fixtures.getWaterMolecule();
+		Molecule water = Fixtures.getWater();
 
 		// Read Basis
 		BasisSetLibrary bf = null;
@@ -179,7 +179,7 @@ class SCFMethodFactoryTest {
 	void SinglePointHFWaterSTO3GShellPair() {
 
 		// Create molecule
-		Molecule water = Fixtures.getWaterMolecule();
+		Molecule water = Fixtures.getWater();
 
 		// Read Basis
 		BasisSetLibrary bf = null;

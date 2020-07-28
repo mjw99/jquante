@@ -21,7 +21,7 @@ class BasisSetLibraryTest {
 	@BeforeAll
 	static void setup() {
 
-		water = Fixtures.getWaterMolecule();
+		water = Fixtures.getWater();
 	}
 
 	@Test

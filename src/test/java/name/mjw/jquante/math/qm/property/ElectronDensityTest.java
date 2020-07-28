@@ -21,7 +21,7 @@ class ElectronDensityTest {
 
 	@Test
 	void test() throws Exception {
-		Molecule water = Fixtures.getWaterMolecule();
+		Molecule water = Fixtures.getWater();
 
 		// Read Basis
 		BasisSetLibrary basisFunctions = new BasisSetLibrary(water, "sto-3g");

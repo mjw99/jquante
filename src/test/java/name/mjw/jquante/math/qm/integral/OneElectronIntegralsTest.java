@@ -19,7 +19,7 @@ class OneElectronIntegralsTest {
 	static void setUp() {
 
 		// Create molecule
-		Molecule water = Fixtures.getWaterMolecule();
+		Molecule water = Fixtures.getWater();
 
 		// Read Basis
 		BasisSetLibrary bf = null;
