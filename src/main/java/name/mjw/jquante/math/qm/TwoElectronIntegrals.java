@@ -138,7 +138,7 @@ public final class TwoElectronIntegrals {
 		final int noOfIntegrals = noOfBasisFunctions * (noOfBasisFunctions + 1)
 				* (noOfBasisFunctions * noOfBasisFunctions + noOfBasisFunctions + 2) / 8;
 
-		LOG.debug("noOfIntegrals is " + noOfIntegrals);
+		LOG.debug("noOfIntegrals is {}", noOfIntegrals);
 
 		twoEIntegrals = new double[noOfIntegrals];
 
