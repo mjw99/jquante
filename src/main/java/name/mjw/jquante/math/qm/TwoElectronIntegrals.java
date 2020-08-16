@@ -131,6 +131,7 @@ public final class TwoElectronIntegrals {
 	 * available.
 	 */
 	protected void compute2E() {
+		LOG.debug("compute2E() called");
 		final List<ContractedGaussian> bfs = basisSetLibrary.getBasisFunctions();
 
 		// allocate required memory
