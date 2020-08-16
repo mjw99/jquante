@@ -289,15 +289,15 @@ public final class TwoElectronIntegrals {
 	}
 
 	/**
-	 * compute the 2E integrals using shell pair based method, and store it in a
+	 * Compute the 2E integrals using shell pair based method, and store it in a
 	 * single 1D array, in the form [ijkl].
 	 * 
-	 * This method has been modified to take advantage of multi core systems where
-	 * available.
+	 * TODO
+	 * 1) This does not appear to be the shell pair method (mjw).
+	 * 2) Add parallel support.
+	 *
 	 */
 	protected void compute2EShellPair() {
-		// TODO : parallel
-
 		List<ContractedGaussian> bfs = basisSetLibrary.getBasisFunctions();
 
 		// allocate required memory
