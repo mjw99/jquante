@@ -23,7 +23,7 @@
 		<jaxb.version>2.3.0</jaxb.version>
 		<jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
 		<hipparchus.version>1.7</hipparchus.version>
-		<jafama.version>2.3.1</jafama.version>
+		<jafama.version>2.3.2</jafama.version>
 		<guava.version>29.0-jre</guava.version>
 	</properties>
 
