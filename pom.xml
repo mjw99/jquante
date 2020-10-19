@@ -26,7 +26,7 @@
 		<jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
 		<hipparchus.version>1.7</hipparchus.version>
 		<jafama.version>2.3.2</jafama.version>
-		<guava.version>29.0-jre</guava.version>
+		<guava.version>30.0-jre</guava.version>
 	</properties>
 
 	<description>JQuante is essentially a JAVA QM toolkit that was inspired by PyQuante.</description>
