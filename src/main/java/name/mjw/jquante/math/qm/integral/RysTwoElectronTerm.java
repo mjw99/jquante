@@ -1706,10 +1706,10 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 		final double C = (pX - xa) / (1 + t) + (b * (qX - xa) + a * (pX - xa)) * fact;
 		final double Cp = (qX - xc) / (1 + t) + (b * (qX - xc) + a * (pX - xc)) * fact;
-
 		initialiseG(xa, xb, xc, xd, aAlpha, bAlpha, cAlpha, dAlpha, a, b, g);
 
-		processG(B1, B1p, C, Cp, n, m, g);
+		processGm(B1p, Cp, m, g);
+		processGn(B1, C, n, g);
 
 		if ((m == 0) || (n == 0)) {
 			return;
@@ -1728,25 +1728,29 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 				- cAlpha * dAlpha * FastMath.pow2(xc - xd) / (cAlpha + dAlpha)) / FastMath.sqrt(a * b);
 	}
 
-	private static void processG(final double B1, final double B1p, final double C, final double Cp, final int n,
-			final int m, double[][] g) {
-		if (n > 0) {
-			// [ABD] eq 15
-			g[1][0] = C * g[0][0];
-		}
 
+	private static void processGm(final double B1p, final double Cp, final int m, double[][] g) {
 		if (m > 0) {
 			// [ABD] eq 16
 			g[0][1] = Cp * g[0][0];
+		}
+
+		for (int j = 2; j < (m + 1); j++) {
+			g[0][j] = B1p * (j - 1) * g[0][j - 2] + Cp * g[0][j - 1];
+		}
+
+	}
+
+	private static void processGn(final double B1, final double C, final int n, double[][] g) {
+		if (n > 0) {
+			// [ABD] eq 15
+			g[1][0] = C * g[0][0];
 		}
 
 		for (int i = 2; i < (n + 1); i++) {
 			g[i][0] = B1 * (i - 1) * g[i - 2][0] + C * g[i - 1][0];
 		}
 
-		for (int j = 2; j < (m + 1); j++) {
-			g[0][j] = B1p * (j - 1) * g[0][j - 2] + Cp * g[0][j - 1];
-		}
 	}
 
 	private static void finaliseG(final double B0, final double B1p, final double Cp, final int n, final int m,
