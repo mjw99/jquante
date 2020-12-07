@@ -1695,20 +1695,20 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		final double a = aAlpha + bAlpha;
 		final double b = cAlpha + dAlpha;
 
+		initialiseG(xa, xb, xc, xd, aAlpha, bAlpha, cAlpha, dAlpha, a, b, g);
+
 		final double pX = (aAlpha * xa + bAlpha * xb) / a;
 		final double qX = (cAlpha * xc + dAlpha * xd) / b;
 
 		// [ABD] eqs 12-14: recurFactors (from GAMESS)
 		final double fact = t / (a + b) / (1 + t);
 
-		final double B1 = 1 / (2 * a * (1 + t)) + 0.5 * fact;
 		final double B1p = 1 / (2 * b * (1 + t)) + 0.5 * fact;
-
-		final double C = (pX - xa) / (1 + t) + (b * (qX - xa) + a * (pX - xa)) * fact;
 		final double Cp = (qX - xc) / (1 + t) + (b * (qX - xc) + a * (pX - xc)) * fact;
-		initialiseG(xa, xb, xc, xd, aAlpha, bAlpha, cAlpha, dAlpha, a, b, g);
-
 		processGm(B1p, Cp, m, g);
+
+		final double B1 = 1 / (2 * a * (1 + t)) + 0.5 * fact;
+		final double C = (pX - xa) / (1 + t) + (b * (qX - xa) + a * (pX - xa)) * fact;
 		processGn(B1, C, n, g);
 
 		if ((m == 0) || (n == 0)) {
