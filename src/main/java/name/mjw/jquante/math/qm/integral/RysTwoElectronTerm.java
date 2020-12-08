@@ -31,7 +31,7 @@ import net.jafama.FastMath;
  */
 public final class RysTwoElectronTerm implements TwoElectronTerm {
 
-	static final int MAX_ROOTS = 16;
+	static final int MAX_ROOTS = 9;
 	static final int MAX_ROOTS_SQUARED = MAX_ROOTS * MAX_ROOTS;
 
 	static final double PI_OVER_FOUR = 7.85398163397448E-01;
