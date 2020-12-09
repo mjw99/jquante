@@ -72,10 +72,10 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 		this.origin = origin;
 		this.powers = powers;
 
-		primitives = new ArrayList<>(10);
-		exponents = new ArrayList<>(10);
-		coefficients = new ArrayList<>(10);
-		primNorms = new ArrayList<>(10);
+		primitives = new ArrayList<>();
+		exponents = new ArrayList<>();
+		coefficients = new ArrayList<>();
+		primNorms = new ArrayList<>();
 
 		this.normalization = 1;
 	}
@@ -129,21 +129,25 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 		primitives.add(new PrimitiveGaussian(origin, powers, exponent, coefficient));
 
 		Collections.sort(primitives);
+		primitives.trimToSize();
 
 		this.exponents.clear();
 		for (int i = 0; i < this.primitives.size(); i++) {
 			exponents.add(primitives.get(i).getExponent());
 		}
+		exponents.trimToSize();
 
 		this.coefficients.clear();
 		for (int i = 0; i < this.primitives.size(); i++) {
 			coefficients.add(primitives.get(i).getCoefficient());
 		}
+		coefficients.trimToSize();
 
 		this.primNorms.clear();
 		for (int i = 0; i < this.primitives.size(); i++) {
 			primNorms.add(primitives.get(i).getNormalization());
 		}
+		primNorms.trimToSize();
 	}
 
 	/**

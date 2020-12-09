@@ -228,6 +228,7 @@ public final class BasisSetLibrary {
 				ArrayList<Shell> pair = new ArrayList<>();
 				pair.add(shell);
 				pair.add(shell);
+				pair.trimToSize();
 				uniqueShellPairs.add(pair);
 			}
 			return;
@@ -249,6 +250,8 @@ public final class BasisSetLibrary {
 			pair.add(shell);
 			uniqueShellPairs.add(pair);
 		}
+
+		((ArrayList<List<Shell>>) uniqueShellPairs).trimToSize();
 
 	}
 
