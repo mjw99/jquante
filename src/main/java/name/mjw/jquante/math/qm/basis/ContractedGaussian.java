@@ -220,6 +220,7 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 	public void normalize() {
 		normalization = 1.0 / FastMath.sqrt(this.overlap(this));
 
+		this.primNorms.clear();
 		for (int i = 0; i < primitives.size(); i++) {
 			primNorms.add(primitives.get(i).getNormalization());
 		}
