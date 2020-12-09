@@ -35,7 +35,7 @@ public final class Shell extends ContractedGaussian {
 
 	@Override
 	public String toString() {
-		return Integer.toString(firstBasisFunctionIndex) + "-" + Integer.toString(lastBasisFunctionIndex) + "\n";
+		return Integer.toString(firstBasisFunctionIndex) + "-" + Integer.toString(lastBasisFunctionIndex);
 	}
 
 	@Override
