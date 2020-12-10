@@ -126,6 +126,44 @@ public final class TwoElectronIntegrals {
 	/**
 	 * compute the 2E integrals, and store it in a single 1D array, in the form
 	 * [ijkl].
+	 *
+	 */
+	protected void compute2ESerial() {
+		LOG.debug("compute2ESerial() called");
+		final List<ContractedGaussian> bfs = basisSetLibrary.getBasisFunctions();
+
+		// allocate required memory
+		final int noOfBasisFunctions = bfs.size();
+		final int noOfIntegrals = noOfBasisFunctions * (noOfBasisFunctions + 1)
+				* (noOfBasisFunctions * noOfBasisFunctions + noOfBasisFunctions + 2) / 8;
+
+		LOG.debug("noOfIntegrals is {}", noOfIntegrals);
+
+		twoEIntegrals = new double[noOfIntegrals];
+
+		// we only need i <= j, k <= l, and ij >= kl
+		for (int i = 0; i < noOfBasisFunctions; i++) {
+			for (int j = 0; j < i + 1; j++) {
+				int ij = i * (i + 1) / 2 + j;
+
+				for (int k = 0; k < noOfBasisFunctions; k++) {
+					for (int l = 0; l < (k + 1); l++) {
+						int kl = k * (k + 1) / 2 + l;
+
+						if (ij >= kl) {
+							int ijkl = IntegralsUtil.ijkl2intindex(i, j, k, l);
+							// record the 2E integrals
+							twoEIntegrals[ijkl] = Integrals.coulomb(bfs.get(i), bfs.get(j), bfs.get(k), bfs.get(l));
+						}
+					}
+				}
+			}
+		}
+
+	}
+	/**
+	 * compute the 2E integrals, and store it in a single 1D array, in the form
+	 * [ijkl].
 	 * 
 	 * This method has been modified to take advantage of multi core systems where
 	 * available.
