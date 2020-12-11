@@ -1775,14 +1775,12 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 			final double xkl, final double[][] g) {
 		double ijkl;
 		double ijm0;
-		int m;
-		int n;
 
 		ijkl = 0;
-		for (m = 0; m < l + 1; m++) {
+		for (int m = 0; m < l + 1; m++) {
 			ijm0 = 0;
 			/* I(i,j,m,0)<-I(n,0,m,0) */
-			for (n = 0; n < j + 1; n++) {
+			for (int n = 0; n < j + 1; n++) {
 				ijm0 += CombinatoricsUtils.binomialCoefficientDouble(j, n) * FastMath.pow(xij, (j - n)) * g[n + i][m + k];
 			}
 			/* I(i,j,k,l)<-I(i,j,m,0) */
