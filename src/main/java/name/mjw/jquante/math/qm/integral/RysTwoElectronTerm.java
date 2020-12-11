@@ -32,10 +32,10 @@ import net.jafama.FastMath;
  */
 public final class RysTwoElectronTerm implements TwoElectronTerm {
 
-	static final int MAX_ROOTS = 9;
-	static final int MAX_ROOTS_SQUARED = MAX_ROOTS * MAX_ROOTS;
+	private static final int MAX_ROOTS = 9;
+	private static final int MAX_ROOTS_SQUARED = MAX_ROOTS * MAX_ROOTS;
 
-	static final double PI_OVER_FOUR = 7.85398163397448E-01;
+	private static final double PI_OVER_FOUR = 7.85398163397448E-01;
 
 	/**
 	 * 2E coulomb interactions between 4 contracted Gaussians
@@ -137,7 +137,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		selectRoots(nRoots, x, roots, weights);
 
 		double sum = 0;
-		for (int i = 0; i < roots.length; i++) {
+		for (int i = 0; i < nRoots; i++) {
 			t = roots[i];
 
 			iX = int1d(t, la, lb, lc, ld, aCoord[0], bCoord[0], cCoord[0], dCoord[0], aAlpha, bAlpha, cAlpha, dAlpha);
@@ -153,20 +153,12 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
-	private double calculateRho(final double aAlpha, final double bAlpha, final double cAlpha, final double dAlpha) {
-		final double gamma1 = aAlpha + bAlpha;
-		final double gamma2 = cAlpha + dAlpha;
-
-		// [ABD] eq. 4
-		return gamma1 * gamma2 / (gamma1 + gamma2);
-	}
-
 	private static final double calculateRadiusPQSquared(
 			double[] aCoord, double aAlpha,
 			double[] bCoord, double bAlpha,
 			double[] cCoord, double cAlpha,
 			double[] dCoord, double dAlpha) {
-
+	
 		final double[] p = IntegralsUtil.gaussianProductCenter(aAlpha, aCoord, bAlpha, bCoord);
 		final double[] q = IntegralsUtil.gaussianProductCenter(cAlpha, cCoord, dAlpha, dCoord);
 		final double dx = q[0] - p[0];
@@ -175,6 +167,13 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		return dx * dx + dy * dy + dz * dz;
 	}
 
+	private static final double calculateRho(final double aAlpha, final double bAlpha, final double cAlpha, final double dAlpha) {
+		final double gamma1 = aAlpha + bAlpha;
+		final double gamma2 = cAlpha + dAlpha;
+
+		// [ABD] eq. 4
+		return gamma1 * gamma2 / (gamma1 + gamma2);
+	}
 
 	private static final void selectRoots(final int nroots, final double x, final double[] roots,
 			final double[] weights) {
@@ -1692,7 +1691,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
-	private static void initialiseG(final double xa, final double xb, final double xc, final double xd, final double aAlpha, final double bAlpha,
+	private static final void initialiseG(final double xa, final double xb, final double xc, final double xd, final double aAlpha, final double bAlpha,
 			final double cAlpha, final double dAlpha, final double a, final double b, final double[][] g) {
 
 		// [ABD] eq 11.
@@ -1701,7 +1700,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 	}
 
 
-	private static void processGm(final double B1p, final double Cp, final int m, final double[][] g) {
+	private static final void processGm(final double B1p, final double Cp, final int m, final double[][] g) {
 		if (m > 0) {
 			// [ABD] eq 16
 			g[0][1] = Cp * g[0][0];
@@ -1713,7 +1712,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
-	private static void processGn(final double B1, final double C, final int n, final double[][] g) {
+	private static final void processGn(final double B1, final double C, final int n, final double[][] g) {
 		if (n > 0) {
 			// [ABD] eq 15
 			g[1][0] = C * g[0][0];
@@ -1725,7 +1724,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
-	private static void finaliseG(final double B0, final double B1p, final double Cp, final int n, final int m,
+	private static final void finaliseG(final double B0, final double B1p, final double Cp, final int n, final int m,
 			final double[][] g) {
 		for (int i = 1; i < n + 1; i++) {
 			g[i][1] = i * B0 * g[i - 1][0] + Cp * g[i][0];
@@ -1739,18 +1738,16 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 	 * 
 	 * xij = xi-xj xkl = xk-xl
 	 */
-	private final double shift(final int i, final int j, final int k, final int l, final double xij,
+	private static final double shift(final int i, final int j, final int k, final int l, final double xij,
 			final double xkl, final double[][] g) {
 		double ijkl;
 		double ijm0;
-		int m;
-		int n;
 
 		ijkl = 0;
-		for (m = 0; m < l + 1; m++) {
+		for (int m = 0; m < l + 1; m++) {
 			ijm0 = 0;
 			/* I(i,j,m,0)<-I(n,0,m,0) */
-			for (n = 0; n < j + 1; n++) {
+			for (int n = 0; n < j + 1; n++) {
 				ijm0 += CombinatoricsUtils.binomialCoefficientDouble(j, n) * FastMath.pow(xij, (j - n)) * g[n + i][m + k];
 			}
 			/* I(i,j,k,l)<-I(i,j,m,0) */
