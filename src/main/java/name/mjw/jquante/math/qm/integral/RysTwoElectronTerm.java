@@ -192,20 +192,20 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
-	private static final double calculateRho(final double aAlpha, final double bAlpha, final double cAlpha, final double dAlpha) {
-		final double gamma1 = aAlpha + bAlpha;
-		final double gamma2 = cAlpha + dAlpha;
-
-		// [ABD] eq. 4
-		return gamma1 * gamma2 / (gamma1 + gamma2);
-	}
-
 	private static final double calculateRadiusPQSquared(final Vector3D a, final double aAlpha, final Vector3D b,
 			final double bAlpha, final Vector3D c, final double cAlpha, final Vector3D d, final double dAlpha) {
 		final Vector3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
 		final Vector3D q = IntegralsUtil.gaussianProductCenter(cAlpha, c, dAlpha, d);
 
 		return p.distanceSq(q);
+	}
+
+	private static final double calculateRho(final double aAlpha, final double bAlpha, final double cAlpha, final double dAlpha) {
+		final double gamma1 = aAlpha + bAlpha;
+		final double gamma2 = cAlpha + dAlpha;
+
+		// [ABD] eq. 4
+		return gamma1 * gamma2 / (gamma1 + gamma2);
 	}
 
 	private static final void selectRoots(final int nroots, final double x, final double[] roots,
