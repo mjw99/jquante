@@ -177,7 +177,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		selectRoots(nRoots, x, roots, weights);
 
 		double sum = 0;
-		for (int i = 0; i < roots.length; i++) {
+		for (int i = 0; i < nRoots; i++) {
 			t = roots[i];
 
 			iX = int1d(t, la, lb, lc, ld, a.getX(), b.getX(), c.getX(), d.getX(), aAlpha, bAlpha, cAlpha, dAlpha);
