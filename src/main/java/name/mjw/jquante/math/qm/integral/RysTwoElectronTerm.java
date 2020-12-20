@@ -37,6 +37,10 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	private static final double PI_OVER_FOUR = 7.85398163397448E-01;
 
+	private static final ThreadLocal<double[][]> G_THREAD = ThreadLocal
+               .withInitial(() -> new double[MAX_ROOTS][MAX_ROOTS]);
+
+
 	/**
 	 * 2E coulomb interactions between 4 contracted Gaussians
 	 */
@@ -1650,23 +1654,22 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 		final int n = la + lb;
 		final int m = lc + ld;
-		final double[][] g = new double[n + 1][m + 1];
 
-		recur(t, n, m, xa, xb, xc, xd, aAlpha, bAlpha, cAlpha, dAlpha, g);
+		recur(t, n, m, xa, xb, xc, xd, aAlpha, bAlpha, cAlpha, dAlpha);
 
-		return shift(la, lb, lc, ld, (xa - xb), (xc - xd), g);
+		return shift(la, lb, lc, ld, (xa - xb), (xc - xd));
 	}
 
 	/**
 	 * Form G(n,m)=I(n,0,m,0) intermediate values for a Rys polynomial
 	 */
 	private static final void recur(final double t, final int n, final int m, final double xa, final double xb, final double xc,
-			final double xd, final double aAlpha, final double bAlpha, final double cAlpha, final double dAlpha, final double[][] g) {
+			final double xd, final double aAlpha, final double bAlpha, final double cAlpha, final double dAlpha) {
 
 		final double a = aAlpha + bAlpha;
 		final double b = cAlpha + dAlpha;
 
-		initialiseG(xa, xb, xc, xd, aAlpha, bAlpha, cAlpha, dAlpha, a, b, g);
+		initialiseG(xa, xb, xc, xd, aAlpha, bAlpha, cAlpha, dAlpha, a, b);
 
 		final double pX = (aAlpha * xa + bAlpha * xb) / a;
 		final double qX = (cAlpha * xc + dAlpha * xd) / b;
@@ -1676,23 +1679,25 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 		final double B1p = 1 / (2 * b * (1 + t)) + 0.5 * fact;
 		final double Cp = (qX - xc) / (1 + t) + (b * (qX - xc) + a * (pX - xc)) * fact;
-		processGm(B1p, Cp, m, g);
+		processGm(B1p, Cp, m);
 
 		final double B1 = 1 / (2 * a * (1 + t)) + 0.5 * fact;
 		final double C = (pX - xa) / (1 + t) + (b * (qX - xa) + a * (pX - xa)) * fact;
-		processGn(B1, C, n, g);
+		processGn(B1, C, n);
 
 		if ((m == 0) || (n == 0)) {
 			return;
 		}
 
 		final double B0 = 0.5 * fact;
-		finaliseG(B0, B1p, Cp, n, m, g);
+		finaliseG(B0, B1p, Cp, n, m);
 
 	}
 
 	private static final void initialiseG(final double xa, final double xb, final double xc, final double xd, final double aAlpha, final double bAlpha,
-			final double cAlpha, final double dAlpha, final double a, final double b, final double[][] g) {
+			final double cAlpha, final double dAlpha, final double a, final double b) {
+
+		final double[][] g = G_THREAD.get();
 
 		// [ABD] eq 11.
 		g[0][0] = FastMath.PI * FastMath.exp(-aAlpha * bAlpha * FastMath.pow2(xa - xb) / (aAlpha + bAlpha)
@@ -1700,7 +1705,10 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 	}
 
 
-	private static final void processGm(final double B1p, final double Cp, final int m, final double[][] g) {
+	private static final void processGm(final double B1p, final double Cp, final int m) {
+
+		final double[][] g = G_THREAD.get();
+
 		if (m > 0) {
 			// [ABD] eq 16
 			g[0][1] = Cp * g[0][0];
@@ -1712,7 +1720,10 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
-	private static final void processGn(final double B1, final double C, final int n, final double[][] g) {
+	private static final void processGn(final double B1, final double C, final int n) {
+
+		final double[][] g = G_THREAD.get();
+
 		if (n > 0) {
 			// [ABD] eq 15
 			g[1][0] = C * g[0][0];
@@ -1724,8 +1735,10 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
-	private static final void finaliseG(final double B0, final double B1p, final double Cp, final int n, final int m,
-			final double[][] g) {
+	private static final void finaliseG(final double B0, final double B1p, final double Cp, final int n, final int m) {
+
+		final double[][] g = G_THREAD.get();
+
 		for (int i = 1; i < n + 1; i++) {
 			g[i][1] = i * B0 * g[i - 1][0] + Cp * g[i][0];
 			for (int j = 2; j < m + 1; j++)
@@ -1739,9 +1752,11 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 	 * xij = xi-xj xkl = xk-xl
 	 */
 	private static final double shift(final int i, final int j, final int k, final int l, final double xij,
-			final double xkl, final double[][] g) {
+			final double xkl) {
 		double ijkl;
 		double ijm0;
+
+		final double[][] g = G_THREAD.get();
 
 		ijkl = 0;
 		for (int m = 0; m < l + 1; m++) {
