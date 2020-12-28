@@ -48,9 +48,6 @@ public final class IntegralsUtil {
 	 *
 	 * ⟨ij|kl⟩=⟨ji|lk⟩=⟨kj|il⟩=⟨il|kj⟩=⟨kl|ij⟩=⟨lk|ji⟩=⟨il|kj⟩=⟨kj|il⟩
 	 *
-	 * This makes use of the XOR swap algorithm
-	 * https://en.wikipedia.org/wiki/XOR_swap_algorithm
-	 *
 	 * @param i the index of Gaussian i
 	 * @param j the index of Gaussian j
 	 * @param k the index of Gaussian k
@@ -58,24 +55,26 @@ public final class IntegralsUtil {
 	 * @return the index into the array
 	 */
 	public static final int ijkl2intindex(int i, int j, int k, int l) {
+		int temp;
+
 		if (i < j) {
-			i ^= j;
-			j ^= i;
-			i ^= j;
+			temp = i;
+			i = j;
+			j = temp;
+		}
+		if (k < l) {
+			temp = k;
+			k = l;
+			l = temp;
 		}
 
-		if (k < l) {
-			k ^= l;
-			l ^= k;
-			k ^= l;
-		}
 		int ij = i * (i + 1) / 2 + j;
 		int kl = k * (k + 1) / 2 + l;
 
 		if (ij < kl) {
-			ij ^= kl;
-			kl ^= ij;
-			ij ^= kl;
+			temp = ij;
+			ij = kl;
+			kl = temp;
 		}
 
 		return (ij * (ij + 1) / 2 + kl);
