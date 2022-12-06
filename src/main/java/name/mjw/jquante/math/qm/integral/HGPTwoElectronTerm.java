@@ -90,21 +90,21 @@ public final class HGPTwoElectronTerm implements TwoElectronTerm {
 			ArrayList<Double> cNorms, Vector3D d, Power dPower, ArrayList<Double> dCoeff, ArrayList<Double> dExps,
 			ArrayList<Double> dNorms) {
 
-		final int la = aPower.getL();
-		final int ma = aPower.getM();
-		final int na = aPower.getN();
+		final int la = aPower.l();
+		final int ma = aPower.m();
+		final int na = aPower.n();
 
-		final int lb = bPower.getL();
-		final int mb = bPower.getM();
-		final int nb = bPower.getN();
+		final int lb = bPower.l();
+		final int mb = bPower.m();
+		final int nb = bPower.n();
 
-		final int lc = cPower.getL();
-		final int mc = cPower.getM();
-		final int nc = cPower.getN();
+		final int lc = cPower.l();
+		final int mc = cPower.m();
+		final int nc = cPower.n();
 
-		final int ld = dPower.getL();
-		final int md = dPower.getM();
-		final int nd = dPower.getN();
+		final int ld = dPower.l();
+		final int md = dPower.m();
+		final int nd = dPower.n();
 
 		if (lb > 0) {
 			Power newBPower = new Power(lb - 1, mb, nb);
@@ -267,12 +267,12 @@ public final class HGPTwoElectronTerm implements TwoElectronTerm {
 		final double etaByZetaPlusEta = eta / zetaPlusEta;
 		final Vector3D w = IntegralsUtil.gaussianProductCenter(zeta, p, eta, q);
 
-		final int la = aPower.getL();
-		final int ma = aPower.getM();
-		final int na = aPower.getN();
-		final int lc = cPower.getL();
-		final int mc = cPower.getM();
-		final int nc = cPower.getN();
+		final int la = aPower.l();
+		final int ma = aPower.m();
+		final int na = aPower.n();
+		final int lc = cPower.l();
+		final int mc = cPower.m();
+		final int nc = cPower.n();
 
 		if (nc > 0) {
 			Power newCPower = new Power(lc, mc, nc - 1);

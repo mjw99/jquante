@@ -67,9 +67,9 @@ public final class PrimitiveGaussian implements Comparable<PrimitiveGaussian>{
 		this.exponent = exponent;
 		this.coefficient = coefficient;
 
-		int l = powers.getL();
-		int m = powers.getM();
-		int n = powers.getN();
+		int l = powers.l();
+		int m = powers.m();
+		int n = powers.n();
 
 		/**
 		 * Normalize this primitive Gaussian.
@@ -191,9 +191,9 @@ public final class PrimitiveGaussian implements Comparable<PrimitiveGaussian>{
 	 * @return the amplitude of this PG at the specified point
 	 */
 	public double amplitude(Vector3D point) {
-		final int l = powers.getL();
-		final int m = powers.getM();
-		final int n = powers.getN();
+		final int l = powers.l();
+		final int m = powers.m();
+		final int n = powers.n();
 
 		final double x = point.getX() - origin.getX();
 		final double y = point.getY() - origin.getY();
@@ -216,9 +216,9 @@ public final class PrimitiveGaussian implements Comparable<PrimitiveGaussian>{
 		double x2 = x * x;
 		double y2 = y * y;
 		double z2 = z * z;
-		int l = powers.getL();
-		int m = powers.getM();
-		int n = powers.getN();
+		int l = powers.l();
+		int m = powers.m();
+		int n = powers.n();
 
 		value = (l * (l - 1) / x2 + m * (m - 1) / y2 + n * (n - 1) / z2) + 4 * exponent * exponent * (x2 + y2 + z2)
 				- 2 * exponent * (2 * (l + m + n) + 3);
@@ -233,9 +233,9 @@ public final class PrimitiveGaussian implements Comparable<PrimitiveGaussian>{
 	 * @return partial derivatives with respect to x, y, z
 	 */
 	public Vector3D gradient(Vector3D point) {
-		int l = powers.getL();
-		int m = powers.getM();
-		int n = powers.getN();
+		int l = powers.l();
+		int m = powers.m();
+		int n = powers.n();
 
 		double x = point.getX() - origin.getX();
 		double y = point.getY() - origin.getY();

@@ -289,9 +289,9 @@ public final class TwoElectronIntegrals {
 			PrimitiveGaussian lPG, Vector3D currentOrigin, Power currentPower, double currentAlpha, int[] paramIdx,
 			Vector3D derEle) {
 
-		int l = currentPower.getL();
-		int m = currentPower.getM();
-		int n = currentPower.getN();
+		int l = currentPower.l();
+		int m = currentPower.m();
+		int n = currentPower.n();
 
 		double coeff = iPG.getCoefficient() * jPG.getCoefficient() * kPG.getCoefficient() * lPG.getCoefficient();
 
@@ -306,19 +306,19 @@ public final class TwoElectronIntegrals {
 		double termbz = 0.0;
 
 		if (l > 0) {
-			xPG = new PrimitiveGaussian(currentOrigin, new Power(xPG.getPowers().getL() - 1, xPG.getPowers().getM(), xPG.getPowers().getN()), coeff, currentAlpha);
+			xPG = new PrimitiveGaussian(currentOrigin, new Power(xPG.getPowers().l() - 1, xPG.getPowers().m(), xPG.getPowers().n()), coeff, currentAlpha);
 			termbx = -2.0 * l * FastMath.sqrt(currentAlpha / (2. * l - 1)) * coeff
 					* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		}
 
 		if (m > 0) {
-			xPG = new PrimitiveGaussian(currentOrigin, new Power(xPG.getPowers().getL(), xPG.getPowers().getM() - 1, xPG.getPowers().getN()), coeff, currentAlpha);
+			xPG = new PrimitiveGaussian(currentOrigin, new Power(xPG.getPowers().l(), xPG.getPowers().m() - 1, xPG.getPowers().n()), coeff, currentAlpha);
 			termby = -2.0 * m * FastMath.sqrt(currentAlpha / (2. * m - 1)) * coeff
 					* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		}
 
 		if (n > 0) {
-			xPG = new PrimitiveGaussian(currentOrigin, new Power(xPG.getPowers().getL(), xPG.getPowers().getM(), xPG.getPowers().getN() - 1), coeff, currentAlpha);
+			xPG = new PrimitiveGaussian(currentOrigin, new Power(xPG.getPowers().l(), xPG.getPowers().m(), xPG.getPowers().n() - 1), coeff, currentAlpha);
 			termbz = -2.0 * n * FastMath.sqrt(currentAlpha / (2. * n - 1)) * coeff
 					* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		}

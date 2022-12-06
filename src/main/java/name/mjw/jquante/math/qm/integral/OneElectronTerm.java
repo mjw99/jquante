@@ -53,13 +53,13 @@ public final class OneElectronTerm implements IntegralsPackage {
 		final double gamma = alpha1 + alpha2;
 		final Vector3D product = IntegralsUtil.gaussianProductCenter(alpha1, a, alpha2, b);
 
-		final double wx = overlap1D(power1.getL(), power2.getL(), product.getX() - a.getX(), product.getX() - b.getX(),
+		final double wx = overlap1D(power1.l(), power2.l(), product.getX() - a.getX(), product.getX() - b.getX(),
 				gamma);
 
-		final double wy = overlap1D(power1.getM(), power2.getM(), product.getY() - a.getY(), product.getY() - b.getY(),
+		final double wy = overlap1D(power1.m(), power2.m(), product.getY() - a.getY(), product.getY() - b.getY(),
 				gamma);
 
-		final double wz = overlap1D(power1.getN(), power2.getN(), product.getZ() - a.getZ(), product.getZ() - b.getZ(),
+		final double wz = overlap1D(power1.n(), power2.n(), product.getZ() - a.getZ(), product.getZ() - b.getZ(),
 				gamma);
 
 		return (FastMath.pow(FastMath.PI / gamma, 1.5) * FastMath.exp((-alpha1 * alpha2 * radiusABSquared) / gamma) * wx
@@ -82,9 +82,9 @@ public final class OneElectronTerm implements IntegralsPackage {
 	 */
 	public final double kinetic(final double alpha1, final Power power1, final Vector3D a, final double alpha2,
 			final Power power2, final Vector3D b) {
-		final int l2 = power2.getL();
-		final int m2 = power2.getM();
-		final int n2 = power2.getN();
+		final int l2 = power2.l();
+		final int m2 = power2.m();
+		final int n2 = power2.n();
 
 		double term = alpha2 * (2 * (l2 + m2 + n2) + 3) * overlap(alpha1, power1, a, alpha2, power2, b);
 
