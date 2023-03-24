@@ -41,7 +41,7 @@
 		<maven-install-plugin.version>3.0.0</maven-install-plugin.version>
 		<maven-site-plugin.version>3.12.1</maven-site-plugin.version>
 		<maven-java-formatter-plugin.version>0.4</maven-java-formatter-plugin.version>
-		<maven-javadoc-plugin.version>3.4.0</maven-javadoc-plugin.version>
+		<maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
 
 	</properties>
 
