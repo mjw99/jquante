@@ -1,16 +1,12 @@
 package name.mjw.jquante.math.qm;
 
 import org.hipparchus.linear.Array2DRowRealMatrix;
-import org.hipparchus.linear.ArrayRealVector;
 import org.hipparchus.linear.EigenDecomposition;
-import org.hipparchus.linear.MatrixUtils;
 import org.hipparchus.linear.RealMatrix;
-import org.hipparchus.linear.RealVector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import name.mjw.jquante.math.MathUtil;
-import name.mjw.jquante.math.qm.SortedEigenDecomposition;
 
 /**
  * Represents the Molecular orbitals as a coefficient matrix and the
