@@ -193,11 +193,11 @@ public final class Integrals {
 	 */
 	public static double coulomb(PrimitiveGaussian a, PrimitiveGaussian b,
 			PrimitiveGaussian c, PrimitiveGaussian d) {
-		return twoElectronTerm.coulombRepulsion(a.getOrigin(),
-				a.getNormalization(), a.getPowers(), a.getExponent(),
-				b.getOrigin(), b.getNormalization(), b.getPowers(),
-				b.getExponent(), c.getOrigin(), c.getNormalization(),
-				c.getPowers(), c.getExponent(), d.getOrigin(),
-				d.getNormalization(), d.getPowers(), d.getExponent());
+		return twoElectronTerm.coulombRepulsion(a.origin(),
+				a.normalization(), a.powers(), a.exponent(),
+				b.origin(), b.normalization(), b.powers(),
+				b.exponent(), c.origin(), c.normalization(),
+				c.powers(), c.exponent(), d.origin(),
+				d.normalization(), d.powers(), d.exponent());
 	}
 }

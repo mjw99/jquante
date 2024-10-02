@@ -215,9 +215,9 @@ public final class TwoElectronIntegrals {
 		if (bfi.getCenteredAtom().getIndex() == atomIndex) {
 			paramIdx = new int[] { 4, 1, 2, 3 };
 			for (PrimitiveGaussian iPG : bfi.getPrimitives()) {
-				currentOrigin = iPG.getOrigin();
-				currentPower = iPG.getPowers();
-				currentAlpha = iPG.getExponent();
+				currentOrigin = iPG.origin();
+				currentPower = iPG.powers();
+				currentAlpha = iPG.exponent();
 				for (PrimitiveGaussian jPG : bfj.getPrimitives()) {
 					for (PrimitiveGaussian kPG : bfk.getPrimitives()) {
 						for (PrimitiveGaussian lPG : bfl.getPrimitives()) {
@@ -233,9 +233,9 @@ public final class TwoElectronIntegrals {
 			paramIdx = new int[] { 0, 4, 2, 3 };
 			for (PrimitiveGaussian iPG : bfi.getPrimitives()) {
 				for (PrimitiveGaussian jPG : bfj.getPrimitives()) {
-					currentOrigin = jPG.getOrigin();
-					currentPower = jPG.getPowers();
-					currentAlpha = jPG.getExponent();
+					currentOrigin = jPG.origin();
+					currentPower = jPG.powers();
+					currentAlpha = jPG.exponent();
 					for (PrimitiveGaussian kPG : bfk.getPrimitives()) {
 						for (PrimitiveGaussian lPG : bfl.getPrimitives()) {
 							compute2EDerivativeElementHelper(iPG, jPG, kPG, lPG, currentOrigin, currentPower,
@@ -251,9 +251,9 @@ public final class TwoElectronIntegrals {
 			for (PrimitiveGaussian iPG : bfi.getPrimitives()) {
 				for (PrimitiveGaussian jPG : bfj.getPrimitives()) {
 					for (PrimitiveGaussian kPG : bfk.getPrimitives()) {
-						currentOrigin = kPG.getOrigin();
-						currentPower = kPG.getPowers();
-						currentAlpha = kPG.getExponent();
+						currentOrigin = kPG.origin();
+						currentPower = kPG.powers();
+						currentAlpha = kPG.exponent();
 						for (PrimitiveGaussian lPG : bfl.getPrimitives()) {
 							compute2EDerivativeElementHelper(iPG, jPG, kPG, lPG, currentOrigin, currentPower,
 									currentAlpha, paramIdx, twoEDerEle);
@@ -269,9 +269,9 @@ public final class TwoElectronIntegrals {
 				for (PrimitiveGaussian jPG : bfj.getPrimitives()) {
 					for (PrimitiveGaussian kPG : bfk.getPrimitives()) {
 						for (PrimitiveGaussian lPG : bfl.getPrimitives()) {
-							currentOrigin = lPG.getOrigin();
-							currentPower = lPG.getPowers();
-							currentAlpha = lPG.getExponent();
+							currentOrigin = lPG.origin();
+							currentPower = lPG.powers();
+							currentAlpha = lPG.exponent();
 
 							compute2EDerivativeElementHelper(iPG, jPG, kPG, lPG, currentOrigin, currentPower,
 									currentAlpha, paramIdx, twoEDerEle);
@@ -293,7 +293,7 @@ public final class TwoElectronIntegrals {
 		int m = currentPower.m();
 		int n = currentPower.n();
 
-		double coeff = iPG.getCoefficient() * jPG.getCoefficient() * kPG.getCoefficient() * lPG.getCoefficient();
+		double coeff = iPG.coefficient() * jPG.coefficient() * kPG.coefficient() * lPG.coefficient();
 
 		PrimitiveGaussian xPG = new PrimitiveGaussian(currentOrigin, new Power(l + 1, m, n), currentAlpha, coeff);
 
@@ -306,19 +306,19 @@ public final class TwoElectronIntegrals {
 		double termbz = 0.0;
 
 		if (l > 0) {
-			xPG = new PrimitiveGaussian(currentOrigin, new Power(xPG.getPowers().l() - 1, xPG.getPowers().m(), xPG.getPowers().n()), coeff, currentAlpha);
+			xPG = new PrimitiveGaussian(currentOrigin, new Power(xPG.powers().l() - 1, xPG.powers().m(), xPG.powers().n()), coeff, currentAlpha);
 			termbx = -2.0 * l * FastMath.sqrt(currentAlpha / (2. * l - 1)) * coeff
 					* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		}
 
 		if (m > 0) {
-			xPG = new PrimitiveGaussian(currentOrigin, new Power(xPG.getPowers().l(), xPG.getPowers().m() - 1, xPG.getPowers().n()), coeff, currentAlpha);
+			xPG = new PrimitiveGaussian(currentOrigin, new Power(xPG.powers().l(), xPG.powers().m() - 1, xPG.powers().n()), coeff, currentAlpha);
 			termby = -2.0 * m * FastMath.sqrt(currentAlpha / (2. * m - 1)) * coeff
 					* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		}
 
 		if (n > 0) {
-			xPG = new PrimitiveGaussian(currentOrigin, new Power(xPG.getPowers().l(), xPG.getPowers().m(), xPG.getPowers().n() - 1), coeff, currentAlpha);
+			xPG = new PrimitiveGaussian(currentOrigin, new Power(xPG.powers().l(), xPG.powers().m(), xPG.powers().n() - 1), coeff, currentAlpha);
 			termbz = -2.0 * n * FastMath.sqrt(currentAlpha / (2. * n - 1)) * coeff
 					* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		}
