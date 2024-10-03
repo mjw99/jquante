@@ -20,13 +20,13 @@
 
                      to check for updates for these below -->
 		<junit.version>5.11.0</junit.version>
-		<log4j.version>2.23.1</log4j.version>
+		<log4j.version>2.24.0</log4j.version>
 		<fortranformat.version>1.1.1</fortranformat.version>
 		<jaxb.version>2.3.0</jaxb.version>
 		<jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
 		<hipparchus.version>2.3</hipparchus.version>
 		<jafama.version>2.3.2</jafama.version>
-		<guava.version>33.2.1-jre</guava.version>
+		<guava.version>33.3.0-jre</guava.version>
 		<!-- Use:
 
 		     mvn versions:display-plugin-updates
