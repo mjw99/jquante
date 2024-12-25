@@ -1,6 +1,5 @@
 package name.mjw.jquante.molecule;
 
-import java.io.Serializable;
 import java.util.Iterator;
 
 import org.hipparchus.geometry.euclidean.threed.Vector3D;

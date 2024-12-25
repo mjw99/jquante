@@ -10,7 +10,7 @@ import name.mjw.jquante.molecule.impl.MoleculeImpl;
 
 public class Fixtures {
 
-	static public Molecule getWater() {
+	public static Molecule getWater() {
 		Atom O = new Atom("O", new Vector3D(0.0000000, 0.000000, 0.119748));
 		Atom H1 = new Atom("H", new Vector3D(0.00000000, 0.761561, -0.478993));
 		Atom H2 = new Atom("H", new Vector3D(0.00000000, -0.761561, -0.478993));
@@ -23,7 +23,7 @@ public class Fixtures {
 		return water;
 	}
 
-	static public Molecule getHydrogen() {
+	public static Molecule getHydrogen() {
 
 		Atom H1 = new Atom("H", new Vector3D(0.00000000, 0.00000000, 0.00000000));
 		Atom H2 = new Atom("H", new Vector3D(0.74000000, 0.00000000, 0.00000000));
@@ -35,7 +35,7 @@ public class Fixtures {
 		return hydrogen;
 	}
 
-	static public Molecule getHydrogenFluoride() {
+	public static Molecule getHydrogenFluoride() {
 		// Create molecule
 		Atom H = new Atom("H", new Vector3D(0.00000000, 0.00000000, 0.00000000));
 		Atom F = new Atom("F", new Vector3D(0.91700000, 0.00000000, 0.00000000));
@@ -48,7 +48,7 @@ public class Fixtures {
 
 	}
 
-	static public Molecule getBenzene() {
+	public static Molecule getBenzene() {
 		Atom C1 = new Atom("C", new Vector3D( 0.000,  1.396, 0.000));
 		Atom C2 = new Atom("C", new Vector3D( 1.209,  0.698, 0.000));
 		Atom C3 = new Atom("C", new Vector3D( 1.209, -0.698, 0.000));
@@ -83,7 +83,7 @@ public class Fixtures {
 	}
 
 
-	static public ContractedGaussian getCgtoS0() {
+	public static ContractedGaussian getCgtoS0() {
 		ContractedGaussian cgtoS0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(0, 0, 0));
 		cgtoS0.addPrimitive(1.0, 1.0);
 		cgtoS0.normalize();
@@ -91,7 +91,7 @@ public class Fixtures {
 		return cgtoS0;
 	}
 
-	static public ContractedGaussian getCgtoS1() {
+	public static ContractedGaussian getCgtoS1() {
 		ContractedGaussian cgtoS1 = new ContractedGaussian(new Vector3D(0, 0, 1), new Power(0, 0, 0));
 		cgtoS1.addPrimitive(1.0, 1.0);
 		cgtoS1.normalize();
@@ -99,7 +99,7 @@ public class Fixtures {
 		return cgtoS1;
 	}
 
-	static public ContractedGaussian getCgtoP0() {
+	public static ContractedGaussian getCgtoP0() {
 		ContractedGaussian cgtoP0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(1, 0, 0));
 		cgtoP0.addPrimitive(1.0, 1.0);
 		cgtoP0.normalize();
@@ -107,7 +107,7 @@ public class Fixtures {
 		return cgtoP0;
 	}
 
-	static public ContractedGaussian getCgtoD0() {
+	public static ContractedGaussian getCgtoD0() {
 		ContractedGaussian cgtoD0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(2, 0, 0));
 		cgtoD0.addPrimitive(1.0, 1.0);
 		cgtoD0.normalize();
@@ -115,7 +115,7 @@ public class Fixtures {
 		return cgtoD0;
 	}
 
-	static public ContractedGaussian getCgtoF0() {
+	public static ContractedGaussian getCgtoF0() {
 		ContractedGaussian cgtoF0 = new ContractedGaussian(new Vector3D(0, 0, 0), new Power(3, 0, 0));
 		cgtoF0.addPrimitive(1.0, 1.0);
 		cgtoF0.normalize();
