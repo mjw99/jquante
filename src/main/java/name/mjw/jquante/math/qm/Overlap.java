@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
 import org.hipparchus.linear.Array2DRowRealMatrix;
-import org.hipparchus.linear.EigenDecomposition;
+import org.hipparchus.linear.EigenDecompositionSymmetric;
 import org.hipparchus.linear.MatrixUtils;
 import org.hipparchus.linear.RealMatrix;
 import org.apache.logging.log4j.LogManager;
@@ -54,9 +54,9 @@ public final class Overlap extends Array2DRowRealMatrix {
 		if (sHalf == null) {
 
 			LOG.debug("Overlap::this " + this);
-			EigenDecomposition eig = new EigenDecomposition(this);
+			EigenDecompositionSymmetric eig = new EigenDecompositionSymmetric(this);
 
-			double[] eigenValues = eig.getRealEigenvalues();
+			double[] eigenValues = eig.getEigenvalues();
 			RealMatrix eigenVectors = eig.getVT();
 
 			LOG.trace("eigenVectors " + eigenVectors);

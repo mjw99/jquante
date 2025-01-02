@@ -1,8 +1,10 @@
 package name.mjw.jquante.math.qm;
 
 import org.hipparchus.linear.Array2DRowRealMatrix;
-import org.hipparchus.linear.EigenDecomposition;
+import org.hipparchus.linear.DefaultRealMatrixChangingVisitor;
+import org.hipparchus.linear.EigenDecompositionSymmetric;
 import org.hipparchus.linear.RealMatrix;
+import org.hipparchus.util.FastMath;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -83,13 +85,19 @@ public final class MolecularOrbitals extends Array2DRowRealMatrix {
 		RealMatrix a = x.multiply(theMat).multiply(x.transpose());
 		LOG.debug("a: {}", a);
 
-		EigenDecomposition eig = new EigenDecomposition(a);
+		// Remove small values to prevent EigenDecompositionSymmetric() breakage
+		//
+		// see https://github.com/Hipparchus-Math/hipparchus/issues/365
+		a.walkInOptimizedOrder(new DefaultRealMatrixChangingVisitor() {
+			public double visit(final int row, final int column, final double value) {
+				return FastMath.abs(value) < 1.0e-12 ? 0 : value;
+			}
+		});
 
-		SortedEigenDecomposition sortedEig = new SortedEigenDecomposition(eig);
+		EigenDecompositionSymmetric eig = new EigenDecompositionSymmetric(a, 1e-12, false);
 
-		orbitalEnergies = sortedEig.getRealEigenvalues();
-
-		this.setSubMatrix(sortedEig.getVT().multiply(x).getData(), 0, 0);
+		orbitalEnergies = eig.getEigenvalues();
+		this.setSubMatrix(eig.getVT().multiply(x).getData(), 0, 0);
 
 		LOG.debug("MO values :{}", this);
 	}
