@@ -29,12 +29,9 @@ public final class MathUtil {
 	/**
 	 * Method to find the angle in radians defined by three points v1-v2-v3.
 	 * 
-	 * @param v1
-	 *            the first point
-	 * @param v2
-	 *            the second point (central angle)
-	 * @param v3
-	 *            the third point
+	 * @param v1 the first point
+	 * @param v2 the second point (central angle)
+	 * @param v3 the third point
 	 * @return the angle defined
 	 */
 	public static final double findAngle(Vector3D v1, Vector3D v2, Vector3D v3) {
@@ -47,14 +44,10 @@ public final class MathUtil {
 	/**
 	 * Method to find the dihedral angle defined by planes v1-v2-v3 and v2-v3-v4.
 	 * 
-	 * @param v1
-	 *            first point
-	 * @param v2
-	 *            second point
-	 * @param v3
-	 *            third point (2nd and 3rd point define the angle)
-	 * @param v4
-	 *            the fourth angle
+	 * @param v1 first point
+	 * @param v2 second point
+	 * @param v3 third point (2nd and 3rd point define the angle)
+	 * @param v4 the fourth angle
 	 * @return the dihedral angle defined
 	 */
 	public static final double findDihedral(Vector3D v1, Vector3D v2, Vector3D v3, Vector3D v4) {
@@ -84,8 +77,7 @@ public final class MathUtil {
 	/**
 	 * compute double N! ... (1*3*5*...*n)
 	 * 
-	 * @param n
-	 *            the n, whose factorial is to be found
+	 * @param n the n, whose factorial is to be found
 	 * @return the factorial
 	 */
 	public static final int factorial2(int n) {
@@ -101,10 +93,8 @@ public final class MathUtil {
 	/**
 	 * Does ( a! / b! / (a-2*b)! )
 	 * 
-	 * @param a
-	 *            the first term
-	 * @param b
-	 *            the second term
+	 * @param a the first term
+	 * @param b the second term
 	 * @return ( a! / b! / (a-2*b)! )
 	 */
 	public static final double factorialRatioSquared(final int a, final int b) {
@@ -118,16 +108,11 @@ public final class MathUtil {
 	 * From Augspurger and Dykstra:
 	 * <a href="http://dx.doi.org/10.1021/j100176a037">10.1021/j100176a037</a>
 	 * 
-	 * @param s
-	 *            s
-	 * @param ia
-	 *            ia
-	 * @param ib
-	 *            ib
-	 * @param xpa
-	 *            xpa
-	 * @param xpb
-	 *            xpb
+	 * @param s   s
+	 * @param ia  ia
+	 * @param ib  ib
+	 * @param xpa xpa
+	 * @param xpb xpb
 	 * @return Pre-factor of binomial expansion.
 	 */
 	public static final double binomialPrefactor(final int s, final int ia, final int ib, final double xpa,
