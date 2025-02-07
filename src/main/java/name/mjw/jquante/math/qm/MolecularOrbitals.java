@@ -90,11 +90,11 @@ public final class MolecularOrbitals extends Array2DRowRealMatrix {
 		// see https://github.com/Hipparchus-Math/hipparchus/issues/365
 		a.walkInOptimizedOrder(new DefaultRealMatrixChangingVisitor() {
 			public double visit(final int row, final int column, final double value) {
-				return FastMath.abs(value) < 1.0e-12 ? 0 : value;
+				return FastMath.abs(value) < 1.0e-10 ? 0 : value;
 			}
 		});
 
-		EigenDecompositionSymmetric eig = new EigenDecompositionSymmetric(a, 1e-12, false);
+		EigenDecompositionSymmetric eig = new EigenDecompositionSymmetric(a, 1e-10, false);
 
 		orbitalEnergies = eig.getEigenvalues();
 		this.setSubMatrix(eig.getVT().multiply(x).getData(), 0, 0);
