@@ -56,21 +56,21 @@ public class BasisSetReader {
 	/**
 	 * Read a particular basis for the basis library (XML)
 	 * 
-	 * @param basisSetName
-	 *            the name of basis.
+	 * @param basisSetName the name of basis.
 	 * @return BasisSet object, representing the requested basis set.
-	 * @throws IOException if stream from basisName cannot be read.
-	 * @throws SAXException if there was a problem with parsing the XML.
-	 * @throws ParserConfigurationException if there is a serious configuration error.
+	 * @throws IOException                  if stream from basisName cannot be read.
+	 * @throws SAXException                 if there was a problem with parsing the
+	 *                                      XML.
+	 * @throws ParserConfigurationException if there is a serious configuration
+	 *                                      error.
 	 */
 	public BasisSet readBasisSet(String basisSetName) throws ParserConfigurationException, SAXException, IOException {
 		String basisLibraryPath = "/name/mjw/jquante/math/qm/basis/basis_";
 		// read the XML config file
-		Document basisDoc = Utility
-				.parseXML(getClass().getResourceAsStream(basisLibraryPath + basisSetName + ".xml"));
+		Document basisDoc = Utility.parseXML(getClass().getResourceAsStream(basisLibraryPath + basisSetName + ".xml"));
 
 		// and save the basis info. properly
-		saveIt(basisDoc);
+		processTreeNodes(basisDoc);
 
 		return basisSet;
 	}
@@ -78,12 +78,14 @@ public class BasisSetReader {
 	/**
 	 * Read a particular basis set from the basis set library (XML)
 	 * 
-	 * @param basisSetFileName
-	 *            the name of external basis set file name.
+	 * @param basisSetFileName the name of external basis set file name.
 	 * @return BasisSet object, representing the requested basis set.
-	 * @throws IOException if stream from basisFileName cannot be read.
-	 * @throws SAXException if there was a problem with parsing the XML.
-	 * @throws ParserConfigurationException if there is a serious configuration error. 
+	 * @throws IOException                  if stream from basisFileName cannot be
+	 *                                      read.
+	 * @throws SAXException                 if there was a problem with parsing the
+	 *                                      XML.
+	 * @throws ParserConfigurationException if there is a serious configuration
+	 *                                      error.
 	 */
 	public BasisSet readExternalBasisSet(String basisSetFileName)
 			throws ParserConfigurationException, SAXException, IOException {
@@ -91,16 +93,15 @@ public class BasisSetReader {
 		Document basisDoc = Utility.parseXML(getClass().getResourceAsStream(basisSetFileName));
 
 		// and save the basis info. properly
-		saveIt(basisDoc);
+		processTreeNodes(basisDoc);
 
 		return basisSet;
 	}
 
 	/**
-	 * Recursive routine save DOM tree nodes ... and hoping that it reads the basis
-	 * properly
+	 * Recursive routine to save DOM tree nodes
 	 */
-	private void saveIt(Node n) {
+	private void processTreeNodes(Node n) {
 		int type = n.getNodeType(); // get node type
 
 		switch (type) {
@@ -115,7 +116,6 @@ public class BasisSetReader {
 			break;
 		case Node.ELEMENT_NODE:
 			String element = n.getNodeName();
-
 			NamedNodeMap atts = n.getAttributes();
 
 			if ("atom".equals(element)) {
@@ -123,10 +123,12 @@ public class BasisSetReader {
 				atomicBasis = new AtomicBasis(atts.getNamedItem("symbol").getNodeValue(),
 						Integer.parseInt(atts.getNamedItem("atomicNumber").getNodeValue()));
 				basisSet.addAtomicBasis(atomicBasis);
+
 			} else if ("orbital".equals(element)) {
 				// a orbital entry for atomic basis
 				orbital = new Orbital(atts.getNamedItem("type").getNodeValue());
 				atomicBasis.addOrbital(orbital);
+
 			} else if ("entry".equals(element)) {
 				// a orbital (coefficient, exponent) entry
 				orbital.addEntry(Double.parseDouble(atts.getNamedItem("coeff").getNodeValue()),
@@ -137,18 +139,18 @@ public class BasisSetReader {
 
 				for (int i = 0; i < atts.getLength(); i++) {
 					Node att = atts.item(i);
-					saveIt(att);
+					processTreeNodes(att);
 				}
 			}
-
 			break;
+
 		default:
 			break;
 		}
 
 		// save children if any
 		for (Node child = n.getFirstChild(); child != null; child = child.getNextSibling()) {
-			saveIt(child);
-		} // end for
+			processTreeNodes(child);
+		}
 	}
 }
