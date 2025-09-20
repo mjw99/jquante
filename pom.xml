@@ -24,7 +24,7 @@
 		<fortranformat.version>1.1.2</fortranformat.version>
 		<jaxb.version>2.3.0</jaxb.version>
 		<jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
-		<hipparchus.version>4.0.1</hipparchus.version>
+		<hipparchus.version>4.0.2</hipparchus.version>
 		<jafama.version>2.3.2</jafama.version>
 		<guava.version>33.4.8-jre</guava.version>
 		<!-- Use:
