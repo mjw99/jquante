@@ -20,7 +20,7 @@
 
                      to check for updates for these below -->
 		<junit.version>5.13.4</junit.version>
-		<log4j.version>2.25.1</log4j.version>
+		<log4j.version>2.25.2</log4j.version>
 		<fortranformat.version>1.1.2</fortranformat.version>
 		<jaxb.version>2.3.0</jaxb.version>
 		<jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
