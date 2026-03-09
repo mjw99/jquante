@@ -21,7 +21,7 @@
                      to check for updates for these below -->
 		<junit.version>5.14.3</junit.version>
 		<log4j.version>2.25.3</log4j.version>
-		<fortranformat.version>1.1.2</fortranformat.version>
+		<fortranformat.version>1.1.3</fortranformat.version>
 		<jaxb.version>2.3.0</jaxb.version>
 		<jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
 		<hipparchus.version>4.0.3</hipparchus.version>
