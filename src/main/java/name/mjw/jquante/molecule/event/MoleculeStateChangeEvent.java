@@ -141,28 +141,13 @@ public class MoleculeStateChangeEvent extends java.util.EventObject {
 	 */
 	@Override
 	public String toString() {
-		StringBuffer sb = new StringBuffer();
-
-		switch (eventType) {
-		case ATOM_ADDED:
-			sb.append("Atom added : " + atom1);
-			break;
-		case ATOM_REMOVED:
-			sb.append("Atom removed : " + atom1);
-			break;
-		case BOND_REMOVED:
-			sb.append("Bond between : (" + atom1 + ", " + atom2 + ") removed");
-			break;
-		case BOND_MODIFIED:
-			sb.append("Bond between : (" + atom1 + ", " + atom2 + ") modified");
-			break;
-
-		default:
-			sb.append("General molecule state modification event");
-			break;
-		}
-
-		return sb.toString();
+		return switch (eventType) {
+			case ATOM_ADDED -> "Atom added : " + atom1;
+			case ATOM_REMOVED -> "Atom removed : " + atom1;
+			case BOND_REMOVED -> "Bond between : (" + atom1 + ", " + atom2 + ") removed";
+			case BOND_MODIFIED -> "Bond between : (" + atom1 + ", " + atom2 + ") modified";
+			default -> "General molecule state modification event";
+		};
 	}
 
 }

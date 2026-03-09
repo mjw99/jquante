@@ -82,7 +82,7 @@ public class SCFType {
 			return true;
 		}
 
-		return ((obj != null) && (obj instanceof SCFType) && (this.type == ((SCFType) obj).type));
+		return obj instanceof SCFType scfType && this.type == scfType.type;
 	}
 
 	/**

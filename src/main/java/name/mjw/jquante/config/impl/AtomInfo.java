@@ -4,7 +4,6 @@ import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -191,9 +190,9 @@ public final class AtomInfo implements Configuration {
 			if (nodeName.equals("name")) {
 				originalNameTable.put(symbol, n.getNodeValue());
 			} else if (nodeName.equals("atomicNumber")) {
-				originalAtomicNumberTable.put(symbol, Integer.valueOf(n.getNodeValue()));
+				originalAtomicNumberTable.put(symbol, Integer.parseInt(n.getNodeValue()));
 			} else if (nodeName.equals("atomicWeight")) {
-				originalAtomicWeightTable.put(symbol, Double.valueOf(n.getNodeValue()));
+				originalAtomicWeightTable.put(symbol, Double.parseDouble(n.getNodeValue()));
 			}
 			break;
 		case Node.ELEMENT_NODE:
@@ -242,9 +241,9 @@ public final class AtomInfo implements Configuration {
 			if (nodeName.equals("name")) {
 				nameTable.put(symbol, n.getNodeValue());
 			} else if (nodeName.equals("atomicNumber")) {
-				atomicNumberTable.put(symbol, Integer.valueOf(n.getNodeValue()));
+				atomicNumberTable.put(symbol, Integer.parseInt(n.getNodeValue()));
 			} else if (nodeName.equals("atomicWeight")) {
-				atomicWeightTable.put(symbol, Double.valueOf(n.getNodeValue()));
+				atomicWeightTable.put(symbol, Double.parseDouble(n.getNodeValue()));
 
 			}
 			break;
@@ -376,8 +375,8 @@ public final class AtomInfo implements Configuration {
 
 		// change to new value
 		nameTable.put(key, ap.getName());
-		atomicNumberTable.put(key, Integer.valueOf(ap.getAtomicNumber()));
-		atomicWeightTable.put(key, Double.valueOf(ap.getAtomicWeight()));		
+		atomicNumberTable.put(key, ap.getAtomicNumber());
+		atomicWeightTable.put(key, ap.getAtomicWeight());		
 		// fire the event!
 		fireAtomInfoChangeListenerAtomInfoChanged(changeEvent);
 	}
@@ -556,16 +555,11 @@ public final class AtomInfo implements Configuration {
 	 *         found then "X" is returned.
 	 */
 	public String getSymbol(int atomicNumber) {
-		Enumeration<Integer> eles = (Enumeration<Integer>) atomicNumberTable.values();
-		Enumeration<String> keys = (Enumeration<String>) atomicNumberTable.keySet();
-
-		while (eles.hasMoreElements()) {
-			if (eles.nextElement() == atomicNumber)
-				return keys.nextElement();
-			keys.nextElement();
-		}
-
-		return "X";
+		return atomicNumberTable.entrySet().stream()
+				.filter(e -> e.getValue() == atomicNumber)
+				.map(Entry::getKey)
+				.findFirst()
+				.orElse("X");
 	}
 
 	/**
@@ -581,9 +575,9 @@ public final class AtomInfo implements Configuration {
 		changeEvent.setAtomSymbol(symbol);
 		changeEvent.setOldValue(atomicNumberTable.get(symbol));
 
-		atomicNumberTable.put(symbol, Integer.valueOf(atomicNumber));
+		atomicNumberTable.put(symbol, atomicNumber);
 
-		changeEvent.setNewValue(Integer.valueOf(atomicNumber));
+		changeEvent.setNewValue(atomicNumber);
 
 		fireAtomInfoChangeListenerAtomInfoChanged(changeEvent);
 	}
@@ -615,9 +609,9 @@ public final class AtomInfo implements Configuration {
 		changeEvent.setAtomSymbol(symbol);
 		changeEvent.setOldValue(atomicWeightTable.get(symbol));
 
-		atomicWeightTable.put(symbol, Double.valueOf(atomicWeight));
+		atomicWeightTable.put(symbol, atomicWeight);
 
-		changeEvent.setNewValue(Double.valueOf(atomicWeight));
+		changeEvent.setNewValue(atomicWeight);
 
 		fireAtomInfoChangeListenerAtomInfoChanged(changeEvent);
 	}

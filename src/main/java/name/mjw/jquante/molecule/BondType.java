@@ -2,7 +2,6 @@ package name.mjw.jquante.molecule;
 
 import java.io.Serializable;
 import java.util.EnumSet;
-import java.util.Iterator;
 
 /**
  * This class defines an enum type called BondType, used to differentiate among
@@ -77,9 +76,7 @@ public enum BondType implements Serializable {
 	 * @return the equivalent BondType object
 	 */
 	public static BondType getBondTypeFor(String description) {
-		Iterator<BondType> iter = vals.iterator();
-		while (iter.hasNext()) {
-			BondType bondType = iter.next();
+		for (BondType bondType : vals) {
 			if (bondType.description.equals(description)) {
 				return bondType;
 			}

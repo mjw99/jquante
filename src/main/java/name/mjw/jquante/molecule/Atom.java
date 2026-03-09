@@ -1,7 +1,6 @@
 package name.mjw.jquante.molecule;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Objects;
@@ -260,15 +259,7 @@ public class Atom implements Cloneable {
 	 */
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		HashMap<Integer, BondType> theClonedConnection = new HashMap<>();
-
-		Enumeration<Integer> keys = (Enumeration<Integer>) connectedList.keySet();
-		Integer key;
-
-		while (keys.hasMoreElements()) {
-			key = keys.nextElement();
-			theClonedConnection.put(key, connectedList.get(key));
-		}
+		HashMap<Integer, BondType> theClonedConnection = new HashMap<>(connectedList);
 
 		ArrayList<ZMatrixItem> theColonedZMatrixElement = new ArrayList<>();
 
@@ -295,14 +286,12 @@ public class Atom implements Cloneable {
 	 *            the bond type
 	 */
 	public void addConnection(int atomIndex, BondType bondType) {
-		Integer key = Integer.valueOf(atomIndex);
-
-		if (bondType.equals(BondType.NO_BOND) && connectedList.containsKey(key)) {
-			connectedList.remove(key);
+		if (bondType.equals(BondType.NO_BOND) && connectedList.containsKey(atomIndex)) {
+			connectedList.remove(atomIndex);
 			return;
 		}
-		
-		connectedList.put(key, bondType);
+
+		connectedList.put(atomIndex, bondType);
 	}
 
 	/**
@@ -314,7 +303,7 @@ public class Atom implements Cloneable {
 	 *            the index of atom to be disconnected
 	 */
 	public void removeConnection(int atomIndex) {
-		connectedList.remove(Integer.valueOf(atomIndex));
+		connectedList.remove(atomIndex);
 	}
 
 	/**
@@ -354,7 +343,7 @@ public class Atom implements Cloneable {
 	 *         status.
 	 */
 	public boolean isConnected(int atomIndex) {
-		return (connectedList.containsKey(Integer.valueOf(atomIndex)));
+		return connectedList.containsKey(atomIndex);
 	}
 
 	/**
@@ -366,7 +355,7 @@ public class Atom implements Cloneable {
 	 */
 	public BondType getConnectivity(int atomIndex) {
 		if (isConnected(atomIndex)) {
-			return connectedList.get(Integer.valueOf(atomIndex));
+			return connectedList.get(atomIndex);
 		} else {
 			return BondType.NO_BOND;
 		}
@@ -377,15 +366,11 @@ public class Atom implements Cloneable {
 	 */
 	public int getNumberOfStrongBonds() {
 		int bonds = 0;
-		Iterator<BondType> connectedListIter = connectedList.values()
-				.iterator();
-		while (connectedListIter.hasNext()) {
-			BondType bond = connectedListIter.next();
+		for (BondType bond : connectedList.values()) {
 			if (bond.isStrongBond()) {
 				bonds++;
 			}
 		}
-
 		return bonds;
 	}
 
@@ -394,13 +379,9 @@ public class Atom implements Cloneable {
 	 */
 	public double getSumOfBondOrders() {
 		double sumBondOrders = 0;
-		Iterator<BondType> connectedListIter = connectedList.values()
-				.iterator();
-		while (connectedListIter.hasNext()) {
-			BondType bond = connectedListIter.next();
+		for (BondType bond : connectedList.values()) {
 			sumBondOrders += bond.getBondOrder();
 		}
-
 		return sumBondOrders;
 	}
 
@@ -409,15 +390,11 @@ public class Atom implements Cloneable {
 	 */
 	public int getNumberOfDoubleBonds() {
 		int doubleBonds = 0;
-		Iterator<BondType> connectedListIter = connectedList.values()
-				.iterator();
-		while (connectedListIter.hasNext()) {
-			BondType bond = connectedListIter.next();
+		for (BondType bond : connectedList.values()) {
 			if (bond == BondType.DOUBLE_BOND) {
 				doubleBonds++;
 			}
 		}
-
 		return doubleBonds;
 	}
 
@@ -425,11 +402,7 @@ public class Atom implements Cloneable {
 	 * @return true if this atom participates in a resonant bond structure
 	 */
 	public boolean hasResonantBonds() {
-		Iterator<Integer> connectedAtomsIter = connectedList.keySet()
-				.iterator();
-		while (connectedAtomsIter.hasNext()) {
-			Integer connectedIndex = connectedAtomsIter.next();
-			BondType bond = connectedList.get(connectedIndex);
+		for (BondType bond : connectedList.values()) {
 			if (bond == BondType.AROMATIC_BOND || bond == BondType.AMIDE_BOND) {
 				return true;
 			}
@@ -633,11 +606,8 @@ public class Atom implements Cloneable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!(obj instanceof Atom other))
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Atom other = (Atom) obj;
 		return Objects.equals(atomCenter, other.atomCenter)
 				&& index == other.index
 				&& Objects.equals(symbol, other.symbol);

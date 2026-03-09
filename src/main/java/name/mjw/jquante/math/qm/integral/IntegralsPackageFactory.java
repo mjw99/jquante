@@ -64,24 +64,12 @@ public final class IntegralsPackageFactory {
 	 *         available, then UnsupportedOperationException is thrown
 	 */
 	public TwoElectronTerm getTwoElectronTerm(IntegralPackageType type) {
-		TwoElectronTerm twoElectronTerm;
-
-		switch (type) {
-		case TWO_ELECTRON_HUZINAGA:
-			twoElectronTerm = new HuzinagaTwoElectronTerm();
-			break;
-		case TWO_ELECTRON_RYS:
-			twoElectronTerm = new RysTwoElectronTerm();
-			break;
-		case TWO_ELECTRON_HGP:
-			twoElectronTerm = new HGPTwoElectronTerm();
-			break;
-		default:
-			throw new UnsupportedOperationException("No 2E integral "
-					+ "package yet for: " + type);
-		}
-
-		return twoElectronTerm;
+		return switch (type) {
+			case TWO_ELECTRON_HUZINAGA -> new HuzinagaTwoElectronTerm();
+			case TWO_ELECTRON_RYS -> new RysTwoElectronTerm();
+			case TWO_ELECTRON_HGP -> new HGPTwoElectronTerm();
+			default -> throw new UnsupportedOperationException("No 2E integral package yet for: " + type);
+		};
 	}
 
 	/**
@@ -128,18 +116,11 @@ public final class IntegralsPackageFactory {
 	 *         available the an UnsupportedOperationException is thrown
 	 */
 	public IntegralsPackage getPackage(IntegralPackageType type) {
-		switch (type) {
-		case NUCLEAR_TERM:
-			return getNuclearTerm();
-		case ONE_ELECTRON_TERM:
-			return getOneElectronTerm();
-		case TWO_ELECTRON_HUZINAGA:
-		case TWO_ELECTRON_HGP:
-		case TWO_ELECTRON_RYS:
-			return getTwoElectronTerm(type);
-		default:
-			throw new UnsupportedOperationException("No integral "
-					+ "package yet for: " + type);
-		}
+		return switch (type) {
+			case NUCLEAR_TERM -> getNuclearTerm();
+			case ONE_ELECTRON_TERM -> getOneElectronTerm();
+			case TWO_ELECTRON_HUZINAGA, TWO_ELECTRON_HGP, TWO_ELECTRON_RYS -> getTwoElectronTerm(type);
+			default -> throw new UnsupportedOperationException("No integral package yet for: " + type);
+		};
 	}
 }

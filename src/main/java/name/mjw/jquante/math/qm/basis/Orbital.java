@@ -74,7 +74,7 @@ public final class Orbital {
 	 *            the coefficient to be added
 	 */
 	public void addCoefficient(double coeff) {
-		coefficients.add(Double.valueOf(coeff));
+		coefficients.add(coeff);
 	}
 
 	/**
@@ -84,7 +84,7 @@ public final class Orbital {
 	 *            the exponent to be added
 	 */
 	public void addExponent(double exp) {
-		exponents.add(Double.valueOf(exp));
+		exponents.add(exp);
 	}
 
 	/**

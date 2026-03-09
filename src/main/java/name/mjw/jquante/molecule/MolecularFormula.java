@@ -1,6 +1,5 @@
 package name.mjw.jquante.molecule;
 
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 import name.mjw.jquante.molecule.event.MoleculeStateChangeEvent;
@@ -57,22 +56,12 @@ public class MolecularFormula {
 
 		// iterate through each atoms and collect the unique ones and their
 		// counts...
-		Iterator<Atom> atoms = molecule.getAtoms();
-		Atom atom;
-
 		// TODO: a bit expensive (?) operation, may need optimization
+		var atoms = molecule.getAtoms();
 		while (atoms.hasNext()) {
-			atom = atoms.next();
-
-			if (uniqueSymbols.containsKey(atom.getSymbol())) {
-				uniqueSymbols.put(
-						atom.getSymbol(),
-						Integer.valueOf((uniqueSymbols.get(atom.getSymbol()))
-								.intValue() + 1));
-			} else {
-				uniqueSymbols.put(atom.getSymbol(), Integer.valueOf(1));
-			} // end if
-		} // end while
+			var atom = atoms.next();
+			uniqueSymbols.merge(atom.getSymbol(), 1, Integer::sum);
+		}
 
 		// now sort the stuff based on atomic symbols, alphabetically
 		Object[] keys = uniqueSymbols.keySet().toArray();
@@ -228,11 +217,10 @@ public class MolecularFormula {
 		if (this == obj)
 			return true;
 
-		if (!(obj instanceof MolecularFormula)) {
+		if (!(obj instanceof MolecularFormula o)) {
 			return false;
 		} else {
 			// then do a deep compare
-			MolecularFormula o = (MolecularFormula) obj;
 
 			Object[] keys = uniqueSymbols.keySet().toArray();
 
