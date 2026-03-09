@@ -26,7 +26,14 @@ import net.jafama.FastMath;
  */
 public final class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 	/**
-	 * 2E coulomb interactions between four contracted Gaussians
+	 * Computes the two-electron Coulomb repulsion integral (ab|cd) between four
+	 * contracted Gaussians using the Huzinaga scheme.
+	 *
+	 * @param a the first contracted Gaussian.
+	 * @param b the second contracted Gaussian.
+	 * @param c the third contracted Gaussian.
+	 * @param d the fourth contracted Gaussian.
+	 * @return the two-electron Coulomb repulsion integral (ab|cd).
 	 */
 	@Override
 	public final double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c,
@@ -103,7 +110,26 @@ public final class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 	}
 
 	/**
-	 * coulomb repulsion term
+	 * Computes the Coulomb repulsion integral between two pairs of primitive
+	 * Gaussians using the Huzinaga scheme.
+	 *
+	 * @param a      the center of primitive Gaussian a.
+	 * @param aNorm  the normalization factor of primitive Gaussian a.
+	 * @param aPower the angular momentum powers of primitive Gaussian a.
+	 * @param aAlpha the exponent of primitive Gaussian a.
+	 * @param b      the center of primitive Gaussian b.
+	 * @param bNorm  the normalization factor of primitive Gaussian b.
+	 * @param bPower the angular momentum powers of primitive Gaussian b.
+	 * @param bAlpha the exponent of primitive Gaussian b.
+	 * @param c      the center of primitive Gaussian c.
+	 * @param cNorm  the normalization factor of primitive Gaussian c.
+	 * @param cPower the angular momentum powers of primitive Gaussian c.
+	 * @param cAlpha the exponent of primitive Gaussian c.
+	 * @param d      the center of primitive Gaussian d.
+	 * @param dNorm  the normalization factor of primitive Gaussian d.
+	 * @param dPower the angular momentum powers of primitive Gaussian d.
+	 * @param dAlpha the exponent of primitive Gaussian d.
+	 * @return the two-electron Coulomb repulsion integral value.
 	 */
 	@Override
 	public final double coulombRepulsion(final Vector3D a, final double aNorm, final Power aPower, final double aAlpha,
@@ -219,6 +245,20 @@ public final class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 		return (MathUtil.factorialRatioSquared(i, r) * FastMath.pow(4 * g, r - i));
 	}
 
+	/**
+	 * Not supported for the Huzinaga scheme — always throws
+	 * {@link UnsupportedOperationException}.
+	 *
+	 * @param a       the first contracted Gaussian.
+	 * @param b       the second contracted Gaussian.
+	 * @param c       the third contracted Gaussian.
+	 * @param d       the fourth contracted Gaussian.
+	 * @param density the current density matrix (unused).
+	 * @param jMat    the Coulomb matrix to accumulate into (unused).
+	 * @param kMat    the exchange matrix to accumulate into (unused).
+	 * @return never returns normally.
+	 * @throws UnsupportedOperationException always.
+	 */
 	@Override
 	public final double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c, ContractedGaussian d,
 			Density density, RealMatrix jMat, RealMatrix kMat) {

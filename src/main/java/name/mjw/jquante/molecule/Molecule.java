@@ -420,7 +420,9 @@ public abstract class Molecule {
 	}
 
 	/**
-	 * overridden toString()
+	 * Returns a brief string representation of this molecule, including its title.
+	 *
+	 * @return a string of the form "Molecule &lt;title&gt;"
 	 */
 	@Override
 	public String toString() {
@@ -519,9 +521,16 @@ public abstract class Molecule {
 	}
 
 	/**
-	 * information additional to a Molecule object
+	 * Holds supplementary information associated with a Molecule object, such as
+	 * computed energies, gradients, dipole moments, and metadata about the level
+	 * of theory and basis set used.
 	 */
 	public static final class AdditionalInformation {
+		/**
+		 * Creates a new AdditionalInformation instance with default values.
+		 * All numeric fields default to zero, boolean flags to false,
+		 * and unit strings to standard quantum chemistry conventions (a.u., Debye, cm-1).
+		 */
 		public AdditionalInformation() {
 			energy = 0.0;
 			zpEnergy = 0.0;
@@ -655,6 +664,11 @@ public abstract class Molecule {
 			return readConnectivity;
 		}
 
+		/**
+		 * Sets whether the connectivity information was read from the molecule file.
+		 *
+		 * @param readConnectivity true if connectivity was read from the file
+		 */
 		public void setReadConnectivity(boolean readConnectivity) {
 			this.readConnectivity = readConnectivity;
 		}
@@ -995,6 +1009,7 @@ public abstract class Molecule {
 			this.frequencyUnit = frequencyUnit;
 		}
 
+		/** List of user-defined molecular properties, or null if none have been added. */
 		private ArrayList<UserDefinedMolecularProperty> userProperties;
 
 		/**

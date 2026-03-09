@@ -25,6 +25,11 @@ public class Density extends Array2DRowRealMatrix {
 		super(n, n);
 	}
 
+	/**
+	 * Creates a new Density matrix from an existing 2D data array.
+	 *
+	 * @param data the 2D double array representing the density matrix elements
+	 */
 	public Density(double[][] data) {
 		super(data);
 	}
@@ -66,6 +71,11 @@ public class Density extends Array2DRowRealMatrix {
 
 	}
 
+	/**
+	 * Returns a formatted string representation of the density matrix.
+	 *
+	 * @return a human-readable matrix string
+	 */
 	@Override
 	public String toString() {
 		return MathUtil.matrixToString(this);

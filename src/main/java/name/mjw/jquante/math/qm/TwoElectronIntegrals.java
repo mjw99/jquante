@@ -36,12 +36,16 @@ public final class TwoElectronIntegrals {
 	 */
 	private double[] twoEIntegrals;
 
+	/** The index of the atom with respect to which 2E derivatives are computed. */
 	private int atomIndex;
+
+	/** The SCF method instance used during derivative evaluation. */
 	protected SCFMethod scfMethod;
 
+	/** List of partial derivative arrays [dx, dy, dz] of the two-electron integrals. */
 	protected ArrayList<double[]> twoEDer;
 
-	/** Calculate integrals on the fly instead of storing them in an array */
+	/** If true, integrals are computed on-the-fly rather than stored in memory. */
 	protected boolean onTheFly;
 
 	/**
@@ -541,6 +545,10 @@ public final class TwoElectronIntegrals {
 		this.onTheFly = onTheFly;
 	}
 
+	/**
+	 * Prints all two-electron integrals (i,j,k,l) and their values to standard output.
+	 * Intended for debugging purposes.
+	 */
 	public void printCompleteIntegralList() {
 
 		int noOfBasisFunctions = basisSetLibrary.getBasisFunctions().size();

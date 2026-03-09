@@ -21,10 +21,13 @@ public final class AtomInfoChangeEvent extends EventObject {
 	/** Holds value of property oldValue. */
 	private Object oldValue;
 
-	/** the change types */
+	/** Change type constant indicating that the atom name has changed. */
 	public static final int ATOM_NAME = 0;
+	/** Change type constant indicating that the atomic number has changed. */
 	public static final int ATOMIC_NUMBER = 1;
+	/** Change type constant indicating that the atomic weight has changed. */
 	public static final int ATOMIC_WEIGHT = 2;
+	/** Change type constant indicating that all atom properties have changed. */
 	public static final int ALL_CANGED = 100;
 
 	/** Holds value of property atomSymbol. */

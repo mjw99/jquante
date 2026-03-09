@@ -22,6 +22,7 @@ public abstract class ConvergenceCriteria {
 		name = "ConvergenceCriteria";
 	}
 
+	/** The previous function value, used to assess convergence. */
 	protected double oldValue;
 
 	/**
@@ -43,6 +44,7 @@ public abstract class ConvergenceCriteria {
 		this.oldValue = oldValue;
 	}
 
+	/** The current function value, compared against {@link #oldValue} to assess convergence. */
 	protected double newValue;
 
 	/**
@@ -64,6 +66,7 @@ public abstract class ConvergenceCriteria {
 		this.newValue = newValue;
 	}
 
+	/** True if this criteria is composed of multiple sub-criteria. */
 	protected boolean composite;
 
 	/**
@@ -75,6 +78,7 @@ public abstract class ConvergenceCriteria {
 		return composite;
 	}
 
+	/** The list of sub-criteria combined when {@link #composite} is true. */
 	protected ArrayList<ConvergenceCriteria> subCriteria;
 
 	/**
@@ -122,9 +126,13 @@ public abstract class ConvergenceCriteria {
 
 	/** Ways to combine two criteria */
 	public enum CriteriaCombinationType {
-		AND, OR
+		/** All sub-criteria must be satisfied for convergence. */
+		AND,
+		/** At least one sub-criterion must be satisfied for convergence. */
+		OR
 	}
 
+	/** How sub-criteria are combined when {@link #composite} is true. */
 	protected CriteriaCombinationType criteriaCombinationType;
 
 	/**
@@ -147,6 +155,7 @@ public abstract class ConvergenceCriteria {
 		this.criteriaCombinationType = criteriaCombinationType;
 	}
 
+	/** The numerical tolerance below which the change is considered converged. */
 	protected double tolerance;
 
 	/**
@@ -168,6 +177,7 @@ public abstract class ConvergenceCriteria {
 		this.tolerance = tolerance;
 	}
 
+	/** Human-readable name identifying this convergence criterion. */
 	protected String name;
 
 	/**

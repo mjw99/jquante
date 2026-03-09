@@ -22,6 +22,8 @@ import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 public final class HCore extends Array2DRowRealMatrix {
 
 	private static final long serialVersionUID = 290891895527849860L;
+
+	/** The atom index with respect to which HCore partial derivatives are computed. */
 	protected int atomIndex;
 	private transient SCFMethod scfMethod;
 	private transient BasisSetLibrary bsl;

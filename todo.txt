@@ -1,0 +1,88 @@
+In 3.1 EigenDecomposition has split into two classes: EigenDecompositionSymmetric and EigenDecompositionNonSymmetric
+
+EigenDecompositionSymmetric fails with:
+
+[ERROR] name.mjw.jquante.math.qm.SCFMethodFactoryTest.SinglePointHFWaterSTO3G -- Time elapsed: 0.064 s <<< ERROR!
+org.hipparchus.exception.MathIllegalArgumentException: non symmetric matrix: the difference between entries at (0,3) and (3,0) is larger than 0
+	at org.hipparchus.linear.MatrixUtils.isSymmetricInternal(MatrixUtils.java:485)
+	at org.hipparchus.linear.MatrixUtils.checkSymmetric(MatrixUtils.java:505)
+	at org.hipparchus.linear.EigenDecompositionSymmetric.<init>(EigenDecompositionSymmetric.java:131)
+	at org.hipparchus.linear.EigenDecompositionSymmetric.<init>(EigenDecompositionSymmetric.java:110)
+	at name.mjw.jquante.math.qm.MolecularOrbitals.compute(MolecularOrbitals.java:86)
+	at name.mjw.jquante.math.qm.MolecularOrbitals.compute(MolecularOrbitals.java:63)
+	at name.mjw.jquante.math.qm.RestrictedHartreeFockMethod.scf(RestrictedHartreeFockMethod.java:127)
+	at name.mjw.jquante.math.qm.SCFMethodFactoryTest.SinglePointHFWaterSTO3G(SCFMethodFactoryTest.java:118)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[DEBUG] 2024-12-26 16:39:02.506 [main] MolecularOrbitals - a: Array2DRowRealMatrix{
+{-32.3832316689,-2.7779596151,          0.0,-0.0,-0.0178944438,-0.2943283987,-0.2943283987},
+{-2.7779596151, -8.3468403153,         -0.0, 0.0,0.2798115948,-0.5025592022,-0.5025592022},
+{          0.0,          -0.0,-7.4478634921,-0.0,-0.0,0.0,-0.0},
+{         -0.0,           0.0,-0.0,-7.7048318226,-0.0,-0.1423750112,0.1423750112},
+{-0.0178944438,0.2798115948,-0.0,-0.0,-7.590702925,0.1460871076,0.1460871076},
+{-0.2943283987,-0.5025592022,0.0,-0.1423750112,0.1460871076,-4.275087949,-0.04927562},
+{-0.2943283987,-0.5025592022,-0.0,0.1423750112,0.1460871076,-0.04927562,-4.275087949}}
+
+[DEBUG] 2024-12-26 16:37:39.097 [main] MolecularOrbitals - a: 
+-32.383 -2.778 +0.000 -0.000 -0.018 -0.294 -0.294
+ -2.778 -8.347 -0.000 +0.000 +0.280 -0.503 -0.503
+ +0.000 -0.000 -7.448 -0.000 -0.000 +0.000 -0.000
+ -0.000 +0.000 -0.000 -7.705 -0.000 -0.142 +0.142
+ -0.018 +0.280 -0.000 -0.000 -7.591 +0.146 +0.146
+ -0.294 -0.503 +0.000 -0.142 +0.146 -4.275 -0.049
+ -0.294 -0.503 -0.000 +0.142 +0.146 -0.049 -4.275
+
+This can be reproduced with this smaller test case:
+
+		double[][] matrixData = { 	{ -1d, -0d,  0d, 0d },
+						{  0d,  2d,  0d, 0d },
+						{  0d,  0d,  3d, 0d },
+						{ -1d,  0d, -0d, 4d }
+									
+		};
+		RealMatrix m = MatrixUtils.createRealMatrix(matrixData);
+		
+		System.out.println(MathUtil.matrixToString((Array2DRowRealMatrix) m));
+		
+		EigenDecompositionSymmetric eig = new EigenDecompositionSymmetric(m);
+
+
+
+Note in this class, .getRealEigenvalues() has become .getEigenvalues()
+https://hipparchus.org/apidocs/org/hipparchus/linear/EigenDecompositionSymmetric.html
+
+EigenDecompositionNonSymmetric returns only Complex[] values
+https://hipparchus.org/apidocs/org/hipparchus/linear/EigenDecompositionNonSymmetric.html
+
+
+Should https://github.com/Hipparchus-Math/hipparchus/blob/69427a6229ed98e88c9af494c8679b3ffdefc0aa/hipparchus-core/src/main/java/org/hipparchus/linear/MatrixUtils.java#L482 actually be:
+
+FastMath.max(FastMath.abs(mij), FastMath.abs(mji)) + relativeTolerance) {
+
+No, I don't think this is correct...
+
+
+This seems to be the best example I have:
+
+Strategies to deal with a matrix containing values very close to zero, when passing it to EigenDecompositionSymmetric()
+==============================================================================================================
+
+    @Test
+    void testIsSymmetricToleranceMjw() {
+        // Default
+        final double eps = 1e-12;
+
+        final double[][] dataSym1 = {
+            {    1,      1, 1.0E-16 },
+            {    1,      1, 1       },
+            {1.0E-17,    1, 1       },
+        };
+        
+
+        RealMatrix matrix = MatrixUtils.createRealMatrix(dataSym1);       
+         
+        System.out.println(MatrixUtils.isSymmetric(matrix, eps));      
+        new EigenDecompositionSymmetric(matrix,eps,true);
+    }

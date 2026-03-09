@@ -49,7 +49,9 @@ public class GridProperty {
 	 */
 	private double zIncrement;
 
+	/** Workspace array holding the 9 interpolation coordinate inputs (x0, y0, z0, x, y, z, xInc, yInc, zInc). */
 	private double[] xVals = new double[9];
+	/** Workspace array holding the 8 corner function values for trilinear interpolation. */
 	private double[] yVals = new double[8];
 
 	/**
@@ -57,12 +59,16 @@ public class GridProperty {
 	 */
 	private double[] functionValues;
 
-	// internal variable used to maintain consistancy of data provided
+	/** Flag indicating whether the function values have changed and min/max statistics need recomputation. */
 	private boolean stateChanged;
 
+	/** The minimum function value across all grid points. */
 	private double minFunctionValue;
+	/** The maximum function value across all grid points. */
 	private double maxFunctionValue;
+	/** The number of grid points with a non-negative function value. */
 	private int noOfPositiveFunctionValues;
+	/** The number of grid points with a negative function value. */
 	private int noOfNegativeFunctionValues;
 
 	/** Creates a new instance of GridProperty */

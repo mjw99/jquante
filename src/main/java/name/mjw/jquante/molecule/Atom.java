@@ -148,6 +148,7 @@ public class Atom implements Cloneable {
 				: 1.0 / Utility.AU_TO_ANGSTROM_FACTOR);
 	}
 
+	/** The units in which the atom center coordinates are expressed. */
 	protected Units atomCenterUnits;
 
 	/**
@@ -537,6 +538,7 @@ public class Atom implements Cloneable {
 		zMatrixElement.set(DIHEDRAL_REFERENCE_POS, dihedralReference);
 	}
 
+	/** List of user-defined properties attached to this atom, or null if none have been added. */
 	protected ArrayList<UserDefinedAtomProperty> userProperties;
 
 	/**
@@ -610,11 +612,23 @@ public class Atom implements Cloneable {
 		return null;
 	}
 
+	/**
+	 * Returns a hash code value for this Atom based on its symbol, index and center.
+	 *
+	 * @return a hash code value for this atom
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hash(atomCenter, index, symbol);
 	}
 
+	/**
+	 * Indicates whether some other object is "equal to" this Atom.
+	 * Two atoms are equal if they have the same symbol, index, and atom center.
+	 *
+	 * @param obj the reference object with which to compare
+	 * @return true if this atom is equal to the obj argument, false otherwise
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

@@ -8,6 +8,7 @@ package name.mjw.jquante.math.optimizer;
  */
 public abstract class AbstractOptimizer implements Optimizer {
 
+	/** The function to be optimized by this optimizer. */
 	protected final OptimizerFunction optimizerFunction;
 
 	private static final int DEFAULT_MAX_ITER = 100;
@@ -35,6 +36,7 @@ public abstract class AbstractOptimizer implements Optimizer {
 		return optimizerFunction;
 	}
 
+	/** The current set of variables being optimized. */
 	protected double[] variables;
 
 	/**
@@ -58,6 +60,7 @@ public abstract class AbstractOptimizer implements Optimizer {
 		this.variables = variables;
 	}
 
+	/** The current minimum function value found by the optimizer. */
 	protected double currentMinima;
 
 	/**
@@ -70,6 +73,7 @@ public abstract class AbstractOptimizer implements Optimizer {
 		return currentMinima;
 	}
 
+	/** The maximum number of iterations the optimizer will perform. */
 	protected int maxIterations;
 
 	/**
@@ -107,6 +111,7 @@ public abstract class AbstractOptimizer implements Optimizer {
 		throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
+	/** The convergence criteria used to decide when the optimization has converged. */
 	protected ConvergenceCriteria convergenceCriteria;
 
 	/**

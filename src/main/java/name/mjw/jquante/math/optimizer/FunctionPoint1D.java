@@ -17,6 +17,12 @@ public class FunctionPoint1D {
 	/** The value of the first derivate f'(x). */
 	public double f1x;
 
+	/**
+	 * Creates a new function point at {@code x}, leaving {@link #fx} and
+	 * {@link #f1x} at their default value of 0.0.
+	 *
+	 * @param x the domain value.
+	 */
 	public FunctionPoint1D(double x) {
 		this.x = x;
 	}

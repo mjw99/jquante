@@ -42,6 +42,7 @@ public final class MolecularOrbitals extends Array2DRowRealMatrix {
 		return getData();
 	}
 
+	/** The orbital energies (eigenvalues) corresponding to each molecular orbital. */
 	protected double[] orbitalEnergies;
 
 	/**

@@ -30,12 +30,14 @@ public final class DIISFockExtrapolator implements FockExtrapolator {
 	private ArrayList<Fock> fockMatrixList = new ArrayList<>();
 	private ArrayList<RealVector> errorVectorList = new ArrayList<>();
 
+	/** The current DIIS iteration step count. */
 	protected int diisStep = 0;
 
 	private boolean isDiisStarted = false;
 
 	private Fock oldFock = null;
 
+	/** The convergence threshold for the DIIS error vector norm below which DIIS is initiated. */
 	protected double errorThreshold = 0.00001;
 
 	/**

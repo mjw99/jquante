@@ -93,11 +93,23 @@ public final class AtomProperty implements Parameter {
 		this.atomicWeight = atomicWeight;
 	}
 
+	/**
+	 * Returns this {@code AtomProperty} instance as the parameter value.
+	 *
+	 * @return this object.
+	 */
 	@Override
 	public Object getValue() {
 		return this;
 	}
 
+	/**
+	 * Copies all properties from the supplied {@code AtomProperty} into this
+	 * instance.
+	 *
+	 * @param value an {@code AtomProperty} whose fields will be copied into this
+	 *              object; must not be {@code null}.
+	 */
 	@Override
 	public void setValue(Object value) {
 		AtomProperty ap = (AtomProperty) value;

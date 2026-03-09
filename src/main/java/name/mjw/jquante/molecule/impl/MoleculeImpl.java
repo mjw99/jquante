@@ -26,18 +26,25 @@ import name.mjw.jquante.molecule.event.MoleculeStateChangeEvent;
  */
 public class MoleculeImpl extends Molecule {
 
+	/** The title or name of this molecule. */
 	private String title;
 
+	/** The ordered list of atoms in this molecule. */
 	private ArrayList<Atom> atomList;
 
+	/** Cached bounding box enclosing all atoms; recomputed when the molecule state changes. */
 	private BoundingBox boundingBox;
 
+	/** Flag indicating whether the molecule state has changed since the last bounding box computation. */
 	private boolean stateChanged;
 
+	/** Reusable event object fired when the molecule state changes, to avoid object allocation per event. */
 	private MoleculeStateChangeEvent msce;
 
+	/** Reference to the singleton AtomInfo for atomic weight and number lookups. */
 	private AtomInfo atomInfo;
 
+	/** Lazily-computed molecular formula for this molecule. */
 	private MolecularFormula molecularFormula;
 
 	/** Creates a new instance of MoleculeImpl */
@@ -45,6 +52,11 @@ public class MoleculeImpl extends Molecule {
 		this("Molecule");
 	}
 
+	/**
+	 * Creates a new MoleculeImpl with the given title.
+	 *
+	 * @param title the title or name of the molecule
+	 */
 	public MoleculeImpl(String title) {
 		this.zMatrixComputed = false;
 		this.additionalInformationAvailable = false;
@@ -241,7 +253,8 @@ public class MoleculeImpl extends Molecule {
 
 	/**
 	 * Method to get a particular atom from the lists of atoms.
-	 * 
+	 *
+	 * @param atomIndex the zero-based index of the atom to retrieve
 	 * @return Atom the instance of atom class
 	 * @throws IndexOutOfBoundsException
 	 *             If not a valid atomIndex

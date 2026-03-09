@@ -342,7 +342,8 @@ public final class AtomInfo implements Configuration {
 
 	/**
 	 * Method returns the value of parameter pertaining to the key.
-	 * 
+	 *
+	 * @param key the chemical symbol whose parameter is requested.
 	 * @return Parameter - the parameter value.
 	 * @throws NullPointerException if the key is not found
 	 */

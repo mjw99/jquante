@@ -134,8 +134,12 @@ public class MoleculeStateChangeEvent extends java.util.EventObject {
 
 
 	/**
-	 * overridden toString()
+	 * Returns a human-readable description of this molecule state change event,
+	 * detailing the type of change and the atoms involved.
+	 *
+	 * @return a string describing the event
 	 */
+	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 

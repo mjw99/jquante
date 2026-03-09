@@ -39,12 +39,15 @@ public abstract class SCFMethod implements OptimizerFunction {
 	 * The Density matrix.
 	 */
 	protected Density density;
+	/** List of density matrices for alpha and beta spins in open-shell calculations. */
 	protected ArrayList<Density> densityList;
 
 	/**
 	 * The Molecular Orbitals (coefficient) matrix.
 	 */
 	protected MolecularOrbitals mos;
+
+	/** List of molecular orbital coefficient matrices for alpha and beta spins in open-shell calculations. */
 	protected ArrayList<MolecularOrbitals> mosList;
 
 	/**
@@ -52,12 +55,16 @@ public abstract class SCFMethod implements OptimizerFunction {
 	 * two electron integrals and the density matrix.
 	 */
 	protected GMatrix gMatrix;
+
+	/** List of G matrices for alpha and beta spins in open-shell calculations. */
 	protected ArrayList<GMatrix> gMatrixList;
 
 	/**
 	 * Holds value of property fock - the Fock matrix.
 	 */
 	protected Fock fock;
+
+	/** List of Fock matrices for alpha and beta spins in open-shell calculations. */
 	protected ArrayList<Fock> fockList;
 
 	/**
@@ -160,7 +167,8 @@ public abstract class SCFMethod implements OptimizerFunction {
 	}
 
 	/**
-	 * Perform the SCF
+	 * Perform the SCF (Self-Consistent Field) iteration until convergence or
+	 * the maximum number of iterations is reached.
 	 */
 	public abstract void scf();
 

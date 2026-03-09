@@ -96,9 +96,11 @@ public final class RestrictedMollerPlessetSCFMethod extends RestrictedHartreeFoc
 	}
 
 	/**
-	 * O(N^5) 4-index transformation of the two-electron integrals. Only transform
-	 * the ones needed for MP2, which reduces the scaling to O(nN^4), where n are
-	 * the occs (&lt;&lt;N).
+	 * Performs the O(N^5) 4-index transformation of the AO two-electron integrals
+	 * to the MO basis. Only the integrals needed for the MP2 energy correction are
+	 * transformed, reducing the effective scaling to O(nN^4), where n is the number
+	 * of occupied orbitals (&lt;&lt;N).
+	 * The results are stored in {@link #moInts}.
 	 */
 	protected void transformAOIntsToMOInts() {
 		// Start with (mu,nu|sigma,eta)

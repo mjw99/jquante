@@ -27,6 +27,7 @@ public final class BasisSetLibrary {
 
 	private static final Logger LOG = LogManager.getLogger(BasisSetLibrary.class);
 
+	/** The name of the basis set (e.g. "sto-3g"). */
 	private String basisName;
 
 	/**
@@ -40,6 +41,7 @@ public final class BasisSetLibrary {
 	 */
 	private ArrayList<Shell> shells;
 
+	/** All unique shell pairs (i,j) with i &lt;= j, used for efficient integral screening. */
 	private List<List<Shell>> uniqueShellPairs;
 
 
@@ -100,6 +102,12 @@ public final class BasisSetLibrary {
 		return shells;
 	}
 
+	/**
+	 * Returns all unique shell pairs (i,j) where i &lt;= j, corresponding to
+	 * {@code itertools.combinations_with_replacement(shells, 2)} in Python.
+	 *
+	 * @return list of two-element shell lists representing each unique pair
+	 */
 	public List<List<Shell>> getUniqueShellPairs() {
 		return uniqueShellPairs;
 	}
@@ -255,6 +263,11 @@ public final class BasisSetLibrary {
 
 	}
 
+	/**
+	 * Prints all basis functions to standard output, showing the index, centred
+	 * atom, angular momentum powers, exponents, and contraction coefficients.
+	 * Intended for debugging purposes.
+	 */
 	public void printBasisFunctionList() {
 		System.out.println("");
 		System.out.println("Basis function list");
@@ -266,6 +279,10 @@ public final class BasisSetLibrary {
 		}
 	}
 
+	/**
+	 * Prints the unique shell pair list to standard output, showing the 1-based
+	 * shell indices for each pair. Intended for debugging purposes.
+	 */
 	public void printUniqueShellPairList() {
 		System.out.println("");
 		System.out.println("Unique shellpair list (" + this.uniqueShellPairs.size() + " pairs)");
@@ -280,6 +297,10 @@ public final class BasisSetLibrary {
 		}
 	}
 
+	/**
+	 * Prints the shell list to standard output, showing the basis function index
+	 * range for each shell. Intended for debugging purposes.
+	 */
 	public void printShellList() {
 		System.out.println("");
 		System.out.println("Shell list");

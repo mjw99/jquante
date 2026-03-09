@@ -59,6 +59,7 @@ public final class BasisSet {
 	 * @param chemicalSymbol
 	 *            for which the basis is requested
 	 * @return instance of AtomicBasis
+	 * @throws BasisNotFoundException if no atomic basis is defined for the given chemical symbol
 	 */
 	public AtomicBasis getAtomicBasis(String chemicalSymbol) {
 		AtomicBasis atomicBasis = atomicBasisSet.get(chemicalSymbol);

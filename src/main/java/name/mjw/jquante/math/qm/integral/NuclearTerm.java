@@ -91,6 +91,20 @@ public final class NuclearTerm implements IntegralsPackage {
 		return a;
 	}
 
+	/**
+	 * Constructs the gradient A-array used for computing the derivative of the
+	 * nuclear attraction integral with respect to the nuclear position.
+	 * <p>
+	 * <i>http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.18 and 3.1</i>
+	 *
+	 * @param l1    the angular momentum number of Gaussian 1.
+	 * @param l2    the angular momentum number of Gaussian 2.
+	 * @param pa    the distance of Gaussian 1 to the product centre.
+	 * @param pb    the distance of Gaussian 2 to the product centre.
+	 * @param pc    the distance of the nucleus to the product centre.
+	 * @param gamma the sum of both Gaussians' exponents.
+	 * @return the gradient A-array for the nuclear attraction integral.
+	 */
 	public final double[] constructGradAArray(final int l1, final int l2, final double pa, final double pb,
 			final double pc, final double gamma) {
 		final int iMax = l1 + l2 + 1;

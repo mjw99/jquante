@@ -33,6 +33,7 @@ public abstract class OneElectronProperty {
 		this.scfMethod = scfMethod;
 	}
 
+	/** The SCF method providing the wavefunction data used to evaluate this property. */
 	protected SCFMethod scfMethod;
 
 	/**

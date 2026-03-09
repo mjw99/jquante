@@ -6,7 +6,9 @@ import name.mjw.jquante.math.qm.basis.Power;
 import net.jafama.FastMath;
 
 /**
- * 
+ * Evaluates one-electron overlap and kinetic energy integrals for pairs of
+ * primitive Gaussian functions using the Huzinaga/Taketa scheme.
+ *
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */

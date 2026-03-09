@@ -11,7 +11,9 @@ import org.hipparchus.geometry.euclidean.threed.Vector3D;
  */
 public class PointProperty {
 
-	/** Creates a new instance of PointProperty */
+	/**
+	 * Creates a new PointProperty with uninitialised point and zero value.
+	 */
 	public PointProperty() {
 	}
 
@@ -64,7 +66,9 @@ public class PointProperty {
 	}
 
 	/**
-	 * overloaded toString()
+	 * Returns a string representation of this point property including its coordinates and value.
+	 *
+	 * @return a string of the form "Point: &lt;coords&gt;; Function value: &lt;value&gt;"
 	 */
 	@Override
 	public String toString() {

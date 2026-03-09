@@ -31,6 +31,14 @@ import org.apache.logging.log4j.Logger;
 import name.mjw.fortranformat.FortranFormat;
 import name.mjw.jquante.config.impl.AtomInfo;
 
+/**
+ * Represents the contents of a NWChem basis-set library file, and provides
+ * methods to parse and write that file into an XML representation suitable for
+ * use by {@link name.mjw.jquante.math.qm.basis.BasisSetReader}.
+ *
+ * @see <a href="https://github.com/jeffhammond/nwchem/blob/HEAD/src/basis/basis_dox.c">src/basis/basis_dox.c</a>
+ * @see <a href="http://www.ccl.net/cca/documents/basis-sets/basis.html">General basis set naming information</a>
+ */
 @XmlRootElement(name = "basis")
 public class NWChemBasisSetFile {
 	private static final Logger LOG = LogManager
@@ -123,10 +131,10 @@ public class NWChemBasisSetFile {
 	 * </pre>
 	 * 
 	 * 
-	 * @param inputLine
-	 * @param br
-	 * @throws ParseException
-	 * @throws IOException
+	 * @param inputLine the line that triggered parsing of this section.
+	 * @param br        the reader positioned immediately after the trigger line.
+	 * @throws ParseException if the section header does not start with "basis".
+	 * @throws IOException    if an I/O error occurs while reading.
 	 */
 	void parseBasisSection(String inputLine, BufferedReader br)
 			throws ParseException, IOException {
@@ -186,10 +194,11 @@ public class NWChemBasisSetFile {
 	 * </pre>
 	 * 
 	 * 
-	 * @param line
-	 * @param br
-	 * @throws ParseException
-	 * @throws IOException
+	 * @param br          the reader positioned at the shell-type header line.
+	 * @param elementName the chemical symbol of the element being parsed.
+	 * @return a list of {@link Shell} objects parsed from the section.
+	 * @throws ParseException if the section cannot be parsed.
+	 * @throws IOException    if an I/O error occurs while reading.
 	 */
 	static List<Shell> parseShellSection(BufferedReader br, String elementName)
 			throws ParseException, IOException {
@@ -365,6 +374,11 @@ public class NWChemBasisSetFile {
 		}
 	}
 
+	/**
+	 * Returns the name of the basis set as determined from the file name.
+	 *
+	 * @return the basis set name.
+	 */
 	public String getBasisSetName() {
 		return basisSetName;
 	}

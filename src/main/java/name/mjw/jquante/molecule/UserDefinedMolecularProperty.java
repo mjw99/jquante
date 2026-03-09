@@ -32,6 +32,7 @@ public class UserDefinedMolecularProperty implements Serializable {
 		this.value = value;
 	}
 
+	/** The name identifying this user-defined molecular property. */
 	protected String name;
 
 	/**
@@ -53,6 +54,7 @@ public class UserDefinedMolecularProperty implements Serializable {
 		this.name = name;
 	}
 
+	/** The value of this user-defined molecular property. */
 	protected Serializable value;
 
 	/**
@@ -74,6 +76,7 @@ public class UserDefinedMolecularProperty implements Serializable {
 		this.value = value;
 	}
 
+	/** Whether this property depends on the machine or environment where the Molecule was created. */
 	protected boolean originDependent;
 
 	/**

@@ -137,7 +137,26 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 	}
 
 	/**
-	 * Form coulomb repulsion integral by Rys quadrature
+	 * Computes the Coulomb repulsion integral between two pairs of primitive
+	 * Gaussians using Rys quadrature.
+	 *
+	 * @param a      the center of primitive Gaussian a.
+	 * @param aNorm  the normalization factor of primitive Gaussian a.
+	 * @param aPower the angular momentum powers of primitive Gaussian a.
+	 * @param aAlpha the exponent of primitive Gaussian a.
+	 * @param b      the center of primitive Gaussian b.
+	 * @param bNorm  the normalization factor of primitive Gaussian b.
+	 * @param bPower the angular momentum powers of primitive Gaussian b.
+	 * @param bAlpha the exponent of primitive Gaussian b.
+	 * @param c      the center of primitive Gaussian c.
+	 * @param cNorm  the normalization factor of primitive Gaussian c.
+	 * @param cPower the angular momentum powers of primitive Gaussian c.
+	 * @param cAlpha the exponent of primitive Gaussian c.
+	 * @param d      the center of primitive Gaussian d.
+	 * @param dNorm  the normalization factor of primitive Gaussian d.
+	 * @param dPower the angular momentum powers of primitive Gaussian d.
+	 * @param dAlpha the exponent of primitive Gaussian d.
+	 * @return the two-electron Coulomb repulsion integral value.
 	 */
 	@Override
 	public final double coulombRepulsion(final Vector3D a, final double aNorm, final Power aPower, final double aAlpha,
@@ -1680,7 +1699,25 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
-	// Equ. 10
+	/**
+	 * Computes the 1D integral for a given Rys root using the recurrence of
+	 * Augspurger, Bernholdt, and Dykstra eq. 10.
+	 *
+	 * @param t            the Rys quadrature root.
+	 * @param la           angular momentum of Gaussian a.
+	 * @param lb           angular momentum of Gaussian b.
+	 * @param lc           angular momentum of Gaussian c.
+	 * @param ld           angular momentum of Gaussian d.
+	 * @param aComponent   the relevant Cartesian coordinate of center a.
+	 * @param bComponent   the relevant Cartesian coordinate of center b.
+	 * @param cComponent   the relevant Cartesian coordinate of center c.
+	 * @param dComponent   the relevant Cartesian coordinate of center d.
+	 * @param aAlpha       the exponent of primitive Gaussian a.
+	 * @param bAlpha       the exponent of primitive Gaussian b.
+	 * @param cAlpha       the exponent of primitive Gaussian c.
+	 * @param dAlpha       the exponent of primitive Gaussian d.
+	 * @return the 1D integral contribution for this Rys root.
+	 */
 	private final double int1d(final double t, final int la, final int lb, final int lc, final int ld,
 			final double aComponent, final double bComponent, final double cComponent, final double dComponent,
 			final double aAlpha, final double bAlpha, final double cAlpha, final double dAlpha) {
@@ -1805,6 +1842,20 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		return ijkl;
 	}
 
+	/**
+	 * Not supported for the Rys quadrature scheme — always throws
+	 * {@link UnsupportedOperationException}.
+	 *
+	 * @param a       the first contracted Gaussian.
+	 * @param b       the second contracted Gaussian.
+	 * @param c       the third contracted Gaussian.
+	 * @param d       the fourth contracted Gaussian.
+	 * @param density the current density matrix (unused).
+	 * @param jMat    the Coulomb matrix to accumulate into (unused).
+	 * @param kMat    the exchange matrix to accumulate into (unused).
+	 * @return never returns normally.
+	 * @throws UnsupportedOperationException always.
+	 */
 	@Override
 	public final double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c, ContractedGaussian d,
 			Density density, RealMatrix jMat, RealMatrix kMat) {

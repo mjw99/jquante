@@ -22,17 +22,18 @@ public class UserDefinedAtomProperty implements Serializable {
 
 	/**
 	 * Creates new instance of UserDefinedAtomProperty
-	 * 
+	 *
 	 * @param name
 	 *            Property name.
 	 * @param value
-	 *            Property name.
+	 *            Property value.
 	 */
 	public UserDefinedAtomProperty(String name, Serializable value) {
 		this.name = name;
 		this.value = value;
 	}
 
+	/** The name identifying this user-defined property. */
 	protected String name;
 
 	/**
@@ -54,6 +55,7 @@ public class UserDefinedAtomProperty implements Serializable {
 		this.name = name;
 	}
 
+	/** The value of this user-defined property. */
 	protected Serializable value;
 
 	/**

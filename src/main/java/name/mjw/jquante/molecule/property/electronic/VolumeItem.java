@@ -39,6 +39,7 @@ public class VolumeItem {
 		this.propertyType = propertyType;
 	}
 
+	/** The type of this volumetric property (e.g. electron density, electrostatic potential). */
 	protected MolecularVolumetricPropertyType propertyType;
 
 	/**
@@ -60,6 +61,7 @@ public class VolumeItem {
 		this.propertyType = propertyType;
 	}
 
+	/** The molecule to which this volume item is associated. */
 	protected Molecule referenceMolecule;
 
 	/**
@@ -81,6 +83,7 @@ public class VolumeItem {
 		this.referenceMolecule = referenceMolecule;
 	}
 
+	/** The grid-based property data associated with this volume item. */
 	protected GridProperty gridProperty;
 
 	/**

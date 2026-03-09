@@ -14,13 +14,13 @@ import name.mjw.jquante.molecule.event.MoleculeStateChangeListener;
  */
 public class MolecularFormula {
 
-	// a private reference to the molecule object
+	/** The molecule whose formula this object represents. */
 	private Molecule molecule;
 
-	// the formula string
+	/** The computed molecular formula as a human-readable string, e.g. "C2 H6 O1". */
 	private String formulaString;
 
-	// make a hashtable hashed by symbols
+	/** Map from element symbol to atom count, in insertion order for deterministic output. */
 	private LinkedHashMap<String, Integer> uniqueSymbols;
 
 	/** Creates a new instance of MolecularFormula */
@@ -251,6 +251,11 @@ public class MolecularFormula {
 		} // end if
 	}
 
+	/**
+	 * Returns a hash code based on the unique atom symbol counts of this formula.
+	 *
+	 * @return a hash code value for this molecular formula
+	 */
 	@Override
 	public int hashCode() {
 		int hash = 7;

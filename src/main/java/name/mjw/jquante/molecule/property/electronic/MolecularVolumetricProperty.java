@@ -12,8 +12,10 @@ import name.mjw.jquante.molecule.Molecule;
  */
 public class MolecularVolumetricProperty {
 
+	/** The molecule to which these volumetric properties belong. */
 	protected Molecule molecule;
 
+	/** The list of volumetric property items associated with the molecule. */
 	protected ArrayList<VolumeItem> volumeItemList;
 
 	/**

@@ -58,8 +58,10 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 	 */
 	private double normalization;
 
+	/** The atom on which this contracted Gaussian is centered, or null if centered on a point. */
 	protected Atom centeredAtom;
 
+	/** The index of this contracted Gaussian within the overall basis function list. */
 	protected int basisFunctionIndex;
 
 	/**
@@ -709,6 +711,13 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 		return true;
 	}
 
+	/**
+	 * Returns a flattened 1D double array representation of this contracted Gaussian,
+	 * suitable for passing to native/GPU kernels. The layout is:
+	 * [x, y, z, l, m, n, nExp, c0..cN, e0..eN, norm0..normN].
+	 *
+	 * @return a flat double array encoding this contracted Gaussian's parameters
+	 */
 	public double[] flattern() {
 
 		int preDynamicSize = 3 + 3 + 1;
@@ -755,20 +764,28 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 		return "Origin : " + origin + " Powers : " + powers + " " + exponents + " " + coefficients + "\n";
 	}
 
+	/**
+	 * Returns a hash code for this contracted Gaussian based on all its structural parameters.
+	 *
+	 * @return a hash code value for this contracted Gaussian
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hash(centeredAtom, coefficients, exponents, basisFunctionIndex, normalization, origin, powers, primNorms,
 				primitives);
 	}
 
-	  @Override
-	  /**
-	   * Use LibInt ordering:
-	   * 	Sort first by increasing index of center,
-	   * 	then by increasing angular momentum,
-	   *    last by decreasing exponent.
-	   */
-	  public int compareTo( ContractedGaussian other ) {
+	/**
+	 * Compares this contracted Gaussian to another using the Libint ordering convention:
+	 * first by increasing basis function index of the center, then by increasing angular
+	 * momentum, and finally by decreasing exponent.
+	 *
+	 * @param other the other ContractedGaussian to compare to
+	 * @return a negative integer, zero, or a positive integer as this object is
+	 *         less than, equal to, or greater than the other
+	 */
+	@Override
+	public int compareTo(ContractedGaussian other) {
 	    return ComparisonChain.start()
 	      .compare( basisFunctionIndex, other.basisFunctionIndex )
 	      .compare( powers.getMaximumAngularMomentum(), other.powers.getMaximumAngularMomentum() )
@@ -778,6 +795,13 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 	      .result();
 	  }
 
+	/**
+	 * Indicates whether some other object is equal to this contracted Gaussian.
+	 * Two contracted Gaussians are equal if all their structural parameters match.
+	 *
+	 * @param obj the reference object with which to compare
+	 * @return true if this object is equal to obj, false otherwise
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

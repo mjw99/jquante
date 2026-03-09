@@ -28,6 +28,12 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 		this(new Vector3D(0, 0, 0), new Vector3D(0, 0, 0));
 	}
 
+	/**
+	 * Creates a new BoundingBox with the given corner points.
+	 *
+	 * @param upperLeft   the minimum-coordinate corner of the box.
+	 * @param bottomRight the maximum-coordinate corner of the box.
+	 */
 	public BoundingBox(Vector3D upperLeft, Vector3D bottomRight) {
 		this.upperLeft = upperLeft;
 		this.bottomRight = bottomRight;

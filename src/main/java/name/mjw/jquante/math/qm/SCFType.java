@@ -85,6 +85,11 @@ public class SCFType {
 		return ((obj != null) && (obj instanceof SCFType) && (this.type == ((SCFType) obj).type));
 	}
 
+	/**
+	 * Returns a hash code for this SCFType based on the internal type integer.
+	 *
+	 * @return a hash code value for this object
+	 */
 	@Override
 	public int hashCode() {
 		int hash = 5;

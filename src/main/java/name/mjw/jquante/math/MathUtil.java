@@ -130,6 +130,13 @@ public final class MathUtil {
 		return sum;
 	}
 
+	/**
+	 * Converts a {@link RealMatrix} to a flat {@link RealVector} by iterating
+	 * row-by-row.
+	 *
+	 * @param realMatrix the matrix to convert.
+	 * @return a vector whose entries are the matrix elements in row-major order.
+	 */
 	public static final RealVector realMatrixToRealVector(RealMatrix realMatrix) {
 		RealVector vec = new ArrayRealVector(realMatrix.getRowDimension() * realMatrix.getColumnDimension());
 		int ii = 0;
@@ -143,6 +150,13 @@ public final class MathUtil {
 
 	}
 
+	/**
+	 * Returns a human-readable string representation of a matrix, with each
+	 * element formatted to three decimal places and signed.
+	 *
+	 * @param array2DRowRealMatrix the matrix to format.
+	 * @return a formatted string representation of the matrix.
+	 */
 	public static final String matrixToString(Array2DRowRealMatrix array2DRowRealMatrix) {
 		DecimalFormat df = new DecimalFormat("+#,##0.000;-#");
 		RealMatrixFormat mf = new RealMatrixFormat("\n", "", "", "", "\n", " ", df);

@@ -39,6 +39,11 @@ public final class GMatrix extends Array2DRowRealMatrix {
 		super(n, n);
 	}
 
+	/**
+	 * Creates a new GMatrix from an existing 2D data array.
+	 *
+	 * @param data the 2D double array representing the G matrix elements
+	 */
 	public GMatrix(double[][] data) {
 		super(data);
 	}

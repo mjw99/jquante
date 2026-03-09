@@ -14,10 +14,13 @@ public class PropertyNotDefinedException extends Exception {
 	 */
 	private static final long serialVersionUID = 302077363758923072L;
 
-	/** Creates a new instance of PropertyNotDefinedException */
+	/**
+	 * Creates a new PropertyNotDefinedException with the default message "Undefined Property".
+	 */
 	public PropertyNotDefinedException() {
 	}
 
+	/** The error message describing why the property is not defined. */
 	private String errMsg = "Undefined Property";
 
 	/**
@@ -31,7 +34,9 @@ public class PropertyNotDefinedException extends Exception {
 	}
 
 	/**
-	 * overloaded toString() method
+	 * Returns the error message describing why the property is not defined.
+	 *
+	 * @return the error message string
 	 */
 	@Override
 	public String toString() {

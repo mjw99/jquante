@@ -7,9 +7,14 @@ package name.mjw.jquante.math.qm.integral;
  * @version 2.0 (Part of MeTA v2.0)
  */
 public enum IntegralPackageType {
-	NUCLEAR_TERM, // the nuclear term
-	ONE_ELECTRON_TERM, // one-electron term (s)
-	TWO_ELECTRON_HUZINAGA, // two-electron, using Huzunaga scheme
-	TWO_ELECTRON_RYS, // two-electron, using RYS polynomials
-	TWO_ELECTRON_HGP // two-electron, using Head-Gordon/Pople scheme
+	/** Nuclear attraction integral term. */
+	NUCLEAR_TERM,
+	/** One-electron integral terms (kinetic energy and overlap). */
+	ONE_ELECTRON_TERM,
+	/** Two-electron repulsion integrals evaluated using the Huzinaga scheme. */
+	TWO_ELECTRON_HUZINAGA,
+	/** Two-electron repulsion integrals evaluated using Rys polynomials. */
+	TWO_ELECTRON_RYS,
+	/** Two-electron repulsion integrals evaluated using the Head-Gordon/Pople scheme. */
+	TWO_ELECTRON_HGP
 }
