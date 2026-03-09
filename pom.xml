@@ -10,8 +10,7 @@
 
 	<properties>
 		<maven.min-version>3.2.5</maven.min-version>
-                <maven.compiler.target>17</maven.compiler.target>
-                <maven.compiler.source>17</maven.compiler.source>
+                <maven.compiler.release>17</maven.compiler.release>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- Use:
@@ -116,7 +115,7 @@
                                                 <configuration>
                                                         <rules>
                                                                 <enforceBytecodeVersion>
-                                                                        <maxJdkVersion>${maven.compiler.target}</maxJdkVersion>
+                                                                        <maxJdkVersion>${maven.compiler.release}</maxJdkVersion>
                                                                 </enforceBytecodeVersion>
                                                         </rules>
                                                         <fail>true</fail>
