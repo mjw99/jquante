@@ -39,13 +39,13 @@ public final class NuclearTerm implements IntegralsPackage {
 
 		final double gamma = alpha1 + alpha2;
 
-		final double[] ax = constructAArray(power1.getL(), power2.getL(), product.getX() - a.getX(),
+		final double[] ax = constructAArray(power1.l(), power2.l(), product.getX() - a.getX(),
 				product.getX() - b.getX(), product.getX() - c.getX(), gamma);
 
-		final double[] ay = constructAArray(power1.getM(), power2.getM(), product.getY() - a.getY(),
+		final double[] ay = constructAArray(power1.m(), power2.m(), product.getY() - a.getY(),
 				product.getY() - b.getY(), product.getY() - c.getY(), gamma);
 
-		final double[] az = constructAArray(power1.getN(), power2.getN(), product.getZ() - a.getZ(),
+		final double[] az = constructAArray(power1.n(), power2.n(), product.getZ() - a.getZ(),
 				product.getZ() - b.getZ(), product.getZ() - c.getZ(), gamma);
 
 		double sum = 0.0;
@@ -156,22 +156,22 @@ public final class NuclearTerm implements IntegralsPackage {
 
 		final double gamma = alpha1 + alpha2;
 
-		final double[] ax = constructAArray(power1.getL(), power2.getL(), product.getX() - a.getX(),
+		final double[] ax = constructAArray(power1.l(), power2.l(), product.getX() - a.getX(),
 				product.getX() - b.getX(), product.getX() - c.getX(), gamma);
 
-		final double[] ay = constructAArray(power1.getM(), power2.getM(), product.getY() - a.getY(),
+		final double[] ay = constructAArray(power1.m(), power2.m(), product.getY() - a.getY(),
 				product.getY() - b.getY(), product.getY() - c.getY(), gamma);
 
-		final double[] az = constructAArray(power1.getN(), power2.getN(), product.getZ() - a.getZ(),
+		final double[] az = constructAArray(power1.n(), power2.n(), product.getZ() - a.getZ(),
 				product.getZ() - b.getZ(), product.getZ() - c.getZ(), gamma);
 
-		final double[] dax = constructGradAArray(power1.getL(), power2.getL(), product.getX() - a.getX(),
+		final double[] dax = constructGradAArray(power1.l(), power2.l(), product.getX() - a.getX(),
 				product.getX() - b.getX(), product.getX() - c.getX(), gamma);
 
-		final double[] day = constructGradAArray(power1.getM(), power2.getM(), product.getY() - a.getY(),
+		final double[] day = constructGradAArray(power1.m(), power2.m(), product.getY() - a.getY(),
 				product.getY() - b.getY(), product.getY() - c.getY(), gamma);
 
-		final double[] daz = constructGradAArray(power1.getN(), power2.getN(), product.getZ() - a.getZ(),
+		final double[] daz = constructGradAArray(power1.n(), power2.n(), product.getZ() - a.getZ(),
 				product.getZ() - b.getZ(), product.getZ() - c.getZ(), gamma);
 
 		double gradX = 0.0;

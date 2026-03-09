@@ -145,21 +145,21 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 			final double cNorm, final Power cPower, final double cAlpha, final Vector3D d, final double dNorm,
 			final Power dPower, final double dAlpha) {
 
-		final int la = aPower.getL();
-		final int ma = aPower.getM();
-		final int na = aPower.getN();
+		final int la = aPower.l();
+		final int ma = aPower.m();
+		final int na = aPower.n();
 
-		final int lb = bPower.getL();
-		final int mb = bPower.getM();
-		final int nb = bPower.getN();
+		final int lb = bPower.l();
+		final int mb = bPower.m();
+		final int nb = bPower.n();
 
-		final int lc = cPower.getL();
-		final int mc = cPower.getM();
-		final int nc = cPower.getN();
+		final int lc = cPower.l();
+		final int mc = cPower.m();
+		final int nc = cPower.n();
 
-		final int ld = dPower.getL();
-		final int md = dPower.getM();
-		final int nd = dPower.getN();
+		final int ld = dPower.l();
+		final int md = dPower.m();
+		final int nd = dPower.n();
 
 		final int nRoots = (la + ma + na + lb + nb + mb + lc + mc + nc + ld + md + nd) / 2 + 1;
 

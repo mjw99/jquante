@@ -24,32 +24,8 @@ import net.jafama.FastMath;
  * @author mw529
  * @version 2.0 (Part of MeTA v2.0)
  */
-public final class PrimitiveGaussian implements Comparable<PrimitiveGaussian>{
-
-	/**
-	 * Holds value of property exponent.
-	 */
-	private final double exponent;
-
-	/**
-	 * Holds value of property origin.
-	 */
-	private final Vector3D origin;
-
-	/**
-	 * Holds value of property powers.
-	 */
-	private final Power powers;
-
-	/**
-	 * Holds value of property coefficient.
-	 */
-	private final double coefficient;
-
-	/**
-	 * normalization factor
-	 */
-	private final double normalization;
+public record PrimitiveGaussian(Vector3D origin, Power powers, double exponent, double coefficient,
+		double normalization) implements Comparable<PrimitiveGaussian> {
 
 	private static final double PI_RAISE_TO_1DOT5 = FastMath.pow(Math.PI, 1.5);
 
@@ -62,59 +38,26 @@ public final class PrimitiveGaussian implements Comparable<PrimitiveGaussian>{
 	 * @param coefficient - the coefficient for this PG
 	 */
 	public PrimitiveGaussian(Vector3D origin, Power powers, double exponent, double coefficient) {
-		this.origin = origin;
-		this.powers = powers;
-		this.exponent = exponent;
-		this.coefficient = coefficient;
 
-		int l = powers.getL();
-		int m = powers.getM();
-		int n = powers.getN();
+		this(origin, powers, exponent, coefficient, normalize(powers, exponent));
 
-		/**
-		 * Normalize this primitive Gaussian.
-		 * 
-		 * Equ 2.2 http://dx.doi.org/10.1143/JPSJ.21.2313 -
-		 */
-		normalization = FastMath.sqrt(Math.pow(2, 2 * (l + m + n) + 1.5) * FastMath.pow(exponent, l + m + n + 1.5)
+	}
+
+	/**
+	 * Normalize this primitive Gaussian.
+	 * 
+	 * Equ 2.2 http://dx.doi.org/10.1143/JPSJ.21.2313 -
+	 */
+	private static double normalize(Power powers, double exponent) {
+
+		int l = powers.l();
+		int m = powers.m();
+		int n = powers.n();
+
+		return FastMath.sqrt(Math.pow(2, 2 * (l + m + n) + 1.5) * FastMath.pow(exponent, l + m + n + 1.5)
 				/ MathUtil.factorial2(2 * l - 1) / MathUtil.factorial2(2 * m - 1) / MathUtil.factorial2(2 * n - 1)
 				/ PI_RAISE_TO_1DOT5);
-	}
 
-	/**
-	 * Getter for property exponent.
-	 * 
-	 * @return Value of property exponent.
-	 */
-	public double getExponent() {
-		return this.exponent;
-	}
-
-	/**
-	 * Getter for property origin.
-	 * 
-	 * @return Value of property origin.
-	 */
-	public Vector3D getOrigin() {
-		return this.origin;
-	}
-
-	/**
-	 * Getter for property powers.
-	 * 
-	 * @return Value of property powers.
-	 */
-	public Power getPowers() {
-		return this.powers;
-	}
-
-	/**
-	 * Getter for property coefficient.
-	 * 
-	 * @return Value of property coefficient.
-	 */
-	public double getCoefficient() {
-		return this.coefficient;
 	}
 
 	/**
@@ -191,9 +134,9 @@ public final class PrimitiveGaussian implements Comparable<PrimitiveGaussian>{
 	 * @return the amplitude of this PG at the specified point
 	 */
 	public double amplitude(Vector3D point) {
-		final int l = powers.getL();
-		final int m = powers.getM();
-		final int n = powers.getN();
+		final int l = powers.l();
+		final int m = powers.m();
+		final int n = powers.n();
 
 		final double x = point.getX() - origin.getX();
 		final double y = point.getY() - origin.getY();
@@ -216,9 +159,9 @@ public final class PrimitiveGaussian implements Comparable<PrimitiveGaussian>{
 		double x2 = x * x;
 		double y2 = y * y;
 		double z2 = z * z;
-		int l = powers.getL();
-		int m = powers.getM();
-		int n = powers.getN();
+		int l = powers.l();
+		int m = powers.m();
+		int n = powers.n();
 
 		value = (l * (l - 1) / x2 + m * (m - 1) / y2 + n * (n - 1) / z2) + 4 * exponent * exponent * (x2 + y2 + z2)
 				- 2 * exponent * (2 * (l + m + n) + 3);
@@ -233,9 +176,9 @@ public final class PrimitiveGaussian implements Comparable<PrimitiveGaussian>{
 	 * @return partial derivatives with respect to x, y, z
 	 */
 	public Vector3D gradient(Vector3D point) {
-		int l = powers.getL();
-		int m = powers.getM();
-		int n = powers.getN();
+		int l = powers.l();
+		int m = powers.m();
+		int n = powers.n();
 
 		double x = point.getX() - origin.getX();
 		double y = point.getY() - origin.getY();
@@ -258,15 +201,6 @@ public final class PrimitiveGaussian implements Comparable<PrimitiveGaussian>{
 		double nc = normalization * coefficient;
 		return new Vector3D(gx * fy * fz * nc, fx * gy * fz * nc, fx * fy * gz * nc);
 
-	}
-
-	/**
-	 * Getter for property normalization.
-	 * 
-	 * @return Value of property normalization.
-	 */
-	public double getNormalization() {
-		return this.normalization;
 	}
 
 	/**
@@ -305,28 +239,9 @@ public final class PrimitiveGaussian implements Comparable<PrimitiveGaussian>{
 				+ coefficient + " Normalization : " + normalization + "\n";
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(coefficient, exponent, normalization, origin, powers);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		PrimitiveGaussian other = (PrimitiveGaussian) obj;
-		return Double.doubleToLongBits(coefficient) == Double.doubleToLongBits(other.coefficient)
-				&& Double.doubleToLongBits(exponent) == Double.doubleToLongBits(other.exponent)
-				&& Double.doubleToLongBits(normalization) == Double.doubleToLongBits(other.normalization)
-				&& Objects.equals(origin, other.origin) && Objects.equals(powers, other.powers);
-	}
 
 	/**
-	 * Sort exponents in decending order.
+	 * Sort exponents in descending order.
 	 */
 	@Override
 	public int compareTo(PrimitiveGaussian other) {

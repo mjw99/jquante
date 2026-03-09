@@ -25,13 +25,13 @@ class PowerTest {
 
 	@Test
 	void testPowerS() {
-		assertEquals(0, s.getL());
+		assertEquals(0, s.l());
 
 	}
 
 	@Test
 	void testPowerP() {
-		assertEquals(1, p.getM());
+		assertEquals(1, p.m());
 
 	}
 

@@ -127,13 +127,13 @@ public final class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 
 		final double quartRadiusPQSquaredOverDelta = 0.25 * radiusPQSquared / delta;
 
-		final double[] bx = constructBArray(aPower.getL(), bPower.getL(), cPower.getL(), dPower.getL(), p.getX(),
+		final double[] bx = constructBArray(aPower.l(), bPower.l(), cPower.l(), dPower.l(), p.getX(),
 				a.getX(), b.getX(), q.getX(), c.getX(), d.getX(), gamma1, gamma2, delta);
 
-		final double[] by = constructBArray(aPower.getM(), bPower.getM(), cPower.getM(), dPower.getM(), p.getY(),
+		final double[] by = constructBArray(aPower.m(), bPower.m(), cPower.m(), dPower.m(), p.getY(),
 				a.getY(), b.getY(), q.getY(), c.getY(), d.getY(), gamma1, gamma2, delta);
 
-		final double[] bz = constructBArray(aPower.getN(), bPower.getN(), cPower.getN(), dPower.getN(), p.getZ(),
+		final double[] bz = constructBArray(aPower.n(), bPower.n(), cPower.n(), dPower.n(), p.getZ(),
 				a.getZ(), b.getZ(), q.getZ(), c.getZ(), d.getZ(), gamma1, gamma2, delta);
 
 		for (int i = 0; i < bx.length; i++) {
