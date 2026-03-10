@@ -21,22 +21,22 @@ class LebedevGridPointTest {
 
     @Test
     void getX() {
-        assertEquals(1.0, point.getX(), DELTA);
+        assertEquals(1.0, point.x(), DELTA);
     }
 
     @Test
     void getY() {
-        assertEquals(0.0, point.getY(), DELTA);
+        assertEquals(0.0, point.y(), DELTA);
     }
 
     @Test
     void getZ() {
-        assertEquals(0.0, point.getZ(), DELTA);
+        assertEquals(0.0, point.z(), DELTA);
     }
 
     @Test
     void getWeight() {
-        assertEquals(0.5, point.getWeight(), DELTA);
+        assertEquals(0.5, point.weight(), DELTA);
     }
 
     @Test

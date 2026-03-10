@@ -20,7 +20,7 @@ class LebedevRuleTest {
 		double result = 0.0;
 
 		for (final LebedevGridPoint point : grid) {
-			result += hyperboloid(point.getX(), point.getY(), point.getZ()) * point.getWeight();
+			result += hyperboloid(point.x(), point.y(), point.z()) * point.weight();
 		}
 
 		Assertions.assertEquals(4.188790204786363, result * Math.PI * 4, 1E-14);
@@ -43,7 +43,7 @@ class LebedevRuleTest {
 				double result = 0.;
 				Vector3D centroid = Vector3D.ZERO;
 				for (final LebedevGridPoint point : grid) {
-					result += point.getWeight();
+					result += point.weight();
 					centroid = centroid.add(point.getVector3D());
 				}
 				// the integration of 1 should be 1 (the actual integral should be multiplied by
@@ -61,9 +61,9 @@ class LebedevRuleTest {
 		final LebedevGridPoint point = LebedevRule.createGridForRule(1).get(0);
 		Assertions.assertEquals(Math.PI / 2., point.getPhi(), 1E-15); // coelevation
 		Assertions.assertEquals(0.0, point.getTheta(), 1E-15); // azimuth
-		Assertions.assertEquals(1.0, point.getX(), 0.);
-		Assertions.assertEquals(0.0, point.getY(), 0.);
-		Assertions.assertEquals(0.0, point.getZ(), 0.);
+		Assertions.assertEquals(1.0, point.x(), 0.);
+		Assertions.assertEquals(0.0, point.y(), 0.);
+		Assertions.assertEquals(0.0, point.z(), 0.);
 	}
 
 	@Test
