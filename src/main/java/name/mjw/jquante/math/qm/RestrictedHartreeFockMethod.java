@@ -234,33 +234,33 @@ public class RestrictedHartreeFockMethod extends SCFMethod implements
 	/**
 	 * For a method that encapsulates its own set of "base" variables (e.g. an
 	 * initial set of atom positions), resets the base variables to new values.
-	 * 
+	 *
 	 * @param variables
 	 *            the new set of base variables
 	 */
 	@Override
 	public void resetVariables(double[] variables) {
-		throw new UnsupportedOperationException("Not supported yet.");
+		molecule.resetAtomCoordinates(variables, false);
 	}
 
 	/**
 	 * Getter for property derivativeAvailable.
-	 * 
+	 *
 	 * @return Value of property derivativeAvailable.
 	 */
 	@Override
 	public boolean isDerivativeAvailable() {
-		throw new UnsupportedOperationException("Not supported yet.");
+		return true;
 	}
 
 	/**
 	 * Getter for property hessianAvailable.
-	 * 
+	 *
 	 * @return Value of property hessianAvailable.
 	 */
 	@Override
 	public boolean isHessianAvailable() {
-		throw new UnsupportedOperationException("Not supported yet.");
+		return false;
 	}
 
 	/**
@@ -294,31 +294,42 @@ public class RestrictedHartreeFockMethod extends SCFMethod implements
 
 	/**
 	 * Return the max norm of the derivatives, if available
-	 * 
+	 *
 	 * @return max norm of all the derivatives
 	 */
 	@Override
 	public double getMaxNormOfDerivatives() {
-		throw new UnsupportedOperationException("Not supported yet.");
+		double[] derivs = getDerivatives();
+		double max = 0.0;
+		for (double d : derivs) {
+			double abs = Math.abs(d);
+			if (abs > max) max = abs;
+		}
+		return max;
 	}
 
 	/**
 	 * Return the RMS of the derivatives, if available
-	 * 
-	 * @return max RMS all the derivatives
+	 *
+	 * @return RMS of all the derivatives
 	 */
 	@Override
 	public double getRMSOfDerivatives() {
-		throw new UnsupportedOperationException("Not supported yet.");
+		double[] derivs = getDerivatives();
+		double sumSq = 0.0;
+		for (double d : derivs) {
+			sumSq += d * d;
+		}
+		return Math.sqrt(sumSq / derivs.length);
 	}
 
 	/**
 	 * Getter for property Hessian.
-	 * 
+	 *
 	 * @return Value of property Hessian.
 	 */
 	@Override
 	public RealMatrix getHessian() {
-		throw new UnsupportedOperationException("Not supported yet.");
+		throw new UnsupportedOperationException("Analytic Hessian not implemented.");
 	}
 }

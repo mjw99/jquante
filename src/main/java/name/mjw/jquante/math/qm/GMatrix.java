@@ -1,6 +1,7 @@
 package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
@@ -28,7 +29,7 @@ public final class GMatrix extends Array2DRowRealMatrix {
 	private static final long serialVersionUID = -6555277318704252665L;
 	private transient TwoElectronIntegrals twoEI;
 	private Density density;
-	private ArrayList<GMatrix> partialGMatrixList;
+	private List<GMatrix> partialGMatrixList;
 
 	/**
 	 * Creates a new instance of square (NxN) Matrix
@@ -123,8 +124,8 @@ public final class GMatrix extends Array2DRowRealMatrix {
 	protected void makeGMatrixDirect() {
 		LOG.debug("makeGMatrixDirect() called");
 
-		// allocate memory for partial GMatrices
-		partialGMatrixList = new ArrayList<>();
+		// allocate memory for partial GMatrices (synchronised: add() called from parallel stream)
+		partialGMatrixList = Collections.synchronizedList(new ArrayList<>());
 
 		int noOfBasisFunctions = density.getRowDimension();
 		GMatrix theGMatrix = new GMatrix(noOfBasisFunctions);
@@ -278,10 +279,6 @@ public final class GMatrix extends Array2DRowRealMatrix {
 		GMatrix gdy = new GMatrix(noOfBasisFunctions);
 		GMatrix gdz = new GMatrix(noOfBasisFunctions);
 
-		RealVector xvec = new ArrayRealVector(noOfBasisFunctions * noOfBasisFunctions);
-		RealVector yvec = new ArrayRealVector(noOfBasisFunctions * noOfBasisFunctions);
-		RealVector zvec = new ArrayRealVector(noOfBasisFunctions * noOfBasisFunctions);
-
 		int i;
 		int j;
 		int k;
@@ -290,12 +287,13 @@ public final class GMatrix extends Array2DRowRealMatrix {
 		int indexJ;
 		int indexK1;
 		int indexK2;
+		int n2 = noOfBasisFunctions * noOfBasisFunctions;
 		for (i = 0; i < noOfBasisFunctions; i++) {
 			for (j = 0; j < i + 1; j++) {
 				kl = 0;
-				double[] xtemp = xvec.toArray();
-				double[] ytemp = xvec.toArray();
-				double[] ztemp = xvec.toArray();
+				double[] xtemp = new double[n2];
+				double[] ytemp = new double[n2];
+				double[] ztemp = new double[n2];
 				for (k = 0; k < noOfBasisFunctions; k++) {
 					for (l = 0; l < noOfBasisFunctions; l++) {
 						indexJ = IntegralsUtil.ijkl2intindex(i, j, k, l);
@@ -309,14 +307,18 @@ public final class GMatrix extends Array2DRowRealMatrix {
 					}
 				}
 
-				gdx.setEntry(i, j, xvec.dotProduct(densityOneD));
-				gdx.setEntry(j, i, xvec.dotProduct(densityOneD));
+				double gx = new ArrayRealVector(xtemp).dotProduct(densityOneD);
+				double gy = new ArrayRealVector(ytemp).dotProduct(densityOneD);
+				double gz = new ArrayRealVector(ztemp).dotProduct(densityOneD);
 
-				gdy.setEntry(i, j, yvec.dotProduct(densityOneD));
-				gdy.setEntry(j, i, yvec.dotProduct(densityOneD));
+				gdx.setEntry(i, j, gx);
+				gdx.setEntry(j, i, gx);
 
-				gdz.setEntry(i, j, zvec.dotProduct(densityOneD));
-				gdz.setEntry(j, i, zvec.dotProduct(densityOneD));
+				gdy.setEntry(i, j, gy);
+				gdy.setEntry(j, i, gy);
+
+				gdz.setEntry(i, j, gz);
+				gdz.setEntry(j, i, gz);
 
 			}
 		}

@@ -101,17 +101,38 @@ public class HartreeFockForce implements Force {
 				dens.multiply(hCoreDer.get(2)).getTrace());
 	}
 
-	/** Compute the derivative contribution from density matrix */
+	/**
+	 * Compute the energy-weighted density matrix contribution to the gradient.
+	 *
+	 * <p>Returns Tr(W * dS/dX) where the energy-weighted density matrix is
+	 * W_μν = Σ_a^occ ε_a C_μa C_νa (the caller applies the factor of 2 for
+	 * the closed-shell spin sum).
+	 */
 	private Vector3D computeDensityMatrixDerivative() {
 		Overlap overlap = scfMethod.getOneEI().getOverlap();
-		Density dens = scfMethod.getDensity();
 		List<Overlap> overlapDer = overlap.computeDerivative(atomIndex, scfMethod);
-		RealMatrix eMat = new Array2DRowRealMatrix(scfMethod.getOrbE());
-		RealMatrix qMat = dens.multiply(eMat.multiply(dens.transpose()));
 
-		return new Vector3D(qMat.multiply(overlapDer.get(0)).getTrace(),
-				qMat.multiply(overlapDer.get(1)).getTrace(),
-				qMat.multiply(overlapDer.get(2)).getTrace());
+		// Build energy-weighted density matrix W_μν = Σ_a^occ ε_a C_μa C_νa.
+		// In MolecularOrbitals, mos.getEntry(a, μ) == C_μa.
+		MolecularOrbitals mos = scfMethod.getMos();
+		double[] orbE = scfMethod.getOrbE();
+		int nBasis = mos.getRowDimension();
+		int noOfOccupancies = scfMethod.getMolecule().getNumberOfElectrons() / 2;
+
+		RealMatrix wMat = new Array2DRowRealMatrix(nBasis, nBasis);
+		for (int mu = 0; mu < nBasis; mu++) {
+			for (int nu = 0; nu < nBasis; nu++) {
+				double w = 0.0;
+				for (int a = 0; a < noOfOccupancies; a++) {
+					w += orbE[a] * mos.getEntry(a, mu) * mos.getEntry(a, nu);
+				}
+				wMat.setEntry(mu, nu, w);
+			}
+		}
+
+		return new Vector3D(wMat.multiply(overlapDer.get(0)).getTrace(),
+				wMat.multiply(overlapDer.get(1)).getTrace(),
+				wMat.multiply(overlapDer.get(2)).getTrace());
 	}
 
 	/** Compute the two electron derivative contribution */
