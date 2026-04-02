@@ -278,10 +278,6 @@ public final class GMatrix extends Array2DRowRealMatrix {
 		GMatrix gdy = new GMatrix(noOfBasisFunctions);
 		GMatrix gdz = new GMatrix(noOfBasisFunctions);
 
-		RealVector xvec = new ArrayRealVector(noOfBasisFunctions * noOfBasisFunctions);
-		RealVector yvec = new ArrayRealVector(noOfBasisFunctions * noOfBasisFunctions);
-		RealVector zvec = new ArrayRealVector(noOfBasisFunctions * noOfBasisFunctions);
-
 		int i;
 		int j;
 		int k;
@@ -293,9 +289,9 @@ public final class GMatrix extends Array2DRowRealMatrix {
 		for (i = 0; i < noOfBasisFunctions; i++) {
 			for (j = 0; j < i + 1; j++) {
 				kl = 0;
-				double[] xtemp = xvec.toArray();
-				double[] ytemp = xvec.toArray();
-				double[] ztemp = xvec.toArray();
+				double[] xtemp = new double[noOfBasisFunctions * noOfBasisFunctions];
+				double[] ytemp = new double[noOfBasisFunctions * noOfBasisFunctions];
+				double[] ztemp = new double[noOfBasisFunctions * noOfBasisFunctions];
 				for (k = 0; k < noOfBasisFunctions; k++) {
 					for (l = 0; l < noOfBasisFunctions; l++) {
 						indexJ = IntegralsUtil.ijkl2intindex(i, j, k, l);
@@ -308,6 +304,10 @@ public final class GMatrix extends Array2DRowRealMatrix {
 						kl++;
 					}
 				}
+
+				RealVector xvec = new ArrayRealVector(xtemp);
+				RealVector yvec = new ArrayRealVector(ytemp);
+				RealVector zvec = new ArrayRealVector(ztemp);
 
 				gdx.setEntry(i, j, xvec.dotProduct(densityOneD));
 				gdx.setEntry(j, i, xvec.dotProduct(densityOneD));
