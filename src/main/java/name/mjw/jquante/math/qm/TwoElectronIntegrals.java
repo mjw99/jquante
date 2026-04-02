@@ -310,19 +310,19 @@ public final class TwoElectronIntegrals {
 		double termbz = 0.0;
 
 		if (l > 0) {
-			xPG = new PrimitiveGaussian(currentOrigin, new Power(xPG.powers().l() - 1, xPG.powers().m(), xPG.powers().n()), coeff, currentAlpha);
+			xPG = new PrimitiveGaussian(currentOrigin, new Power(xPG.powers().l() - 1, xPG.powers().m(), xPG.powers().n()), currentAlpha, coeff);
 			termbx = -2.0 * l * FastMath.sqrt(currentAlpha / (2. * l - 1)) * coeff
 					* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		}
 
 		if (m > 0) {
-			xPG = new PrimitiveGaussian(currentOrigin, new Power(xPG.powers().l(), xPG.powers().m() - 1, xPG.powers().n()), coeff, currentAlpha);
+			xPG = new PrimitiveGaussian(currentOrigin, new Power(xPG.powers().l(), xPG.powers().m() - 1, xPG.powers().n()), currentAlpha, coeff);
 			termby = -2.0 * m * FastMath.sqrt(currentAlpha / (2. * m - 1)) * coeff
 					* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		}
 
 		if (n > 0) {
-			xPG = new PrimitiveGaussian(currentOrigin, new Power(xPG.powers().l(), xPG.powers().m(), xPG.powers().n() - 1), coeff, currentAlpha);
+			xPG = new PrimitiveGaussian(currentOrigin, new Power(xPG.powers().l(), xPG.powers().m(), xPG.powers().n() - 1), currentAlpha, coeff);
 			termbz = -2.0 * n * FastMath.sqrt(currentAlpha / (2. * n - 1)) * coeff
 					* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		}
