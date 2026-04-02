@@ -266,7 +266,7 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 		if (this.centeredAtom.getIndex() == atomIndex) {
 			for (PrimitiveGaussian jPG : cg.primitives) {
 				for (PrimitiveGaussian iPG : primitives) {
-					overlapDerivativeHelper(iPG, jPG, origin, ovrDer);
+					ovrDer = ovrDer.add(overlapDerivativeHelper(iPG, jPG, origin));
 				}
 			}
 		}
@@ -275,7 +275,7 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 		if (cg.centeredAtom.getIndex() == atomIndex) {
 			for (PrimitiveGaussian iPG : primitives) {
 				for (PrimitiveGaussian jPG : cg.primitives) {
-					overlapDerivativeHelper(jPG, iPG, cg.origin, ovrDer);
+					ovrDer = ovrDer.add(overlapDerivativeHelper(jPG, iPG, cg.origin));
 				}
 			}
 		} // end if
@@ -287,54 +287,42 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 	}
 
 	/** helper method for overlap derivative */
-	private void overlapDerivativeHelper(PrimitiveGaussian iPG,
-			PrimitiveGaussian jPG, Vector3D pOrigin, Vector3D ovrDer) {
+	private Vector3D overlapDerivativeHelper(PrimitiveGaussian iPG,
+			PrimitiveGaussian jPG, Vector3D pOrigin) {
 		int l = iPG.powers().l();
 		int m = iPG.powers().m();
 		int n = iPG.powers().n();
 		double coeff = iPG.coefficient() * jPG.coefficient();
 		double alpha = iPG.exponent();
 
-		PrimitiveGaussian xPG = new PrimitiveGaussian(pOrigin, new Power(l + 1,
-				m, n), coeff, alpha);
-
-		double terma = FastMath.sqrt(alpha * (2.0 * l + 1.0)) * coeff
-				* xPG.overlap(jPG);
+		// x-component derivative
+		PrimitiveGaussian xPG = new PrimitiveGaussian(pOrigin, new Power(l + 1, m, n), coeff, alpha);
+		double termax = FastMath.sqrt(alpha * (2.0 * l + 1.0)) * coeff * xPG.overlap(jPG);
 		double termbx = 0;
-		double termby;
-		double termbz;
-
 		if (l > 0) {
-			xPG = new PrimitiveGaussian(pOrigin, new Power(xPG.powers().l() - 1, xPG.powers().m(), xPG.powers().n()), coeff, alpha);
-			termbx = -2.0 * l * FastMath.sqrt(alpha / (2.0 * l - 1.0)) * coeff
-					* xPG.overlap(jPG);
+			xPG = new PrimitiveGaussian(pOrigin, new Power(l, m, n), coeff, alpha);
+			termbx = -2.0 * l * FastMath.sqrt(alpha / (2.0 * l - 1.0)) * coeff * xPG.overlap(jPG);
 		}
 
-		xPG = new PrimitiveGaussian(pOrigin, new Power(xPG.powers().l(), xPG.powers().m() + 1, xPG.powers().n()), coeff, alpha);
-		terma = FastMath.sqrt(alpha * (2.0 * m + 1.0)) * coeff * xPG.overlap(jPG);
-
+		// y-component derivative
+		xPG = new PrimitiveGaussian(pOrigin, new Power(l, m + 1, n), coeff, alpha);
+		double termay = FastMath.sqrt(alpha * (2.0 * m + 1.0)) * coeff * xPG.overlap(jPG);
+		double termby = 0;
 		if (m > 0) {
-			xPG = new PrimitiveGaussian(pOrigin, new Power(xPG.powers().l(), xPG.powers().m() - 1, xPG.powers().n()), coeff, alpha);
-			termby = -2 * m * FastMath.sqrt(alpha / (2.0 * m - 1.0)) * coeff
-					* xPG.overlap(jPG);
-		} else {
-			termby = 0.0;
+			xPG = new PrimitiveGaussian(pOrigin, new Power(l, m, n), coeff, alpha);
+			termby = -2 * m * FastMath.sqrt(alpha / (2.0 * m - 1.0)) * coeff * xPG.overlap(jPG);
 		}
 
-		xPG = new PrimitiveGaussian(pOrigin, new Power(xPG.powers().l(), xPG.powers().m(), xPG.powers().n() + 1), coeff, alpha);
-		terma = FastMath.sqrt(alpha * (2.0 * n + 1.0)) * coeff * xPG.overlap(jPG);
-
+		// z-component derivative
+		xPG = new PrimitiveGaussian(pOrigin, new Power(l, m, n + 1), coeff, alpha);
+		double termaz = FastMath.sqrt(alpha * (2.0 * n + 1.0)) * coeff * xPG.overlap(jPG);
+		double termbz = 0;
 		if (n > 0) {
-			xPG = new PrimitiveGaussian(pOrigin, new Power(xPG.powers().l(), xPG.powers().m(), xPG.powers().n() -1), coeff, alpha);
-			termbz = -2.0 * n * FastMath.sqrt(alpha / (2.0 * n - 1.0)) * coeff
-					* xPG.overlap(jPG);
-		} else {
-			termbz = 0.0;
+			xPG = new PrimitiveGaussian(pOrigin, new Power(l, m, n), coeff, alpha);
+			termbz = -2.0 * n * FastMath.sqrt(alpha / (2.0 * n - 1.0)) * coeff * xPG.overlap(jPG);
 		}
 
-		ovrDer = new Vector3D(ovrDer.getX() + terma + termbx,
-				ovrDer.getY() + terma + termby,
-				ovrDer.getZ() + terma + termbz);
+		return new Vector3D(termax + termbx, termay + termby, termaz + termbz);
 	}
 
 	/**
@@ -373,7 +361,7 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 		if (this.centeredAtom.getIndex() == atomIndex) {
 			for (PrimitiveGaussian jPG : cg.primitives) {
 				for (PrimitiveGaussian iPG : primitives) {
-					kineticDerivativeHelper(iPG, jPG, origin, kder);
+					kder = kder.add(kineticDerivativeHelper(iPG, jPG, origin));
 				} // end for
 			} // end for
 		} // end if
@@ -382,7 +370,7 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 		if (cg.centeredAtom.getIndex() == atomIndex) {
 			for (PrimitiveGaussian iPG : primitives) {
 				for (PrimitiveGaussian jPG : cg.primitives) {
-					kineticDerivativeHelper(jPG, iPG, cg.origin, kder);
+					kder = kder.add(kineticDerivativeHelper(jPG, iPG, cg.origin));
 				} // end for
 			} // end for
 		} // end if
@@ -394,48 +382,41 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 	}
 
 	/** helper method for kinetic energy derivative */
-	private void kineticDerivativeHelper(PrimitiveGaussian iPG, PrimitiveGaussian jPG, Vector3D pOrigin,
-			Vector3D kder) {
+	private Vector3D kineticDerivativeHelper(PrimitiveGaussian iPG, PrimitiveGaussian jPG, Vector3D pOrigin) {
 		int l = iPG.powers().l();
 		int m = iPG.powers().m();
 		int n = iPG.powers().n();
 		double coeff = iPG.coefficient() * jPG.coefficient();
 		double alpha = iPG.exponent();
 
+		// x-component derivative
 		PrimitiveGaussian xPG = new PrimitiveGaussian(pOrigin, new Power(l + 1, m, n), coeff, alpha);
-
-		double terma = FastMath.sqrt(alpha * (2.0 * l + 1.0)) * coeff * xPG.kinetic(jPG);
+		double termax = FastMath.sqrt(alpha * (2.0 * l + 1.0)) * coeff * xPG.kinetic(jPG);
 		double termbx = 0.0;
-		double termby = 0.0;
-		double termbz = 0.0;
-
 		if (l > 0) {
-			xPG = new PrimitiveGaussian(pOrigin, new Power(xPG.powers().l() - 1, xPG.powers().m(), xPG.powers().n()), coeff, alpha);
+			xPG = new PrimitiveGaussian(pOrigin, new Power(l, m, n), coeff, alpha);
 			termbx = -2.0 * l * FastMath.sqrt(alpha / (2.0 * l - 1.0)) * coeff * xPG.kinetic(jPG);
 		}
 
-		xPG = new PrimitiveGaussian(pOrigin, new Power(xPG.powers().l(), xPG.powers().m() + 1, xPG.powers().n()), coeff, alpha);
-		terma = FastMath.sqrt(alpha * (2.0 * m + 1.0)) * coeff * xPG.kinetic(jPG);
-
+		// y-component derivative
+		xPG = new PrimitiveGaussian(pOrigin, new Power(l, m + 1, n), coeff, alpha);
+		double termay = FastMath.sqrt(alpha * (2.0 * m + 1.0)) * coeff * xPG.kinetic(jPG);
+		double termby = 0.0;
 		if (m > 0) {
-			xPG = new PrimitiveGaussian(pOrigin, new Power(xPG.powers().l(), xPG.powers().m() - 1, xPG.powers().n()), coeff, alpha);
+			xPG = new PrimitiveGaussian(pOrigin, new Power(l, m, n), coeff, alpha);
 			termby = -2 * m * FastMath.sqrt(alpha / (2.0 * m - 1.0)) * coeff * xPG.kinetic(jPG);
-		} else {
-			termby = 0.0;
 		}
 
-		
-		xPG = new PrimitiveGaussian(pOrigin, new Power(xPG.powers().l(), xPG.powers().m(), xPG.powers().n() + 1), coeff, alpha);
-		terma = FastMath.sqrt(alpha * (2.0 * n + 1.0)) * coeff * xPG.kinetic(jPG);
-
+		// z-component derivative
+		xPG = new PrimitiveGaussian(pOrigin, new Power(l, m, n + 1), coeff, alpha);
+		double termaz = FastMath.sqrt(alpha * (2.0 * n + 1.0)) * coeff * xPG.kinetic(jPG);
+		double termbz = 0.0;
 		if (n > 0) {
-			xPG = new PrimitiveGaussian(pOrigin, new Power(xPG.powers().l(), xPG.powers().m(), xPG.powers().n() - 1), coeff, alpha);
+			xPG = new PrimitiveGaussian(pOrigin, new Power(l, m, n), coeff, alpha);
 			termbz = -2.0 * n * FastMath.sqrt(alpha / (2.0 * n - 1.0)) * coeff * xPG.kinetic(jPG);
-		} else {
-			termbz = 0.0;
 		}
 
-		kder = new Vector3D(kder.getX() + terma + termbx, kder.getY() + terma + termby, kder.getZ() + terma + termbz);
+		return new Vector3D(termax + termbx, termay + termby, termaz + termbz);
 	}
 
 	/**
@@ -480,7 +461,7 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 		if (this.centeredAtom.getIndex() == atomIndex) {
 			for (PrimitiveGaussian jPG : cg.primitives) {
 				for (PrimitiveGaussian iPG : primitives) {
-					nuclearDerivativeHelper(mol, iPG, jPG, origin, nder);
+					nder = nder.add(nuclearDerivativeHelper(mol, iPG, jPG, origin));
 				}
 			}
 		}
@@ -489,7 +470,7 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 		if (cg.centeredAtom.getIndex() == atomIndex) {
 			for (PrimitiveGaussian iPG : primitives) {
 				for (PrimitiveGaussian jPG : cg.primitives) {
-					nuclearDerivativeHelper(mol, jPG, iPG, cg.origin, nder);
+					nder = nder.add(nuclearDerivativeHelper(mol, jPG, iPG, cg.origin));
 				}
 			}
 		}
@@ -506,33 +487,28 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 		return nder;
 	}
 
-	/** helper method for kinetic energy derivative */
-	private void nuclearDerivativeHelper(Molecule mol, PrimitiveGaussian iPG, PrimitiveGaussian jPG, Vector3D pOrigin,
-			Vector3D nder) {
+	/** helper method for nuclear attraction derivative */
+	private Vector3D nuclearDerivativeHelper(Molecule mol, PrimitiveGaussian iPG, PrimitiveGaussian jPG,
+			Vector3D pOrigin) {
 		int l = iPG.powers().l();
 		int m = iPG.powers().m();
 		int n = iPG.powers().n();
 		double coeff = iPG.coefficient() * jPG.coefficient();
 		double alpha = iPG.exponent();
 
-		PrimitiveGaussian xPG = new PrimitiveGaussian(pOrigin, new Power(l + 1, m, n), coeff, alpha);
-
-		double terma = 0.0;
-
 		AtomInfo ai = AtomInfo.getInstance();
+
+		// x-component derivative
+		PrimitiveGaussian xPG = new PrimitiveGaussian(pOrigin, new Power(l + 1, m, n), coeff, alpha);
+		double termax = 0.0;
 		for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 			Atom atom = mol.getAtom(i);
-			terma += ai.getAtomicNumber(atom.getSymbol()) * FastMath.sqrt(alpha * (2.0 * l + 1.0)) * coeff
+			termax += ai.getAtomicNumber(atom.getSymbol()) * FastMath.sqrt(alpha * (2.0 * l + 1.0)) * coeff
 					* xPG.nuclear(jPG, atom.getAtomCenter());
 		}
-
 		double termbx = 0.0;
-		double termby = 0.0;
-		double termbz = 0.0;
-
 		if (l > 0) {
-			xPG = new PrimitiveGaussian(pOrigin, new Power(xPG.powers().l() - 1, xPG.powers().m(), xPG.powers().n()), coeff, alpha);
-
+			xPG = new PrimitiveGaussian(pOrigin, new Power(l, m, n), coeff, alpha);
 			for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 				Atom atom = mol.getAtom(i);
 				termbx += -2.0 * l * ai.getAtomicNumber(atom.getSymbol()) * FastMath.sqrt(alpha / (2.0 * l - 1.0))
@@ -540,16 +516,17 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 			}
 		}
 
-		xPG = new PrimitiveGaussian(pOrigin, new Power(xPG.powers().l(), xPG.powers().m() + 1, xPG.powers().n()), coeff, alpha);
-		terma = 0.0;
+		// y-component derivative
+		xPG = new PrimitiveGaussian(pOrigin, new Power(l, m + 1, n), coeff, alpha);
+		double termay = 0.0;
 		for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 			Atom atom = mol.getAtom(i);
-			terma += ai.getAtomicNumber(atom.getSymbol()) * FastMath.sqrt(alpha * (2.0 * m + 1.0)) * coeff
+			termay += ai.getAtomicNumber(atom.getSymbol()) * FastMath.sqrt(alpha * (2.0 * m + 1.0)) * coeff
 					* xPG.nuclear(jPG, atom.getAtomCenter());
 		}
-
+		double termby = 0.0;
 		if (m > 0) {
-			xPG = new PrimitiveGaussian(pOrigin, new Power(xPG.powers().l(), xPG.powers().m() - 1, xPG.powers().n()), coeff, alpha);
+			xPG = new PrimitiveGaussian(pOrigin, new Power(l, m, n), coeff, alpha);
 			for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 				Atom atom = mol.getAtom(i);
 				termby += -2.0 * m * ai.getAtomicNumber(atom.getSymbol()) * FastMath.sqrt(alpha / (2.0 * m - 1.0))
@@ -557,26 +534,25 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 			}
 		}
 
-		xPG = new PrimitiveGaussian(pOrigin, new Power(xPG.powers().l(), xPG.powers().m(), xPG.powers().n() + 1), coeff, alpha);
-		terma = 0.0;
+		// z-component derivative
+		xPG = new PrimitiveGaussian(pOrigin, new Power(l, m, n + 1), coeff, alpha);
+		double termaz = 0.0;
 		for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 			Atom atom = mol.getAtom(i);
-			terma += ai.getAtomicNumber(atom.getSymbol()) * FastMath.sqrt(alpha * (2.0 * n + 1.0)) * coeff
+			termaz += ai.getAtomicNumber(atom.getSymbol()) * FastMath.sqrt(alpha * (2.0 * n + 1.0)) * coeff
 					* xPG.nuclear(jPG, atom.getAtomCenter());
 		}
-
+		double termbz = 0.0;
 		if (n > 0) {
-			xPG = new PrimitiveGaussian(pOrigin, new Power(xPG.powers().l(), xPG.powers().m(), xPG.powers().n() - 1), coeff, alpha);
-			
+			xPG = new PrimitiveGaussian(pOrigin, new Power(l, m, n), coeff, alpha);
 			for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 				Atom atom = mol.getAtom(i);
 				termbz += -2.0 * n * ai.getAtomicNumber(atom.getSymbol()) * FastMath.sqrt(alpha / (2.0 * n - 1.0))
 						* coeff * xPG.nuclear(jPG, atom.getAtomCenter());
 			}
-		} else
-			termbz = 0.0;
+		}
 
-		nder = new Vector3D(nder.getX() + terma + termbx, nder.getY() + terma + termby, nder.getZ() + terma + termbz);
+		return new Vector3D(termax + termbx, termay + termby, termaz + termbz);
 	}
 
 	/**
