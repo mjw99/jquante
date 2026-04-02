@@ -1,6 +1,7 @@
 package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
@@ -124,14 +125,13 @@ public final class GMatrix extends Array2DRowRealMatrix {
 		LOG.debug("makeGMatrixDirect() called");
 
 		// allocate memory for partial GMatrices
-		partialGMatrixList = new ArrayList<>();
+		List<GMatrix> threadSafeList = Collections.synchronizedList(new ArrayList<>());
 
 		int noOfBasisFunctions = density.getRowDimension();
-		GMatrix theGMatrix = new GMatrix(noOfBasisFunctions);
 
 		IntStream.range(0, noOfBasisFunctions).parallel().forEach(i -> {
 
-			double[][] gMatrix = theGMatrix.getData();
+			double[][] gMatrix = new double[noOfBasisFunctions][noOfBasisFunctions];
 			double[][] dMatrix = density.getData();
 
 			int[] idx = new int[8];
@@ -217,8 +217,9 @@ public final class GMatrix extends Array2DRowRealMatrix {
 					}
 				}
 			}
-			partialGMatrixList.add(new GMatrix(gMatrix));
+			threadSafeList.add(new GMatrix(gMatrix));
 		});
+		partialGMatrixList = new ArrayList<>(threadSafeList);
 
 		// Zero this matrix... there must be a better way to do this
 		IntStream.range(0, this.getRowDimension()).parallel().forEach(i -> {
