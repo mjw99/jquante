@@ -225,8 +225,8 @@ public final class TwoElectronIntegrals {
 				for (PrimitiveGaussian jPG : bfj.getPrimitives()) {
 					for (PrimitiveGaussian kPG : bfk.getPrimitives()) {
 						for (PrimitiveGaussian lPG : bfl.getPrimitives()) {
-							compute2EDerivativeElementHelper(iPG, jPG, kPG, lPG, currentOrigin, currentPower,
-									currentAlpha, paramIdx, twoEDerEle);
+							twoEDerEle = twoEDerEle.add(compute2EDerivativeElementHelper(iPG, jPG, kPG, lPG, currentOrigin, currentPower,
+									currentAlpha, paramIdx));
 						}
 					}
 				}
@@ -242,8 +242,8 @@ public final class TwoElectronIntegrals {
 					currentAlpha = jPG.exponent();
 					for (PrimitiveGaussian kPG : bfk.getPrimitives()) {
 						for (PrimitiveGaussian lPG : bfl.getPrimitives()) {
-							compute2EDerivativeElementHelper(iPG, jPG, kPG, lPG, currentOrigin, currentPower,
-									currentAlpha, paramIdx, twoEDerEle);
+							twoEDerEle = twoEDerEle.add(compute2EDerivativeElementHelper(iPG, jPG, kPG, lPG, currentOrigin, currentPower,
+									currentAlpha, paramIdx));
 						} // end for
 					} // end for
 				} // end for
@@ -259,8 +259,8 @@ public final class TwoElectronIntegrals {
 						currentPower = kPG.powers();
 						currentAlpha = kPG.exponent();
 						for (PrimitiveGaussian lPG : bfl.getPrimitives()) {
-							compute2EDerivativeElementHelper(iPG, jPG, kPG, lPG, currentOrigin, currentPower,
-									currentAlpha, paramIdx, twoEDerEle);
+							twoEDerEle = twoEDerEle.add(compute2EDerivativeElementHelper(iPG, jPG, kPG, lPG, currentOrigin, currentPower,
+									currentAlpha, paramIdx));
 						} // end for
 					} // end for
 				} // end for
@@ -277,8 +277,8 @@ public final class TwoElectronIntegrals {
 							currentPower = lPG.powers();
 							currentAlpha = lPG.exponent();
 
-							compute2EDerivativeElementHelper(iPG, jPG, kPG, lPG, currentOrigin, currentPower,
-									currentAlpha, paramIdx, twoEDerEle);
+							twoEDerEle = twoEDerEle.add(compute2EDerivativeElementHelper(iPG, jPG, kPG, lPG, currentOrigin, currentPower,
+									currentAlpha, paramIdx));
 						} // end for
 					} // end for
 				} // end for
@@ -289,9 +289,8 @@ public final class TwoElectronIntegrals {
 	}
 
 	/** helper for computing 2E derivative */
-	private void compute2EDerivativeElementHelper(PrimitiveGaussian iPG, PrimitiveGaussian jPG, PrimitiveGaussian kPG,
-			PrimitiveGaussian lPG, Vector3D currentOrigin, Power currentPower, double currentAlpha, int[] paramIdx,
-			Vector3D derEle) {
+	private Vector3D compute2EDerivativeElementHelper(PrimitiveGaussian iPG, PrimitiveGaussian jPG, PrimitiveGaussian kPG,
+			PrimitiveGaussian lPG, Vector3D currentOrigin, Power currentPower, double currentAlpha, int[] paramIdx) {
 
 		int l = currentPower.l();
 		int m = currentPower.m();
@@ -327,8 +326,7 @@ public final class TwoElectronIntegrals {
 					* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		}
 
-		derEle = new Vector3D(derEle.getX() + terma + termbx, derEle.getY() + terma + termby,
-				derEle.getZ() + terma + termbz);
+		return new Vector3D(terma + termbx, terma + termby, terma + termbz);
 	}
 
 	/**
