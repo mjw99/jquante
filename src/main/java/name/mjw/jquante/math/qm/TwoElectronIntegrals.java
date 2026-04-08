@@ -298,35 +298,46 @@ public final class TwoElectronIntegrals {
 
 		double coeff = iPG.coefficient() * jPG.coefficient() * kPG.coefficient() * lPG.coefficient();
 
+		// x-component derivative
 		PrimitiveGaussian xPG = new PrimitiveGaussian(currentOrigin, new Power(l + 1, m, n), currentAlpha, coeff);
-
 		PrimitiveGaussian[] pgs = new PrimitiveGaussian[] { iPG, jPG, kPG, lPG, xPG };
-
-		double terma = FastMath.sqrt(currentAlpha * (2.0 * l + 1.0)) * coeff
+		double termax = FastMath.sqrt(currentAlpha * (2.0 * l + 1.0)) * coeff
 				* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		double termbx = 0.0;
-		double termby = 0.0;
-		double termbz = 0.0;
-
 		if (l > 0) {
-			xPG = new PrimitiveGaussian(currentOrigin, new Power(xPG.powers().l() - 1, xPG.powers().m(), xPG.powers().n()), currentAlpha, coeff);
-			termbx = -2.0 * l * FastMath.sqrt(currentAlpha / (2. * l - 1)) * coeff
+			xPG = new PrimitiveGaussian(currentOrigin, new Power(l - 1, m, n), currentAlpha, coeff);
+			pgs[4] = xPG;
+			termbx = -2.0 * l * FastMath.sqrt(currentAlpha / (2.0 * l - 1.0)) * coeff
 					* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		}
 
+		// y-component derivative
+		xPG = new PrimitiveGaussian(currentOrigin, new Power(l, m + 1, n), currentAlpha, coeff);
+		pgs[4] = xPG;
+		double termay = FastMath.sqrt(currentAlpha * (2.0 * m + 1.0)) * coeff
+				* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
+		double termby = 0.0;
 		if (m > 0) {
-			xPG = new PrimitiveGaussian(currentOrigin, new Power(xPG.powers().l(), xPG.powers().m() - 1, xPG.powers().n()), currentAlpha, coeff);
-			termby = -2.0 * m * FastMath.sqrt(currentAlpha / (2. * m - 1)) * coeff
+			xPG = new PrimitiveGaussian(currentOrigin, new Power(l, m - 1, n), currentAlpha, coeff);
+			pgs[4] = xPG;
+			termby = -2.0 * m * FastMath.sqrt(currentAlpha / (2.0 * m - 1.0)) * coeff
 					* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		}
 
+		// z-component derivative
+		xPG = new PrimitiveGaussian(currentOrigin, new Power(l, m, n + 1), currentAlpha, coeff);
+		pgs[4] = xPG;
+		double termaz = FastMath.sqrt(currentAlpha * (2.0 * n + 1.0)) * coeff
+				* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
+		double termbz = 0.0;
 		if (n > 0) {
-			xPG = new PrimitiveGaussian(currentOrigin, new Power(xPG.powers().l(), xPG.powers().m(), xPG.powers().n() - 1), currentAlpha, coeff);
-			termbz = -2.0 * n * FastMath.sqrt(currentAlpha / (2. * n - 1)) * coeff
+			xPG = new PrimitiveGaussian(currentOrigin, new Power(l, m, n - 1), currentAlpha, coeff);
+			pgs[4] = xPG;
+			termbz = -2.0 * n * FastMath.sqrt(currentAlpha / (2.0 * n - 1.0)) * coeff
 					* Integrals.coulomb(pgs[paramIdx[0]], pgs[paramIdx[1]], pgs[paramIdx[2]], pgs[paramIdx[3]]);
 		}
 
-		return new Vector3D(terma + termbx, terma + termby, terma + termbz);
+		return new Vector3D(termax + termbx, termay + termby, termaz + termbz);
 	}
 
 	/**
