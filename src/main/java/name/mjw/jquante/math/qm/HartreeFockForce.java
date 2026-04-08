@@ -104,10 +104,26 @@ public class HartreeFockForce implements Force {
 	/** Compute the derivative contribution from density matrix */
 	private Vector3D computeDensityMatrixDerivative() {
 		Overlap overlap = scfMethod.getOneEI().getOverlap();
-		Density dens = scfMethod.getDensity();
 		List<Overlap> overlapDer = overlap.computeDerivative(atomIndex, scfMethod);
-		RealMatrix eMat = new Array2DRowRealMatrix(scfMethod.getOrbE());
-		RealMatrix qMat = dens.multiply(eMat.multiply(dens.transpose()));
+
+		// Build the energy-weighted density matrix W_μν = Σ_i^occ ε_i * C_iμ * C_iν
+		// MOs are stored with rows = MO index, columns = basis function index
+		int noOfOccupancies = scfMethod.getMolecule().getNumberOfElectrons() / 2;
+		MolecularOrbitals mos = scfMethod.getMos();
+		double[] orbE = scfMethod.getOrbE();
+		int n = mos.getRowDimension();
+
+		RealMatrix cOcc = new Array2DRowRealMatrix(noOfOccupancies, n);
+		RealMatrix eScaledCOcc = new Array2DRowRealMatrix(noOfOccupancies, n);
+		for (int i = 0; i < noOfOccupancies; i++) {
+			for (int j = 0; j < n; j++) {
+				double cij = mos.getEntry(i, j);
+				cOcc.setEntry(i, j, cij);
+				eScaledCOcc.setEntry(i, j, orbE[i] * cij);
+			}
+		}
+		// W = C_occ^T * (ε-scaled C_occ)
+		RealMatrix qMat = cOcc.transpose().multiply(eScaledCOcc);
 
 		return new Vector3D(qMat.multiply(overlapDer.get(0)).getTrace(),
 				qMat.multiply(overlapDer.get(1)).getTrace(),
