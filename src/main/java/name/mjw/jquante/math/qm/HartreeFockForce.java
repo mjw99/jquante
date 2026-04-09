@@ -46,14 +46,14 @@ public class HartreeFockForce implements Force {
 		this.atomIndex = atomIndex;
 		this.scfMethod = scfMethod;
 
-		Vector3D force = computeNuclearDerivative();
-		LOG.debug("Nuclear /dr: " + force);
-		force = force.add(computeDensityMatrixDerivative().scalarMultiply(2.0));
-		LOG.debug("Density /dr: " + force);
-		force = force.add(computeOneElectronDerivative().scalarMultiply(2.0));
-		LOG.debug("1E /dr: " + force);
-		force = force.add(computeTwoElectronDerivative());
-		LOG.debug("2E /dr: " + force);
+		Vector3D nucDer = computeNuclearDerivative();
+		Vector3D densDer = computeDensityMatrixDerivative();
+		Vector3D oneEDer = computeOneElectronDerivative();
+		Vector3D twoEDer = computeTwoElectronDerivative();
+		Vector3D force = nucDer;
+		force = force.add(densDer.scalarMultiply(-2.0));
+		force = force.add(oneEDer.scalarMultiply(2.0));
+		force = force.add(twoEDer);
 
 		return force.scalarMultiply(-1);
 	}

@@ -120,11 +120,9 @@ public record PrimitiveGaussian(Vector3D origin, Power powers, double exponent, 
 	 * @return partial derivatives w.r.t the center
 	 */
 	public Vector3D nuclearAttractionGradient(PrimitiveGaussian pg, Vector3D center) {
-		Vector3D nder = new Vector3D(0, 0, 0);
-
-		// TODO:
-
-		return nder;
+		return Integrals.nuclearAttractionGradient(origin, powers, exponent,
+				pg.origin(), pg.powers(), pg.exponent(), center)
+				.scalarMultiply(normalization * pg.normalization());
 	}
 
 	/**

@@ -475,16 +475,63 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 			}
 		}
 
-		double factor;
-		double atno = AtomInfo.getInstance().getAtomicNumber(centeredAtom.getSymbol());
+		// case 3: derivative with respect to the nuclear position of atom at atomIndex
+		// Use translational invariance: dV/dC = -(dV/dA + dV/dB)
+		Atom nucAtom = mol.getAtom(atomIndex);
+		double nucCharge = AtomInfo.getInstance().getAtomicNumber(nucAtom.getSymbol());
+		Vector3D nucPos = nucAtom.getAtomCenterInAU();
 		for (PrimitiveGaussian iPG : primitives) {
 			for (PrimitiveGaussian jPG : cg.primitives) {
-				factor = iPG.coefficient() * jPG.coefficient() * atno;
-				nder = nder.add(jPG.nuclearAttractionGradient(iPG, centeredAtom.getAtomCenter()).scalarMultiply(factor));
+				Vector3D dvdA = nuclearSingleCenterDerivHelper(iPG, jPG, origin, nucPos);
+				Vector3D dvdB = nuclearSingleCenterDerivHelper(jPG, iPG, cg.origin, nucPos);
+				nder = nder.subtract(dvdA.add(dvdB).scalarMultiply(nucCharge));
 			}
 		}
 
 		return nder;
+	}
+
+	/**
+	 * Helper: derivative of a nuclear attraction integral <i|Z/|r-C||j> w.r.t.
+	 * the orbital center of iPG (at pOrigin), for a single nuclear center nucPos.
+	 * Uses the shifted-power recurrence: d/dAx = 2*alpha*<l+1> - l*<l-1>.
+	 */
+	private Vector3D nuclearSingleCenterDerivHelper(PrimitiveGaussian iPG, PrimitiveGaussian jPG,
+			Vector3D pOrigin, Vector3D nucPos) {
+		int l = iPG.powers().l();
+		int m = iPG.powers().m();
+		int n = iPG.powers().n();
+		double coeff = iPG.coefficient() * jPG.coefficient();
+		double alpha = iPG.exponent();
+
+		// x-component
+		PrimitiveGaussian xPG = new PrimitiveGaussian(pOrigin, new Power(l + 1, m, n), alpha, coeff);
+		double termax = FastMath.sqrt(alpha * (2.0 * l + 1.0)) * coeff * xPG.nuclear(jPG, nucPos);
+		double termbx = 0.0;
+		if (l > 0) {
+			xPG = new PrimitiveGaussian(pOrigin, new Power(l - 1, m, n), alpha, coeff);
+			termbx = -2.0 * l * FastMath.sqrt(alpha / (2.0 * l - 1.0)) * coeff * xPG.nuclear(jPG, nucPos);
+		}
+
+		// y-component
+		xPG = new PrimitiveGaussian(pOrigin, new Power(l, m + 1, n), alpha, coeff);
+		double termay = FastMath.sqrt(alpha * (2.0 * m + 1.0)) * coeff * xPG.nuclear(jPG, nucPos);
+		double termby = 0.0;
+		if (m > 0) {
+			xPG = new PrimitiveGaussian(pOrigin, new Power(l, m - 1, n), alpha, coeff);
+			termby = -2.0 * m * FastMath.sqrt(alpha / (2.0 * m - 1.0)) * coeff * xPG.nuclear(jPG, nucPos);
+		}
+
+		// z-component
+		xPG = new PrimitiveGaussian(pOrigin, new Power(l, m, n + 1), alpha, coeff);
+		double termaz = FastMath.sqrt(alpha * (2.0 * n + 1.0)) * coeff * xPG.nuclear(jPG, nucPos);
+		double termbz = 0.0;
+		if (n > 0) {
+			xPG = new PrimitiveGaussian(pOrigin, new Power(l, m, n - 1), alpha, coeff);
+			termbz = -2.0 * n * FastMath.sqrt(alpha / (2.0 * n - 1.0)) * coeff * xPG.nuclear(jPG, nucPos);
+		}
+
+		return new Vector3D(termax + termbx, termay + termby, termaz + termbz);
 	}
 
 	/** helper method for nuclear attraction derivative */
@@ -504,7 +551,7 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 		for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 			Atom atom = mol.getAtom(i);
 			termax += ai.getAtomicNumber(atom.getSymbol()) * FastMath.sqrt(alpha * (2.0 * l + 1.0)) * coeff
-					* xPG.nuclear(jPG, atom.getAtomCenter());
+					* xPG.nuclear(jPG, atom.getAtomCenterInAU());
 		}
 		double termbx = 0.0;
 		if (l > 0) {
@@ -512,7 +559,7 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 			for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 				Atom atom = mol.getAtom(i);
 				termbx += -2.0 * l * ai.getAtomicNumber(atom.getSymbol()) * FastMath.sqrt(alpha / (2.0 * l - 1.0))
-						* coeff * xPG.nuclear(jPG, atom.getAtomCenter());
+						* coeff * xPG.nuclear(jPG, atom.getAtomCenterInAU());
 			}
 		}
 
@@ -522,7 +569,7 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 		for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 			Atom atom = mol.getAtom(i);
 			termay += ai.getAtomicNumber(atom.getSymbol()) * FastMath.sqrt(alpha * (2.0 * m + 1.0)) * coeff
-					* xPG.nuclear(jPG, atom.getAtomCenter());
+					* xPG.nuclear(jPG, atom.getAtomCenterInAU());
 		}
 		double termby = 0.0;
 		if (m > 0) {
@@ -530,7 +577,7 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 			for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 				Atom atom = mol.getAtom(i);
 				termby += -2.0 * m * ai.getAtomicNumber(atom.getSymbol()) * FastMath.sqrt(alpha / (2.0 * m - 1.0))
-						* coeff * xPG.nuclear(jPG, atom.getAtomCenter());
+						* coeff * xPG.nuclear(jPG, atom.getAtomCenterInAU());
 			}
 		}
 
@@ -540,7 +587,7 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 		for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 			Atom atom = mol.getAtom(i);
 			termaz += ai.getAtomicNumber(atom.getSymbol()) * FastMath.sqrt(alpha * (2.0 * n + 1.0)) * coeff
-					* xPG.nuclear(jPG, atom.getAtomCenter());
+					* xPG.nuclear(jPG, atom.getAtomCenterInAU());
 		}
 		double termbz = 0.0;
 		if (n > 0) {
@@ -548,7 +595,7 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 			for (int i = 0; i < mol.getNumberOfAtoms(); i++) {
 				Atom atom = mol.getAtom(i);
 				termbz += -2.0 * n * ai.getAtomicNumber(atom.getSymbol()) * FastMath.sqrt(alpha / (2.0 * n - 1.0))
-						* coeff * xPG.nuclear(jPG, atom.getAtomCenter());
+						* coeff * xPG.nuclear(jPG, atom.getAtomCenterInAU());
 			}
 		}
 

@@ -98,17 +98,13 @@ public final class Overlap extends Array2DRowRealMatrix {
 		Overlap dOverlapDy = new Overlap(noOfBasisFunctions);
 		Overlap dOverlapDz = new Overlap(noOfBasisFunctions);
 
-		double[][] hdx = dOverlapDx.getData();
-		double[][] hdy = dOverlapDy.getData();
-		double[][] hdz = dOverlapDz.getData();
-
 		for (int i = 0; i < noOfBasisFunctions; i++) {
 			for (int j = 0; j < noOfBasisFunctions; j++) {
 				Vector3D dOvrEle = computeOverlapDerElement(i, j);
 
-				hdx[i][j] = dOvrEle.getX();
-				hdy[i][j] = dOvrEle.getY();
-				hdz[i][j] = dOvrEle.getZ();
+				dOverlapDx.setEntry(i, j, dOvrEle.getX());
+				dOverlapDy.setEntry(i, j, dOvrEle.getY());
+				dOverlapDz.setEntry(i, j, dOvrEle.getZ());
 			}
 		}
 

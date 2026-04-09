@@ -62,19 +62,13 @@ public final class HCore extends Array2DRowRealMatrix {
 		HCore dHCoreDy = new HCore(noOfBasisFunctions);
 		HCore dHCoreDz = new HCore(noOfBasisFunctions);
 
-		double[][] hdx = dHCoreDx.getData();
-		double[][] hdy = dHCoreDy.getData();
-		double[][] hdz = dHCoreDz.getData();
-
-		int i;
-		int j;
-		for (i = 0; i < noOfBasisFunctions; i++) {
-			for (j = 0; j < noOfBasisFunctions; j++) {
+		for (int i = 0; i < noOfBasisFunctions; i++) {
+			for (int j = 0; j < noOfBasisFunctions; j++) {
 				Vector3D dHCoreEle = computeHCoreDerElement(atomIndex, i, j);
 
-				hdx[i][j] = dHCoreEle.getX();
-				hdy[i][j] = dHCoreEle.getY();
-				hdz[i][j] = dHCoreEle.getZ();
+				dHCoreDx.setEntry(i, j, dHCoreEle.getX());
+				dHCoreDy.setEntry(i, j, dHCoreEle.getY());
+				dHCoreDz.setEntry(i, j, dHCoreEle.getZ());
 			}
 		}
 
