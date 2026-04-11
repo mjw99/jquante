@@ -329,6 +329,11 @@ public final class GMatrix extends Array2DRowRealMatrix {
 		return gDer;
 	}
 
+	/**
+	 * Returns a hash code for this GMatrix based on its entries, density, and partial G matrices.
+	 *
+	 * @return a hash code value for this object
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;

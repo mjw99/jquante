@@ -95,9 +95,11 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 	}
 
 	/**
-	 * Creates a new instance of ContractedGaussian
+	 * Copy constructor: creates a new ContractedGaussian with the same origin,
+	 * powers, primitives, exponents, coefficients, and normalisation factors as
+	 * the given instance.
 	 *
-	 * @param cg ContractedGaussian
+	 * @param cg the ContractedGaussian to copy
 	 */
 	public ContractedGaussian(ContractedGaussian cg) {
 		this.origin = cg.getOrigin();

@@ -57,8 +57,8 @@ public abstract class Molecule {
 	public abstract void setTitle(String title);
 
 	/**
-	 * Return an object of moelcular formula, pertaining to this molecule
-	 * 
+	 * Return an object of molecular formula, pertaining to this molecule
+	 *
 	 * @return MolecularFormula the molecular formula of this molecule
 	 */
 	public abstract MolecularFormula getFormula();
@@ -309,13 +309,6 @@ public abstract class Molecule {
 			boolean noDepth);
 
 	
-
-	/**
-	 * Add a fragmentation scheme to this molecule object
-	 * 
-	 * @param fragmentationScheme
-	 *            the FragmentationScheme to be added to this molecule object.
-	 */
 
 	/**
 	 * The implementation of this method should update the coordinates of

@@ -17,11 +17,11 @@ public abstract class Interpolater {
 
 	/**
 	 * Interpolate value at X depending upon value at Y
-	 * 
+	 *
 	 * @param y
 	 *            the Y values (results of function evaluation)
 	 * @param x
-	 *            the X values at function evaluation is performed or is expected
+	 *            the X values at which function evaluation is performed or is expected
 	 * @return the interpolated value depending upon the interpolation formula
 	 */
 	public abstract double interpolate(double[] y, double[] x);

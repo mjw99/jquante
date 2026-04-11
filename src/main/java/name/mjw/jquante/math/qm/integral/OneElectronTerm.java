@@ -38,12 +38,11 @@ public final class OneElectronTerm implements IntegralsPackage {
 	/**
 	 * Overlap matrix element taken from <br>
 	 * <i> Taken from http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.12 </i>
-	 * 
-	 * @param alpha1 the coefficient of primitive Gaussian a.
+	 *
+	 * @param alpha1 the exponent of primitive Gaussian a.
 	 * @param power1 the orbital powers of primitive Gaussian a.
 	 * @param a      the location of primitive Gaussian a.
-	 * 
-	 * @param alpha2 the coefficient of primitive Gaussian b.
+	 * @param alpha2 the exponent of primitive Gaussian b.
 	 * @param power2 the orbital powers of primitive Gaussian b.
 	 * @param b      the location of primitive Gaussian b.
 	 * @return the Overlap integral
@@ -70,14 +69,13 @@ public final class OneElectronTerm implements IntegralsPackage {
 
 	/**
 	 * The Kinetic Energy (KE) component. <br>
-	 * 
+	 *
 	 * <i> Taken from http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.13 </i>
 	 *
-	 * @param alpha1 the coefficient of primitive Gaussian a.
+	 * @param alpha1 the exponent of primitive Gaussian a.
 	 * @param power1 the orbital powers of primitive Gaussian a.
 	 * @param a      the location of primitive Gaussian a.
-	 *
-	 * @param alpha2 the coefficient of primitive Gaussian b.
+	 * @param alpha2 the exponent of primitive Gaussian b.
 	 * @param power2 the orbital powers of primitive Gaussian b.
 	 * @param b      the location of primitive Gaussian b.
 	 * @return the Kinetic Energy integral

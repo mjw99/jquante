@@ -73,8 +73,9 @@ public class SCFType {
 
 	/**
 	 * The method to check the equality of two objects of SCFType class.
-	 * 
-	 * @return true/ false specifying the equality or inequality
+	 *
+	 * @param obj the reference object with which to compare
+	 * @return true if the given object is an SCFType with the same type value
 	 */
 	@Override
 	public boolean equals(Object obj) {

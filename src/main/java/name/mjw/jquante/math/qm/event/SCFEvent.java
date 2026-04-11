@@ -41,7 +41,7 @@ public final class SCFEvent extends java.util.EventObject {
 	/**
 	 * Failed SCF convergence event
 	 */
-	public static final int FAILED_CONVERGENCE_EVENT = 2;
+	public static final int FAILED_CONVERGENCE_EVENT = 3;
 
 	/**
 	 * Creates a new instance of SCFEvent

@@ -20,8 +20,8 @@ public class UserDefinedMolecularProperty implements Serializable {
 	}
 
 	/**
-	 * Creates new instance of UserDefinedAtomProperty
-	 * 
+	 * Creates new instance of UserDefinedMolecularProperty
+	 *
 	 * @param name
 	 *            Property name.
 	 * @param value

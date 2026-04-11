@@ -142,7 +142,7 @@ public abstract class SCFMethod implements OptimizerFunction {
 	 * @param twoEI
 	 *            the 2E integral driver.
 	 * @param openShell
-	 * 	          is this a closed shell setup?
+	 *            is this an open shell setup?
 	 */
 	public SCFMethod(Molecule molecule, OneElectronIntegrals oneEI, 
 	                 TwoElectronIntegrals twoEI, boolean openShell) {

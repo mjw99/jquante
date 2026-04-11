@@ -69,12 +69,12 @@ public final class PowerList {
 	}
 
 	/**
-	 * get the power list for the specified orbital symbol ('S', 'P', 'D' or 'F'
-	 * .. no explicit error checking done, but will throw a RuntimeException if
-	 * the arguments are incorrect)
-	 * 
+	 * Get the power list for the specified orbital symbol ('S', 'P', 'D', 'F',
+	 * 'G' or 'H'). No explicit error checking is done, but a RuntimeException
+	 * will be thrown if the argument is not one of the recognised symbols.
+	 *
 	 * @param orbital
-	 *            - 'S', 'P', 'D' or 'F'
+	 *            - 'S', 'P', 'D', 'F', 'G' or 'H'
 	 * @return Iterator of Power object representing the powers
 	 */
 	public Iterator<Power> getPowerList(String orbital) {
