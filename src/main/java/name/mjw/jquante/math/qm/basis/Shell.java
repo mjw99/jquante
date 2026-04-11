@@ -90,4 +90,16 @@ public final class Shell extends ContractedGaussian {
 		return this.isSameShell(other);
 	}
 
+	/**
+	 * Returns a hash code consistent with {@link #equals}: based only on the
+	 * fields checked by {@link #isSameShell} (origin, total angular momentum,
+	 * exponents, and coefficients).
+	 *
+	 * @return a hash code value for this shell
+	 */
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hash(getOrigin(), getTotalAngularMomentum(), getExponents(), getCoefficients());
+	}
+
 }

@@ -644,7 +644,7 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 		Vector3D grad = new Vector3D(0, 0, 0);
 
 		for (PrimitiveGaussian pg : primitives)
-			grad.add(pg.gradient(point));
+			grad = grad.add(pg.gradient(point));
 
 		return grad.scalarMultiply(normalization);
 	}

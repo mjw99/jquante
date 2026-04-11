@@ -161,7 +161,11 @@ public record PrimitiveGaussian(Vector3D origin, Power powers, double exponent, 
 		int m = powers.m();
 		int n = powers.n();
 
-		value = (l * (l - 1) / x2 + m * (m - 1) / y2 + n * (n - 1) / z2) + 4 * exponent * exponent * (x2 + y2 + z2)
+		int lterm = l * (l - 1);
+		int mterm = m * (m - 1);
+		int nterm = n * (n - 1);
+		value = (lterm != 0 ? lterm / x2 : 0.0) + (mterm != 0 ? mterm / y2 : 0.0) + (nterm != 0 ? nterm / z2 : 0.0)
+				+ 4 * exponent * exponent * (x2 + y2 + z2)
 				- 2 * exponent * (2 * (l + m + n) + 3);
 
 		return value * normalization * coefficient * amplitude(point);
@@ -243,10 +247,6 @@ public record PrimitiveGaussian(Vector3D origin, Power powers, double exponent, 
 	 */
 	@Override
 	public int compareTo(PrimitiveGaussian other) {
-		if (this.exponent > other.exponent) {
-			return -1;
-		} else {
-			return 1;
-		}
+		return Double.compare(other.exponent, this.exponent);
 	}
 }
