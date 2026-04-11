@@ -285,7 +285,8 @@ public final class TwoElectronIntegrals {
 			} // end for
 		} // end if
 
-		return twoEDerEle;
+		return twoEDerEle.scalarMultiply(
+				bfi.getNormalization() * bfj.getNormalization() * bfk.getNormalization() * bfl.getNormalization());
 	}
 
 	/** helper for computing 2E derivative */

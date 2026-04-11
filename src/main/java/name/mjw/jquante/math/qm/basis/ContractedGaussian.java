@@ -283,7 +283,7 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 		// case 3: is atomIndex is not centered on any of the CGs, then
 		// then the result is zero.
 
-		return ovrDer;
+		return ovrDer.scalarMultiply(normalization * cg.normalization);
 	}
 
 	/** helper method for overlap derivative */
@@ -378,7 +378,7 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 		// case 3: is atomIndex is not centered on any of the CGs, then
 		// then the result is zero.
 
-		return kder;
+		return kder.scalarMultiply(normalization * cg.normalization);
 	}
 
 	/** helper method for kinetic energy derivative */
@@ -488,7 +488,7 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 			}
 		}
 
-		return nder;
+		return nder.scalarMultiply(normalization * cg.normalization);
 	}
 
 	/**

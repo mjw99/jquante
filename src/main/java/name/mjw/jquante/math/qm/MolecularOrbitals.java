@@ -1,10 +1,8 @@
 package name.mjw.jquante.math.qm;
 
 import org.hipparchus.linear.Array2DRowRealMatrix;
-import org.hipparchus.linear.DefaultRealMatrixChangingVisitor;
 import org.hipparchus.linear.EigenDecompositionSymmetric;
 import org.hipparchus.linear.RealMatrix;
-import org.hipparchus.util.FastMath;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -86,14 +84,10 @@ public final class MolecularOrbitals extends Array2DRowRealMatrix {
 		RealMatrix a = x.multiply(theMat).multiply(x.transpose());
 		LOG.debug("a: {}", a);
 
-		// Remove small values to prevent EigenDecompositionSymmetric() breakage
-		//
+		// Floating-point matrix multiplications can produce slightly asymmetric
+		// results. Force exact symmetry via (a + aT)/2 before eigendecomposition.
 		// see https://github.com/Hipparchus-Math/hipparchus/issues/365
-		a.walkInOptimizedOrder(new DefaultRealMatrixChangingVisitor() {
-			public double visit(final int row, final int column, final double value) {
-				return FastMath.abs(value) < 1.0e-10 ? 0 : value;
-			}
-		});
+		a = a.add(a.transpose()).scalarMultiply(0.5);
 
 		EigenDecompositionSymmetric eig = new EigenDecompositionSymmetric(a, 1e-10, false);
 

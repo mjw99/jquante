@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
 import org.hipparchus.linear.Array2DRowRealMatrix;
+import org.hipparchus.linear.DefaultRealMatrixChangingVisitor;
 import org.hipparchus.linear.EigenDecompositionSymmetric;
 import org.hipparchus.linear.MatrixUtils;
 import org.hipparchus.linear.RealMatrix;
@@ -54,7 +55,17 @@ public final class Overlap extends Array2DRowRealMatrix {
 		if (sHalf == null) {
 
 			LOG.debug("Overlap::this " + this);
-			EigenDecompositionSymmetric eig = new EigenDecompositionSymmetric(this);
+			// Copy and zero near-zero entries to prevent NonSymmetricMatrixException
+			// when floating-point asymmetry between S[i][j] and S[j][i] exceeds
+			// the default tolerance. See https://github.com/Hipparchus-Math/hipparchus/issues/365
+			RealMatrix copy = this.copy();
+			copy.walkInOptimizedOrder(new DefaultRealMatrixChangingVisitor() {
+				@Override
+				public double visit(int row, int column, double value) {
+					return FastMath.abs(value) < 1.0e-10 ? 0 : value;
+				}
+			});
+			EigenDecompositionSymmetric eig = new EigenDecompositionSymmetric(copy, 1e-10, false);
 
 			double[] eigenValues = eig.getEigenvalues();
 			RealMatrix eigenVectors = eig.getVT();
