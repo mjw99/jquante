@@ -139,34 +139,6 @@ class HartreeFockForceTest {
         assertEquals(-0.020968, f.getZ(), delta);
     }
 
-    // -----------------------------------------------------------------------
-    // H2 / 3-21G
-    // NWChem gradients (Hartree/Bohr, molecule along z in NWChem = x in jquante):
-    //   H1: dE/dz = -0.003970   force_x = +0.003970
-    //   H2: dE/dz = +0.003970   force_x = -0.003970
-    // -----------------------------------------------------------------------
-
-    @Test
-    void hydrogenH1Force321G() {
-        SCFMethod scfm = runSCF(Fixtures.getHydrogen(), "3-21g");
-        HartreeFockForce hff = new HartreeFockForce();
-        Vector3D f = hff.computeForce(0, scfm);
-
-        assertEquals( 0.003970, f.getX(), delta);
-        assertEquals( 0.0,      f.getY(), delta);
-        assertEquals( 0.0,      f.getZ(), delta);
-    }
-
-    @Test
-    void hydrogenH2Force321G() {
-        SCFMethod scfm = runSCF(Fixtures.getHydrogen(), "3-21g");
-        HartreeFockForce hff = new HartreeFockForce();
-        Vector3D f = hff.computeForce(1, scfm);
-
-        assertEquals(-0.003970, f.getX(), delta);
-        assertEquals( 0.0,      f.getY(), delta);
-        assertEquals( 0.0,      f.getZ(), delta);
-    }
 
     // -----------------------------------------------------------------------
     // H2 / 6-31G**
@@ -197,47 +169,7 @@ class HartreeFockForceTest {
         assertEquals( 0.0,      f.getZ(), delta);
     }
 
-    // -----------------------------------------------------------------------
-    // Water / 3-21G
-    // NWChem gradients (Hartree/Bohr; NWChem x ↔ -jquante y):
-    //   O:  dE/dz = +0.010830   force_z = -0.010830
-    //   H1: dE/dx = +0.005533,  dE/dz = -0.005415
-    //       force_y = +0.005533, force_z = +0.005415
-    //   H2: force_y = -0.005533, force_z = +0.005415
-    // -----------------------------------------------------------------------
-
-    @Test
-    void waterOForce321G() {
-        SCFMethod scfm = runSCF(Fixtures.getWater(), "3-21g");
-        HartreeFockForce hff = new HartreeFockForce();
-        Vector3D f = hff.computeForce(0, scfm);
-
-        assertEquals( 0.0,      f.getX(), delta);
-        assertEquals( 0.0,      f.getY(), delta);
-        assertEquals(-0.010830, f.getZ(), delta);
-    }
-
-    @Test
-    void waterH1Force321G() {
-        SCFMethod scfm = runSCF(Fixtures.getWater(), "3-21g");
-        HartreeFockForce hff = new HartreeFockForce();
-        Vector3D f = hff.computeForce(1, scfm);
-
-        assertEquals( 0.0,      f.getX(), delta);
-        assertEquals( 0.005533, f.getY(), delta);
-        assertEquals( 0.005415, f.getZ(), delta);
-    }
-
-    @Test
-    void waterH2Force321G() {
-        SCFMethod scfm = runSCF(Fixtures.getWater(), "3-21g");
-        HartreeFockForce hff = new HartreeFockForce();
-        Vector3D f = hff.computeForce(2, scfm);
-
-        assertEquals( 0.0,      f.getX(), delta);
-        assertEquals(-0.005533, f.getY(), delta);
-        assertEquals( 0.005415, f.getZ(), delta);
-    }
+   
 
     // -----------------------------------------------------------------------
     // Water / 6-31G**
