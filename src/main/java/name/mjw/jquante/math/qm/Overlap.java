@@ -43,9 +43,9 @@ public final class Overlap extends Array2DRowRealMatrix {
 
 	/**
 	 * Get the S^1/2 matrix
-	 * 
+	 *
 	 * Symmetric orthogonalization of the real symmetric matrix X (this). This is
-	 * given by <code>U'(1/sqrt(lambda))U</code>, where lambda, U are the
+	 * given by <code>U(1/sqrt(lambda))U'</code>, where lambda, U are the
 	 * eigenvalues, vectors.
 	 *
 	 *

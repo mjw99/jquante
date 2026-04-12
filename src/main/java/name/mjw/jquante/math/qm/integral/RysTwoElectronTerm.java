@@ -1562,8 +1562,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 			if (kmax == 0) {
 				// goto L60;
 				if (fac < 0) {
-					System.err.println("rys_roots negative value in sqrt for roots " + n);
-					System.exit(0);
+					throw new ArithmeticException("rys_roots: negative value in sqrt for roots " + n);
 				}
 
 				fac = 1 / FastMath.sqrt(fac);
@@ -1597,8 +1596,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 			// L60:
 			if (fac < 0) {
-				System.err.println("rys_roots negative value in sqrt for roots " + n);
-				System.exit(0);
+				throw new ArithmeticException("rys_roots: negative value in sqrt for roots " + n);
 			}
 			fac = 1 / FastMath.sqrt(fac);
 			cs[j + j * MAX_ROOTS] = fac;
@@ -1639,8 +1637,7 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 			}
 
 			if (p0 * p1init > 0) {
-				System.err.println("ROOT NUMBER " + m + " WAS NOT FOUND FOR POLYNOMIAL OF ORDER " + order);
-				System.exit(0);
+				throw new ArithmeticException("rys_roots: root " + m + " not found for polynomial of order " + order);
 			}
 
 			if (x0 <= x1init) {

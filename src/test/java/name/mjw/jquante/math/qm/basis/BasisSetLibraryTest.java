@@ -25,15 +25,9 @@ class BasisSetLibraryTest {
 	}
 
 	@Test
-	void testSTO3G() {
+	void testSTO3G() throws Exception {
 
-		try {
-			bsl = new BasisSetLibrary(water, "sto-3g");
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
+		bsl = new BasisSetLibrary(water, "sto-3g");
 
 		// 7 functions
 		assertEquals(7, bsl.getBasisFunctions().size());
@@ -46,15 +40,9 @@ class BasisSetLibraryTest {
 	}
 
 	@Test
-	void testCcPvtz() {
+	void testCcPvtz() throws Exception {
 
-		try {
-			bsl = new BasisSetLibrary(water, "cc-pvtz");
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
+		bsl = new BasisSetLibrary(water, "cc-pvtz");
 		// 65 functions
 		assertEquals(65, bsl.getBasisFunctions().size());
 
@@ -67,21 +55,14 @@ class BasisSetLibraryTest {
 	}
 
 	@Test
-	void testPrimitiveOrdering() {
-
-		BasisSetLibrary bsl = null;
+	void testPrimitiveOrdering() throws Exception {
 
 		Atom H1 = new Atom("H", new Vector3D(0.752510, -0.454585, 0.000000));
 
 		Molecule hydrogen = new MoleculeImpl("hydrogen");
 		hydrogen.addAtom(H1);
 
-		try {
-			bsl = new BasisSetLibrary(hydrogen, "sto-3g");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		BasisSetLibrary bsl = new BasisSetLibrary(hydrogen, "sto-3g");
 
 		assertEquals(1, bsl.getBasisFunctions().size());
 
@@ -97,15 +78,9 @@ class BasisSetLibraryTest {
 	}
 
 	@Test
-	void testShellBasisFunctionIndexing() {
+	void testShellBasisFunctionIndexing() throws Exception {
 
-		try {
-			bsl = new BasisSetLibrary(water, "sto-3g");
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
+		bsl = new BasisSetLibrary(water, "sto-3g");
 
 		Shell shell = bsl.getShells().get(1);
 

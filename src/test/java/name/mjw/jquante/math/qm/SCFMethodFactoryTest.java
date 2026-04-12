@@ -17,21 +17,13 @@ class SCFMethodFactoryTest {
 	double diff = 0.0001;
 
 	@Test
-	void SinglePointHFHydrogenSTO3G() {
+	void SinglePointHFHydrogenSTO3G() throws Exception {
 
 		// Create molecule
 		Molecule hydrogen = Fixtures.getHydrogen();
 
 		// Read Basis
-		BasisSetLibrary bsl = null;
-
-		try {
-			bsl = new BasisSetLibrary(hydrogen, "sto-3g");
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
+		BasisSetLibrary bsl = new BasisSetLibrary(hydrogen, "sto-3g");
 
 		// compute integrals
 		OneElectronIntegrals e1 = new OneElectronIntegrals(bsl, hydrogen);
@@ -54,21 +46,13 @@ class SCFMethodFactoryTest {
 
 	@Test
 	// Values checked with NWChem 6.6
-	void SinglePointHFHydrogenFluorideSTO3G() {
+	void SinglePointHFHydrogenFluorideSTO3G() throws Exception {
 
 		// Create molecule
 		Molecule hydrogenFluoride = Fixtures.getHydrogenFluoride();
 
 		// Read Basis
-		BasisSetLibrary bf = null;
-
-		try {
-			bf = new BasisSetLibrary(hydrogenFluoride, "sto-3g");
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
+		BasisSetLibrary bf = new BasisSetLibrary(hydrogenFluoride, "sto-3g");
 
 		// compute integrals
 		OneElectronIntegrals e1 = new OneElectronIntegrals(bf, hydrogenFluoride);
@@ -93,21 +77,13 @@ class SCFMethodFactoryTest {
 	}
 
 	@Test
-	void SinglePointHFWaterSTO3G() {
+	void SinglePointHFWaterSTO3G() throws Exception {
 
 		// Create molecule
 		Molecule water = Fixtures.getWater();
 
 		// Read Basis
-		BasisSetLibrary bf = null;
-
-		try {
-			bf = new BasisSetLibrary(water, "sto-3g");
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
+		BasisSetLibrary bf = new BasisSetLibrary(water, "sto-3g");
 
 		// compute integrals
 		OneElectronIntegrals e1 = new OneElectronIntegrals(bf, water);
@@ -134,21 +110,13 @@ class SCFMethodFactoryTest {
 	}
 
 	@Test
-	void SinglePointHFWaterSTO3GDirect() {
+	void SinglePointHFWaterSTO3GDirect() throws Exception {
 
 		// Create molecule
 		Molecule water = Fixtures.getWater();
 
 		// Read Basis
-		BasisSetLibrary bf = null;
-
-		try {
-			bf = new BasisSetLibrary(water, "sto-3g");
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
+		BasisSetLibrary bf = new BasisSetLibrary(water, "sto-3g");
 
 		// compute integrals
 		OneElectronIntegrals e1 = new OneElectronIntegrals(bf, water);
@@ -176,21 +144,13 @@ class SCFMethodFactoryTest {
 	}
 
 	@Test
-	void SinglePointHFWaterSTO3GShellPair() {
+	void SinglePointHFWaterSTO3GShellPair() throws Exception {
 
 		// Create molecule
 		Molecule water = Fixtures.getWater();
 
 		// Read Basis
-		BasisSetLibrary bf = null;
-
-		try {
-			bf = new BasisSetLibrary(water, "sto-3g");
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
+		BasisSetLibrary bf = new BasisSetLibrary(water, "sto-3g");
 
 		// compute integrals
 		OneElectronIntegrals e1 = new OneElectronIntegrals(bf, water);

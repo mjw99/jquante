@@ -17,15 +17,11 @@ class GMatrixTest {
 	static BasisSetLibrary bf = null;
 
 	@BeforeAll
-	static void setUp() {
+	static void setUp() throws Exception {
 		// Create molecule
 		Molecule hydrogen = Fixtures.getHydrogen();
 
-		try {
-			bf = new BasisSetLibrary(hydrogen, "sto-3g");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		bf = new BasisSetLibrary(hydrogen, "sto-3g");
 		twoEI = new TwoElectronIntegrals(bf);
 
 		density = new Density(new double[][] { { 0.3012278366, 0.3012278366 }, { 0.3012278366, 0.3012278366 } });

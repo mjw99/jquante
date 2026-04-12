@@ -16,24 +16,13 @@ class OneElectronIntegralsTest {
 	static OneElectronIntegrals e1 = null;
 
 	@BeforeAll
-	static void setUp() {
+	static void setUp() throws Exception {
 
 		// Create molecule
 		Molecule water = Fixtures.getWater();
 
-		// Read Basis
-		BasisSetLibrary bf = null;
-
-		try {
-			bf = new BasisSetLibrary(water, "sto-3g");
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
 		// compute integrals
-		e1 = new OneElectronIntegrals(bf, water);
+		e1 = new OneElectronIntegrals(new BasisSetLibrary(water, "sto-3g"), water);
 
 	}
 
