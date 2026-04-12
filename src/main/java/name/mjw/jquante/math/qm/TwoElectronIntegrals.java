@@ -111,13 +111,10 @@ public final class TwoElectronIntegrals {
 				// first try in - core method
 				try {
 					compute2EShellPair(); // try to use shell pair algorithm
-				} catch (Exception ignored) {
-					LOG.error("WARNING: Using a slower algorithm" + " to compute two electron integrals. Error is: "
-							+ ignored.toString());
-					LOG.error(ignored);
-
-					compute2E(); // if it doesn't succeed then fall back to
-									// normal
+				} catch (IllegalStateException e) {
+					LOG.warn("Shell-pair algorithm unavailable ({}); falling back to conventional algorithm",
+							e.getMessage());
+					compute2E();
 				}
 			} catch (OutOfMemoryError e) {
 				// if no memory, resort to direct SCF
@@ -188,10 +185,10 @@ public final class TwoElectronIntegrals {
 
 		// we only need i <= j, k <= l, and ij >= kl
 		IntStream.range(0, noOfBasisFunctions).parallel().forEach(i -> {
-			IntStream.range(0, i + 1).parallel().forEach(j -> {
+			for (int j = 0; j < i + 1; j++) {
 				int ij = i * (i + 1) / 2 + j;
-				IntStream.range(0, noOfBasisFunctions).parallel().forEach(k -> {
-					IntStream.range(0, k + 1).parallel().forEach(l -> {
+				for (int k = 0; k < noOfBasisFunctions; k++) {
+					for (int l = 0; l < k + 1; l++) {
 						int kl = k * (k + 1) / 2 + l;
 
 						if (ij >= kl) {
@@ -199,9 +196,9 @@ public final class TwoElectronIntegrals {
 							// record the 2E integrals
 							twoEIntegrals[ijkl] = Integrals.coulomb(bfs.get(i), bfs.get(j), bfs.get(k), bfs.get(l));
 						}
-					});
-				});
-			});
+					}
+				}
+			}
 		});
 
 	}
@@ -342,6 +339,29 @@ public final class TwoElectronIntegrals {
 	}
 
 	/**
+	 * Returns the basis functions assigned to a given atom via the
+	 * "basisFunctions" user-defined atom property.
+	 *
+	 * @param atomIndex the atom index
+	 * @return the list of ContractedGaussians centred on that atom
+	 * @throws IllegalStateException if the property is absent or has an unexpected type
+	 */
+	@SuppressWarnings("unchecked")
+	private List<ContractedGaussian> getBasisFunctionsForAtom(int atomIndex) {
+		var prop = molecule.getAtom(atomIndex).getUserDefinedAtomProperty("basisFunctions");
+		if (prop == null) {
+			throw new IllegalStateException(
+					"Atom " + atomIndex + " has no 'basisFunctions' property; cannot use shell-pair algorithm");
+		}
+		Object value = prop.getValue();
+		if (!(value instanceof List)) {
+			throw new IllegalStateException(
+					"Atom " + atomIndex + " 'basisFunctions' property is not a List; cannot use shell-pair algorithm");
+		}
+		return (List<ContractedGaussian>) value;
+	}
+
+	/**
 	 * Compute the 2E integrals using shell pair based method, and store it in a
 	 * single 1D array, in the form [ijkl].
 	 * 
@@ -366,10 +386,10 @@ public final class TwoElectronIntegrals {
 		int ncFunc;
 		int ndFunc;
 		int twoEIndx;
-		ArrayList<ContractedGaussian> aFunc;
-		ArrayList<ContractedGaussian> bFunc;
-		ArrayList<ContractedGaussian> cFunc;
-		ArrayList<ContractedGaussian> dFunc;
+		List<ContractedGaussian> aFunc;
+		List<ContractedGaussian> bFunc;
+		List<ContractedGaussian> cFunc;
+		List<ContractedGaussian> dFunc;
 		ContractedGaussian iaFunc;
 		ContractedGaussian jbFunc;
 		ContractedGaussian kcFunc;
@@ -377,8 +397,7 @@ public final class TwoElectronIntegrals {
 
 		// center a
 		for (int a = 0; a < noOfAtoms; a++) {
-			aFunc = (ArrayList<ContractedGaussian>) molecule.getAtom(a).getUserDefinedAtomProperty("basisFunctions")
-					.getValue();
+			aFunc = getBasisFunctionsForAtom(a);
 			naFunc = aFunc.size();
 			// basis functions on a
 			for (int i = 0; i < naFunc; i++) {
@@ -386,8 +405,7 @@ public final class TwoElectronIntegrals {
 
 				// center b
 				for (int b = 0; b <= a; b++) {
-					bFunc = (ArrayList<ContractedGaussian>) molecule.getAtom(b)
-							.getUserDefinedAtomProperty("basisFunctions").getValue();
+					bFunc = getBasisFunctionsForAtom(b);
 					nbFunc = (b < a) ? bFunc.size() : i + 1;
 					// basis functions on b
 					for (int j = 0; j < nbFunc; j++) {
@@ -395,8 +413,7 @@ public final class TwoElectronIntegrals {
 
 						// center c
 						for (int c = 0; c < noOfAtoms; c++) {
-							cFunc = (ArrayList<ContractedGaussian>) molecule.getAtom(c)
-									.getUserDefinedAtomProperty("basisFunctions").getValue();
+							cFunc = getBasisFunctionsForAtom(c);
 							ncFunc = cFunc.size();
 							// basis functions on c
 							for (int k = 0; k < ncFunc; k++) {
@@ -404,8 +421,7 @@ public final class TwoElectronIntegrals {
 
 								// center d
 								for (int d = 0; d <= c; d++) {
-									dFunc = (ArrayList<ContractedGaussian>) molecule.getAtom(d)
-											.getUserDefinedAtomProperty("basisFunctions").getValue();
+									dFunc = getBasisFunctionsForAtom(d);
 									ndFunc = (d < c) ? dFunc.size() : k + 1;
 									// basis functions on d
 									for (int l = 0; l < ndFunc; l++) {
@@ -501,12 +517,12 @@ public final class TwoElectronIntegrals {
 		IntStream.range(0, noOfBasisFunctions).parallel().forEach(i -> {
 			ContractedGaussian bfi = bfs.get(i);
 
-			IntStream.range(0, i + 1).parallel().forEach(j -> {
+			for (int j = 0; j < i + 1; j++) {
 				ContractedGaussian bfj = bfs.get(j);
 				int ij = i * (i + 1) / 2 + j;
-				IntStream.range(0, noOfBasisFunctions).parallel().forEach(k -> {
+				for (int k = 0; k < noOfBasisFunctions; k++) {
 					ContractedGaussian bfk = bfs.get(k);
-					IntStream.range(0, k + 1).parallel().forEach(l -> {
+					for (int l = 0; l < k + 1; l++) {
 						ContractedGaussian bfl = bfs.get(l);
 						int kl = k * (k + 1) / 2 + l;
 
@@ -519,11 +535,10 @@ public final class TwoElectronIntegrals {
 							dxTwoE[ijkl] = twoEDerEle.getX();
 							dyTwoE[ijkl] = twoEDerEle.getY();
 							dzTwoE[ijkl] = twoEDerEle.getZ();
-
 						}
-					});
-				});
-			});
+					}
+				}
+			}
 		});
 	}
 
