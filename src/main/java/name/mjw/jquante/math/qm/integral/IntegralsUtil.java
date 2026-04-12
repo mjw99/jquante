@@ -100,8 +100,7 @@ public final class IntegralsUtil {
 	/**
 	 * Computes the lower incomplete gamma function, &gamma;(a,x)= integral from
 	 * zero to x of (exp(-t)t^(a-1))dt.
-	 * <p>
-	 * 
+	 *
 	 * @param a
 	 *            The parameter of the integral
 	 * @param x
@@ -127,15 +126,14 @@ public final class IntegralsUtil {
 	 * Computes the incomplete Gamma function by using the continued fraction
 	 * representation. See NumRec sect 6.1
 	 *
-	 * @param a
-	 *            The parameter of the integral
-	 * @param x
-	 *            The upper bound for the interval of integration
-	 * @param EPS
-	 * @param FPMIN
-	 * @param MAX_ITERATION
-	 * @param gln
-	 * @return
+	 * @param a             The parameter of the integral
+	 * @param x             The upper bound for the interval of integration
+	 * @param EPS           convergence tolerance
+	 * @param FPMIN         smallest representable floating-point number used to
+	 *                      avoid division by zero
+	 * @param MAX_ITERATION maximum number of iterations
+	 * @param gln           the natural log of Gamma(a), precomputed by the caller
+	 * @return the complementary incomplete gamma value (1 - P(a, x))
 	 */
 	private static final double continuedFractionMethod(final double a, final double x, final double EPS, final double FPMIN,
 			final int MAX_ITERATION, final double gln) {
@@ -177,14 +175,12 @@ public final class IntegralsUtil {
 	 * Computes the incomplete Gamma function by using the series representation.
 	 * See NumRec sect 6.1.
 	 *
-	 * @param a
-	 *            The parameter of the integral
-	 * @param x
-	 *            The upper bound for the interval of integration
-	 * @param EPS
-	 * @param MAX_ITERATION
-	 * @param gln
-	 * @return
+	 * @param a             The parameter of the integral
+	 * @param x             The upper bound for the interval of integration
+	 * @param EPS           convergence tolerance
+	 * @param MAX_ITERATION maximum number of iterations
+	 * @param gln           the natural log of Gamma(a), precomputed by the caller
+	 * @return the regularised lower incomplete gamma value P(a, x), or 0.0 if x is 0
 	 */
 	private static final double seriesMethod(final double a, final double x, final double EPS, final int MAX_ITERATION,
 			final double gln) {

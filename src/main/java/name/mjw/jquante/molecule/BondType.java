@@ -62,6 +62,9 @@ public enum BondType implements Serializable {
 	}
 
 	/**
+	 * Returns the bond order, which in a covalent bond is typically the number
+	 * of valence electrons this atom contributes to the bond.
+	 *
 	 * @return the bond order, which in a covalent bond is typically the number
 	 *         of valence electrons this atom contributes to the bond.
 	 */
@@ -85,6 +88,8 @@ public enum BondType implements Serializable {
 	}
 
 	/**
+	 * Returns true if this is a strong bond type.
+	 *
 	 * @return true if this is a strong bond type
 	 */
 	public boolean isStrongBond() {

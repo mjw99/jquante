@@ -27,8 +27,13 @@ public final class GMatrix extends Array2DRowRealMatrix {
 	private static final Logger LOG = LogManager.getLogger(GMatrix.class);
 
 	private static final long serialVersionUID = -6555277318704252665L;
+	/** The two-electron integrals used to build the G matrix. */
 	private transient TwoElectronIntegrals twoEI;
+
+	/** The electron density matrix used to build the G matrix. */
 	private Density density;
+
+	/** The list of partial G matrices computed per thread during parallel evaluation. */
 	private ArrayList<GMatrix> partialGMatrixList;
 
 	/**

@@ -24,10 +24,21 @@ import org.hipparchus.linear.RealMatrix;
  */
 public final class HGPTwoElectronTerm implements TwoElectronTerm {
 
+	/** Creates a new instance of HGPTwoElectronTerm. */
+	public HGPTwoElectronTerm() {
+	}
+
 	private final double sqrt2PI = FastMath.sqrt(2.0) * FastMath.pow(Math.PI, 1.25);
 
 	/**
-	 * 2E coulomb interactions between four contracted Gaussians.
+	 * 2E coulomb interactions between four contracted Gaussians using the
+	 * Head-Gordon/Pople scheme.
+	 *
+	 * @param a the first contracted Gaussian.
+	 * @param b the second contracted Gaussian.
+	 * @param c the third contracted Gaussian.
+	 * @param d the fourth contracted Gaussian.
+	 * @return the two-electron Coulomb repulsion integral (ab|cd).
 	 */
 	@Override
 	public final double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c,
@@ -40,7 +51,26 @@ public final class HGPTwoElectronTerm implements TwoElectronTerm {
 	}
 
 	/**
-	 * Coulomb repulsion term
+	 * Coulomb repulsion term between four primitive Gaussians using the
+	 * Head-Gordon/Pople VRR scheme.
+	 *
+	 * @param a      the center of primitive Gaussian a.
+	 * @param aNorm  the normalisation factor of primitive Gaussian a.
+	 * @param aPower the angular momentum powers of primitive Gaussian a.
+	 * @param aAlpha the exponent of primitive Gaussian a.
+	 * @param b      the center of primitive Gaussian b.
+	 * @param bNorm  the normalisation factor of primitive Gaussian b.
+	 * @param bPower the angular momentum powers of primitive Gaussian b.
+	 * @param bAlpha the exponent of primitive Gaussian b.
+	 * @param c      the center of primitive Gaussian c.
+	 * @param cNorm  the normalisation factor of primitive Gaussian c.
+	 * @param cPower the angular momentum powers of primitive Gaussian c.
+	 * @param cAlpha the exponent of primitive Gaussian c.
+	 * @param d      the center of primitive Gaussian d.
+	 * @param dNorm  the normalisation factor of primitive Gaussian d.
+	 * @param dPower the angular momentum powers of primitive Gaussian d.
+	 * @param dAlpha the exponent of primitive Gaussian d.
+	 * @return the two-electron Coulomb repulsion integral value.
 	 */
 	@Override
 	public final double coulombRepulsion(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b,
@@ -401,6 +431,19 @@ public final class HGPTwoElectronTerm implements TwoElectronTerm {
 				* IntegralsUtil.computeFGamma(m, T);
 	}
 
+	/**
+	 * Not yet implemented. Throws {@link UnsupportedOperationException}.
+	 *
+	 * @param a       the first contracted Gaussian.
+	 * @param b       the second contracted Gaussian.
+	 * @param c       the third contracted Gaussian.
+	 * @param d       the fourth contracted Gaussian.
+	 * @param density the current density matrix (unused).
+	 * @param jMat    the Coulomb matrix to accumulate into (unused).
+	 * @param kMat    the exchange matrix to accumulate into (unused).
+	 * @return never returns normally.
+	 * @throws UnsupportedOperationException always.
+	 */
 	@Override
 	public final double coulomb(ContractedGaussian a, ContractedGaussian b, ContractedGaussian c, ContractedGaussian d,
 			Density density, RealMatrix jMat, RealMatrix kMat) {

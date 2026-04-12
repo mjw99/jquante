@@ -1406,6 +1406,7 @@ public class StringResource implements Resource {
 		return xmppConfig;
 	}
 
+	/** The file name of the MAR manifest. */
 	protected String marManifestFileName;
 
 	/**
@@ -1417,6 +1418,7 @@ public class StringResource implements Resource {
 		return marManifestFileName;
 	}
 
+	/** The file extension used for MAR archive files. */
 	protected String marFileExtension;
 
 	/**
@@ -1428,6 +1430,7 @@ public class StringResource implements Resource {
 		return marFileExtension;
 	}
 
+	/** The file name of the ChemStore manifest. */
 	protected String chemStoreManifestFileName;
 
 	/**
@@ -1450,6 +1453,7 @@ public class StringResource implements Resource {
 		return scriptengines;
 	}
 
+	/** The database framework identifier. */
 	protected String dbFramework;
 
 	/**
@@ -1461,6 +1465,7 @@ public class StringResource implements Resource {
 		return dbFramework;
 	}
 
+	/** The database driver class name. */
 	protected String dbDriver;
 
 	/**
@@ -1472,6 +1477,7 @@ public class StringResource implements Resource {
 		return dbDriver;
 	}
 
+	/** The database connection protocol. */
 	protected String dbProtocol;
 
 	/**

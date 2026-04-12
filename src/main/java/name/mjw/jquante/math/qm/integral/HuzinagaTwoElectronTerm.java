@@ -25,6 +25,11 @@ import net.jafama.FastMath;
  * @version 2.0 (Part of MeTA v2.0)
  */
 public final class HuzinagaTwoElectronTerm implements TwoElectronTerm {
+
+	/** Creates a new instance of HuzinagaTwoElectronTerm. */
+	public HuzinagaTwoElectronTerm() {
+	}
+
 	/**
 	 * Computes the two-electron Coulomb repulsion integral (ab|cd) between four
 	 * contracted Gaussians using the Huzinaga scheme.

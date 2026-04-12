@@ -8,11 +8,17 @@ import name.mjw.jquante.math.qm.basis.Power;
 import net.jafama.FastMath;
 
 /**
- * 
+ * Evaluates nuclear attraction integrals between pairs of primitive Gaussian
+ * functions using the Obara-Saika/Huzinaga recurrence relations.
+ *
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
 public final class NuclearTerm implements IntegralsPackage {
+
+	/** Creates a new instance of NuclearTerm. */
+	public NuclearTerm() {
+	}
 	/**
 	 * The nuclear attraction term.
 	 * 

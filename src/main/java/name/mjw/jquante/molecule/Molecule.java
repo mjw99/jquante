@@ -25,6 +25,10 @@ import name.mjw.jquante.molecule.event.MoleculeStateChangeListener;
  */
 public abstract class Molecule {
 
+	/** Creates a new instance of Molecule. */
+	protected Molecule() {
+	}
+
 	/** Utility field used by event firing mechanism. */
 	protected EventListenerList<MoleculeStateChangeListener> listenerList = null;
 
@@ -650,6 +654,8 @@ public abstract class Molecule {
 		private boolean readConnectivity;
 
 		/**
+		 * Returns true if the connectivity information was read from the molecule file.
+		 *
 		 * @return true if the connectivity information was read from the
 		 *         molecule file
 		 */

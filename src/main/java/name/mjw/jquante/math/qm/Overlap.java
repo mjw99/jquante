@@ -84,7 +84,10 @@ public final class Overlap extends Array2DRowRealMatrix {
 		return this.sHalf;
 	}
 
+	/** The SCF method used to compute overlap derivatives. */
 	private SCFMethod scfMethod;
+
+	/** The atom index with respect to which overlap derivatives are computed. */
 	private int atomIndex;
 
 	/**

@@ -15,6 +15,10 @@ package name.mjw.jquante.math.interpolater;
  */
 public abstract class Interpolater {
 
+	/** Creates a new instance of Interpolater. */
+	protected Interpolater() {
+	}
+
 	/**
 	 * Interpolate value at X depending upon value at Y
 	 *

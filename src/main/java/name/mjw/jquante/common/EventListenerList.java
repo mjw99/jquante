@@ -6,7 +6,8 @@ import java.util.HashMap;
 /**
  * Is a replacement for javax.swing.event.EventListenerList to avoid dependence
  * on swing for core MeTA APIs
- * 
+ *
+ * @param <T> the type of listener managed by this list
  * @author V. Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */

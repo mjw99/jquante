@@ -5,7 +5,10 @@ import net.jafama.FastMath;
 /**
  * Represents the powers on orbitals. <br>
  * They are also the magnetic quantum numbers.
- * 
+ *
+ * @param l the angular momentum quantum number in the x direction
+ * @param m the angular momentum quantum number in the y direction
+ * @param n the angular momentum quantum number in the z direction
  * @author V.Ganesh
  * @author M.Williamson
  */

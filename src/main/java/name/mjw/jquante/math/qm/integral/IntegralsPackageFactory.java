@@ -10,6 +10,8 @@ package name.mjw.jquante.math.qm.integral;
 public final class IntegralsPackageFactory {
 
 	private static IntegralsPackageFactory theInstance;
+
+	/** The default two-electron integral package type used when none is specified. */
 	protected IntegralPackageType defaultTwoElectronIntegralPackage;
 	private OneElectronTerm oneElectronTerm;
 	private NuclearTerm nuclearTerm;

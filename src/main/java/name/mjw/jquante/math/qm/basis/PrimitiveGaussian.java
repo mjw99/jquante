@@ -9,17 +9,21 @@ import name.mjw.jquante.math.qm.integral.Integrals;
 import net.jafama.FastMath;
 
 /**
- * 
+ *
  * The class defines a primitive Gaussian (PG) and the operations on it.
- * 
+ *
  * Gaussian Type Orbitial based upon the following function:
  * <p>
  * g(x,y,z) = normalization*(x^i)*(y^j)*(z^k)*exp{-exponent*(r-ro)^2}
  * <p>
- * 
+ *
  * Refs: http://dx.doi.org/10.1143/JPSJ.21.2313
- * 
- * 
+ *
+ * @param origin        the (x, y, z) coordinates on which this Gaussian is centered
+ * @param powers        the angular momentum powers (l, m, n) of this Gaussian
+ * @param exponent      the exponent for this primitive Gaussian
+ * @param coefficient   the contraction coefficient for this primitive Gaussian
+ * @param normalization the pre-computed normalization factor for this primitive Gaussian
  * @author V.Ganesh
  * @author mw529
  * @version 2.0 (Part of MeTA v2.0)

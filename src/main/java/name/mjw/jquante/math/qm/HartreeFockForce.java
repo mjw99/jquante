@@ -26,6 +26,10 @@ public class HartreeFockForce implements Force {
 
 	private static final Logger LOG = LogManager.getLogger(HartreeFockForce.class);
 
+	/** Creates a new instance of HartreeFockForce. */
+	public HartreeFockForce() {
+	}
+
 	private int atomIndex;
 	private SCFMethod scfMethod;
 

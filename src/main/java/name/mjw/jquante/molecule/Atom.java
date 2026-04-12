@@ -362,6 +362,8 @@ public class Atom implements Cloneable {
 	}
 
 	/**
+	 * Returns the number of atoms that are strongly bonded to this atom.
+	 *
 	 * @return the number of atoms that are strongly bonded to this atom
 	 */
 	public int getNumberOfStrongBonds() {
@@ -375,6 +377,8 @@ public class Atom implements Cloneable {
 	}
 
 	/**
+	 * Returns the sum of the bond orders of this atom.
+	 *
 	 * @return the sum of the bond orders of this atom
 	 */
 	public double getSumOfBondOrders() {
@@ -386,7 +390,9 @@ public class Atom implements Cloneable {
 	}
 
 	/**
-	 * @return the number of atoms that are "double bonded" to this atom
+	 * Returns the number of atoms that are double bonded to this atom.
+	 *
+	 * @return the number of atoms that are double bonded to this atom
 	 */
 	public int getNumberOfDoubleBonds() {
 		int doubleBonds = 0;
@@ -399,6 +405,8 @@ public class Atom implements Cloneable {
 	}
 
 	/**
+	 * Returns true if this atom participates in a resonant bond structure.
+	 *
 	 * @return true if this atom participates in a resonant bond structure
 	 */
 	public boolean hasResonantBonds() {

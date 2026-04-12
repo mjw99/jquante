@@ -27,6 +27,10 @@ public final class DIISFockExtrapolator implements FockExtrapolator {
 
 	private static final Logger LOG = LogManager.getLogger(DIISFockExtrapolator.class);
 
+	/** Creates a new instance of DIISFockExtrapolator. */
+	public DIISFockExtrapolator() {
+	}
+
 	private ArrayList<Fock> fockMatrixList = new ArrayList<>();
 	private ArrayList<RealVector> errorVectorList = new ArrayList<>();
 

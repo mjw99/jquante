@@ -17,6 +17,10 @@ import javax.xml.bind.Marshaller;
  */
 public class NWChemBasisSetXMLWriter {
 
+	/** Creates a new instance of NWChemBasisSetXMLWriter. */
+	public NWChemBasisSetXMLWriter() {
+	}
+
 	/**
 	 * Entry point. Reads the NWChem basis file at the hard-coded path, marshals
 	 * it to XML, and writes it to {@code basis_<name>.xml} in the current

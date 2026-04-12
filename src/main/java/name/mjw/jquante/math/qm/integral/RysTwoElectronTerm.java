@@ -30,6 +30,10 @@ import net.jafama.FastMath;
  */
 public final class RysTwoElectronTerm implements TwoElectronTerm {
 
+	/** Creates a new instance of RysTwoElectronTerm. */
+	public RysTwoElectronTerm() {
+	}
+
 	private static final int MAX_ROOTS = 9;
 	private static final int MAX_ROOTS_SQUARED = MAX_ROOTS * MAX_ROOTS;
 
@@ -39,7 +43,13 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 			.withInitial(() -> new double[MAX_ROOTS][MAX_ROOTS]);
 
 	/**
-	 * 2E coulomb interactions between 4 contracted Gaussians
+	 * 2E coulomb interactions between 4 contracted Gaussians using Rys quadrature.
+	 *
+	 * @param a the first contracted Gaussian.
+	 * @param b the second contracted Gaussian.
+	 * @param c the third contracted Gaussian.
+	 * @param d the fourth contracted Gaussian.
+	 * @return the two-electron Coulomb repulsion integral (ab|cd).
 	 */
 	@Override
 	public final double coulomb(final ContractedGaussian a, final ContractedGaussian b, final ContractedGaussian c,
