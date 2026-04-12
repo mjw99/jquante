@@ -89,27 +89,25 @@ public final class GMatrix extends Array2DRowRealMatrix {
 		final double[] ints = twoEI.getTwoEIntegrals();
 
 		IntStream.range(0, noOfBasisFunctions).parallel().forEach(i -> {
-			IntStream.range(0, i + 1).parallel().forEach(j -> {
-
-				RealVector tempVector = new ArrayRealVector(noOfBasisFunctions * noOfBasisFunctions);
+			for (int j = 0; j < i + 1; j++) {
+				double[] tempVector = new double[noOfBasisFunctions * noOfBasisFunctions];
 				int kl = 0;
 
 				for (int k = 0; k < noOfBasisFunctions; k++) {
 					for (int l = 0; l < noOfBasisFunctions; l++) {
-
 						int indexJ = IntegralsUtil.ijkl2intindex(i, j, k, l);
 						int indexK1 = IntegralsUtil.ijkl2intindex(i, k, j, l);
 						int indexK2 = IntegralsUtil.ijkl2intindex(i, l, k, j);
 
-						tempVector.setEntry(kl, (2.0 * ints[indexJ] - 0.5 * ints[indexK1] - 0.5 * ints[indexK2]));
-
+						tempVector[kl] = 2.0 * ints[indexJ] - 0.5 * ints[indexK1] - 0.5 * ints[indexK2];
 						kl++;
 					}
 				}
 
-				this.setEntry(i, j, tempVector.dotProduct(densityOneD));
-				this.setEntry(j, i, tempVector.dotProduct(densityOneD));
-			});
+				double val = new ArrayRealVector(tempVector, false).dotProduct(densityOneD);
+				this.setEntry(i, j, val);
+				this.setEntry(j, i, val);
+			}
 		});
 		LOG.debug(this);
 	}
@@ -221,35 +219,24 @@ public final class GMatrix extends Array2DRowRealMatrix {
 		});
 		partialGMatrixList = new ArrayList<>(threadSafeList);
 
-		// Zero this matrix... there must be a better way to do this
-		IntStream.range(0, this.getRowDimension()).parallel().forEach(i -> {
-			IntStream.range(0, this.getColumnDimension()).parallel().forEach(j -> {
-				this.setEntry(i, j, 0.0);
-			});
-		});
-
 		if (!partialGMatrixList.isEmpty()) {
-			// collect the result and sum the partial contributions
 			int n = this.getRowDimension();
+			double[][] sum = new double[n][n];
 
-			// sum up the partial results
 			for (GMatrix pgMat : partialGMatrixList) {
-
-				IntStream.range(0, n).parallel().forEach(i -> {
-					IntStream.range(0, n).parallel().forEach(j -> {
-						this.setEntry(i, j, (this.getEntry(i, j) + pgMat.getEntry(i, j)));
-					});
-				});
-
+				double[][] pg = pgMat.getData();
+				for (int i = 0; i < n; i++)
+					for (int j = 0; j < n; j++)
+						sum[i][j] += pg[i][j];
 			}
 
-			// half the elements
-			IntStream.range(0, n).parallel().forEach(i -> {
-				IntStream.range(0, n).parallel().forEach(j -> {
-					this.setEntry(i, j, (this.getEntry(i, j) * 0.5));
-				});
-			});
+			for (int i = 0; i < n; i++)
+				for (int j = 0; j < n; j++)
+					sum[i][j] *= 0.5;
 
+			this.setSubMatrix(sum, 0, 0);
+		} else {
+			this.setSubMatrix(new double[this.getRowDimension()][this.getColumnDimension()], 0, 0);
 		}
 	}
 
