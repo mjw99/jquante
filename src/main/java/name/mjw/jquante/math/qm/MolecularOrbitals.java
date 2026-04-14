@@ -17,8 +17,10 @@ import name.mjw.jquante.math.MathUtil;
  */
 public final class MolecularOrbitals extends Array2DRowRealMatrix {
 
+	/** Eclipse-generated serialVersionUID. */
 	private static final long serialVersionUID = -3159550917810939744L;
 
+	/** Logger object. */
 	private static final Logger LOG = LogManager.getLogger(MolecularOrbitals.class);
 
 	/**
@@ -76,7 +78,12 @@ public final class MolecularOrbitals extends Array2DRowRealMatrix {
 		compute((RealMatrix) fock, overlap);
 	}
 
-	/** The actual computation is irrelevant of the type of matrix */
+	/**
+	 * Compute MO coefficients and orbital energies from any Fock-like matrix.
+	 *
+	 * @param theMat  the Fock or HCore matrix to diagonalise
+	 * @param overlap the overlap matrix used to form the orthogonalising transform
+	 */
 	private void compute(RealMatrix theMat, Overlap overlap) {
 		LOG.debug("");
 		RealMatrix x = overlap.getSHalf();

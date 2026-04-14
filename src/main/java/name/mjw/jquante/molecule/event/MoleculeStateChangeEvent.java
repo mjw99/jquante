@@ -110,7 +110,7 @@ public class MoleculeStateChangeEvent extends java.util.EventObject {
 	}
 
 	/**
-	 * Getter for property atom2. Relevent only when a bond is modified or
+	 * Getter for property atom2. Relevant only when a bond is modified or
 	 * removed.
 	 * 
 	 * @return Value of property atom2.
@@ -121,7 +121,7 @@ public class MoleculeStateChangeEvent extends java.util.EventObject {
 	}
 
 	/**
-	 * Setter for property atom2. Relevent only when a bond is modified or
+	 * Setter for property atom2. Relevant only when a bond is modified or
 	 * removed.
 	 * 
 	 * @param atom2

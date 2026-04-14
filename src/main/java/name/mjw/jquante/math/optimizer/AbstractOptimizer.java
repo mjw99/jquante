@@ -11,6 +11,7 @@ public abstract class AbstractOptimizer implements Optimizer {
 	/** The function to be optimized by this optimizer. */
 	protected final OptimizerFunction optimizerFunction;
 
+	/** Default maximum number of optimisation iterations. */
 	private static final int DEFAULT_MAX_ITER = 100;
 
 	/**

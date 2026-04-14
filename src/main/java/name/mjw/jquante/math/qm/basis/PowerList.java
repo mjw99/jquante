@@ -13,8 +13,10 @@ import java.util.Iterator;
  */
 public final class PowerList {
 
+	/** Weak reference to the singleton instance (allows GC when unused). */
 	private static WeakReference<PowerList> _powerList = null;
 
+	/** Map from orbital symbol (e.g. "s", "p", "d") to the corresponding list of angular-momentum powers. */
 	private HashMap<String, ArrayList<Power>> thePowerList;
 
 	/** Creates a new instance of PowerList */

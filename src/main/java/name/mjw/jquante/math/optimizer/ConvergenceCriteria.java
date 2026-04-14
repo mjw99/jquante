@@ -11,6 +11,7 @@ import java.util.Iterator;
  */
 public abstract class ConvergenceCriteria {
 
+	/** Default convergence tolerance used when none is explicitly specified. */
 	private static final double DEFAULT_TOLERANCE = 1.0e-5;
 
 	/** Creates instance of ConvergenceCriteria */
@@ -200,9 +201,9 @@ public abstract class ConvergenceCriteria {
 	}
 
 	/**
-	 * Return true if the convergence criteria is satisfied.
-	 * 
-	 * @return true if the convergenc ecriterion is satisfied
+	 * Return true if the convergence criterion is satisfied.
+	 *
+	 * @return true if the convergence criterion is satisfied
 	 */
 	public abstract boolean isConverged();
 }

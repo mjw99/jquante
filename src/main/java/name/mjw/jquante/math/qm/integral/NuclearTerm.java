@@ -21,17 +21,17 @@ public final class NuclearTerm implements IntegralsPackage {
 	}
 	/**
 	 * The nuclear attraction term.
-	 * 
+	 *
 	 * <i> Taken from http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.15 </i>
-	 * 
-	 * @param a      the coefficient of primitive Gaussian a.
+	 *
+	 * @param a      the location of primitive Gaussian a.
 	 * @param norm1  the normalization factor of primitive Gaussian a.
 	 * @param power1 the orbital powers of primitive Gaussian a.
-	 * @param alpha1 the coefficient of primitive Gaussian a.
-	 * @param b      the coefficient of primitive Gaussian b.
+	 * @param alpha1 the exponent of primitive Gaussian a.
+	 * @param b      the location of primitive Gaussian b.
 	 * @param norm2  the normalization factor of primitive Gaussian b.
 	 * @param power2 the orbital powers of primitive Gaussian b.
-	 * @param alpha2 the coefficient of primitive Gaussian b.
+	 * @param alpha2 the exponent of primitive Gaussian b.
 	 * @param c      the location of nuclear centre.
 	 * @return the nuclear attraction integral.
 	 */
@@ -156,14 +156,14 @@ public final class NuclearTerm implements IntegralsPackage {
 	}
 
 	/**
-	 * The nuclear attraction gradient term
-	 * 
-	 * @param a      the coefficient of primitive Gaussian a.
+	 * The nuclear attraction gradient term.
+	 *
+	 * @param a      the location of primitive Gaussian a.
 	 * @param power1 the orbital powers of primitive Gaussian a.
-	 * @param alpha1 the coefficient of primitive Gaussian a.
-	 * @param b      the coefficient of primitive Gaussian b.
+	 * @param alpha1 the exponent of primitive Gaussian a.
+	 * @param b      the location of primitive Gaussian b.
 	 * @param power2 the orbital powers of primitive Gaussian b.
-	 * @param alpha2 the coefficient of primitive Gaussian b.
+	 * @param alpha2 the exponent of primitive Gaussian b.
 	 * @param c      the location of nuclear centre.
 	 * @return the nuclear attraction gradient.
 	 */

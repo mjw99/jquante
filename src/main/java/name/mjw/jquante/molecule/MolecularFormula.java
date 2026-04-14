@@ -87,7 +87,10 @@ public class MolecularFormula {
 	}
 
 	/**
-	 * sort the keys
+	 * Sort the keys array and keep the values array in sync (insertion sort).
+	 *
+	 * @param keys   the keys to sort (modified in place)
+	 * @param values the corresponding values to reorder alongside keys
 	 */
 	private void sortKeys(Object[] keys, Object[] values) {
 		Object temp;
@@ -111,7 +114,10 @@ public class MolecularFormula {
 	}
 
 	/**
-	 * make the real string
+	 * Build the formula string from sorted symbol keys and their atom counts.
+	 *
+	 * @param keys   the element symbol keys (already sorted)
+	 * @param values the corresponding atom count values
 	 */
 	private void makeFormulaString(Object[] keys, Object[] values) {
 		formulaString = "";
@@ -141,7 +147,11 @@ public class MolecularFormula {
 	}
 
 	/**
-	 * do add / sub depending on sign
+	 * Add or subtract two molecular formulas depending on the sign.
+	 *
+	 * @param formula the other formula to combine with this one
+	 * @param sign    {@code +1} to add, {@code -1} to subtract
+	 * @return a new {@code MolecularFormula} representing the result
 	 */
 	private MolecularFormula doAddSub(MolecularFormula formula, int sign) {
 		MolecularFormula newFormula = new MolecularFormula();

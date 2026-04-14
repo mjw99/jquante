@@ -19,10 +19,13 @@ import name.mjw.jquante.math.qm.basis.ContractedGaussian;
  */
 public class ElectronDensity extends OneElectronProperty {
 
+	/** Number of basis functions. */
 	private int nbf;
 
+	/** The list of contracted Gaussian basis functions. */
 	private List<ContractedGaussian> bfs;
 
+	/** The density matrix elements (nbf x nbf). */
 	private double[][] dm;
 
 	/**

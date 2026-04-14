@@ -24,13 +24,17 @@ import net.jafama.FastMath;
  */
 public class HartreeFockForce implements Force {
 
+	/** Logger object. */
 	private static final Logger LOG = LogManager.getLogger(HartreeFockForce.class);
 
 	/** Creates a new instance of HartreeFockForce. */
 	public HartreeFockForce() {
 	}
 
+	/** Index of the atom for which the force is being computed. */
 	private int atomIndex;
+
+	/** The SCF method instance providing integrals and orbital information. */
 	private SCFMethod scfMethod;
 
 	/**
@@ -62,7 +66,11 @@ public class HartreeFockForce implements Force {
 		return force.scalarMultiply(-1);
 	}
 
-	/** Compute the nuclear derivative contribution */
+	/**
+	 * Compute the nuclear derivative contribution to the force on the current atom.
+	 *
+	 * @return the nuclear repulsion gradient as a Vector3D
+	 */
 	private Vector3D computeNuclearDerivative() {
 		Molecule mol = scfMethod.getMolecule();
 		double nDer;
@@ -94,7 +102,11 @@ public class HartreeFockForce implements Force {
 		return new Vector3D(ndx, ndy, ndz);
 	}
 
-	/** Compute the one electron derivative contribution */
+	/**
+	 * Compute the one-electron (kinetic + nuclear attraction) derivative contribution.
+	 *
+	 * @return the one-electron gradient as a Vector3D
+	 */
 	private Vector3D computeOneElectronDerivative() {
 		HCore hCore = scfMethod.getOneEI().getHCore();
 		Density dens = scfMethod.getDensity();
@@ -105,7 +117,12 @@ public class HartreeFockForce implements Force {
 				dens.multiply(hCoreDer.get(2)).getTrace());
 	}
 
-	/** Compute the derivative contribution from density matrix */
+	/**
+	 * Compute the derivative contribution from the energy-weighted density matrix
+	 * (Pulay force / overlap derivative term).
+	 *
+	 * @return the density matrix derivative gradient as a Vector3D
+	 */
 	private Vector3D computeDensityMatrixDerivative() {
 		Overlap overlap = scfMethod.getOneEI().getOverlap();
 		List<Overlap> overlapDer = overlap.computeDerivative(atomIndex, scfMethod);
@@ -134,7 +151,11 @@ public class HartreeFockForce implements Force {
 				qMat.multiply(overlapDer.get(2)).getTrace());
 	}
 
-	/** Compute the two electron derivative contribution */
+	/**
+	 * Compute the two-electron (Coulomb and exchange) derivative contribution.
+	 *
+	 * @return the two-electron gradient as a Vector3D
+	 */
 	private Vector3D computeTwoElectronDerivative() {
 		List<GMatrix> gDer = scfMethod.getGMatrix().computeDerivative(atomIndex, scfMethod);
 		Density density = scfMethod.getDensity();

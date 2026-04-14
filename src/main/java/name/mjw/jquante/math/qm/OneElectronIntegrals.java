@@ -18,6 +18,7 @@ import name.mjw.jquante.molecule.Molecule;
  */
 public final class OneElectronIntegrals {
 
+	/** Logger object. */
 	private static final Logger LOG = LogManager.getLogger(OneElectronIntegrals.class);
 
 	/**
@@ -31,7 +32,10 @@ public final class OneElectronIntegrals {
 	 */
 	private HCore hCore;
 
+	/** The basis-set library providing the contracted Gaussian functions. */
 	private BasisSetLibrary basisSetLibrary;
+
+	/** The molecule whose one-electron integrals are being evaluated. */
 	private Molecule molecule;
 
 	/**
@@ -65,6 +69,7 @@ public final class OneElectronIntegrals {
 		computeHcore();
 	}
 
+	/** Compute and store the overlap matrix S. */
 	private void computeOverlap() {
 		List<ContractedGaussian> bfs = basisSetLibrary.getBasisFunctions();
 		int noOfBasisFunctions = bfs.size();
@@ -84,6 +89,7 @@ public final class OneElectronIntegrals {
 		}
 	}
 
+	/** Compute and store the core Hamiltonian matrix H_core. */
 	private void computeHcore() {
 		List<ContractedGaussian> bfs = basisSetLibrary.getBasisFunctions();
 		int noOfBasisFunctions = bfs.size();

@@ -672,7 +672,12 @@ public class MoleculeImpl extends Molecule {
 	}
 
 	/**
-	 * traverse and record the path ... DFS
+	 * Traverse the molecular graph depth-first and record visited atom indices.
+	 * Stops recursing at depth 4.
+	 *
+	 * @param atomIndex      the current atom index to expand
+	 * @param visited        the list of already-visited atom indices (modified in place)
+	 * @param recursionLevel the current recursion depth (starts at 0)
 	 */
 	private void traverseAndRecordDFS(int atomIndex,
 			ArrayList<Integer> visited, int recursionLevel) {
@@ -704,8 +709,11 @@ public class MoleculeImpl extends Molecule {
 	}
 
 	/**
-	 * traverse and record the path ... DFS ... without traversing paths
-	 * represented by a weak bond
+	 * Traverse the molecular graph depth-first, excluding weak-bond paths,
+	 * and record visited atom indices.
+	 *
+	 * @param atomIndex the starting atom index
+	 * @param visited   the list of already-visited atom indices (modified in place)
 	 */
 	private void traverseAndRecordDFSNoWeak(int atomIndex,
 			ArrayList<Integer> visited) {
@@ -743,7 +751,10 @@ public class MoleculeImpl extends Molecule {
 	}
 
 	/**
-	 * traverse and record the path .. BFS
+	 * Traverse the molecular graph breadth-first and record visited atom indices.
+	 *
+	 * @param atomIndex the starting atom index
+	 * @param visited   the list of already-visited atom indices (modified in place)
 	 */
 	private void traverseAndRecordBFS(int atomIndex, ArrayList<Integer> visited) {
 		LinkedList<Integer> queue = new LinkedList<>();

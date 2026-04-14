@@ -19,9 +19,13 @@ import name.mjw.jquante.molecule.Molecule;
  */
 public abstract class SCFMethod implements OptimizerFunction {
 
-	// default constants
+	/** Default maximum number of SCF iterations. */
 	private static final int MAX_ITERATION = 20;
+
+	/** Default energy convergence threshold (in Hartree). */
 	private static final double ENERGY_TOLERANCE = 1.0e-4;
+
+	/** Default density matrix convergence threshold. */
 	private static final double DENSITY_TOLERANCE = 1.0e-4;
 
 	/**

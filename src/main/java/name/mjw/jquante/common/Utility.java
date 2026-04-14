@@ -43,12 +43,11 @@ public final class Utility {
 
 	/**
 	 * Method to capitalise a string.
-	 * 
+	 *
 	 * @param theString the string to be capitalised
-	 * @return the string which is capitalised
-	 * @throws NullPointerException           If string is null.
-	 * @throws ArrayIndexOutOfBoundsException If string is greater than two
-	 *                                        characters.
+	 * @return the capitalised string
+	 * @throws NullPointerException      if {@code theString} is null.
+	 * @throws StringIndexOutOfBoundsException if {@code theString} is empty.
 	 */
 	public static String capitalise(String theString) {
 		String firstChar = theString.substring(0, 1);
@@ -62,18 +61,13 @@ public final class Utility {
 
 	/**
 	 * A simple utility method to parse XML using a default DOM parser and return
-	 * the results as abstract instance of Document class. An helper utility for
-	 * <code>workspace</code> subsystem.
-	 * 
-	 * @param xmlFile : fully qualified name of the XML file to be parsed.
-	 * @return Document : parsed XML document if no error occurs.
-	 * 
-	 * @throws ParserConfigurationException / SAXException in case of error reading
-	 *                                      xml file or creating the parser. An
-	 *                                      IOException in case the XML file is not
-	 *                                      present!
-	 * @throws org.xml.sax.SAXException     org.xml.sax.SAXException
-	 * @throws java.io.IOException          java.io.IOException
+	 * the results as an abstract instance of Document class.
+	 *
+	 * @param xmlFile fully qualified path of the XML file to be parsed.
+	 * @return the parsed XML document.
+	 * @throws ParserConfigurationException if the parser cannot be configured.
+	 * @throws SAXException                 if a parse error occurs.
+	 * @throws IOException                  if the file cannot be read or is not found.
 	 */
 	public static Document parseXML(String xmlFile) throws ParserConfigurationException, SAXException, IOException {
 		return parseXML(new FileInputStream(xmlFile));
@@ -81,18 +75,13 @@ public final class Utility {
 
 	/**
 	 * A simple utility method to parse XML using a default DOM parser and return
-	 * the results as abstract instance of Document class. An helper utility for
-	 * <code>workspace</code> subsystem.
-	 * 
-	 * @param xmlStream : a stream connecting to XML data.-
-	 * @return Document : parsed XML document if no error occurs.
-	 * 
-	 * @throws ParserConfigurationException / SAXException in case of error reading
-	 *                                      xml file or creating the parser. An
-	 *                                      IOException in case the XML file is not
-	 *                                      present!
-	 * @throws org.xml.sax.SAXException     org.xml.sax.SAXException
-	 * @throws java.io.IOException          java.io.IOException
+	 * the results as an abstract instance of Document class.
+	 *
+	 * @param xmlStream an input stream supplying the XML data.
+	 * @return the parsed XML document.
+	 * @throws ParserConfigurationException if the parser cannot be configured.
+	 * @throws SAXException                 if a parse error occurs.
+	 * @throws IOException                  if the stream cannot be read.
 	 */
 	public static Document parseXML(InputStream xmlStream)
 			throws ParserConfigurationException, SAXException, IOException {
@@ -129,13 +118,12 @@ public final class Utility {
 	}
 
 	/**
-	 * method to get an integer out of Hashtable. If the key is not present, then
-	 * zero is returned
-	 * 
-	 * @param table - the hashtable containing Integer objects
-	 * @param key   - the key
-	 * @return int - the int value intended. if the key is not found in the table a
-	 *         zero is returned instead.
+	 * Returns an integer value from a map. If the key is not present, zero is
+	 * returned.
+	 *
+	 * @param table the map containing Integer values
+	 * @param key   the key to look up
+	 * @return the int value for the key, or zero if the key is not found
 	 */
 	public static int getInteger(HashMap<?, ?> table, Object key) {
 		int value = 0;
@@ -148,13 +136,12 @@ public final class Utility {
 	}
 
 	/**
-	 * method to get an double out of Hashtable. If the key is not present, then
-	 * zero is returned
-	 * 
-	 * @param table - the hashtable containing Double objects
-	 * @param key   - the key
-	 * @return double - the double value intended. if the key is not found in the
-	 *         table a zero is returned instead.
+	 * Returns a double value from a map. If the key is not present, zero is
+	 * returned.
+	 *
+	 * @param table the map containing Double values
+	 * @param key   the key to look up
+	 * @return the double value for the key, or zero if the key is not found
 	 */
 	public static double getDouble(HashMap<?, ?> table, Object key) {
 		double value = 0.0;
@@ -166,13 +153,12 @@ public final class Utility {
 	}
 
 	/**
-	 * method to get an String out of Hashtable. If the key is not present, then a
-	 * blank string is returned
-	 * 
-	 * @param table - the hashtable containing Double objects
-	 * @param key   - the key
-	 * @return String - the String value intended. if the key is not found in the
-	 *         table a blank String is returned instead.
+	 * Returns a String value from a map. If the key is not present, a blank string
+	 * is returned.
+	 *
+	 * @param table the map containing String values
+	 * @param key   the key to look up
+	 * @return the String value for the key, or a blank string if the key is not found
 	 */
 	public static String getString(HashMap<?, ?> table, Object key) {
 		String value = " ";

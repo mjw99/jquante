@@ -13,6 +13,7 @@ import name.mjw.jquante.config.Parameter;
  */
 public final class ClassImplParameter implements Parameter {
 
+	/** The fully-qualified class name of the implementation. */
 	private String implClass;
 
 	/**

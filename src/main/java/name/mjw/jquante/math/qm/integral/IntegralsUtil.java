@@ -12,6 +12,7 @@ import net.jafama.FastMath;
  */
 public final class IntegralsUtil {
 
+	/** Private constructor — this is a utility class and cannot be instantiated. */
 	private IntegralsUtil() {
 	}
 

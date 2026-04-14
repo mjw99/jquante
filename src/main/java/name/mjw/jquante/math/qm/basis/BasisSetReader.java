@@ -23,10 +23,16 @@ import javax.xml.parsers.ParserConfigurationException;
  */
 public class BasisSetReader {
 
+	/** Weak reference to the singleton instance (allows GC when unused). */
 	private static WeakReference<BasisSetReader> _basisSetReader = null;
 
+	/** The basis set currently being parsed. */
 	private BasisSet basisSet;
+
+	/** The per-element atomic basis currently being parsed. */
 	private AtomicBasis atomicBasis;
+
+	/** The orbital shell currently being parsed. */
 	private Orbital orbital;
 
 	/** Creates a new instance of BasisSetReader */
@@ -99,7 +105,9 @@ public class BasisSetReader {
 	}
 
 	/**
-	 * Recursive routine to save DOM tree nodes
+	 * Recursive routine to walk a DOM tree node and save basis-set data.
+	 *
+	 * @param n the DOM node to process
 	 */
 	private void processTreeNodes(Node n) {
 		int type = n.getNodeType(); // get node type

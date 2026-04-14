@@ -288,7 +288,14 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 		return ovrDer.scalarMultiply(normalization * cg.normalization);
 	}
 
-	/** helper method for overlap derivative */
+	/**
+	 * Helper method for overlap derivative.
+	 *
+	 * @param iPG     the bra primitive Gaussian (differentiated w.r.t. its centre)
+	 * @param jPG     the ket primitive Gaussian
+	 * @param pOrigin the centre of iPG
+	 * @return the overlap derivative contribution as a Vector3D
+	 */
 	private Vector3D overlapDerivativeHelper(PrimitiveGaussian iPG,
 			PrimitiveGaussian jPG, Vector3D pOrigin) {
 		int l = iPG.powers().l();
@@ -383,7 +390,14 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 		return kder.scalarMultiply(normalization * cg.normalization);
 	}
 
-	/** helper method for kinetic energy derivative */
+	/**
+	 * Helper method for kinetic energy derivative.
+	 *
+	 * @param iPG     the bra primitive Gaussian (differentiated w.r.t. its centre)
+	 * @param jPG     the ket primitive Gaussian
+	 * @param pOrigin the centre of iPG
+	 * @return the kinetic energy derivative contribution as a Vector3D
+	 */
 	private Vector3D kineticDerivativeHelper(PrimitiveGaussian iPG, PrimitiveGaussian jPG, Vector3D pOrigin) {
 		int l = iPG.powers().l();
 		int m = iPG.powers().m();
@@ -494,9 +508,16 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 	}
 
 	/**
-	 * Helper: derivative of a nuclear attraction integral <i|Z/|r-C||j> w.r.t.
-	 * the orbital center of iPG (at pOrigin), for a single nuclear center nucPos.
-	 * Uses the shifted-power recurrence: d/dAx = 2*alpha*<l+1> - l*<l-1>.
+	 * Helper: derivative of a nuclear attraction integral
+	 * {@code <i|Z/|r-C||j>} w.r.t. the orbital center of iPG (at pOrigin),
+	 * for a single nuclear center nucPos. Uses the shifted-power recurrence:
+	 * {@code d/dAx = 2*alpha*<l+1> - l*<l-1>}.
+	 *
+	 * @param iPG     the bra primitive Gaussian (differentiated w.r.t. its centre)
+	 * @param jPG     the ket primitive Gaussian
+	 * @param pOrigin the centre of iPG
+	 * @param nucPos  the position of the nuclear centre C
+	 * @return the derivative of the nuclear attraction integral as a Vector3D
 	 */
 	private Vector3D nuclearSingleCenterDerivHelper(PrimitiveGaussian iPG, PrimitiveGaussian jPG,
 			Vector3D pOrigin, Vector3D nucPos) {
@@ -536,7 +557,15 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 		return new Vector3D(termax + termbx, termay + termby, termaz + termbz);
 	}
 
-	/** helper method for nuclear attraction derivative */
+	/**
+	 * Helper method for nuclear attraction derivative.
+	 *
+	 * @param mol     the molecule providing all nuclear centres and charges
+	 * @param iPG     the bra primitive Gaussian (differentiated w.r.t. its centre)
+	 * @param jPG     the ket primitive Gaussian
+	 * @param pOrigin the centre of iPG
+	 * @return the nuclear attraction derivative contribution as a Vector3D
+	 */
 	private Vector3D nuclearDerivativeHelper(Molecule mol, PrimitiveGaussian iPG, PrimitiveGaussian jPG,
 			Vector3D pOrigin) {
 		int l = iPG.powers().l();

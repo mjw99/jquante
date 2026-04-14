@@ -30,23 +30,34 @@ import name.mjw.jquante.config.event.AtomInfoChangeListener;
  */
 public final class AtomInfo implements Configuration {
 
+	/** Singleton instance of this class. */
 	private static AtomInfo atomInfo;
 
+	/** Default number of entries in the atom property lookup tables. */
 	private static final int DEFAULT_TABLE_SIZE = 90;
 
+	/** XML attribute name for element. */
 	private String element = "element";
+
+	/** XML attribute name for symbol. */
 	private String symbol = "symbol";
 
 	/** Holds value of property nameTable. */
 	private HashMap<String, String> nameTable;
+
+	/** Backup copy of nameTable for restoring overridden values. */
 	private HashMap<String, String> originalNameTable;
 
 	/** Holds value of property atomicNumberTable. */
 	private HashMap<String, Integer> atomicNumberTable;
+
+	/** Backup copy of atomicNumberTable for restoring overridden values. */
 	private HashMap<String, Integer> originalAtomicNumberTable;
 
 	/** Holds value of property atomicWeightTable. */
 	private HashMap<String, Double> atomicWeightTable;
+
+	/** Backup copy of atomicWeightTable for restoring overridden values. */
 	private HashMap<String, Double> originalAtomicWeightTable;
 
 	/** Utility field used by event firing mechanism. */
@@ -158,7 +169,9 @@ public final class AtomInfo implements Configuration {
 	}
 
 	/**
-	 * private method to set the default parameters
+	 * Private method to set the default atom-info parameters from the bundled XML resource.
+	 *
+	 * @throws PropertyVetoException if a parameter change is rejected by a listener
 	 */
 	private void setDefaultParams() throws PropertyVetoException {
 		StringResource strings = StringResource.getInstance();
@@ -178,7 +191,10 @@ public final class AtomInfo implements Configuration {
 	}
 
 	/**
-	 * Recursive routine save DOM tree nodes
+	 * Recursive routine to walk a DOM tree node and save atom data into the
+	 * original (read-only) lookup tables.
+	 *
+	 * @param n the DOM node to process
 	 */
 	private void saveOriginal(Node n) {
 		int type = n.getNodeType(); // get node type
@@ -229,7 +245,10 @@ public final class AtomInfo implements Configuration {
 	}
 
 	/**
-	 * Recursive routine save DOM tree nodes
+	 * Recursive routine to walk a DOM tree node and save atom data into the
+	 * user-override lookup tables.
+	 *
+	 * @param n the DOM node to process
 	 */
 	private void saveUserNode(Node n) {
 		int type = n.getNodeType(); // get node type
@@ -281,7 +300,10 @@ public final class AtomInfo implements Configuration {
 		}
 	}
 
-	/** make a copy of the original */
+	/**
+	 * Copy the original atom-info tables into the user-modifiable tables,
+	 * replacing any previously overridden values.
+	 */
 	private void copyOriginals() {
 		// just make a copy of original
 		copyTableS(originalNameTable, nameTable);
@@ -290,7 +312,10 @@ public final class AtomInfo implements Configuration {
 	}
 
 	/**
-	 * Routine save DOM tree nodes
+	 * Load atom-info overrides from the user configuration file, if it exists;
+	 * otherwise copy the original values.
+	 *
+	 * @throws Exception if the user configuration file cannot be read
 	 */
 	private void saveUser() throws Exception {
 		StringResource strings = StringResource.getInstance();
@@ -312,7 +337,10 @@ public final class AtomInfo implements Configuration {
 	}
 
 	/**
-	 * Copy one table to another (of strings)
+	 * Copy one table to another (of strings).
+	 *
+	 * @param src  the source map to copy from
+	 * @param dest the destination map to copy into
 	 */
 	private void copyTableS(HashMap<String, String> src, HashMap<String, String> dest) {
 		for (Entry<String, String> entry : src.entrySet()) {
@@ -321,7 +349,10 @@ public final class AtomInfo implements Configuration {
 	}
 
 	/**
-	 * Copy one table to another (of ints)
+	 * Copy one table to another (of ints).
+	 *
+	 * @param src  the source map to copy from
+	 * @param dest the destination map to copy into
 	 */
 	private void copyTableI(HashMap<String, Integer> src, HashMap<String, Integer> dest) {
 		for (Entry<String, Integer> entry : src.entrySet()) {
@@ -330,7 +361,10 @@ public final class AtomInfo implements Configuration {
 	}
 
 	/**
-	 * Copy one table to another (of doubles)
+	 * Copy one table to another (of doubles).
+	 *
+	 * @param src  the source map to copy from
+	 * @param dest the destination map to copy into
 	 */
 	private void copyTableD(HashMap<String, Double> src, HashMap<String, Double> dest) {
 		for (Entry<String, Double> entry : src.entrySet()) {

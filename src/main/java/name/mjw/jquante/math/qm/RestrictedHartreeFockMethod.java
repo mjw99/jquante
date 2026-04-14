@@ -50,10 +50,11 @@ public class RestrictedHartreeFockMethod extends SCFMethod implements
 	 */
 	private SCFType scfType;
 
+	/** Flag indicating whether the analytical gradient has been computed for the current geometry. */
 	private boolean isDerivativeComputed = false;
 
 	/**
-	 * Creates a new instance of HartreeFockSCFMethod
+	 * Creates a new instance of RestrictedHartreeFockMethod
 	 * 
 	 * @param molecule
 	 *            The molecule under consideration.
@@ -68,7 +69,7 @@ public class RestrictedHartreeFockMethod extends SCFMethod implements
 	}
 
 	/**
-	 * Creates a new instance of HartreeFockSCFMethod
+	 * Creates a new instance of RestrictedHartreeFockMethod
 	 * 
 	 * @param molecule
 	 *            The molecule under consideration.

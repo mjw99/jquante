@@ -26,8 +26,10 @@ import name.mjw.jquante.config.Parameter;
  */
 public class DefaultConfiguration implements GlobalConfiguration {
 
+	/** Singleton instance of this class. */
 	private static DefaultConfiguration _defaultConfiguration;
 
+	/** Map of configuration parameter names to their {@link Parameter} values. */
 	private HashMap<String, Parameter> configuration;
 
 	/** Creates a new instance of DefaultConfiguration */
@@ -57,7 +59,9 @@ public class DefaultConfiguration implements GlobalConfiguration {
 	}
 
 	/**
-	 * private method to set the default parameters
+	 * Private method to set the default configuration parameters.
+	 *
+	 * @throws PropertyVetoException if a parameter change is rejected by a listener
 	 */
 	private void setDefaultParams() throws PropertyVetoException {
 		StringResource strings = StringResource.getInstance();

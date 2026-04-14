@@ -13,6 +13,7 @@ import name.mjw.jquante.math.MathUtil;
  */
 public class Density extends Array2DRowRealMatrix {
 
+	/** Eclipse-generated serialVersionUID. */
 	private static final long serialVersionUID = 4939105356956860039L;
 
 	/**

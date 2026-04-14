@@ -34,8 +34,8 @@ public record Power(int l, int m, int n) {
 
 	/**
 	 * Return the total angular momentum of this Power
-	 * 
-	 * @return the maximum of the powers
+	 *
+	 * @return the total angular momentum (l + m + n)
 	 */
 	public int getTotalAngularMomentum() {
 		return l + m + n;

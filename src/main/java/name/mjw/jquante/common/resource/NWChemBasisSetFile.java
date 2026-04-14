@@ -41,17 +41,22 @@ import name.mjw.jquante.config.impl.AtomInfo;
  */
 @XmlRootElement(name = "basis")
 public class NWChemBasisSetFile {
+	/** Logger object. */
 	private static final Logger LOG = LogManager
 			.getLogger(NWChemBasisSetFile.class);
 
+	/** Buffer size used when marking a BufferedReader position during parsing. */
 	private static final int MARK_LENGTH = 5000;
 
+	/** The name of the basis set (e.g. "sto-3g"). */
 	@XmlAttribute(name = "name")
 	private String basisSetName;
 
+	/** MD5 checksum of the source NWChem basis-set input file. */
 	@XmlAttribute(name = "md5sum")
 	private String md5sumOfInputBasisFile;
 
+	/** Per-element basis-set data, one entry per chemical element. */
 	@XmlElement(name = "atom")
 	private List<Library> atoms;
 
@@ -289,41 +294,69 @@ public class NWChemBasisSetFile {
 
 	}
 
+	/** Holds basis-set data for a single chemical element. */
 	static class Library {
+		/** Chemical element symbol (e.g. "H", "O"). */
 		@XmlAttribute(name = "symbol")
 		String element;
 
+		/** Atomic number of the element. */
 		@XmlAttribute
 		int atomicNumber;
 
+		/** List of orbital shells defined for this element. */
 		@XmlElement(name = "orbital")
 		List<Shell> shells;
 
+		/**
+		 * Creates a Library entry for the given element symbol.
+		 *
+		 * @param element the chemical element symbol
+		 */
 		Library(String element) {
 			this.element = element;
 			atomicNumber = AtomInfo.getInstance().getAtomicNumber(element);
 			shells = new ArrayList<>();
 		}
 
+		/**
+		 * Append a list of orbital shells to this element's shell list.
+		 *
+		 * @param orbitals the shells to add
+		 */
 		void addShell(List<Shell> orbitals) {
 			this.shells.addAll(orbitals);
 		}
 
 	}
 
+	/** Represents a single contracted-Gaussian shell (e.g. "S", "P", "SP"). */
 	static class Shell {
 
+		/** Angular-momentum shell type label (e.g. "S", "P", "D"). */
 		@XmlAttribute(name = "type")
 		String type;
 
+		/** List of (exponent, contraction coefficient) pairs for this shell. */
 		@XmlElement(name = "entry")
 		List<ExponentCoefficientPair> exponentCoefficientPairs = null;
 
+		/**
+		 * Creates a Shell of the given type.
+		 *
+		 * @param type the shell type label (e.g. "S", "P")
+		 */
 		Shell(String type) {
 			this.type = type;
 			exponentCoefficientPairs = new ArrayList<>();
 		}
 
+		/**
+		 * Add an (exponent, coefficient) pair to this shell.
+		 *
+		 * @param exponent    the Gaussian exponent as a string
+		 * @param coefficient the contraction coefficient as a string
+		 */
 		void addExponentCoefficientPair(String exponent, String coefficient) {
 
 			ExponentCoefficientPair pair = new ExponentCoefficientPair(
@@ -335,14 +368,23 @@ public class NWChemBasisSetFile {
 
 	}
 
+	/** A single (exponent, contraction-coefficient) entry within a shell. */
 	static class ExponentCoefficientPair {
 
+		/** The Gaussian exponent as a string. */
 		@XmlAttribute(name = "exp")
 		String exponent;
 
+		/** The contraction coefficient as a string. */
 		@XmlAttribute(name = "coeff")
 		String coefficient;
 
+		/**
+		 * Creates an exponent–coefficient pair.
+		 *
+		 * @param exponent    the Gaussian exponent
+		 * @param coefficient the contraction coefficient
+		 */
 		ExponentCoefficientPair(String exponent, String coefficient) {
 			this.exponent = exponent;
 			this.coefficient = coefficient;
@@ -351,9 +393,9 @@ public class NWChemBasisSetFile {
 	}
 
 	/**
-	 * Count the number of non-null elements in an array
-	 * 
-	 * @param lineObjects
+	 * Count the number of non-null elements in an array.
+	 *
+	 * @param lineObjects the list of objects to count non-null entries in
 	 * @return number of non-null elements
 	 */
 	private static int getNonNullLength(ArrayList<Object> lineObjects) {
@@ -364,11 +406,23 @@ public class NWChemBasisSetFile {
 		return count;
 	}
 
+	/** Angular-momentum shell types and their corresponding integer indices. */
 	private enum ShellType {
-		S(0), P(1), D(2), F(3), G(4), H(5);
+		/** s shell (l=0). */ S(0),
+		/** p shell (l=1). */ P(1),
+		/** d shell (l=2). */ D(2),
+		/** f shell (l=3). */ F(3),
+		/** g shell (l=4). */ G(4),
+		/** h shell (l=5). */ H(5);
 
+		/** The integer index corresponding to this shell type. */
 		private final int value;
 
+		/**
+		 * Creates a ShellType with the given integer value.
+		 *
+		 * @param value the integer index for this shell type
+		 */
 		private ShellType(int value) {
 			this.value = value;
 		}

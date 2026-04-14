@@ -25,20 +25,26 @@ import org.apache.logging.log4j.Logger;
  */
 public final class DIISFockExtrapolator implements FockExtrapolator {
 
+	/** Logger object. */
 	private static final Logger LOG = LogManager.getLogger(DIISFockExtrapolator.class);
 
 	/** Creates a new instance of DIISFockExtrapolator. */
 	public DIISFockExtrapolator() {
 	}
 
+	/** History of Fock matrices used in the DIIS extrapolation. */
 	private ArrayList<Fock> fockMatrixList = new ArrayList<>();
+
+	/** History of DIIS error vectors, one per stored Fock matrix. */
 	private ArrayList<RealVector> errorVectorList = new ArrayList<>();
 
 	/** The current DIIS iteration step count. */
 	protected int diisStep = 0;
 
+	/** Flag indicating whether the DIIS procedure has started. */
 	private boolean isDiisStarted = false;
 
+	/** The Fock matrix from the previous SCF iteration. */
 	private Fock oldFock = null;
 
 	/** The convergence threshold for the DIIS error vector norm below which DIIS is initiated. */

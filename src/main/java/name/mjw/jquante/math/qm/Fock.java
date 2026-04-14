@@ -13,6 +13,7 @@ import name.mjw.jquante.math.MathUtil;
  */
 public final class Fock extends Array2DRowRealMatrix {
 
+	/** Eclipse-generated serialVersionUID. */
 	private static final long serialVersionUID = 8771239880594969731L;
 
 	/**

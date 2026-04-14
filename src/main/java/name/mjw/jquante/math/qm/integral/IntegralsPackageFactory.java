@@ -9,13 +9,19 @@ package name.mjw.jquante.math.qm.integral;
  */
 public final class IntegralsPackageFactory {
 
+	/** Singleton instance of this factory. */
 	private static IntegralsPackageFactory theInstance;
 
 	/** The default two-electron integral package type used when none is specified. */
 	protected IntegralPackageType defaultTwoElectronIntegralPackage;
+
+	/** The one-electron term implementation provided by this factory. */
 	private OneElectronTerm oneElectronTerm;
+
+	/** The nuclear-attraction term implementation provided by this factory. */
 	private NuclearTerm nuclearTerm;
 
+	/** Private constructor — use {@link #getInstance()} to obtain the singleton. */
 	private IntegralsPackageFactory() {
 		defaultTwoElectronIntegralPackage = IntegralPackageType.TWO_ELECTRON_RYS;
 	}
@@ -76,8 +82,8 @@ public final class IntegralsPackageFactory {
 
 	/**
 	 * Get the default 2E integral package. Currently this is:
-	 * TWO_ELECTRON_HUZINAGA
-	 * 
+	 * TWO_ELECTRON_RYS
+	 *
 	 * @return the instance of 2-E integral package, if no suitable one
 	 *         available, then UnsupportedOperationException is thrown
 	 */

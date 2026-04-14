@@ -25,8 +25,10 @@ import net.jafama.FastMath;
  */
 public final class Overlap extends Array2DRowRealMatrix {
 
+	/** Logger object. */
 	private static final Logger LOG = LogManager.getLogger(Overlap.class);
 
+	/** Eclipse-generated serialVersionUID. */
 	private static final long serialVersionUID = 5209272241805533800L;
 
 	/**
@@ -39,6 +41,7 @@ public final class Overlap extends Array2DRowRealMatrix {
 		super(n, n);
 	}
 
+	/** Cached S^(-1/2) symmetric orthogonalisation matrix. */
 	private transient RealMatrix sHalf = null;
 
 	/**
@@ -130,7 +133,11 @@ public final class Overlap extends Array2DRowRealMatrix {
 	}
 
 	/**
-	 * Compute one of the Overlap derivative elements, with respect to an atomIndex
+	 * Compute one element of the overlap derivative matrix.
+	 *
+	 * @param i the row index (bra basis function)
+	 * @param j the column index (ket basis function)
+	 * @return the (i,j) element of the overlap derivative as a Vector3D (x, y, z components)
 	 */
 	private Vector3D computeOverlapDerElement(int i, int j) {
 		BasisSetLibrary bsl = scfMethod.getOneEI().getBasisSetLibrary();

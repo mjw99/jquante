@@ -24,8 +24,10 @@ import name.mjw.jquante.math.qm.integral.IntegralsUtil;
  */
 public final class GMatrix extends Array2DRowRealMatrix {
 
+	/** Logger object. */
 	private static final Logger LOG = LogManager.getLogger(GMatrix.class);
 
+	/** Eclipse-generated serialVersionUID. */
 	private static final long serialVersionUID = -6555277318704252665L;
 	/** The two-electron integrals used to build the G matrix. */
 	private transient TwoElectronIntegrals twoEI;
@@ -335,7 +337,17 @@ public final class GMatrix extends Array2DRowRealMatrix {
 	}
 
 	/**
-	 * Set the GMatrix value for a given combination
+	 * Accumulates the 2J−K contributions from the (i,j,k,l) integral quartet
+	 * into the partial G matrix and density matrix entries.
+	 *
+	 * @param gMatrix      the partial G matrix being accumulated in-place
+	 * @param dMatrix      the current density matrix
+	 * @param i            the first basis function index
+	 * @param j            the second basis function index
+	 * @param k            the third basis function index
+	 * @param l            the fourth basis function index
+	 * @param twoEIntVal2  twice the two-electron integral value (for the J term)
+	 * @param twoEIntValHalf half the two-electron integral value (for the K term)
 	 */
 	private void setGMatrixElements(double[][] gMatrix, double[][] dMatrix, int i, int j, int k, int l,
 			double twoEIntVal2, double twoEIntValHalf) {
@@ -348,7 +360,16 @@ public final class GMatrix extends Array2DRowRealMatrix {
 	}
 
 	/**
-	 * Find unique elements and mark the ones that are not
+	 * Marks duplicate (i,j,k,l) quartets in the eight-fold symmetry list as
+	 * invalid. After this call, only the first occurrence of each distinct
+	 * quartet has {@code validIdx[m] == true}.
+	 *
+	 * @param idx      array of i indices for the eight symmetry-related quartets
+	 * @param jdx      array of j indices for the eight symmetry-related quartets
+	 * @param kdx      array of k indices for the eight symmetry-related quartets
+	 * @param ldx      array of l indices for the eight symmetry-related quartets
+	 * @param validIdx boolean flags; entries are set to {@code false} when a
+	 *                 duplicate quartet is found
 	 */
 	private void filterUniqueElements(int[] idx, int[] jdx, int[] kdx, int[] ldx, boolean[] validIdx) {
 		int i;

@@ -13,6 +13,7 @@ import name.mjw.jquante.molecule.Molecule;
  */
 public final class SCFMethodFactory {
 
+	/** Weak reference to the singleton instance (allows GC when unused). */
 	private static WeakReference<SCFMethodFactory> _scfMethodFactory = null;
 
 	/** Creates a new instance of SCFMethodFactory */

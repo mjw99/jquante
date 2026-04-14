@@ -23,8 +23,13 @@ import name.mjw.jquante.math.qm.basis.PrimitiveGaussian;
  */
 public final class Integrals {
 
+	/** The nuclear-attraction term implementation (cached singleton). */
 	private static NuclearTerm nuclearTerm;
+
+	/** The one-electron term implementation (cached singleton). */
 	private static OneElectronTerm oneElectronTerm;
+
+	/** The two-electron term implementation (cached singleton). */
 	private static TwoElectronTerm twoElectronTerm;
 
 	/**
@@ -54,16 +59,16 @@ public final class Integrals {
 
 	/**
 	 * Overlap integral taken form <i> Taken from THO eq. 2.12 </i> <br>
-	 * 
+	 *
 	 * @param alpha1
-	 *            the coefficient of primitive Gaussian a.
+	 *            the exponent of primitive Gaussian a.
 	 * @param power1
 	 *            the orbital powers of primitive Gaussian a.
 	 * @param a
 	 *            the location of primitive Gaussian a.
-	 * 
+	 *
 	 * @param alpha2
-	 *            the coefficient of primitive Gaussian b.
+	 *            the exponent of primitive Gaussian b.
 	 * @param power2
 	 *            the orbital powers of primitive Gaussian b.
 	 * @param b
@@ -77,18 +82,18 @@ public final class Integrals {
 
 	/**
 	 * The Kinetic Energy (KE) integral.
-	 * 
+	 *
 	 * <i> Taken from THO eq. 2.13 </i>
-	 * 
+	 *
 	 * @param alpha1
-	 *            the coefficient of primitive Gaussian a.
+	 *            the exponent of primitive Gaussian a.
 	 * @param power1
 	 *            the orbital powers of primitive Gaussian a.
 	 * @param a
 	 *            the location of primitive Gaussian a.
-	 * 
+	 *
 	 * @param alpha2
-	 *            the coefficient of primitive Gaussian b.
+	 *            the exponent of primitive Gaussian b.
 	 * @param power2
 	 *            the orbital powers of primitive Gaussian b.
 	 * @param b
@@ -102,25 +107,25 @@ public final class Integrals {
 
 	/**
 	 * The nuclear attraction integral.
-	 * 
+	 *
 	 * <i> Taken from THO eq. 2.15 </i>
-	 * 
+	 *
 	 * @param a
-	 *            the coefficient of primitive Gaussian a.
+	 *            the location of primitive Gaussian a.
 	 * @param norm1
 	 *            the normalization factor of primitive Gaussian a.
 	 * @param power1
 	 *            the orbital powers of primitive Gaussian a.
 	 * @param alpha1
-	 *            the coefficient of primitive Gaussian a.
+	 *            the exponent of primitive Gaussian a.
 	 * @param b
-	 *            the coefficient of primitive Gaussian b.
+	 *            the location of primitive Gaussian b.
 	 * @param norm2
 	 *            the normalization factor of primitive Gaussian b.
 	 * @param power2
 	 *            the orbital powers of primitive Gaussian b.
 	 * @param alpha2
-	 *            the coefficient of primitive Gaussian b.
+	 *            the exponent of primitive Gaussian b.
 	 * @param c
 	 *            the location of nuclear centre.
 	 * @return the nuclear attraction integral.
@@ -135,19 +140,19 @@ public final class Integrals {
 
 	/**
 	 * The nuclear attraction gradient term.
-	 * 
+	 *
 	 * @param a
-	 *            the coefficient of primitive Gaussian a.
+	 *            the location of primitive Gaussian a.
 	 * @param power1
 	 *            the orbital powers of primitive Gaussian a.
 	 * @param alpha1
-	 *            the coefficient of primitive Gaussian a.
+	 *            the exponent of primitive Gaussian a.
 	 * @param b
-	 *            the coefficient of primitive Gaussian b.
+	 *            the location of primitive Gaussian b.
 	 * @param power2
 	 *            the orbital powers of primitive Gaussian b.
 	 * @param alpha2
-	 *            the coefficient of primitive Gaussian b.
+	 *            the exponent of primitive Gaussian b.
 	 * @param c
 	 *            the location of nuclear centre.
 	 * @return the nuclear attraction gradient.

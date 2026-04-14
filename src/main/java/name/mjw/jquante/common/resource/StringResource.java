@@ -11,16 +11,23 @@ import java.io.File;
  */
 public class StringResource implements Resource {
 
+	/** Build number embedded in the version string. */
 	private static final String BUILD_NUMBER = "30102015";
+
+	/** Full IDE version string. */
 	private static final String IDE_VERSION = "MeTA Studio v2.0."
 			+ BUILD_NUMBER;
 
+	/** URL of the MeTA Studio project website. */
 	private static final String META_STUDIO_WEBSITE = "http://code.google.com/p/metastudio/";
 
+	/** URL of the MeTA Studio development blog. */
 	private static final String META_STUDIO_BLOG = "http://tovganesh.blogspot.com/search/label/MeTA";
 
+	/** Resource path to the MeTA database directory. */
 	private static final String META_DB = "/db/metadb";
 
+	/** Singleton instance of this class. */
 	private static StringResource _stringResource;
 
 	/** Holds value of property newWorkspaceTip. */
@@ -1395,6 +1402,7 @@ public class StringResource implements Resource {
 		return extLibFile;
 	}
 
+	/** The XMPP configuration file path. */
 	private String xmppConfig;
 
 	/**
@@ -1442,6 +1450,7 @@ public class StringResource implements Resource {
 		return chemStoreManifestFileName;
 	}
 
+	/** Comma-separated list of available script engine names. */
 	private final String scriptengines;
 
 	/**

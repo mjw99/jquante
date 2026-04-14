@@ -32,8 +32,9 @@ public class ZMatrixItem implements Cloneable {
 	}
 
 	/**
-	 * to String!
-	 * 
+	 * Returns a string representation of this Z-matrix item showing the
+	 * reference atom symbol and index followed by the value.
+	 *
 	 * @return the string representation of this item
 	 */
 	@Override
@@ -80,11 +81,10 @@ public class ZMatrixItem implements Cloneable {
 	}
 
 	/**
-	 * i do some cloning business ;)
-	 * 
-	 * @throws CloneNotSupportedException
-	 *             If that isn't possible
-	 * @return A copy of the present object
+	 * Creates and returns a copy of this ZMatrixItem.
+	 *
+	 * @return a copy of this object
+	 * @throws CloneNotSupportedException if cloning is not supported (never thrown)
 	 */
 	@Override
 	public Object clone() throws CloneNotSupportedException {

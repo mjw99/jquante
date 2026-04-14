@@ -20,11 +20,16 @@ import name.mjw.jquante.molecule.Molecule;
  */
 public class MODensity extends OneElectronProperty {
 
+	/** Index of the molecular orbital whose density is being computed. */
 	private int monumber;
 
+	/** Number of basis functions. */
 	private int nbf;
+
+	/** The MO coefficient matrix (MO index × basis function index). */
 	private double[][] mos;
 
+	/** The list of contracted Gaussian basis functions. */
 	private List<ContractedGaussian> bfs;
 
 	/**

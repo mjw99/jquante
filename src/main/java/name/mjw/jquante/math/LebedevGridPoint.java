@@ -35,9 +35,9 @@ public record LebedevGridPoint(double x, double y, double z, double weight) {
 	}
 
 	/**
-	 * Returns the grid point coelevation.
+	 * Returns the polar angle (colatitude) of the grid point.
 	 *
-	 * @return the grid point coelevation in [-PI,PI]
+	 * @return the polar angle in [0, PI]
 	 */
 	public double getPhi() {
 		return FastMath.acos(z);

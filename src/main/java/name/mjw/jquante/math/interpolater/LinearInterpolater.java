@@ -1,9 +1,9 @@
 package name.mjw.jquante.math.interpolater;
 
 /**
- * A simple liner interpolater based on the following formula: <br>
+ * A simple linear interpolater based on the following formula: <br>
  * <code>y1 * (1 - mu) + y2 * mu</code>
- * 
+ *
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */

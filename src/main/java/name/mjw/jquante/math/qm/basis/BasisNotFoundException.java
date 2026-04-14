@@ -8,9 +8,7 @@ package name.mjw.jquante.math.qm.basis;
  */
 public final class BasisNotFoundException extends java.lang.RuntimeException {
 
-	/**
-	 * 
-	 */
+	/** Eclipse-generated serialVersionUID. */
 	private static final long serialVersionUID = 2348577368651609288L;
 
 	/**

@@ -33,7 +33,11 @@ public class SCFType {
 	 */
 	public static final SCFType UNRESTRICTED_HARTREE_FOCK_DIRECT = new SCFType(3);
 
-	/** Creates a new instance of SCFType */
+	/**
+	 * Creates a new instance of SCFType.
+	 *
+	 * @param type the integer identifier for this SCF type
+	 */
 	private SCFType(int type) {
 		this.type = type;
 	}

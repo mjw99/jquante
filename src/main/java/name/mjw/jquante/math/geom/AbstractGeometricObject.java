@@ -21,9 +21,9 @@ public abstract class AbstractGeometricObject implements GeometricObject,
 	}
 
 	/**
-	 * Total surface area of this geometic object, zero in this case
-	 * 
-	 * @return the surface in appropriate units
+	 * Total surface area of this geometric object, zero in this case.
+	 *
+	 * @return the surface area in appropriate units
 	 */
 	@Override
 	public double totalSurfaceArea() {

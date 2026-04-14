@@ -25,6 +25,7 @@ import name.mjw.jquante.molecule.UserDefinedAtomProperty;
  */
 public final class BasisSetLibrary {
 
+	/** Logger object. */
 	private static final Logger LOG = LogManager.getLogger(BasisSetLibrary.class);
 
 	/** The name of the basis set (e.g. "sto-3g"). */
@@ -114,10 +115,11 @@ public final class BasisSetLibrary {
 
 	/**
 	 * Getter for property basisFunctions.
-	 * 
+	 *
 	 * @param molecule  the Molecule whose basis function is requested
 	 * @param basisName the name of the basis set (like sto3g)
-	 * @return Value of property basisFunctions.
+	 * @return the list of contracted Gaussian basis functions for the molecule
+	 * @throws Exception if the basis set cannot be read or an atom is not found
 	 */
 	private ArrayList<ContractedGaussian> getBasisFunctions(Molecule molecule, String basisName) throws Exception {
 		BasisSet basisSet = BasisSetReader.getInstance().readBasisSet(basisName);

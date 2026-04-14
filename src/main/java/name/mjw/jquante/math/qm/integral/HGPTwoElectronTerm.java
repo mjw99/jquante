@@ -28,6 +28,7 @@ public final class HGPTwoElectronTerm implements TwoElectronTerm {
 	public HGPTwoElectronTerm() {
 	}
 
+	/** Precomputed constant: sqrt(2) * PI^(5/4), used in the HGP 2E integral prefactor. */
 	private final double sqrt2PI = FastMath.sqrt(2.0) * FastMath.pow(Math.PI, 1.25);
 
 	/**
@@ -189,7 +190,7 @@ public final class HGPTwoElectronTerm implements TwoElectronTerm {
 	 * @param aNorms Primitive normalisation coefficients of primitives in
 	 *               contracted Gaussian function a.
 	 * 
-	 * @param b      Center of contracted Gaussian function b. *
+	 * @param b      Center of contracted Gaussian function b.
 	 * @param bCoeff Coefficients of primitives in contracted Gaussian function b.
 	 * @param bExps  Orbital exponents of primitives in contracted Gaussian function
 	 *               b.
@@ -204,7 +205,7 @@ public final class HGPTwoElectronTerm implements TwoElectronTerm {
 	 * @param cNorms Primitive normalisation coefficients of primitives in
 	 *               contracted Gaussian function c.
 	 * 
-	 * @param d      Center of contracted Gaussian function d. *
+	 * @param d      Center of contracted Gaussian function d.
 	 * @param dCoeff Coefficients of primitives in contracted Gaussian function d.
 	 * @param dExps  Orbital exponents of primitives in contracted Gaussian function
 	 *               d.

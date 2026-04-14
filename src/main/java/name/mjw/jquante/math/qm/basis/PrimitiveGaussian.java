@@ -49,8 +49,12 @@ public record PrimitiveGaussian(Vector3D origin, Power powers, double exponent, 
 
 	/**
 	 * Normalize this primitive Gaussian.
-	 * 
-	 * Equ 2.2 http://dx.doi.org/10.1143/JPSJ.21.2313 -
+	 *
+	 * @see <a href="http://dx.doi.org/10.1143/JPSJ.21.2313">Huzinaga 1965, eq. 2.2</a>
+	 *
+	 * @param powers   the angular momentum powers (l, m, n) of the Gaussian
+	 * @param exponent the Gaussian exponent (alpha)
+	 * @return the normalisation constant N such that N*G is normalised to unity
 	 */
 	private static double normalize(Power powers, double exponent) {
 

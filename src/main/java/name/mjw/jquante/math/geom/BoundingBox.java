@@ -5,8 +5,8 @@ import org.hipparchus.geometry.euclidean.threed.Vector3D;
 import net.jafama.FastMath;
 
 /**
- * A class representing a rectangular bonding box.
- * 
+ * A class representing a rectangular bounding box.
+ *
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
  */
@@ -178,11 +178,11 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	}
 
 	/**
-	 * total surface area of this box given by: <br>
-	 * <code>S = 2(ab + bc + ca); where a, b and c are lengths along x, y and z 
+	 * Total surface area of this box given by: <br>
+	 * <code>S = 2(ab + bc + ca); where a, b and c are lengths along x, y and z
 	 *       respectively.</code>
-	 * 
-	 * @return the volume of this box
+	 *
+	 * @return the surface area of this box
 	 */
 	@Override
 	public double totalSurfaceArea() {
@@ -210,12 +210,11 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	}
 
 	/**
-	 * intersect 2 bounding boxes and return a third smaller one, enclosing the
-	 * common part among both of them.
-	 * 
-	 * @param box
-	 *            - the second box to be considered
-	 * @return the bigger BoundingBox enclosing the two boxes
+	 * Intersect two bounding boxes and return the smaller box enclosing only
+	 * their common region.
+	 *
+	 * @param box the second bounding box to intersect with
+	 * @return a new BoundingBox representing the intersection of the two boxes
 	 */
 	public BoundingBox intersect(BoundingBox box) {
 		BoundingBox bb = new BoundingBox();
@@ -278,7 +277,10 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	}
 
 	/**
-	 * overridden toString()
+	 * Returns a string representation of this bounding box showing the
+	 * upper-left and bottom-right corner coordinates.
+	 *
+	 * @return a string of the form "UpperLeft: ..., BottomRight: ..."
 	 */
 	@Override
 	public String toString() {
@@ -286,7 +288,10 @@ public class BoundingBox extends AbstractGeometricObject implements Cloneable {
 	}
 
 	/**
-	 * i am clonable
+	 * Creates and returns a deep copy of this BoundingBox.
+	 *
+	 * @return a copy of this object
+	 * @throws CloneNotSupportedException if cloning is not supported (never thrown)
 	 */
 	@Override
 	public Object clone() throws CloneNotSupportedException {

@@ -183,8 +183,24 @@ public final class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 
 	/**
 	 * Construct B array.
-	 * 
-	 * <i> http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.22 </i>
+	 *
+	 * @see <a href="http://dx.doi.org/10.1143/JPSJ.21.2313">
+	 *      Huzinaga 1965, eq. 2.22</a>
+	 *
+	 * @param l1    angular momentum quantum number of the first Gaussian
+	 * @param l2    angular momentum quantum number of the second Gaussian
+	 * @param l3    angular momentum quantum number of the third Gaussian
+	 * @param l4    angular momentum quantum number of the fourth Gaussian
+	 * @param p     the composite centre coordinate of the first pair (a, b)
+	 * @param a     the coordinate of the first Gaussian centre
+	 * @param b     the coordinate of the second Gaussian centre
+	 * @param q     the composite centre coordinate of the second pair (c, d)
+	 * @param c     the coordinate of the third Gaussian centre
+	 * @param d     the coordinate of the fourth Gaussian centre
+	 * @param g1    the composite exponent of the first pair
+	 * @param g2    the composite exponent of the second pair
+	 * @param delta the combined denominator {@code 1/(4*g1) + 1/(4*g2)}
+	 * @return the B array of length {@code l1+l2+l3+l4+1}
 	 */
 	private final double[] constructBArray(final int l1, final int l2, final int l3, final int l4, final double p,
 			final double a, final double b, final double q, final double c, final double d, final double g1,
@@ -219,9 +235,30 @@ public final class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 	}
 
 	/**
-	 * Construct the B term
-	 * 
-	 * <i> http://dx.doi.org/10.1143/JPSJ.21.2313 eq. 2.22 </i>
+	 * Construct the B term.
+	 *
+	 * @see <a href="http://dx.doi.org/10.1143/JPSJ.21.2313">
+	 *      Huzinaga 1965, eq. 2.22</a>
+	 *
+	 * @param i1     index i in the first bra summation
+	 * @param i2     index i in the second ket summation
+	 * @param r1     summation index r for the first pair
+	 * @param r2     summation index r for the second pair
+	 * @param u      summation index u for the combined term
+	 * @param l1     angular momentum of the first Gaussian
+	 * @param l2     angular momentum of the second Gaussian
+	 * @param l3     angular momentum of the third Gaussian
+	 * @param l4     angular momentum of the fourth Gaussian
+	 * @param px     composite centre x-coordinate of the first pair
+	 * @param ax     x-coordinate of the first Gaussian centre
+	 * @param bx     x-coordinate of the second Gaussian centre
+	 * @param qx     composite centre x-coordinate of the second pair
+	 * @param cx     x-coordinate of the third Gaussian centre
+	 * @param dx     x-coordinate of the fourth Gaussian centre
+	 * @param gamma1 composite exponent of the first pair
+	 * @param gamma2 composite exponent of the second pair
+	 * @param delta  combined denominator {@code 1/(4*gamma1) + 1/(4*gamma2)}
+	 * @return the value of the B term for the given indices
 	 */
 	private final double constructBTerm(final int i1, final int i2, final int r1, final int r2, final int u,
 			final int l1, final int l2, final int l3, final int l4, final double px, final double ax, final double bx,
@@ -236,7 +273,17 @@ public final class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 	}
 
 	/**
-	 * the function B, taken from PyQuante
+	 * The function B, taken from PyQuante.
+	 *
+	 * @param i  the combined angular-momentum index
+	 * @param l1 angular momentum of the first Gaussian in the pair
+	 * @param l2 angular momentum of the second Gaussian in the pair
+	 * @param p  composite centre coordinate of the pair
+	 * @param a  coordinate of the first Gaussian centre
+	 * @param b  coordinate of the second Gaussian centre
+	 * @param r  summation index r
+	 * @param g  composite exponent of the pair
+	 * @return the value of the B function for the given arguments
 	 */
 	private final double functionB(final int i, final int l1, final int l2, final double p, final double a, final double b,
 			final int r, final double g) {
@@ -244,7 +291,12 @@ public final class HuzinagaTwoElectronTerm implements TwoElectronTerm {
 	}
 
 	/**
-	 * the function B0, taken from PyQuante
+	 * The function B0, taken from PyQuante.
+	 *
+	 * @param i the combined angular-momentum index
+	 * @param r summation index r
+	 * @param g composite exponent of the pair
+	 * @return the value of the B0 function for the given arguments
 	 */
 	private final double functionB0(final int i, final int r, final double g) {
 		return (MathUtil.factorialRatioSquared(i, r) * FastMath.pow(4 * g, r - i));

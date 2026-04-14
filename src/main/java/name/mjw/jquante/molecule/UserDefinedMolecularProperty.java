@@ -3,7 +3,7 @@ package name.mjw.jquante.molecule;
 import java.io.Serializable;
 
 /**
- * A simple framework for adding arbitary user defined molecular property.
+ * A simple framework for adding arbitrary user-defined molecular properties.
  * 
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)

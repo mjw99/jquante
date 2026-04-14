@@ -13,6 +13,7 @@ import java.util.HashMap;
  */
 public class EventListenerList<T> {
 
+	/** Map from listener type to the list of registered listeners of that type. */
 	private HashMap<Class<T>, ArrayList<T>> listenerList;
 
 	/** Creates a new instance of EventListenerList */

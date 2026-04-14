@@ -10,6 +10,7 @@ import java.util.EventObject;
  */
 public final class AtomInfoChangeEvent extends EventObject {
 
+	/** Eclipse-generated serialVersionUID. */
 	private static final long serialVersionUID = -5378842897630157145L;
 
 	/** Holds value of property changeType. */

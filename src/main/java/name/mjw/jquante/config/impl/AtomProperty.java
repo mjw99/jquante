@@ -23,7 +23,7 @@ public final class AtomProperty implements Parameter {
 	 * Creates a new instance of AtomProperty
 	 * 
 	 * @param name           Name of atom.
-	 * @param atomicNumber   Atomic nubmer of atom.
+	 * @param atomicNumber   Atomic number of atom.
 	 * @param atomicWeight   Atomic weight of atom.
 	 */
 	public AtomProperty(String name, int atomicNumber, double atomicWeight) {

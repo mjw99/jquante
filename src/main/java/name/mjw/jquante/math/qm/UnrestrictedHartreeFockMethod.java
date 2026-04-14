@@ -13,23 +13,15 @@ import name.mjw.jquante.molecule.UserDefinedAtomProperty;
 import net.jafama.FastMath;
 
 /**
- * Implements the Hartree-Fock (HF) SCF method for single point energy
- * evaluation of a molecule.
- * 
+ * Implements the Unrestricted Hartree-Fock (UHF) SCF method for single point
+ * energy evaluation of open-shell molecules, where alpha and beta electrons
+ * are allowed to occupy different spatial orbitals.
+ *
  * @author V.Ganesh
  * @version 2.0 (Part of MeTA v2.0)
- * 
  *
- * @see <a href="https://en.wikipedia.org/wiki/Hartree%E2%80%93Fock_method">
- *      https://en.wikipedia.org/wiki/Hartree%E2%80%93Fock_method</a>
- * @see <a
- *      href="http://sirius.chem.vt.edu/~crawdad/programming/scf.pdf">http://sirius.chem.vt.edu/~crawdad/programming/scf.pdf</a>
- * @see <a href=
- *        "http://sirius.chem.vt.edu/wiki/doku.php?id=crawdad:programming:project3"
- *        >http://sirius.chem.vt.edu/wiki/doku.php?id=crawdad:programming:
- *        project3</a >
- * @see <a href="http://www.theoretical-physics.net/dev/quantum/hf.html">
- *      http://www.theoretical-physics.net/dev/quantum/hf.html</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Unrestricted_Hartree%E2%80%93Fock">
+ *      https://en.wikipedia.org/wiki/Unrestricted_Hartree%E2%80%93Fock</a>
  */
 public class UnrestrictedHartreeFockMethod extends SCFMethod implements
 		OptimizerFunction {
@@ -50,10 +42,11 @@ public class UnrestrictedHartreeFockMethod extends SCFMethod implements
 	 */
 	private SCFType scfType;
 
+	/** Flag indicating whether the analytical gradient has been computed for the current geometry. */
 	private boolean isDerivativeComputed = false;
 
 	/**
-	 * Creates a new instance of HartreeFockSCFMethod
+	 * Creates a new instance of UnrestrictedHartreeFockMethod
 	 * 
 	 * @param molecule
 	 *            The molecule under consideration.
@@ -68,7 +61,7 @@ public class UnrestrictedHartreeFockMethod extends SCFMethod implements
 	}
 
 	/**
-	 * Creates a new instance of HartreeFockSCFMethod
+	 * Creates a new instance of UnrestrictedHartreeFockMethod
 	 * 
 	 * @param molecule
 	 *            The molecule under consideration.

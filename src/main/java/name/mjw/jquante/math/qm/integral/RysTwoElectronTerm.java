@@ -34,11 +34,16 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 	public RysTwoElectronTerm() {
 	}
 
+	/** Maximum number of Rys roots supported. */
 	private static final int MAX_ROOTS = 9;
+
+	/** Square of {@link #MAX_ROOTS}; size of the root/weight tables. */
 	private static final int MAX_ROOTS_SQUARED = MAX_ROOTS * MAX_ROOTS;
 
+	/** Precomputed constant pi/4. */
 	private static final double PI_OVER_FOUR = 7.85398163397448E-01;
 
+	/** Thread-local working array G(n,m) for Rys polynomial recursion. */
 	private static final ThreadLocal<double[][]> G_THREAD = ThreadLocal
 			.withInitial(() -> new double[MAX_ROOTS][MAX_ROOTS]);
 
@@ -224,6 +229,19 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
+	/**
+	 * Compute the squared distance |P-Q|^2 between Gaussian product centres.
+	 *
+	 * @param a      centre of primitive a
+	 * @param aAlpha exponent of primitive a
+	 * @param b      centre of primitive b
+	 * @param bAlpha exponent of primitive b
+	 * @param c      centre of primitive c
+	 * @param cAlpha exponent of primitive c
+	 * @param d      centre of primitive d
+	 * @param dAlpha exponent of primitive d
+	 * @return the squared distance |P-Q|^2
+	 */
 	private static final double calculateRadiusPQSquared(final Vector3D a, final double aAlpha, final Vector3D b,
 			final double bAlpha, final Vector3D c, final double cAlpha, final Vector3D d, final double dAlpha) {
 		final Vector3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
@@ -232,6 +250,15 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		return p.distanceSq(q);
 	}
 
+	/**
+	 * Compute the combined Rys exponent rho = gamma1*gamma2/(gamma1+gamma2).
+	 *
+	 * @param aAlpha exponent of primitive a
+	 * @param bAlpha exponent of primitive b
+	 * @param cAlpha exponent of primitive c
+	 * @param dAlpha exponent of primitive d
+	 * @return rho = (aAlpha+bAlpha)*(cAlpha+dAlpha) / (aAlpha+bAlpha+cAlpha+dAlpha)
+	 */
 	private static final double calculateRho(final double aAlpha, final double bAlpha, final double cAlpha,
 			final double dAlpha) {
 		final double gamma1 = aAlpha + bAlpha;
@@ -241,6 +268,14 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		return gamma1 * gamma2 / (gamma1 + gamma2);
 	}
 
+	/**
+	 * Dispatch to the appropriate Rys root/weight routine for {@code nroots} roots.
+	 *
+	 * @param nroots  number of Rys roots required (1–9)
+	 * @param x       the quadrature argument
+	 * @param roots   output array filled with the Rys roots
+	 * @param weights output array filled with the corresponding weights
+	 */
 	private static final void selectRoots(final int nroots, final double x, final double[] roots,
 			final double[] weights) {
 		switch (nroots) {
@@ -273,6 +308,13 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
+	/**
+	 * Compute the 1-point Rys quadrature root and weight for argument {@code x}.
+	 *
+	 * @param x       the quadrature argument
+	 * @param roots   output array filled with the single root
+	 * @param weights output array filled with the corresponding weight
+	 */
 	private static final void root1(final double x, final double[] roots, final double[] weights) {
 
 		double rt1;
@@ -352,6 +394,13 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
+	/**
+	 * Compute the 2-point Rys quadrature roots and weights for argument {@code x}.
+	 *
+	 * @param x       the quadrature argument
+	 * @param roots   output array filled with the two roots
+	 * @param weights output array filled with the corresponding weights
+	 */
 	private static final void root2(final double x, final double[] roots, final double[] weights) {
 		double rt1;
 		double rt2;
@@ -508,6 +557,13 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
+	/**
+	 * Compute the 3-point Rys quadrature roots and weights for argument {@code x}.
+	 *
+	 * @param x       the quadrature argument
+	 * @param roots   output array filled with the three roots
+	 * @param weights output array filled with the corresponding weights
+	 */
 	private static final void root3(final double x, final double[] roots, final double[] weights) {
 		double rt1;
 		double rt2;
@@ -770,6 +826,13 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
+	/**
+	 * Compute the 4-point Rys quadrature roots and weights for argument {@code x}.
+	 *
+	 * @param x       the quadrature argument
+	 * @param roots   output array filled with the four roots
+	 * @param weights output array filled with the corresponding weights
+	 */
 	private static final void root4(final double x, final double[] roots, final double[] weights) {
 		double rt1;
 		double rt2;
@@ -1047,6 +1110,13 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		weights[3] = ww4;
 	}
 
+	/**
+	 * Compute the 5-point Rys quadrature roots and weights for argument {@code x}.
+	 *
+	 * @param x       the quadrature argument
+	 * @param roots   output array filled with the five roots
+	 * @param weights output array filled with the corresponding weights
+	 */
 	private static final void root5(final double x, final double[] roots, final double[] weights) {
 		double rt1;
 		double rt2;
@@ -1428,6 +1498,14 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		weights[4] = ww5;
 	}
 
+	/**
+	 * Compute the n-point Rys quadrature roots and weights for n = 6..9.
+	 *
+	 * @param nRoots  the number of Rys roots (6, 7, 8, or 9)
+	 * @param x       the quadrature argument
+	 * @param roots   output array filled with the roots
+	 * @param weights output array filled with the corresponding weights
+	 */
 	private static final void rRoot(final int nRoots, final double x, final double[] roots, final double[] weights) {
 
 		double[] r = new double[MAX_ROOTS_SQUARED];
@@ -1507,6 +1585,13 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
+	/**
+	 * Compute incomplete-gamma-like auxiliary function values F_m(t) used in rRoot.
+	 *
+	 * @param t the argument
+	 * @param m the maximum order
+	 * @return array of F_0(t)..F_m(t) values
+	 */
 	private static final double[] gamma_inc_like(final double t, final int m) {
 
 		double[] f = new double[MAX_ROOTS * 2 + 1];
@@ -1548,6 +1633,13 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 		return f;
 	}
 
+	/**
+	 * Compute Rys polynomial roots from a symmetric tridiagonal matrix via the Dsmit method.
+	 *
+	 * @param s the moment array defining the symmetric tridiagonal matrix
+	 * @param n the order (number of roots to compute)
+	 * @return array of {@code n} Rys polynomial roots
+	 */
 	private static final double[] rDsmit(final double[] s, final int n) {
 		double fac;
 		double dot;
@@ -1610,6 +1702,13 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
+	/**
+	 * Refine Rys polynomial roots by Newton-Raphson iteration.
+	 *
+	 * @param a     the coefficient array of the Rys polynomial
+	 * @param rt    the array of roots to refine (modified in place)
+	 * @param order the polynomial order (number of roots)
+	 */
 	private static final void rNode(final double[] a, final double[] rt, final int order) {
 
 		final double accrt = 1e-15;
@@ -1738,7 +1837,19 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 	}
 
 	/**
-	 * Form G(n,m)=I(n,0,m,0) intermediate values for a Rys polynomial
+	 * Form G(n,m)=I(n,0,m,0) intermediate values for a Rys polynomial.
+	 *
+	 * @param t          the Rys root (quadrature abscissa)
+	 * @param n          maximum bra angular-momentum index
+	 * @param m          maximum ket angular-momentum index
+	 * @param aComponent x/y/z coordinate component of centre A
+	 * @param bComponent x/y/z coordinate component of centre B
+	 * @param cComponent x/y/z coordinate component of centre C
+	 * @param dComponent x/y/z coordinate component of centre D
+	 * @param aAlpha     Gaussian exponent of primitive a
+	 * @param bAlpha     Gaussian exponent of primitive b
+	 * @param cAlpha     Gaussian exponent of primitive c
+	 * @param dAlpha     Gaussian exponent of primitive d
 	 */
 	private static final void recur(final double t, final int n, final int m, final double aComponent,
 			final double bComponent, final double cComponent, final double dComponent, final double aAlpha,
@@ -1774,6 +1885,20 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
+	/**
+	 * Initialise G[0][0] using the Gaussian product prefactor (eq. 11 of [ABD]).
+	 *
+	 * @param xa     x/y/z coordinate component of centre A
+	 * @param xb     x/y/z coordinate component of centre B
+	 * @param xc     x/y/z coordinate component of centre C
+	 * @param xd     x/y/z coordinate component of centre D
+	 * @param aAlpha exponent of primitive a
+	 * @param bAlpha exponent of primitive b
+	 * @param cAlpha exponent of primitive c
+	 * @param dAlpha exponent of primitive d
+	 * @param a      composite exponent of the first pair (aAlpha+bAlpha)
+	 * @param b      composite exponent of the second pair (cAlpha+dAlpha)
+	 */
 	private static final void initialiseG(final double xa, final double xb, final double xc, final double xd,
 			final double aAlpha, final double bAlpha, final double cAlpha, final double dAlpha, final double a,
 			final double b) {
@@ -1786,6 +1911,13 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 	}
 
 
+	/**
+	 * Fill G[0][1..m] using the ket-side upward recursion (eq. 16 of [ABD]).
+	 *
+	 * @param B1p recursion coefficient B1' for the ket side
+	 * @param Cp  recursion coefficient C' for the ket side
+	 * @param m   maximum ket angular-momentum index
+	 */
 	private static final void processGm(final double B1p, final double Cp, final int m) {
 		final double[][] g = G_THREAD.get();
 
@@ -1800,6 +1932,13 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
+	/**
+	 * Fill G[1..n][0] using the bra-side upward recursion (eq. 15 of [ABD]).
+	 *
+	 * @param B1 recursion coefficient B1 for the bra side
+	 * @param C  recursion coefficient C for the bra side
+	 * @param n  maximum bra angular-momentum index
+	 */
 	private static final void processGn(final double B1, final double C, final int n) {
 		final double[][] g = G_THREAD.get();
 
@@ -1814,6 +1953,15 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 	}
 
+	/**
+	 * Fill G[1..n][1..m] using the mixed bra–ket recursion.
+	 *
+	 * @param B0  cross-term recursion coefficient B0
+	 * @param B1p recursion coefficient B1' for the ket side
+	 * @param Cp  recursion coefficient C' for the ket side
+	 * @param n   maximum bra angular-momentum index
+	 * @param m   maximum ket angular-momentum index
+	 */
 	private static final void finaliseG(final double B0, final double B1p, final double Cp, final int n, final int m) {
 		final double[][] g = G_THREAD.get();
 
@@ -1825,9 +1973,15 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 	}
 
 	/**
-	 * Compute and output I(i,j,k,l) from I(i+j,0,k+l,0) (G)
-	 * 
-	 * xij = xi-xj xkl = xk-xl
+	 * Compute and output I(i,j,k,l) from I(i+j,0,k+l,0) stored in G.
+	 *
+	 * @param i   angular-momentum index of the first Gaussian
+	 * @param j   angular-momentum index of the second Gaussian (xij = xi - xj)
+	 * @param k   angular-momentum index of the third Gaussian
+	 * @param l   angular-momentum index of the fourth Gaussian (xkl = xk - xl)
+	 * @param xij the x/y/z component difference (xi - xj)
+	 * @param xkl the x/y/z component difference (xk - xl)
+	 * @return the value of I(i,j,k,l) for this coordinate component
 	 */
 	private static final double shift(final int i, final int j, final int k, final int l, final double xij,
 			final double xkl) {
