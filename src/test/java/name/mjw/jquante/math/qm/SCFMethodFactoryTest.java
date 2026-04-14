@@ -175,4 +175,5 @@ class SCFMethodFactoryTest {
 		assertEquals(0.72601218, ev[6], diff * 10);
 
 	}
+
 }

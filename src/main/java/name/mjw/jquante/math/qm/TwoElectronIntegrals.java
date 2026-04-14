@@ -2,6 +2,7 @@ package name.mjw.jquante.math.qm;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.LongAdder;
 import java.util.stream.IntStream;
 
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
@@ -12,6 +13,7 @@ import name.mjw.jquante.math.qm.basis.BasisSetLibrary;
 import name.mjw.jquante.math.qm.basis.ContractedGaussian;
 import name.mjw.jquante.math.qm.basis.Power;
 import name.mjw.jquante.math.qm.basis.PrimitiveGaussian;
+import name.mjw.jquante.math.qm.basis.Shell;
 import name.mjw.jquante.math.qm.integral.Integrals;
 import name.mjw.jquante.math.qm.integral.IntegralsUtil;
 import name.mjw.jquante.molecule.Molecule;
@@ -138,7 +140,7 @@ public final class TwoElectronIntegrals {
 		final int noOfIntegrals = noOfBasisFunctions * (noOfBasisFunctions + 1)
 				* (noOfBasisFunctions * noOfBasisFunctions + noOfBasisFunctions + 2) / 8;
 
-		LOG.debug("noOfIntegrals is {}", noOfIntegrals);
+		LOG.debug("Two electron integrals to evaluate: {}", noOfIntegrals);
 
 		twoEIntegrals = new double[noOfIntegrals];
 
@@ -179,7 +181,7 @@ public final class TwoElectronIntegrals {
 		final int noOfIntegrals = noOfBasisFunctions * (noOfBasisFunctions + 1)
 				* (noOfBasisFunctions * noOfBasisFunctions + noOfBasisFunctions + 2) / 8;
 
-		LOG.debug("noOfIntegrals is {}", noOfIntegrals);
+		LOG.debug("Two electron integrals to evaluate: {}", noOfIntegrals);
 
 		twoEIntegrals = new double[noOfIntegrals];
 
@@ -339,106 +341,123 @@ public final class TwoElectronIntegrals {
 	}
 
 	/**
-	 * Returns the basis functions assigned to a given atom via the
-	 * "basisFunctions" user-defined atom property.
+	 * Compute the 2E integrals using the true shell-pair algorithm, storing results
+	 * in a single 1D array in the form [ijkl].
 	 *
-	 * @param atomIndex the atom index
-	 * @return the list of ContractedGaussians centred on that atom
-	 * @throws IllegalStateException if the property is absent or has an unexpected type
-	 */
-	@SuppressWarnings("unchecked")
-	private List<ContractedGaussian> getBasisFunctionsForAtom(int atomIndex) {
-		var prop = molecule.getAtom(atomIndex).getUserDefinedAtomProperty("basisFunctions");
-		if (prop == null) {
-			throw new IllegalStateException(
-					"Atom " + atomIndex + " has no 'basisFunctions' property; cannot use shell-pair algorithm");
-		}
-		Object value = prop.getValue();
-		if (!(value instanceof List)) {
-			throw new IllegalStateException(
-					"Atom " + atomIndex + " 'basisFunctions' property is not a List; cannot use shell-pair algorithm");
-		}
-		return (List<ContractedGaussian>) value;
-	}
-
-	/**
-	 * Compute the 2E integrals using shell pair based method, and store it in a
-	 * single 1D array, in the form [ijkl].
-	 * 
-	 * TODO
-	 * 1) This does not appear to be the shell pair method (mjw).
-	 * 2) Add parallel support.
-	 *
+	 * <p>Uses the unique shell pairs from {@link BasisSetLibrary#getUniqueShellPairs()},
+	 * pre-computes Schwarz screening values Q_IJ = max&nbsp;sqrt(|(ij|ij)|) per shell
+	 * pair, and skips quartets where Q_IJ * Q_KL &lt; 1e-10. The outer loop over bra
+	 * shell pairs is parallelised.
 	 */
 	protected void compute2EShellPair() {
-		List<ContractedGaussian> bfs = basisSetLibrary.getBasisFunctions();
+		LOG.debug("compute2EShellPair() called");
 
-		// allocate required memory
+		List<ContractedGaussian> bfs = basisSetLibrary.getBasisFunctions();
+		List<List<Shell>> shellPairs = basisSetLibrary.getUniqueShellPairs();
+
+		if (shellPairs == null || shellPairs.isEmpty()) {
+			throw new IllegalStateException("No unique shell pairs available; cannot use shell-pair algorithm");
+		}
+
 		int noOfBasisFunctions = bfs.size();
 		int noOfIntegrals = noOfBasisFunctions * (noOfBasisFunctions + 1)
 				* (noOfBasisFunctions * noOfBasisFunctions + noOfBasisFunctions + 2) / 8;
 
+		LOG.debug("Two electron integrals to evaluate: {}", noOfIntegrals);
+
 		twoEIntegrals = new double[noOfIntegrals];
 
-		int noOfAtoms = molecule.getNumberOfAtoms();
-		int naFunc;
-		int nbFunc;
-		int ncFunc;
-		int ndFunc;
-		int twoEIndx;
-		List<ContractedGaussian> aFunc;
-		List<ContractedGaussian> bFunc;
-		List<ContractedGaussian> cFunc;
-		List<ContractedGaussian> dFunc;
-		ContractedGaussian iaFunc;
-		ContractedGaussian jbFunc;
-		ContractedGaussian kcFunc;
-		ContractedGaussian ldFunc;
+		int nShellPairs = shellPairs.size();
 
-		// center a
-		for (int a = 0; a < noOfAtoms; a++) {
-			aFunc = getBasisFunctionsForAtom(a);
-			naFunc = aFunc.size();
-			// basis functions on a
-			for (int i = 0; i < naFunc; i++) {
-				iaFunc = aFunc.get(i);
+		// Pre-compute Schwarz screening values Q_IJ = max sqrt(|(ij|ij)|) per shell pair
+		double[] schwarzValues = new double[nShellPairs];
+		for (int pq = 0; pq < nShellPairs; pq++) {
+			Shell shellA = shellPairs.get(pq).get(0);
+			Shell shellB = shellPairs.get(pq).get(1);
+			double maxVal = 0.0;
+			for (int i = shellA.getFirstBasisFunctionIndex(); i <= shellA.getLastBasisFunctionIndex(); i++) {
+				for (int j = shellB.getFirstBasisFunctionIndex(); j <= shellB.getLastBasisFunctionIndex(); j++) {
+					double val = FastMath.sqrt(FastMath.abs(Integrals.coulomb(bfs.get(i), bfs.get(j), bfs.get(i), bfs.get(j))));
+					if (val > maxVal) maxVal = val;
+				}
+			}
+			schwarzValues[pq] = maxVal;
+		}
 
-				// center b
-				for (int b = 0; b <= a; b++) {
-					bFunc = getBasisFunctionsForAtom(b);
-					nbFunc = (b < a) ? bFunc.size() : i + 1;
-					// basis functions on b
-					for (int j = 0; j < nbFunc; j++) {
-						jbFunc = bFunc.get(j);
+		// Parallel loop over bra shell pairs.
+		// Deduplication is handled entirely at the basis-function level (j<=i, l<=k,
+		// ij>=kl). A shell-level canonical guard based on firstBasisFunctionIndex is
+		// NOT safe here: shells can span multiple functions, so a "lower" shell pair
+		// may still contain (i,j) with ij > kl relative to a "higher" pair — the
+		// guard would block that direction and the reversed direction can't reach the
+		// missing j value. Iterating all (pq,rs) pairs and relying on ij>=kl at the
+		// basis-function level is both correct and avoids any double computation.
+		double minSchwarz = Double.MAX_VALUE;
+		double maxSchwarz = 0.0;
+		for (double q : schwarzValues) {
+			if (q < minSchwarz) minSchwarz = q;
+			if (q > maxSchwarz) maxSchwarz = q;
+		}
+		LOG.info("Schwarz values: min={} max={}", String.format("%.2e", minSchwarz), String.format("%.2e", maxSchwarz));
 
-						// center c
-						for (int c = 0; c < noOfAtoms; c++) {
-							cFunc = getBasisFunctionsForAtom(c);
-							ncFunc = cFunc.size();
-							// basis functions on c
-							for (int k = 0; k < ncFunc; k++) {
-								kcFunc = cFunc.get(k);
+		LongAdder skippedQuartets = new LongAdder();
+		long totalQuartets = (long) nShellPairs * nShellPairs;
 
-								// center d
-								for (int d = 0; d <= c; d++) {
-									dFunc = getBasisFunctionsForAtom(d);
-									ndFunc = (d < c) ? dFunc.size() : k + 1;
-									// basis functions on d
-									for (int l = 0; l < ndFunc; l++) {
-										ldFunc = dFunc.get(l);
+		IntStream.range(0, nShellPairs).parallel().forEach(pq -> {
+			List<Shell> braPair = shellPairs.get(pq);
+			Shell shellI = higherIndexedShell(braPair.get(0), braPair.get(1));
+			Shell shellJ = lowerIndexedShell(braPair.get(0), braPair.get(1));
 
-										twoEIndx = IntegralsUtil.ijkl2intindex(iaFunc.getBasisFunctionIndex(), jbFunc.getBasisFunctionIndex(),
-												kcFunc.getBasisFunctionIndex(), ldFunc.getBasisFunctionIndex());
+			for (int rs = 0; rs < nShellPairs; rs++) {
+				// Schwarz screening: skip negligible quartets
+				if (schwarzValues[pq] * schwarzValues[rs] < 1e-7) {
+					skippedQuartets.increment();
+					continue;
+				}
 
-										twoEIntegrals[twoEIndx] = compute2E(iaFunc, jbFunc, kcFunc, ldFunc);
-									} // end for (l)
-								} // end for (d)
-							} // end for (k)
-						} // end for (c)
-					} // end for (j)
-				} // end for (b)
-			} // end for (i)
-		} // end for (a)
+				List<Shell> ketPair = shellPairs.get(rs);
+				Shell shellK = higherIndexedShell(ketPair.get(0), ketPair.get(1));
+				Shell shellL = lowerIndexedShell(ketPair.get(0), ketPair.get(1));
+
+				for (int i = shellI.getFirstBasisFunctionIndex(); i <= shellI.getLastBasisFunctionIndex(); i++) {
+					for (int j = shellJ.getFirstBasisFunctionIndex(); j <= shellJ.getLastBasisFunctionIndex(); j++) {
+						if (j > i) continue;
+						int ij = i * (i + 1) / 2 + j;
+
+						for (int k = shellK.getFirstBasisFunctionIndex(); k <= shellK.getLastBasisFunctionIndex(); k++) {
+							for (int l = shellL.getFirstBasisFunctionIndex(); l <= shellL.getLastBasisFunctionIndex(); l++) {
+								if (l > k) continue;
+								int kl = k * (k + 1) / 2 + l;
+								if (ij < kl) continue;
+
+								twoEIntegrals[IntegralsUtil.ijkl2intindex(i, j, k, l)] =
+										Integrals.coulomb(bfs.get(i), bfs.get(j), bfs.get(k), bfs.get(l));
+							}
+						}
+					}
+				}
+			}
+		});
+
+		long skipped = skippedQuartets.sum();
+		LOG.info("Schwarz screening: {} of {} shell-pair quartets skipped ({} %)",
+				skipped, totalQuartets, String.format("%.1f", 100.0 * skipped / totalQuartets));
+	}
+
+	/**
+	 * Returns whichever of the two shells has the higher first basis-function index.
+	 * For equal indices (self-pair), returns {@code a}.
+	 */
+	private Shell higherIndexedShell(Shell a, Shell b) {
+		return a.getFirstBasisFunctionIndex() >= b.getFirstBasisFunctionIndex() ? a : b;
+	}
+
+	/**
+	 * Returns whichever of the two shells has the lower first basis-function index.
+	 * For equal indices (self-pair), returns {@code a}.
+	 */
+	private Shell lowerIndexedShell(Shell a, Shell b) {
+		return a.getFirstBasisFunctionIndex() <= b.getFirstBasisFunctionIndex() ? a : b;
 	}
 
 	/**

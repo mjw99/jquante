@@ -13,10 +13,11 @@ class TwoElectronIntegralsTest {
 
     private static final double DIFF = 1e-6;
     static BasisSetLibrary bsl;
+    static Molecule hydrogen;
 
     @BeforeAll
     static void setUp() throws Exception {
-        Molecule hydrogen = Fixtures.getHydrogen();
+        hydrogen = Fixtures.getHydrogen();
         bsl = new BasisSetLibrary(hydrogen, "sto-3g");
     }
 
@@ -85,4 +86,38 @@ class TwoElectronIntegralsTest {
             assertTrue(Double.isFinite(v), "All stored integrals should be finite, found: " + v);
         }
     }
+
+    @Test
+    void shellPairMethodMatchesConventionalForH2STO3G() {
+        TwoElectronIntegrals conventional = new TwoElectronIntegrals(bsl);
+        TwoElectronIntegrals shellPair = new TwoElectronIntegrals(bsl, hydrogen, false);
+
+        assertFalse(shellPair.isOnTheFly());
+        assertNotNull(shellPair.getTwoEIntegrals());
+        assertEquals(conventional.getTwoEIntegrals().length, shellPair.getTwoEIntegrals().length);
+        assertArrayEquals(conventional.getTwoEIntegrals(), shellPair.getTwoEIntegrals(), DIFF,
+                "Shell-pair integrals must match conventional integrals for H2/STO-3G");
+    }
+
+    @Test
+    void shellPairMethodMatchesConventionalForWaterSTO3G() throws Exception {
+        Molecule water = Fixtures.getWater();
+        BasisSetLibrary waterBsl = new BasisSetLibrary(water, "sto-3g");
+
+        TwoElectronIntegrals conventional = new TwoElectronIntegrals(waterBsl);
+        TwoElectronIntegrals shellPair = new TwoElectronIntegrals(waterBsl, water, false);
+
+        assertFalse(shellPair.isOnTheFly());
+        assertEquals(conventional.getTwoEIntegrals().length, shellPair.getTwoEIntegrals().length);
+        assertArrayEquals(conventional.getTwoEIntegrals(), shellPair.getTwoEIntegrals(), DIFF,
+                "Shell-pair integrals must match conventional integrals for H2O/STO-3G");
+    }
+
+    @Test
+    void shellPairOnTheFlyDoesNotStoreIntegrals() {
+        TwoElectronIntegrals tei = new TwoElectronIntegrals(bsl, hydrogen, true);
+        assertTrue(tei.isOnTheFly());
+        assertNull(tei.getTwoEIntegrals());
+    }
+
 }
