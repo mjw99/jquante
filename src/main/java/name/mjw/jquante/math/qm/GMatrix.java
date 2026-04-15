@@ -91,14 +91,12 @@ public final class GMatrix extends Array2DRowRealMatrix {
 		LOG.debug("makeGMatrix() called");
 		final int noOfBasisFunctions = density.getRowDimension();
 
-		final RealVector densityOneD = MathUtil.realMatrixToRealVector(density); // form 1D vector of density
-
+		final double[][] densityData = density.getData();
 		final double[] ints = twoEI.getTwoEIntegrals();
 
 		IntStream.range(0, noOfBasisFunctions).parallel().forEach(i -> {
 			for (int j = 0; j < i + 1; j++) {
-				double[] tempVector = new double[noOfBasisFunctions * noOfBasisFunctions];
-				int kl = 0;
+				double val = 0.0;
 
 				for (int k = 0; k < noOfBasisFunctions; k++) {
 					for (int l = 0; l < noOfBasisFunctions; l++) {
@@ -106,12 +104,11 @@ public final class GMatrix extends Array2DRowRealMatrix {
 						int indexK1 = IntegralsUtil.ijkl2intindex(i, k, j, l);
 						int indexK2 = IntegralsUtil.ijkl2intindex(i, l, k, j);
 
-						tempVector[kl] = 2.0 * ints[indexJ] - 0.5 * ints[indexK1] - 0.5 * ints[indexK2];
-						kl++;
+						val += (2.0 * ints[indexJ] - 0.5 * ints[indexK1] - 0.5 * ints[indexK2])
+								* densityData[k][l];
 					}
 				}
 
-				double val = new ArrayRealVector(tempVector, false).dotProduct(densityOneD);
 				this.setEntry(i, j, val);
 				this.setEntry(j, i, val);
 			}
