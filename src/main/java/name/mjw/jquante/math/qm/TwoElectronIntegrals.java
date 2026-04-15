@@ -397,63 +397,69 @@ public final class TwoElectronIntegrals {
 		List<ContractedGaussian> bfs = basisSetLibrary.getBasisFunctions();
 
 		// allocate required memory
-		int noOfBasisFunctions = bfs.size();
-		int noOfIntegrals = noOfBasisFunctions * (noOfBasisFunctions + 1)
+		final int noOfBasisFunctions = bfs.size();
+		final int noOfIntegrals = noOfBasisFunctions * (noOfBasisFunctions + 1)
 				* (noOfBasisFunctions * noOfBasisFunctions + noOfBasisFunctions + 2) / 8;
 
 		twoEIntegrals = new double[noOfIntegrals];
 
-		int noOfAtoms = molecule.getNumberOfAtoms();
-		int naFunc;
-		int nbFunc;
-		int ncFunc;
-		int ndFunc;
-		int twoEIndx;
-		List<ContractedGaussian> aFunc;
-		List<ContractedGaussian> bFunc;
-		List<ContractedGaussian> cFunc;
-		List<ContractedGaussian> dFunc;
-		ContractedGaussian iaFunc;
-		ContractedGaussian jbFunc;
-		ContractedGaussian kcFunc;
-		ContractedGaussian ldFunc;
+		final int noOfAtoms = molecule.getNumberOfAtoms();
 
-		// center a
+		// Pre-fetch per-atom basis function lists once to avoid repeated
+		// user-defined-property lookups inside the parallel body.
+		final List<List<ContractedGaussian>> atomFunctions = new ArrayList<>(noOfAtoms);
 		for (int a = 0; a < noOfAtoms; a++) {
-			aFunc = getBasisFunctionsForAtom(a);
-			naFunc = aFunc.size();
+			atomFunctions.add(getBasisFunctionsForAtom(a));
+		}
+
+		// Parallelise over the outermost atom index.  The ij >= kl guard ensures
+		// each canonical integral index is written by exactly one thread, so no
+		// synchronisation is needed on twoEIntegrals[].
+		IntStream.range(0, noOfAtoms).parallel().forEach(a -> {
+			final List<ContractedGaussian> aFunc = atomFunctions.get(a);
+			final int naFunc = aFunc.size();
+
 			// basis functions on a
 			for (int i = 0; i < naFunc; i++) {
-				iaFunc = aFunc.get(i);
+				final ContractedGaussian iaFunc = aFunc.get(i);
+				final int iBF = iaFunc.getBasisFunctionIndex();
 
 				// center b
 				for (int b = 0; b <= a; b++) {
-					bFunc = getBasisFunctionsForAtom(b);
-					nbFunc = (b < a) ? bFunc.size() : i + 1;
+					final List<ContractedGaussian> bFunc = atomFunctions.get(b);
+					final int nbFunc = (b < a) ? bFunc.size() : i + 1;
+
 					// basis functions on b
 					for (int j = 0; j < nbFunc; j++) {
-						jbFunc = bFunc.get(j);
+						final ContractedGaussian jbFunc = bFunc.get(j);
+						final int jBF = jbFunc.getBasisFunctionIndex();
+						final int ij = iBF * (iBF + 1) / 2 + jBF;
 
 						// center c
 						for (int c = 0; c < noOfAtoms; c++) {
-							cFunc = getBasisFunctionsForAtom(c);
-							ncFunc = cFunc.size();
+							final List<ContractedGaussian> cFunc = atomFunctions.get(c);
+							final int ncFunc = cFunc.size();
+
 							// basis functions on c
 							for (int k = 0; k < ncFunc; k++) {
-								kcFunc = cFunc.get(k);
+								final ContractedGaussian kcFunc = cFunc.get(k);
+								final int kBF = kcFunc.getBasisFunctionIndex();
 
 								// center d
 								for (int d = 0; d <= c; d++) {
-									dFunc = getBasisFunctionsForAtom(d);
-									ndFunc = (d < c) ? dFunc.size() : k + 1;
+									final List<ContractedGaussian> dFunc = atomFunctions.get(d);
+									final int ndFunc = (d < c) ? dFunc.size() : k + 1;
+
 									// basis functions on d
 									for (int l = 0; l < ndFunc; l++) {
-										ldFunc = dFunc.get(l);
+										final ContractedGaussian ldFunc = dFunc.get(l);
+										final int lBF = ldFunc.getBasisFunctionIndex();
+										final int kl = kBF * (kBF + 1) / 2 + lBF;
 
-										twoEIndx = IntegralsUtil.ijkl2intindex(iaFunc.getBasisFunctionIndex(), jbFunc.getBasisFunctionIndex(),
-												kcFunc.getBasisFunctionIndex(), ldFunc.getBasisFunctionIndex());
-
-										twoEIntegrals[twoEIndx] = compute2E(iaFunc, jbFunc, kcFunc, ldFunc);
+										if (ij >= kl) {
+											final int twoEIndx = IntegralsUtil.ijkl2intindex(iBF, jBF, kBF, lBF);
+											twoEIntegrals[twoEIndx] = compute2E(iaFunc, jbFunc, kcFunc, ldFunc);
+										}
 									} // end for (l)
 								} // end for (d)
 							} // end for (k)
@@ -461,7 +467,7 @@ public final class TwoElectronIntegrals {
 					} // end for (j)
 				} // end for (b)
 			} // end for (i)
-		} // end for (a)
+		}); // end parallel forEach (a)
 	}
 
 	/**
