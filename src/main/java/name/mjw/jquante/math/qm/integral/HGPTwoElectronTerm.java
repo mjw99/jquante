@@ -77,6 +77,69 @@ public final class HGPTwoElectronTerm implements TwoElectronTerm {
 	public final double coulombRepulsion(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b,
 			double bNorm, Power bPower, double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha,
 			Vector3D d, double dNorm, Power dPower, double dAlpha) {
+		return primitiveHrr(a, aNorm, aPower, aAlpha, b, bNorm, bPower, bAlpha,
+				c, cNorm, cPower, cAlpha, d, dNorm, dPower, dAlpha);
+	}
+
+	/**
+	 * Primitive-level Horizontal Recurrence Relation (HRR).
+	 *
+	 * <p>Shifts angular momentum from b onto a (and from d onto c) until
+	 * bPower = dPower = (0,0,0), at which point {@link #vrr} is called directly.
+	 * This is the single-primitive analogue of {@link #contractedHrr} and is
+	 * required whenever {@link #coulombRepulsion} is called with non-zero b or d
+	 * angular momentum (e.g. during analytic gradient evaluation).
+	 */
+	private double primitiveHrr(
+			Vector3D a, double aNorm, Power aPower, double aAlpha,
+			Vector3D b, double bNorm, Power bPower, double bAlpha,
+			Vector3D c, double cNorm, Power cPower, double cAlpha,
+			Vector3D d, double dNorm, Power dPower, double dAlpha) {
+
+		final int la = aPower.l(), ma = aPower.m(), na = aPower.n();
+		final int lb = bPower.l(), mb = bPower.m(), nb = bPower.n();
+		final int lc = cPower.l(), mc = cPower.m(), nc = cPower.n();
+		final int ld = dPower.l(), md = dPower.m(), nd = dPower.n();
+
+		if (lb > 0) {
+			Power newBPower = new Power(lb - 1, mb, nb);
+			return primitiveHrr(a, aNorm, new Power(la + 1, ma, na), aAlpha, b, bNorm, newBPower, bAlpha,
+					c, cNorm, cPower, cAlpha, d, dNorm, dPower, dAlpha)
+					+ (a.getX() - b.getX()) * primitiveHrr(a, aNorm, aPower, aAlpha, b, bNorm, newBPower, bAlpha,
+							c, cNorm, cPower, cAlpha, d, dNorm, dPower, dAlpha);
+		} else if (mb > 0) {
+			Power newBPower = new Power(lb, mb - 1, nb);
+			return primitiveHrr(a, aNorm, new Power(la, ma + 1, na), aAlpha, b, bNorm, newBPower, bAlpha,
+					c, cNorm, cPower, cAlpha, d, dNorm, dPower, dAlpha)
+					+ (a.getY() - b.getY()) * primitiveHrr(a, aNorm, aPower, aAlpha, b, bNorm, newBPower, bAlpha,
+							c, cNorm, cPower, cAlpha, d, dNorm, dPower, dAlpha);
+		} else if (nb > 0) {
+			Power newBPower = new Power(lb, mb, nb - 1);
+			return primitiveHrr(a, aNorm, new Power(la, ma, na + 1), aAlpha, b, bNorm, newBPower, bAlpha,
+					c, cNorm, cPower, cAlpha, d, dNorm, dPower, dAlpha)
+					+ (a.getZ() - b.getZ()) * primitiveHrr(a, aNorm, aPower, aAlpha, b, bNorm, newBPower, bAlpha,
+							c, cNorm, cPower, cAlpha, d, dNorm, dPower, dAlpha);
+		} else if (ld > 0) {
+			Power newDPower = new Power(ld - 1, md, nd);
+			return primitiveHrr(a, aNorm, aPower, aAlpha, b, bNorm, bPower, bAlpha,
+					c, cNorm, new Power(lc + 1, mc, nc), cAlpha, d, dNorm, newDPower, dAlpha)
+					+ (c.getX() - d.getX()) * primitiveHrr(a, aNorm, aPower, aAlpha, b, bNorm, bPower, bAlpha,
+							c, cNorm, cPower, cAlpha, d, dNorm, newDPower, dAlpha);
+		} else if (md > 0) {
+			Power newDPower = new Power(ld, md - 1, nd);
+			return primitiveHrr(a, aNorm, aPower, aAlpha, b, bNorm, bPower, bAlpha,
+					c, cNorm, new Power(lc, mc + 1, nc), cAlpha, d, dNorm, newDPower, dAlpha)
+					+ (c.getY() - d.getY()) * primitiveHrr(a, aNorm, aPower, aAlpha, b, bNorm, bPower, bAlpha,
+							c, cNorm, cPower, cAlpha, d, dNorm, newDPower, dAlpha);
+		} else if (nd > 0) {
+			Power newDPower = new Power(ld, md, nd - 1);
+			return primitiveHrr(a, aNorm, aPower, aAlpha, b, bNorm, bPower, bAlpha,
+					c, cNorm, new Power(lc, mc, nc + 1), cAlpha, d, dNorm, newDPower, dAlpha)
+					+ (c.getZ() - d.getZ()) * primitiveHrr(a, aNorm, aPower, aAlpha, b, bNorm, bPower, bAlpha,
+							c, cNorm, cPower, cAlpha, d, dNorm, newDPower, dAlpha);
+		}
+
+		// Base case: bPower = dPower = (0,0,0), call vrr directly.
 		return vrr(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c, cNorm, cPower, cAlpha, d, dNorm, dAlpha, 0);
 	}
 

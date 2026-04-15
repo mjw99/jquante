@@ -99,4 +99,74 @@ class HGPTwoElectronTermTest {
 						new Vector3D(0, 0, 0), 1.0, new Power(2, 0, 0), 1.0, new Vector3D(0, 0, 0), 1.0, 1.0, 0),
 				delta);
 	}
+
+	// --- coulombRepulsion with non-zero bPower / dPower ---
+	//
+	// coulomb(ContractedGaussian) always passes through contractedHrr, which
+	// reduces b and d to s-type before calling vrr — so it was never broken.
+	// coulombRepulsion(primitive params) is called directly during analytic
+	// gradient evaluation.
+
+	/**
+	 * (s, p_x | s, s) with all centres at the origin equals zero by symmetry.
+	 * Before the fix, coulombRepulsion dropped bPower and returned the (s,s|s,s)
+	 * value (~4.37) instead.
+	 */
+	@Test
+	void coulombRepulsionBPowerXIsZeroAtOrigin() {
+		assertEquals(0.0,
+				e2.coulombRepulsion(
+						new Vector3D(0, 0, 0), 1.0, new Power(0, 0, 0), 1.0,
+						new Vector3D(0, 0, 0), 1.0, new Power(1, 0, 0), 1.0,
+						new Vector3D(0, 0, 0), 1.0, new Power(0, 0, 0), 1.0,
+						new Vector3D(0, 0, 0), 1.0, new Power(0, 0, 0), 1.0),
+				delta);
+	}
+
+	/**
+	 * (s, s | s, p_x) with all centres at the origin equals zero by symmetry.
+	 */
+	@Test
+	void coulombRepulsionDPowerXIsZeroAtOrigin() {
+		assertEquals(0.0,
+				e2.coulombRepulsion(
+						new Vector3D(0, 0, 0), 1.0, new Power(0, 0, 0), 1.0,
+						new Vector3D(0, 0, 0), 1.0, new Power(0, 0, 0), 1.0,
+						new Vector3D(0, 0, 0), 1.0, new Power(0, 0, 0), 1.0,
+						new Vector3D(0, 0, 0), 1.0, new Power(1, 0, 0), 1.0),
+				delta);
+	}
+
+	/**
+	 * Verifies the HRR algebraic identity for bPower:
+	 *   (a, b_x | c, d) = (a+x, b_x-1 | c, d) + (Ax - Bx)(a, b_x-1 | c, d)
+	 * Self-contained — uses no external reference oracle.
+	 * With a=(1,2,3) and b=origin, Ax - Bx = 1.
+	 */
+	@Test
+	void coulombRepulsionSatisfiesHrrIdentityForBPower() {
+		Vector3D a = new Vector3D(1, 2, 3);
+		Vector3D b = new Vector3D(0, 0, 0);
+		Vector3D c = new Vector3D(0, 0, 0);
+		Vector3D d = new Vector3D(0, 0, 0);
+		double n = 1.0, alpha = 1.0;
+
+		// LHS: b has Power(1,0,0) — the broken case
+		double lhs = e2.coulombRepulsion(
+				a, n, new Power(0, 0, 0), alpha,
+				b, n, new Power(1, 0, 0), alpha,
+				c, n, new Power(0, 0, 0), alpha,
+				d, n, new Power(0, 0, 0), alpha);
+
+		// RHS: HRR expansion — bPower reduced to zero, no HRR needed
+		double rhs = e2.coulombRepulsion(a, n, new Power(1, 0, 0), alpha,
+				b, n, new Power(0, 0, 0), alpha, c, n, new Power(0, 0, 0), alpha,
+				d, n, new Power(0, 0, 0), alpha)
+				+ (a.getX() - b.getX()) * e2.coulombRepulsion(a, n, new Power(0, 0, 0), alpha,
+						b, n, new Power(0, 0, 0), alpha, c, n, new Power(0, 0, 0), alpha,
+						d, n, new Power(0, 0, 0), alpha);
+
+		assertEquals(lhs, rhs, delta);
+	}
+
 }
