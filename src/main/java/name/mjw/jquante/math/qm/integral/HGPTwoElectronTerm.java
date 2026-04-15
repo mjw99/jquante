@@ -287,149 +287,262 @@ public final class HGPTwoElectronTerm implements TwoElectronTerm {
 	final double vrr(Vector3D a, double aNorm, Power aPower, double aAlpha, Vector3D b, double bNorm,
 			double bAlpha, Vector3D c, double cNorm, Power cPower, double cAlpha, Vector3D d, double dNorm,
 			double dAlpha, int m) {
+
+		// All quantities below are constant for this primitive quartet.
+		// Precompute them once here so that vrrRecurse() never recomputes them.
+		final double zeta = aAlpha + bAlpha;
+		final double eta  = cAlpha + dAlpha;
+		final double zetaPlusEta = zeta + eta;
+
+		final double ax = a.getX(), ay = a.getY(), az = a.getZ();
+		final double cx = c.getX(), cy = c.getY(), cz = c.getZ();
+
+		final double px = (aAlpha * ax + bAlpha * b.getX()) / zeta;
+		final double py = (aAlpha * ay + bAlpha * b.getY()) / zeta;
+		final double pz = (aAlpha * az + bAlpha * b.getZ()) / zeta;
+
+		final double qx = (cAlpha * cx + dAlpha * d.getX()) / eta;
+		final double qy = (cAlpha * cy + dAlpha * d.getY()) / eta;
+		final double qz = (cAlpha * cz + dAlpha * d.getZ()) / eta;
+
+		final double wx = (zeta * px + eta * qx) / zetaPlusEta;
+		final double wy = (zeta * py + eta * qy) / zetaPlusEta;
+		final double wz = (zeta * pz + eta * qz) / zetaPlusEta;
+
+		// Geometric differences used by the VRR recurrence (ket side uses q−c and w−q;
+		// bra side uses p−a and w−p).
+		final double pax = px - ax, pay = py - ay, paz = pz - az;
+		final double wpx = wx - px, wpy = wy - py, wpz = wz - pz;
+		final double qcx = qx - cx, qcy = qy - cy, qcz = qz - cz;
+		final double wqx = wx - qx, wqy = wy - qy, wqz = wz - qz;
+
+		// Recurrence prefactors.
+		final double oneover2zeta        = 0.5 / zeta;
+		final double oneover2eta         = 0.5 / eta;
+		final double oneover2zetaPlusEta = 0.5 / zetaPlusEta;
+		final double zetaByZetaPlusEta   = zeta / zetaPlusEta;
+		final double etaByZetaPlusEta    = eta  / zetaPlusEta;
+
+		// Base-case prefactor and Boys-function argument — both constant for this quartet.
+		final double rab2 = a.distanceSq(b);
+		final double rcd2 = c.distanceSq(d);
+		final double Kab  = sqrt2PI / zeta * FastMath.exp(-aAlpha * bAlpha / zeta * rab2);
+		final double Kcd  = sqrt2PI / eta  * FastMath.exp(-cAlpha * dAlpha / eta  * rcd2);
+		final double rpq2 = (px - qx) * (px - qx) + (py - qy) * (py - qy) + (pz - qz) * (pz - qz);
+		final double T    = zeta * eta / zetaPlusEta * rpq2;
+		final double preScaled = aNorm * bNorm * cNorm * dNorm * Kab * Kcd / FastMath.sqrt(zetaPlusEta);
+
+		return vrrRecurse(
+				aPower.l(), aPower.m(), aPower.n(),
+				cPower.l(), cPower.m(), cPower.n(),
+				m,
+				pax, pay, paz, wpx, wpy, wpz,
+				qcx, qcy, qcz, wqx, wqy, wqz,
+				oneover2zeta, oneover2eta, oneover2zetaPlusEta,
+				zetaByZetaPlusEta, etaByZetaPlusEta,
+				preScaled, T);
+	}
+
+	/**
+	 * Recursive core of the VRR (Vertical Recurrence Relation).
+	 *
+	 * <p>All quartet-constant geometry and prefactor quantities are passed in as
+	 * plain {@code double} scalars so they are computed exactly once per primitive
+	 * quartet by {@link #vrr} and never recomputed during the recursion.
+	 *
+	 * @param la angular momentum x of bra center a
+	 * @param ma angular momentum y of bra center a
+	 * @param na angular momentum z of bra center a
+	 * @param lc angular momentum x of ket center c
+	 * @param mc angular momentum y of ket center c
+	 * @param nc angular momentum z of ket center c
+	 * @param m  auxiliary integral order
+	 * @param pax p.x − a.x
+	 * @param pay p.y − a.y
+	 * @param paz p.z − a.z
+	 * @param wpx w.x − p.x
+	 * @param wpy w.y − p.y
+	 * @param wpz w.z − p.z
+	 * @param qcx q.x − c.x
+	 * @param qcy q.y − c.y
+	 * @param qcz q.z − c.z
+	 * @param wqx w.x − q.x
+	 * @param wqy w.y − q.y
+	 * @param wqz w.z − q.z
+	 * @param oneover2zeta        1 / (2 * zeta)
+	 * @param oneover2eta         1 / (2 * eta)
+	 * @param oneover2zetaPlusEta 1 / (2 * (zeta + eta))
+	 * @param zetaByZetaPlusEta   zeta / (zeta + eta)
+	 * @param etaByZetaPlusEta    eta  / (zeta + eta)
+	 * @param preScaled           aNorm * bNorm * cNorm * dNorm * Kab * Kcd / sqrt(zeta+eta)
+	 * @param T                   Boys-function argument
+	 * @return VRR integral value for the given angular momenta and order m
+	 */
+	private double vrrRecurse(
+			int la, int ma, int na,
+			int lc, int mc, int nc,
+			int m,
+			double pax, double pay, double paz,
+			double wpx, double wpy, double wpz,
+			double qcx, double qcy, double qcz,
+			double wqx, double wqy, double wqz,
+			double oneover2zeta,
+			double oneover2eta,
+			double oneover2zetaPlusEta,
+			double zetaByZetaPlusEta,
+			double etaByZetaPlusEta,
+			double preScaled,
+			double T) {
 		double val;
 
-		final Vector3D p = IntegralsUtil.gaussianProductCenter(aAlpha, a, bAlpha, b);
-		final Vector3D q = IntegralsUtil.gaussianProductCenter(cAlpha, c, dAlpha, d);
-		final double zeta = aAlpha + bAlpha;
-		final double eta = cAlpha + dAlpha;
-		final double zetaPlusEta = zeta + eta;
-		final double zetaByZetaPlusEta = zeta / zetaPlusEta;
-		final double etaByZetaPlusEta = eta / zetaPlusEta;
-		final Vector3D w = IntegralsUtil.gaussianProductCenter(zeta, p, eta, q);
-
-		final int la = aPower.l();
-		final int ma = aPower.m();
-		final int na = aPower.n();
-		final int lc = cPower.l();
-		final int mc = cPower.m();
-		final int nc = cPower.n();
-
 		if (nc > 0) {
-			Power newCPower = new Power(lc, mc, nc - 1);
-			val = (q.getZ() - c.getZ())
-					* vrr(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c, cNorm, newCPower, cAlpha, d, dNorm, dAlpha, m)
-					+ (w.getZ() - q.getZ()) * vrr(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c, cNorm, newCPower,
-							cAlpha, d, dNorm, dAlpha, m + 1);
-
+			val = qcz * vrrRecurse(la, ma, na, lc, mc, nc - 1, m,
+						pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+						oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+						preScaled, T)
+				+ wqz * vrrRecurse(la, ma, na, lc, mc, nc - 1, m + 1,
+						pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+						oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+						preScaled, T);
 			if (nc > 1) {
-				Power newCPower1 = new Power(lc, mc, nc - 2);
-				val += 0.5 * (nc - 1) / eta
-						* (vrr(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c, cNorm, newCPower1, cAlpha, d, dNorm,
-								dAlpha, m)
-								- zetaByZetaPlusEta * vrr(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c, cNorm,
-										newCPower1, cAlpha, d, dNorm, dAlpha, m + 1));
+				val += oneover2eta * (nc - 1) * (
+						vrrRecurse(la, ma, na, lc, mc, nc - 2, m,
+								pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+								oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+								preScaled, T)
+						- zetaByZetaPlusEta * vrrRecurse(la, ma, na, lc, mc, nc - 2, m + 1,
+								pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+								oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+								preScaled, T));
 			}
-
 			if (na > 0) {
-				val += 0.5 * na / zetaPlusEta * vrr(a, aNorm, new Power(la, ma, na - 1), aAlpha, b, bNorm, bAlpha, c,
-						cNorm, newCPower, cAlpha, d, dNorm, dAlpha, m + 1);
+				val += oneover2zetaPlusEta * na * vrrRecurse(la, ma, na - 1, lc, mc, nc - 1, m + 1,
+						pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+						oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+						preScaled, T);
 			}
 			return val;
 		} else if (mc > 0) {
-			Power newCPower = new Power(lc, mc - 1, nc);
-			val = (q.getY() - c.getY())
-					* vrr(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c, cNorm, newCPower, cAlpha, d, dNorm, dAlpha, m)
-					+ (w.getY() - q.getY()) * vrr(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c, cNorm, newCPower,
-							cAlpha, d, dNorm, dAlpha, m + 1);
-
+			val = qcy * vrrRecurse(la, ma, na, lc, mc - 1, nc, m,
+						pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+						oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+						preScaled, T)
+				+ wqy * vrrRecurse(la, ma, na, lc, mc - 1, nc, m + 1,
+						pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+						oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+						preScaled, T);
 			if (mc > 1) {
-				Power newCPower1 = new Power(lc, mc - 2, nc);
-				val += 0.5 * (mc - 1) / eta
-						* (vrr(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c, cNorm, newCPower1, cAlpha, d, dNorm,
-								dAlpha, m)
-								- zetaByZetaPlusEta * vrr(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c, cNorm,
-										newCPower1, cAlpha, d, dNorm, dAlpha, m + 1));
+				val += oneover2eta * (mc - 1) * (
+						vrrRecurse(la, ma, na, lc, mc - 2, nc, m,
+								pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+								oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+								preScaled, T)
+						- zetaByZetaPlusEta * vrrRecurse(la, ma, na, lc, mc - 2, nc, m + 1,
+								pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+								oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+								preScaled, T));
 			}
-
 			if (ma > 0) {
-				val += 0.5 * ma / zetaPlusEta * vrr(a, aNorm, new Power(la, ma - 1, na), aAlpha, b, bNorm, bAlpha, c,
-						cNorm, newCPower, cAlpha, d, dNorm, dAlpha, m + 1);
+				val += oneover2zetaPlusEta * ma * vrrRecurse(la, ma - 1, na, lc, mc - 1, nc, m + 1,
+						pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+						oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+						preScaled, T);
 			}
 			return val;
 		} else if (lc > 0) {
-			Power newCPower = new Power(lc - 1, mc, nc);
-			val = (q.getX() - c.getX())
-					* vrr(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c, cNorm, newCPower, cAlpha, d, dNorm, dAlpha, m)
-					+ (w.getX() - q.getX()) * vrr(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c, cNorm, newCPower,
-							cAlpha, d, dNorm, dAlpha, m + 1);
-
+			val = qcx * vrrRecurse(la, ma, na, lc - 1, mc, nc, m,
+						pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+						oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+						preScaled, T)
+				+ wqx * vrrRecurse(la, ma, na, lc - 1, mc, nc, m + 1,
+						pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+						oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+						preScaled, T);
 			if (lc > 1) {
-				Power newCPower1 = new Power(lc - 2, mc, nc);
-				val += 0.5 * (lc - 1) / eta
-						* (vrr(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c, cNorm, newCPower1, cAlpha, d, dNorm,
-								dAlpha, m)
-								- zetaByZetaPlusEta * vrr(a, aNorm, aPower, aAlpha, b, bNorm, bAlpha, c, cNorm,
-										newCPower1, cAlpha, d, dNorm, dAlpha, m + 1));
+				val += oneover2eta * (lc - 1) * (
+						vrrRecurse(la, ma, na, lc - 2, mc, nc, m,
+								pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+								oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+								preScaled, T)
+						- zetaByZetaPlusEta * vrrRecurse(la, ma, na, lc - 2, mc, nc, m + 1,
+								pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+								oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+								preScaled, T));
 			}
-
 			if (la > 0) {
-				val += 0.5 * la / zetaPlusEta * vrr(a, aNorm, new Power(la - 1, ma, na), aAlpha, b, bNorm, bAlpha, c,
-						cNorm, newCPower, cAlpha, d, dNorm, dAlpha, m + 1);
+				val += oneover2zetaPlusEta * la * vrrRecurse(la - 1, ma, na, lc - 1, mc, nc, m + 1,
+						pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+						oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+						preScaled, T);
 			}
 			return val;
 		} else if (na > 0) {
-			Power newAPower = new Power(la, ma, na - 1);
-			val = (p.getZ() - a.getZ())
-					* vrr(a, aNorm, newAPower, aAlpha, b, bNorm, bAlpha, c, cNorm, cPower, cAlpha, d, dNorm, dAlpha, m)
-					+ (w.getZ() - p.getZ()) * vrr(a, aNorm, newAPower, aAlpha, b, bNorm, bAlpha, c, cNorm, cPower,
-							cAlpha, d, dNorm, dAlpha, m + 1);
-
+			val = paz * vrrRecurse(la, ma, na - 1, lc, mc, nc, m,
+						pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+						oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+						preScaled, T)
+				+ wpz * vrrRecurse(la, ma, na - 1, lc, mc, nc, m + 1,
+						pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+						oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+						preScaled, T);
 			if (na > 1) {
-				Power newAPower1 = new Power(la, ma, na - 2);
-				val += 0.5 * (na - 1) / zeta
-						* (vrr(a, aNorm, newAPower1, aAlpha, b, bNorm, bAlpha, c, cNorm, cPower, cAlpha, d, dNorm,
-								dAlpha, m)
-								- etaByZetaPlusEta * vrr(a, aNorm, newAPower1, aAlpha, b, bNorm, bAlpha, c, cNorm,
-										cPower, cAlpha, d, dNorm, dAlpha, m + 1));
+				val += oneover2zeta * (na - 1) * (
+						vrrRecurse(la, ma, na - 2, lc, mc, nc, m,
+								pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+								oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+								preScaled, T)
+						- etaByZetaPlusEta * vrrRecurse(la, ma, na - 2, lc, mc, nc, m + 1,
+								pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+								oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+								preScaled, T));
 			}
-
 			return val;
 		} else if (ma > 0) {
-			Power newAPower = new Power(la, ma - 1, na);
-			val = (p.getY() - a.getY())
-					* vrr(a, aNorm, newAPower, aAlpha, b, bNorm, bAlpha, c, cNorm, cPower, cAlpha, d, dNorm, dAlpha, m)
-					+ (w.getY() - p.getY()) * vrr(a, aNorm, newAPower, aAlpha, b, bNorm, bAlpha, c, cNorm, cPower,
-							cAlpha, d, dNorm, dAlpha, m + 1);
-
+			val = pay * vrrRecurse(la, ma - 1, na, lc, mc, nc, m,
+						pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+						oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+						preScaled, T)
+				+ wpy * vrrRecurse(la, ma - 1, na, lc, mc, nc, m + 1,
+						pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+						oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+						preScaled, T);
 			if (ma > 1) {
-				Power newAPower1 = new Power(la, ma - 2, na);
-				val += 0.5 * (ma - 1) / zeta
-						* (vrr(a, aNorm, newAPower1, aAlpha, b, bNorm, bAlpha, c, cNorm, cPower, cAlpha, d, dNorm,
-								dAlpha, m)
-								- etaByZetaPlusEta * vrr(a, aNorm, newAPower1, aAlpha, b, bNorm, bAlpha, c, cNorm,
-										cPower, cAlpha, d, dNorm, dAlpha, m + 1));
+				val += oneover2zeta * (ma - 1) * (
+						vrrRecurse(la, ma - 2, na, lc, mc, nc, m,
+								pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+								oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+								preScaled, T)
+						- etaByZetaPlusEta * vrrRecurse(la, ma - 2, na, lc, mc, nc, m + 1,
+								pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+								oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+								preScaled, T));
 			}
-
 			return val;
 		} else if (la > 0) {
-			Power newAPower = new Power(la - 1, ma, na);
-			val = (p.getX() - a.getX())
-					* vrr(a, aNorm, newAPower, aAlpha, b, bNorm, bAlpha, c, cNorm, cPower, cAlpha, d, dNorm, dAlpha, m)
-					+ (w.getX() - p.getX()) * vrr(a, aNorm, newAPower, aAlpha, b, bNorm, bAlpha, c, cNorm, cPower,
-							cAlpha, d, dNorm, dAlpha, m + 1);
-
+			val = pax * vrrRecurse(la - 1, ma, na, lc, mc, nc, m,
+						pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+						oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+						preScaled, T)
+				+ wpx * vrrRecurse(la - 1, ma, na, lc, mc, nc, m + 1,
+						pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+						oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+						preScaled, T);
 			if (la > 1) {
-				Power newAPower1 = new Power(la - 2, ma, na);
-				val += 0.5 * (la - 1) / zeta
-						* (vrr(a, aNorm, newAPower1, aAlpha, b, bNorm, bAlpha, c, cNorm, cPower, cAlpha, d, dNorm,
-								dAlpha, m)
-								- etaByZetaPlusEta * vrr(a, aNorm, newAPower1, aAlpha, b, bNorm, bAlpha, c, cNorm,
-										cPower, cAlpha, d, dNorm, dAlpha, m + 1));
+				val += oneover2zeta * (la - 1) * (
+						vrrRecurse(la - 2, ma, na, lc, mc, nc, m,
+								pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+								oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+								preScaled, T)
+						- etaByZetaPlusEta * vrrRecurse(la - 2, ma, na, lc, mc, nc, m + 1,
+								pax, pay, paz, wpx, wpy, wpz, qcx, qcy, qcz, wqx, wqy, wqz,
+								oneover2zeta, oneover2eta, oneover2zetaPlusEta, zetaByZetaPlusEta, etaByZetaPlusEta,
+								preScaled, T));
 			}
-
 			return val;
 		}
 
-		final double rab2 = a.distanceSq(b);
-		final double Kab = sqrt2PI / zeta * FastMath.exp(-aAlpha * bAlpha / zeta * rab2);
-		final double rcd2 = c.distanceSq(d);
-		final double Kcd = sqrt2PI / eta * FastMath.exp(-cAlpha * dAlpha / eta * rcd2);
-		final double rpq2 = p.distanceSq(q);
-		final double T = zeta * eta / zetaPlusEta * rpq2;
-
-		return aNorm * bNorm * cNorm * dNorm * Kab * Kcd / FastMath.sqrt(zetaPlusEta)
-				* IntegralsUtil.computeFGamma(m, T);
+		// Base case: all angular momenta are zero.
+		return preScaled * IntegralsUtil.computeFGamma(m, T);
 	}
 
 	/**
