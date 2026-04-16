@@ -47,6 +47,14 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 	private static final ThreadLocal<double[][]> G_THREAD = ThreadLocal
 			.withInitial(() -> new double[MAX_ROOTS][MAX_ROOTS]);
 
+	/** Thread-local roots array for Rys quadrature (avoids per-call allocation). */
+	private static final ThreadLocal<double[]> ROOTS_THREAD =
+			ThreadLocal.withInitial(() -> new double[MAX_ROOTS]);
+
+	/** Thread-local weights array for Rys quadrature (avoids per-call allocation). */
+	private static final ThreadLocal<double[]> WEIGHTS_THREAD =
+			ThreadLocal.withInitial(() -> new double[MAX_ROOTS]);
+
 	/**
 	 * 2E coulomb interactions between 4 contracted Gaussians using Rys quadrature.
 	 *
@@ -197,8 +205,8 @@ public final class RysTwoElectronTerm implements TwoElectronTerm {
 
 		final int nRoots = (la + ma + na + lb + nb + mb + lc + mc + nc + ld + md + nd) / 2 + 1;
 
-		final double[] roots = new double[nRoots];
-		final double[] weights = new double[nRoots];
+		final double[] roots = ROOTS_THREAD.get();
+		final double[] weights = WEIGHTS_THREAD.get();
 
 		final double radiusPQSquared = calculateRadiusPQSquared(a, aAlpha, b, bAlpha, c, cAlpha, d, dAlpha);
 
