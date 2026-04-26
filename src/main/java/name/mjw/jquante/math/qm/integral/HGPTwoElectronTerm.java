@@ -89,6 +89,24 @@ public final class HGPTwoElectronTerm implements TwoElectronTerm {
 	 * This is the single-primitive analogue of {@link #contractedHrr} and is
 	 * required whenever {@link #coulombRepulsion} is called with non-zero b or d
 	 * angular momentum (e.g. during analytic gradient evaluation).
+	 *
+	 * @param a      centre of primitive Gaussian a
+	 * @param aNorm  normalisation factor of primitive Gaussian a
+	 * @param aPower angular momentum powers of primitive Gaussian a
+	 * @param aAlpha exponent of primitive Gaussian a
+	 * @param b      centre of primitive Gaussian b
+	 * @param bNorm  normalisation factor of primitive Gaussian b
+	 * @param bPower angular momentum powers of primitive Gaussian b
+	 * @param bAlpha exponent of primitive Gaussian b
+	 * @param c      centre of primitive Gaussian c
+	 * @param cNorm  normalisation factor of primitive Gaussian c
+	 * @param cPower angular momentum powers of primitive Gaussian c
+	 * @param cAlpha exponent of primitive Gaussian c
+	 * @param d      centre of primitive Gaussian d
+	 * @param dNorm  normalisation factor of primitive Gaussian d
+	 * @param dPower angular momentum powers of primitive Gaussian d
+	 * @param dAlpha exponent of primitive Gaussian d
+	 * @return the primitive two-electron Coulomb repulsion integral (ab|cd)
 	 */
 	private double primitiveHrr(
 			Vector3D a, double aNorm, Power aPower, double aAlpha,

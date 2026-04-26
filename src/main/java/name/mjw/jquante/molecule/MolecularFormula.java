@@ -139,7 +139,9 @@ public class MolecularFormula {
 	}
 
 	/**
-	 * overridden toString()
+	 * Returns the molecular formula string.
+	 *
+	 * @return the molecular formula (e.g. {@code "H2O"})
 	 */
 	@Override
 	public String toString() {

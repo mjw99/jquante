@@ -241,7 +241,10 @@ public record PrimitiveGaussian(Vector3D origin, Power powers, double exponent, 
 	}
 
 	/**
-	 * overloaded toString()
+	 * Returns a string representation of this primitive Gaussian, showing its
+	 * origin, angular momentum powers, exponent, contraction coefficient, and normalisation factor.
+	 *
+	 * @return a human-readable description of this primitive Gaussian
 	 */
 	@Override
 	public String toString() {
@@ -251,7 +254,11 @@ public record PrimitiveGaussian(Vector3D origin, Power powers, double exponent, 
 
 
 	/**
-	 * Sort exponents in descending order.
+	 * Compares this primitive Gaussian with another, ordering by exponent in descending order.
+	 *
+	 * @param other the primitive Gaussian to compare against
+	 * @return a negative integer, zero, or a positive integer as this exponent is
+	 *         greater than, equal to, or less than the other's exponent
 	 */
 	@Override
 	public int compareTo(PrimitiveGaussian other) {

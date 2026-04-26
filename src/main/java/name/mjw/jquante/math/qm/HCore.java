@@ -104,6 +104,11 @@ public final class HCore extends Array2DRowRealMatrix {
 
 	}
 
+	/**
+	 * Returns a string representation of this HCore matrix, showing all elements.
+	 *
+	 * @return a formatted matrix string
+	 */
 	@Override
 	public String toString() {
 		return MathUtil.matrixToString(this);

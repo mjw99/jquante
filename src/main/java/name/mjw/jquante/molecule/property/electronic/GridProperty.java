@@ -616,7 +616,10 @@ public class GridProperty {
 	}
 
 	/**
-	 * the overridden toString() method.
+	 * Returns a string representation of this grid property, including its
+	 * bounding box, increments, and function value statistics.
+	 *
+	 * @return a multi-line summary of this grid property
 	 */
 	@Override
 	public String toString() {

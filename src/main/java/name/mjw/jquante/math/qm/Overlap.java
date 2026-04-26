@@ -147,6 +147,11 @@ public final class Overlap extends Array2DRowRealMatrix {
 		return cgi.overlapDerivative(atomIndex, cgj);
 	}
 
+	/**
+	 * Returns a string representation of this Overlap matrix, showing all elements.
+	 *
+	 * @return a formatted matrix string
+	 */
 	@Override
 	public String toString() {
 		return MathUtil.matrixToString(this);

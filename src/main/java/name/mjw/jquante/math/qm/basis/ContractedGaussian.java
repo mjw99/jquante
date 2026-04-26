@@ -811,7 +811,10 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 		return flatContractedGaussian;
 	}
 	/**
-	 * overloaded toString()
+	 * Returns a string representation of this contracted Gaussian, showing its
+	 * origin, angular momentum powers, exponents, and contraction coefficients.
+	 *
+	 * @return a human-readable description of this contracted Gaussian
 	 */
 	@Override
 	public String toString() {

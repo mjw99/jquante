@@ -48,6 +48,11 @@ public final class Fock extends Array2DRowRealMatrix {
 		setSubMatrix((hCore.add(gMatrix)).getData(), 0, 0);
 	}
 
+	/**
+	 * Returns a string representation of this Fock matrix, showing all elements.
+	 *
+	 * @return a formatted matrix string
+	 */
 	@Override
 	public String toString() {
 		return MathUtil.matrixToString(this);

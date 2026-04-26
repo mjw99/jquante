@@ -388,6 +388,13 @@ public final class GMatrix extends Array2DRowRealMatrix {
 		}
 	}
 
+	/**
+	 * Compares this GMatrix for equality with another object. Two GMatrix instances
+	 * are equal if their matrix entries, density, and partial G matrix lists are equal.
+	 *
+	 * @param obj the object to compare with
+	 * @return {@code true} if the two GMatrix instances are equal
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -400,6 +407,11 @@ public final class GMatrix extends Array2DRowRealMatrix {
 		return Objects.equals(density, other.density) && Objects.equals(partialGMatrixList, other.partialGMatrixList);
 	}
 
+	/**
+	 * Returns a string representation of this GMatrix, showing all elements.
+	 *
+	 * @return a formatted matrix string
+	 */
 	@Override
 	public String toString() {
 		return MathUtil.matrixToString(this);

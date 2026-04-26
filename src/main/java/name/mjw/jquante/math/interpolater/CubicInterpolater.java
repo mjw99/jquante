@@ -36,9 +36,9 @@ public class CubicInterpolater extends Interpolater {
 	 * </code>
 	 * 
 	 * @param y
-	 *            the Y values (results of fuction evaluation)
+	 *            the Y values (results of function evaluation)
 	 * @param x
-	 *            the X values at fuction evaluation is performed or is expected
+	 *            the X values at function evaluation is performed or is expected
 	 * @return the interpolated value depending upon the interpolation formula
 	 */
 	@Override

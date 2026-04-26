@@ -82,7 +82,8 @@ public class DefaultConfiguration implements GlobalConfiguration {
 
 	/**
 	 * Method returns the value of parameter pertaining to the key.
-	 * 
+	 *
+	 * @param key the key whose value is to be retrieved
 	 * @return Parameter - the parameter value.
 	 * @throws NullPointerException
 	 *             if the key is not found

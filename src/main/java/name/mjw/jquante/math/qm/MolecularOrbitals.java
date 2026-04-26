@@ -104,6 +104,11 @@ public final class MolecularOrbitals extends Array2DRowRealMatrix {
 		LOG.debug("MO values :{}", this);
 	}
 
+	/**
+	 * Returns a string representation of this MolecularOrbitals matrix, showing all elements.
+	 *
+	 * @return a formatted matrix string
+	 */
 	@Override
 	public String toString() {
 		return MathUtil.matrixToString(this);
