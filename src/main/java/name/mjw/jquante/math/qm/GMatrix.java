@@ -7,8 +7,6 @@ import java.util.Objects;
 import java.util.stream.IntStream;
 
 import org.hipparchus.linear.Array2DRowRealMatrix;
-import org.hipparchus.linear.ArrayRealVector;
-import org.hipparchus.linear.RealVector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -264,52 +262,35 @@ public final class GMatrix extends Array2DRowRealMatrix {
 
 		density = scfMethod.getDensity();
 		int noOfBasisFunctions = density.getRowDimension();
-		RealVector densityOneD = MathUtil.realMatrixToRealVector(density); // form 1D vector of density
+		double[][] densityData = density.getData();
 
 		GMatrix gdx = new GMatrix(noOfBasisFunctions);
 		GMatrix gdy = new GMatrix(noOfBasisFunctions);
 		GMatrix gdz = new GMatrix(noOfBasisFunctions);
 
-		int i;
-		int j;
-		int k;
-		int l;
-		int kl;
-		int indexJ;
-		int indexK1;
-		int indexK2;
-		for (i = 0; i < noOfBasisFunctions; i++) {
-			for (j = 0; j < i + 1; j++) {
-				kl = 0;
-				double[] xtemp = new double[noOfBasisFunctions * noOfBasisFunctions];
-				double[] ytemp = new double[noOfBasisFunctions * noOfBasisFunctions];
-				double[] ztemp = new double[noOfBasisFunctions * noOfBasisFunctions];
-				for (k = 0; k < noOfBasisFunctions; k++) {
-					for (l = 0; l < noOfBasisFunctions; l++) {
-						indexJ = IntegralsUtil.ijkl2intindex(i, j, k, l);
-						indexK1 = IntegralsUtil.ijkl2intindex(i, k, j, l);
-						indexK2 = IntegralsUtil.ijkl2intindex(i, l, k, j);
-
-						xtemp[kl] = 2. * d2IntsDxa[indexJ] - 0.5 * d2IntsDxa[indexK1] - 0.5 * d2IntsDxa[indexK2];
-						ytemp[kl] = 2. * d2IntsDya[indexJ] - 0.5 * d2IntsDya[indexK1] - 0.5 * d2IntsDya[indexK2];
-						ztemp[kl] = 2. * d2IntsDza[indexJ] - 0.5 * d2IntsDza[indexK1] - 0.5 * d2IntsDza[indexK2];
-						kl++;
+		for (int i = 0; i < noOfBasisFunctions; i++) {
+			for (int j = 0; j < i + 1; j++) {
+				double xdot = 0.0;
+				double ydot = 0.0;
+				double zdot = 0.0;
+				for (int k = 0; k < noOfBasisFunctions; k++) {
+					for (int l = 0; l < noOfBasisFunctions; l++) {
+						int indexJ  = IntegralsUtil.ijkl2intindex(i, j, k, l);
+						int indexK1 = IntegralsUtil.ijkl2intindex(i, k, j, l);
+						int indexK2 = IntegralsUtil.ijkl2intindex(i, l, k, j);
+						double d = densityData[k][l];
+						xdot += (2. * d2IntsDxa[indexJ] - 0.5 * d2IntsDxa[indexK1] - 0.5 * d2IntsDxa[indexK2]) * d;
+						ydot += (2. * d2IntsDya[indexJ] - 0.5 * d2IntsDya[indexK1] - 0.5 * d2IntsDya[indexK2]) * d;
+						zdot += (2. * d2IntsDza[indexJ] - 0.5 * d2IntsDza[indexK1] - 0.5 * d2IntsDza[indexK2]) * d;
 					}
 				}
 
-				RealVector xvec = new ArrayRealVector(xtemp);
-				RealVector yvec = new ArrayRealVector(ytemp);
-				RealVector zvec = new ArrayRealVector(ztemp);
-
-				gdx.setEntry(i, j, xvec.dotProduct(densityOneD));
-				gdx.setEntry(j, i, xvec.dotProduct(densityOneD));
-
-				gdy.setEntry(i, j, yvec.dotProduct(densityOneD));
-				gdy.setEntry(j, i, yvec.dotProduct(densityOneD));
-
-				gdz.setEntry(i, j, zvec.dotProduct(densityOneD));
-				gdz.setEntry(j, i, zvec.dotProduct(densityOneD));
-
+				gdx.setEntry(i, j, xdot);
+				gdx.setEntry(j, i, xdot);
+				gdy.setEntry(i, j, ydot);
+				gdy.setEntry(j, i, ydot);
+				gdz.setEntry(i, j, zdot);
+				gdz.setEntry(j, i, zdot);
 			}
 		}
 
