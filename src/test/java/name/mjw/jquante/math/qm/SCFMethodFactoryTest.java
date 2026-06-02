@@ -175,4 +175,56 @@ class SCFMethodFactoryTest {
 		assertEquals(0.72601218, ev[6], diff * 10);
 
 	}
+
+	// -----------------------------------------------------------------------
+	// Higher-angular-momentum SCF energy anchors (d and f functions).
+	//
+	// Reference total energies from NWChem 7.2.3, RHF, computed at the exact
+	// jquante geometry (fed to NWChem in bohr, units bohr). jquante uses
+	// Cartesian Gaussians, so NWChem is run with "basis cartesian" (giving the
+	// same 25 / 50 basis functions) and "scf; thresh 1e-8". SCF convergence is
+	// tightened here so the jquante energy is a stable anchor independent of the
+	// default early-stop; observed agreement with NWChem is <1e-6 Hartree, so
+	// the energy is asserted to 1e-5.
+	// -----------------------------------------------------------------------
+
+	private static final double ANCHOR_DIFF = 1e-5;
+
+	@Test
+	// d functions: water / 6-31G**. NWChem 7.2.3 RHF (cartesian) = -76.022187561693
+	void singlePointHFWater631GStarStar() throws Exception {
+		Molecule water = Fixtures.getWater();
+
+		BasisSetLibrary bf = new BasisSetLibrary(water, "6-31gss");
+
+		OneElectronIntegrals e1 = new OneElectronIntegrals(bf, water);
+		TwoElectronIntegrals e2 = new TwoElectronIntegrals(bf);
+
+		SCFMethod scfm = SCFMethodFactory.getInstance().getSCFMethod(water, e1, e2, SCFType.HARTREE_FOCK);
+		scfm.setEnergyTolerance(1.0e-8);
+		scfm.setMaxIteration(50);
+		scfm.scf();
+
+		assertEquals(9.087438510255588, scfm.nuclearEnergy(), 1e-6);
+		assertEquals(-76.022187561693, scfm.getEnergy(), ANCHOR_DIFF);
+	}
+
+	@Test
+	// f functions: hydrogen fluoride / cc-pVTZ. NWChem 7.2.3 RHF (cartesian) = -100.058441254723
+	void singlePointHFHydrogenFluorideCCPVTZ() throws Exception {
+		Molecule hydrogenFluoride = Fixtures.getHydrogenFluoride();
+
+		BasisSetLibrary bf = new BasisSetLibrary(hydrogenFluoride, "cc-pvtz");
+
+		OneElectronIntegrals e1 = new OneElectronIntegrals(bf, hydrogenFluoride);
+		TwoElectronIntegrals e2 = new TwoElectronIntegrals(bf);
+
+		SCFMethod scfm = SCFMethodFactory.getInstance().getSCFMethod(hydrogenFluoride, e1, e2, SCFType.HARTREE_FOCK);
+		scfm.setEnergyTolerance(1.0e-8);
+		scfm.setMaxIteration(50);
+		scfm.scf();
+
+		assertEquals(5.1936698398691385, scfm.nuclearEnergy(), 1e-6);
+		assertEquals(-100.058441254723, scfm.getEnergy(), ANCHOR_DIFF);
+	}
 }
