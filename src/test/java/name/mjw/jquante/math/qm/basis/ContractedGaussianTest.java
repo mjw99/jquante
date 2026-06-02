@@ -2,6 +2,7 @@ package name.mjw.jquante.math.qm.basis;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
@@ -113,6 +114,38 @@ class ContractedGaussianTest {
 		cgtb.normalize();
 
 		assertEquals(1, cgta.compareTo(cgtb));
+	}
+
+	@Test
+	void copyConstructorCopiesAllStateIndependently() {
+		Atom h = new Atom("H", new Vector3D(0, 0, 0));
+		ContractedGaussian src = new ContractedGaussian(h, new Power(0, 0, 0));
+		src.addPrimitive(3.42525091, 0.154329);
+		src.addPrimitive(0.62391373, 0.535328);
+		src.normalize();
+		src.setBasisFunctionIndex(7);
+
+		ContractedGaussian copy = new ContractedGaussian(src);
+
+		// scalar state must be copied, not left at defaults
+		assertEquals(src.getNormalization(), copy.getNormalization(), 0.0);
+		assertTrue(copy.getNormalization() != 0.0, "normalization must be copied, not left at 0.0");
+		assertEquals(src.getCenteredAtom(), copy.getCenteredAtom());
+		assertEquals(src.getBasisFunctionIndex(), copy.getBasisFunctionIndex());
+		assertEquals(src.getOrigin(), copy.getOrigin());
+		assertEquals(src.getPowers(), copy.getPowers());
+
+		// list contents must be equal ...
+		assertEquals(src.getExponents(), copy.getExponents());
+		assertEquals(src.getCoefficients(), copy.getCoefficients());
+		assertEquals(src.getPrimitives(), copy.getPrimitives());
+		assertEquals(src.getPrimNorms(), copy.getPrimNorms());
+
+		// ... but held in independent lists, not aliased to the source
+		assertNotSame(src.getExponents(), copy.getExponents());
+		assertNotSame(src.getCoefficients(), copy.getCoefficients());
+		assertNotSame(src.getPrimitives(), copy.getPrimitives());
+		assertNotSame(src.getPrimNorms(), copy.getPrimNorms());
 	}
 
 }

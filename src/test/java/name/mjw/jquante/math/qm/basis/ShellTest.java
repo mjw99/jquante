@@ -35,4 +35,11 @@ class ShellTest {
 		assertEquals(2, shell.getLastBasisFunctionIndex());
 	}
 
+	@Test
+	void shellInheritsNormalizationFromSource() {
+		// Regression: the ContractedGaussian copy constructor used by Shell once
+		// dropped the normalisation factor, leaving every Shell at 0.0.
+		assertEquals(cgtoS0.getNormalization(), shell.getNormalization(), 0.0);
+	}
+
 }

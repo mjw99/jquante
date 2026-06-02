@@ -95,9 +95,16 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 	}
 
 	/**
-	 * Copy constructor: creates a new ContractedGaussian with the same origin,
-	 * powers, primitives, exponents, coefficients, and normalisation factors as
-	 * the given instance.
+	 * Copy constructor: creates a new ContractedGaussian that is an independent copy
+	 * of the given instance.
+	 *
+	 * <p>The origin and powers are immutable value objects and are shared. The
+	 * primitive, exponent, coefficient, and primitive-normalisation lists are copied
+	 * into fresh lists so the two instances do not alias mutable state (the elements
+	 * themselves - {@link PrimitiveGaussian} and {@link Double} - are immutable). The
+	 * normalisation factor, centred atom, and basis-function index are all copied;
+	 * previously they were left at their defaults (notably {@code normalization = 0.0}),
+	 * which produced incorrect {@link Shell} instances.
 	 *
 	 * @param cg the ContractedGaussian to copy
 	 */
@@ -105,10 +112,14 @@ public class ContractedGaussian implements Comparable<ContractedGaussian> {
 		this.origin = cg.getOrigin();
 		this.powers = cg.getPowers();
 
-		primitives = cg.getPrimitives();
-		exponents = cg.getExponents();
-		coefficients = cg.getCoefficients();
-		primNorms = cg.getPrimNorms();
+		this.primitives = new ArrayList<>(cg.getPrimitives());
+		this.exponents = new ArrayList<>(cg.getExponents());
+		this.coefficients = new ArrayList<>(cg.getCoefficients());
+		this.primNorms = new ArrayList<>(cg.getPrimNorms());
+
+		this.normalization = cg.getNormalization();
+		this.centeredAtom = cg.getCenteredAtom();
+		this.basisFunctionIndex = cg.getBasisFunctionIndex();
 	}
 
 	/**
