@@ -77,9 +77,11 @@ public final class TwoElectronIntegrals {
 		if (!onTheFly) {
 			try {
 				compute2E(); // try to do compute 2E incore
-			} catch (OutOfMemoryError e) {
-				// if no memory, resort to direct SCF
-				LOG.error("No memory for in-core integral evaluation" + ". Switching to direct integral evaluation.");
+			} catch (OutOfMemoryError | ArithmeticException e) {
+				// in-core storage not possible (insufficient memory, or the integral count
+				// exceeds the maximum array length); fall back to direct SCF
+				LOG.error("Cannot store two-electron integrals in core ({}). "
+						+ "Switching to direct (on-the-fly) integral evaluation.", e.getMessage());
 				this.onTheFly = true;
 			}
 		}
@@ -117,9 +119,11 @@ public final class TwoElectronIntegrals {
 							e.getMessage());
 					compute2E();
 				}
-			} catch (OutOfMemoryError e) {
-				// if no memory, resort to direct SCF
-				LOG.error("No memory for in-core integral evaluation" + ". Switching to direct integral evaluation.");
+			} catch (OutOfMemoryError | ArithmeticException e) {
+				// in-core storage not possible (insufficient memory, or the integral count
+				// exceeds the maximum array length); fall back to direct SCF
+				LOG.error("Cannot store two-electron integrals in core ({}). "
+						+ "Switching to direct (on-the-fly) integral evaluation.", e.getMessage());
 				this.onTheFly = true;
 			}
 		}
@@ -136,8 +140,7 @@ public final class TwoElectronIntegrals {
 
 		// allocate required memory
 		final int noOfBasisFunctions = bfs.size();
-		final int noOfIntegrals = noOfBasisFunctions * (noOfBasisFunctions + 1)
-				* (noOfBasisFunctions * noOfBasisFunctions + noOfBasisFunctions + 2) / 8;
+		final int noOfIntegrals = integralStorageSize(noOfBasisFunctions);
 
 		LOG.debug("noOfIntegrals is {}", noOfIntegrals);
 
@@ -177,8 +180,7 @@ public final class TwoElectronIntegrals {
 
 		// allocate required memory
 		final int noOfBasisFunctions = bfs.size();
-		final int noOfIntegrals = noOfBasisFunctions * (noOfBasisFunctions + 1)
-				* (noOfBasisFunctions * noOfBasisFunctions + noOfBasisFunctions + 2) / 8;
+		final int noOfIntegrals = integralStorageSize(noOfBasisFunctions);
 
 		LOG.debug("noOfIntegrals is {}", noOfIntegrals);
 
@@ -398,8 +400,7 @@ public final class TwoElectronIntegrals {
 
 		// allocate required memory
 		final int noOfBasisFunctions = bfs.size();
-		final int noOfIntegrals = noOfBasisFunctions * (noOfBasisFunctions + 1)
-				* (noOfBasisFunctions * noOfBasisFunctions + noOfBasisFunctions + 2) / 8;
+		final int noOfIntegrals = integralStorageSize(noOfBasisFunctions);
 
 		twoEIntegrals = new double[noOfIntegrals];
 
@@ -624,5 +625,32 @@ public final class TwoElectronIntegrals {
 			}
 
 		}
+	}
+
+	/**
+	 * Returns the length of the packed two-electron integral array for the given
+	 * number of basis functions, after verifying that it can be addressed by a
+	 * Java array (i.e. that the count fits in an {@code int}).
+	 *
+	 * <p>The number of unique integrals grows as roughly N&#x2074;/8, so it exceeds
+	 * {@link Integer#MAX_VALUE} at around 362 basis functions. Beyond that the
+	 * integrals cannot be held in core and direct (on-the-fly) evaluation must be
+	 * used instead.
+	 *
+	 * @param noOfBasisFunctions the number of basis functions
+	 * @return the required array length, guaranteed to fit in an {@code int}
+	 * @throws ArithmeticException if the number of integrals exceeds
+	 *                             {@link Integer#MAX_VALUE}
+	 */
+	static int integralStorageSize(final int noOfBasisFunctions) {
+		final long noOfIntegrals = IntegralsUtil.numberOfUniqueIntegrals(noOfBasisFunctions);
+		if (noOfIntegrals > Integer.MAX_VALUE) {
+			throw new ArithmeticException(String.format(
+					"%d basis functions require %d unique two-electron integrals, which exceeds the "
+							+ "maximum Java array length (%d); in-core storage is not possible. Use "
+							+ "direct (on-the-fly) SCF evaluation instead.",
+					noOfBasisFunctions, noOfIntegrals, Integer.MAX_VALUE));
+		}
+		return (int) noOfIntegrals;
 	}
 }

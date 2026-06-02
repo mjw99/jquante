@@ -69,16 +69,32 @@ public final class IntegralsUtil {
 			l = temp;
 		}
 
-		int ij = i * (i + 1) / 2 + j;
-		int kl = k * (k + 1) / 2 + l;
+		long ij = (long) i * (i + 1) / 2 + j;
+		long kl = (long) k * (k + 1) / 2 + l;
 
 		if (ij < kl) {
-			temp = ij;
+			long swap = ij;
 			ij = kl;
-			kl = temp;
+			kl = swap;
 		}
 
-		return (ij * (ij + 1) / 2 + kl);
+		return (int) (ij * (ij + 1) / 2 + kl);
+	}
+
+	/**
+	 * Number of unique two-electron integrals for a basis of {@code n} functions,
+	 * i.e. the length of the packed 1-D integral array addressed by
+	 * {@link #ijkl2intindex(int, int, int, int)}. Equivalent to
+	 * {@code n(n+1)(n^2+n+2)/8}, evaluated in {@code long} arithmetic to avoid the
+	 * {@code int} overflow that would otherwise occur beyond ~256 basis functions.
+	 *
+	 * @param n the number of basis functions
+	 * @return the number of unique two-electron integrals (may exceed
+	 *         {@link Integer#MAX_VALUE})
+	 */
+	public static long numberOfUniqueIntegrals(final int n) {
+		final long ln = n;
+		return ln * (ln + 1) * (ln * ln + ln + 2) / 8;
 	}
 
 	/**

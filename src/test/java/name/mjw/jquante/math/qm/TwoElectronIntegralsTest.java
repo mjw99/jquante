@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import name.mjw.jquante.math.qm.basis.BasisSetLibrary;
+import name.mjw.jquante.math.qm.integral.IntegralsUtil;
 import name.mjw.jquante.molecule.Molecule;
 import name.mjw.jquante.test.Fixtures;
 
@@ -84,5 +85,21 @@ class TwoElectronIntegralsTest {
         for (double v : tei.getTwoEIntegrals()) {
             assertTrue(Double.isFinite(v), "All stored integrals should be finite, found: " + v);
         }
+    }
+
+    @Test
+    void integralStorageSizeMatchesUniqueCountForInCoreBasis() {
+        assertEquals(6, TwoElectronIntegrals.integralStorageSize(2));
+        // 350 functions is near the in-core limit but still addressable by an int
+        assertEquals((int) IntegralsUtil.numberOfUniqueIntegrals(350),
+                TwoElectronIntegrals.integralStorageSize(350));
+    }
+
+    @Test
+    void integralStorageSizeThrowsWhenCountExceedsIntRange() {
+        // 362 functions is the first size whose integral count exceeds
+        // Integer.MAX_VALUE, so it cannot be stored in core.
+        assertThrows(ArithmeticException.class, () -> TwoElectronIntegrals.integralStorageSize(362));
+        assertThrows(ArithmeticException.class, () -> TwoElectronIntegrals.integralStorageSize(1000));
     }
 }

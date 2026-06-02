@@ -2,6 +2,7 @@ package name.mjw.jquante.math.qm.integral;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
 import org.junit.jupiter.api.Test;
@@ -147,6 +148,32 @@ class IntegralsUtilTest {
 		int ij0kl = IntegralsUtil.ijkl2intindex(1, 0, 1, 1);
 		int kl0ij = IntegralsUtil.ijkl2intindex(1, 1, 1, 0);
 		assertEquals(ij0kl, kl0ij);
+	}
+
+	@Test
+	void numberOfUniqueIntegralsSmallBasis() {
+		// n=2: 2*3*(4+2+2)/8 = 6
+		assertEquals(6L, IntegralsUtil.numberOfUniqueIntegrals(2));
+	}
+
+	@Test
+	void numberOfUniqueIntegralsDoesNotOverflowInt() {
+		// These exceed what the previous int arithmetic could represent: e.g. n=256
+		// silently produced 4218944 instead of 541089856.
+		assertEquals(541089856L, IntegralsUtil.numberOfUniqueIntegrals(256));
+		assertEquals(3216060100L, IntegralsUtil.numberOfUniqueIntegrals(400));
+	}
+
+	@Test
+	void ijkl2intindexDoesNotOverflowForLargeIndices() {
+		// For n=361 functions the top index (360,360,360,360) makes the intermediate
+		// ij*(ij+1) exceed Integer.MAX_VALUE; the old int math wrapped to a negative
+		// value. It must now equal the largest valid (zero-based) integral index.
+		int n = 361;
+		int top = n - 1;
+		long idx = IntegralsUtil.ijkl2intindex(top, top, top, top);
+		assertTrue(idx > 0, "index must be positive, got: " + idx);
+		assertEquals(IntegralsUtil.numberOfUniqueIntegrals(n) - 1, idx);
 	}
 
 }
