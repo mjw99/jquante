@@ -214,26 +214,33 @@ public final class TwoElectronIntegrals {
 		final double maxSchwarz = maxSchwarzBound(schwarz);
 		final double threshold = schwarzThreshold;
 
-		// we only need i <= j, k <= l, and ij >= kl
-		IntStream.range(0, noOfBasisFunctions).parallel().forEach(i -> {
-			for (int j = 0; j < i + 1; j++) {
-				int ij = i * (i + 1) / 2 + j;
-				double qij = schwarz[ij];
+		// Parallelise over a single flattened range of canonical bra-pairs. The flat
+		// index ij is exactly i(i+1)/2 + j, so the triangular (i, j) space becomes
+		// n(n+1)/2 fine-grained tasks rather than n coarse rows. This shrinks the
+		// largest indivisible task from a whole i-row (O(n^3) work) down to one
+		// bra-pair's ket loop (O(n^2)), giving far better load balance on the
+		// triangular iteration space regardless of the number of atoms.
+		// We only need i >= j, k >= l, and ij >= kl.
+		final int noOfPairs = noOfBasisFunctions * (noOfBasisFunctions + 1) / 2;
 
-				// the whole ket loop is negligible if even the largest bra·ket bound is too small
-				if (qij * maxSchwarz < threshold) {
-					continue;
-				}
+		IntStream.range(0, noOfPairs).parallel().forEach(ij -> {
+			final int i = rowOfPairIndex(ij);
+			final int j = ij - i * (i + 1) / 2;
+			final double qij = schwarz[ij];
 
-				for (int k = 0; k < noOfBasisFunctions; k++) {
-					for (int l = 0; l < k + 1; l++) {
-						int kl = k * (k + 1) / 2 + l;
+			// the whole ket loop is negligible if even the largest bra·ket bound is too small
+			if (qij * maxSchwarz < threshold) {
+				return;
+			}
 
-						if (ij >= kl && qij * schwarz[kl] >= threshold) {
-							int ijkl = IntegralsUtil.ijkl2intindex(i, j, k, l);
-							// record the 2E integrals
-							twoEIntegrals[ijkl] = Integrals.coulomb(bfs.get(i), bfs.get(j), bfs.get(k), bfs.get(l));
-						}
+			for (int k = 0; k < noOfBasisFunctions; k++) {
+				for (int l = 0; l < k + 1; l++) {
+					int kl = k * (k + 1) / 2 + l;
+
+					if (ij >= kl && qij * schwarz[kl] >= threshold) {
+						int ijkl = IntegralsUtil.ijkl2intindex(i, j, k, l);
+						// record the 2E integrals
+						twoEIntegrals[ijkl] = Integrals.coulomb(bfs.get(i), bfs.get(j), bfs.get(k), bfs.get(l));
 					}
 				}
 			}
@@ -582,29 +589,33 @@ public final class TwoElectronIntegrals {
 		twoEDer.add(dyTwoE);
 		twoEDer.add(dzTwoE);
 
-		// we only need i <= j, k <= l, and ij >= kl
-		IntStream.range(0, noOfBasisFunctions).parallel().forEach(i -> {
-			ContractedGaussian bfi = bfs.get(i);
+		// Parallelise over the flattened canonical bra-pair index ij (= i(i+1)/2 + j)
+		// for the same load-balancing reason as compute2E(): one fine-grained task
+		// per bra-pair rather than one coarse task per i-row.
+		// We only need i >= j, k >= l, and ij >= kl.
+		final int noOfPairs = noOfBasisFunctions * (noOfBasisFunctions + 1) / 2;
 
-			for (int j = 0; j < i + 1; j++) {
-				ContractedGaussian bfj = bfs.get(j);
-				int ij = i * (i + 1) / 2 + j;
-				for (int k = 0; k < noOfBasisFunctions; k++) {
-					ContractedGaussian bfk = bfs.get(k);
-					for (int l = 0; l < k + 1; l++) {
-						ContractedGaussian bfl = bfs.get(l);
-						int kl = k * (k + 1) / 2 + l;
+		IntStream.range(0, noOfPairs).parallel().forEach(ij -> {
+			final int i = rowOfPairIndex(ij);
+			final int j = ij - i * (i + 1) / 2;
+			final ContractedGaussian bfi = bfs.get(i);
+			final ContractedGaussian bfj = bfs.get(j);
 
-						if (ij >= kl) {
-							int ijkl = IntegralsUtil.ijkl2intindex(i, j, k, l);
+			for (int k = 0; k < noOfBasisFunctions; k++) {
+				ContractedGaussian bfk = bfs.get(k);
+				for (int l = 0; l < k + 1; l++) {
+					ContractedGaussian bfl = bfs.get(l);
+					int kl = k * (k + 1) / 2 + l;
 
-							// record derivative of the 2E integrals
-							Vector3D twoEDerEle = compute2EDerivativeElement(bfi, bfj, bfk, bfl);
+					if (ij >= kl) {
+						int ijkl = IntegralsUtil.ijkl2intindex(i, j, k, l);
 
-							dxTwoE[ijkl] = twoEDerEle.getX();
-							dyTwoE[ijkl] = twoEDerEle.getY();
-							dzTwoE[ijkl] = twoEDerEle.getZ();
-						}
+						// record derivative of the 2E integrals
+						Vector3D twoEDerEle = compute2EDerivativeElement(bfi, bfj, bfk, bfl);
+
+						dxTwoE[ijkl] = twoEDerEle.getX();
+						dyTwoE[ijkl] = twoEDerEle.getY();
+						dzTwoE[ijkl] = twoEDerEle.getZ();
 					}
 				}
 			}
@@ -699,6 +710,28 @@ public final class TwoElectronIntegrals {
 			}
 		}
 		return max;
+	}
+
+	/**
+	 * Decodes the row index i of a canonical pair index p = i(i+1)/2 + j (with
+	 * 0 &le; j &le; i); that is, the largest i for which i(i+1)/2 &le; p. The column
+	 * is then recovered as j = p - i(i+1)/2. This is the inverse of the triangular
+	 * packing used throughout, letting the (i, j) bra-pair space be parallelised as
+	 * a single flat range.
+	 *
+	 * @param p the canonical pair index
+	 * @return the row index i
+	 */
+	private static int rowOfPairIndex(final int p) {
+		int i = (int) ((Math.sqrt(8.0 * p + 1.0) - 1.0) / 2.0);
+		// correct for any floating-point rounding at the triangular boundaries
+		while (i * (i + 1) / 2 > p) {
+			i--;
+		}
+		while ((i + 1) * (i + 2) / 2 <= p) {
+			i++;
+		}
+		return i;
 	}
 
 	/**
