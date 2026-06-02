@@ -52,6 +52,18 @@ public final class TwoElectronIntegrals {
 	protected boolean onTheFly;
 
 	/**
+	 * Default Cauchy–Schwarz screening threshold. A quartet (ij|kl) is skipped
+	 * when its upper bound sqrt(|(ij|ij)|)·sqrt(|(kl|kl)|) falls below this value.
+	 */
+	private static final double DEFAULT_SCHWARZ_THRESHOLD = 1.0e-10;
+
+	/**
+	 * Cauchy–Schwarz screening threshold used when pre-computing the stored 2E
+	 * integrals. Values &le; 0 disable screening (every unique integral is kept).
+	 */
+	private double schwarzThreshold = DEFAULT_SCHWARZ_THRESHOLD;
+
+	/**
 	 * Creates a new instance of TwoElectronIntegrals
 	 * 
 	 * @param basisSetLibrary the basis functions to be used
@@ -146,16 +158,27 @@ public final class TwoElectronIntegrals {
 
 		twoEIntegrals = new double[noOfIntegrals];
 
+		// Cauchy–Schwarz screening bounds: skip quartets whose upper bound is negligible.
+		final double[] schwarz = computeSchwarzBounds(bfs, noOfBasisFunctions);
+		final double maxSchwarz = maxSchwarzBound(schwarz);
+		final double threshold = schwarzThreshold;
+
 		// we only need i <= j, k <= l, and ij >= kl
 		for (int i = 0; i < noOfBasisFunctions; i++) {
 			for (int j = 0; j < i + 1; j++) {
 				int ij = i * (i + 1) / 2 + j;
+				double qij = schwarz[ij];
+
+				// the whole ket loop is negligible if even the largest bra·ket bound is too small
+				if (qij * maxSchwarz < threshold) {
+					continue;
+				}
 
 				for (int k = 0; k < noOfBasisFunctions; k++) {
 					for (int l = 0; l < (k + 1); l++) {
 						int kl = k * (k + 1) / 2 + l;
 
-						if (ij >= kl) {
+						if (ij >= kl && qij * schwarz[kl] >= threshold) {
 							int ijkl = IntegralsUtil.ijkl2intindex(i, j, k, l);
 							// record the 2E integrals
 							twoEIntegrals[ijkl] = Integrals.coulomb(bfs.get(i), bfs.get(j), bfs.get(k), bfs.get(l));
@@ -186,15 +209,27 @@ public final class TwoElectronIntegrals {
 
 		twoEIntegrals = new double[noOfIntegrals];
 
+		// Cauchy–Schwarz screening bounds: skip quartets whose upper bound is negligible.
+		final double[] schwarz = computeSchwarzBounds(bfs, noOfBasisFunctions);
+		final double maxSchwarz = maxSchwarzBound(schwarz);
+		final double threshold = schwarzThreshold;
+
 		// we only need i <= j, k <= l, and ij >= kl
 		IntStream.range(0, noOfBasisFunctions).parallel().forEach(i -> {
 			for (int j = 0; j < i + 1; j++) {
 				int ij = i * (i + 1) / 2 + j;
+				double qij = schwarz[ij];
+
+				// the whole ket loop is negligible if even the largest bra·ket bound is too small
+				if (qij * maxSchwarz < threshold) {
+					continue;
+				}
+
 				for (int k = 0; k < noOfBasisFunctions; k++) {
 					for (int l = 0; l < k + 1; l++) {
 						int kl = k * (k + 1) / 2 + l;
 
-						if (ij >= kl) {
+						if (ij >= kl && qij * schwarz[kl] >= threshold) {
 							int ijkl = IntegralsUtil.ijkl2intindex(i, j, k, l);
 							// record the 2E integrals
 							twoEIntegrals[ijkl] = Integrals.coulomb(bfs.get(i), bfs.get(j), bfs.get(k), bfs.get(l));
@@ -413,6 +448,10 @@ public final class TwoElectronIntegrals {
 			atomFunctions.add(getBasisFunctionsForAtom(a));
 		}
 
+		// Cauchy–Schwarz screening bounds, indexed by canonical basis-function pair.
+		final double[] schwarz = computeSchwarzBounds(bfs, noOfBasisFunctions);
+		final double threshold = schwarzThreshold;
+
 		// Parallelise over the outermost atom index.  The ij >= kl guard ensures
 		// each canonical integral index is written by exactly one thread, so no
 		// synchronisation is needed on twoEIntegrals[].
@@ -457,7 +496,7 @@ public final class TwoElectronIntegrals {
 										final int lBF = ldFunc.getBasisFunctionIndex();
 										final int kl = kBF * (kBF + 1) / 2 + lBF;
 
-										if (ij >= kl) {
+										if (ij >= kl && schwarz[ij] * schwarz[kl] >= threshold) {
 											final int twoEIndx = IntegralsUtil.ijkl2intindex(iBF, jBF, kBF, lBF);
 											twoEIntegrals[twoEIndx] = compute2E(iaFunc, jbFunc, kcFunc, ldFunc);
 										}
@@ -593,11 +632,73 @@ public final class TwoElectronIntegrals {
 
 	/**
 	 * Set the value of onTheFly
-	 * 
+	 *
 	 * @param onTheFly new value of onTheFly
 	 */
 	public void setOnTheFly(boolean onTheFly) {
 		this.onTheFly = onTheFly;
+	}
+
+	/**
+	 * Get the Cauchy–Schwarz screening threshold.
+	 *
+	 * @return the screening threshold (values &le; 0 disable screening)
+	 */
+	public double getSchwarzThreshold() {
+		return schwarzThreshold;
+	}
+
+	/**
+	 * Set the Cauchy–Schwarz screening threshold. A quartet (ij|kl) is skipped
+	 * when sqrt(|(ij|ij)|)·sqrt(|(kl|kl)|) falls below this value; the skipped
+	 * integral is left as zero. Setting a value &le; 0 disables screening. This
+	 * takes effect on the next call to one of the {@code compute2E*} methods, so
+	 * it must be set before the integrals are evaluated to have any effect.
+	 *
+	 * @param schwarzThreshold the new screening threshold
+	 */
+	public void setSchwarzThreshold(double schwarzThreshold) {
+		this.schwarzThreshold = schwarzThreshold;
+	}
+
+	/**
+	 * Pre-computes the Cauchy–Schwarz bounds Q[p] = sqrt(|(ij|ij)|) for every
+	 * canonical basis-function pair p = i(i+1)/2 + j (with i &ge; j). By the
+	 * Cauchy–Schwarz inequality |(ij|kl)| &le; Q[ij]·Q[kl], so any quartet whose
+	 * Q[ij]·Q[kl] falls below the screening threshold cannot contribute and may be
+	 * skipped.
+	 *
+	 * @param bfs the contracted Gaussian basis functions
+	 * @param n   the number of basis functions
+	 * @return array of length n(n+1)/2 holding the per-pair Schwarz bounds
+	 */
+	private static double[] computeSchwarzBounds(final List<ContractedGaussian> bfs, final int n) {
+		final double[] q = new double[n * (n + 1) / 2];
+		IntStream.range(0, n).parallel().forEach(i -> {
+			final ContractedGaussian bfi = bfs.get(i);
+			for (int j = 0; j <= i; j++) {
+				final ContractedGaussian bfj = bfs.get(j);
+				q[i * (i + 1) / 2 + j] = FastMath.sqrt(FastMath.abs(Integrals.coulomb(bfi, bfj, bfi, bfj)));
+			}
+		});
+		return q;
+	}
+
+	/**
+	 * Returns the largest Schwarz bound, used to screen an entire bra pair's ket
+	 * loop in one comparison.
+	 *
+	 * @param schwarz the per-pair Schwarz bounds
+	 * @return the maximum bound, or 0.0 if the array is empty
+	 */
+	private static double maxSchwarzBound(final double[] schwarz) {
+		double max = 0.0;
+		for (final double q : schwarz) {
+			if (q > max) {
+				max = q;
+			}
+		}
+		return max;
 	}
 
 	/**

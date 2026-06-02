@@ -102,4 +102,100 @@ class TwoElectronIntegralsTest {
         assertThrows(ArithmeticException.class, () -> TwoElectronIntegrals.integralStorageSize(362));
         assertThrows(ArithmeticException.class, () -> TwoElectronIntegrals.integralStorageSize(1000));
     }
+
+    @Test
+    void schwarzBoundIsAnUpperBoundForEveryQuartet() throws Exception {
+        // Cauchy-Schwarz: |(ij|kl)| <= sqrt((ij|ij)) * sqrt((kl|kl)). The screening
+        // is only correct if this holds for every quartet of the basis.
+        BasisSetLibrary water = new BasisSetLibrary(Fixtures.getWater(), "sto-3g");
+        TwoElectronIntegrals tei = new TwoElectronIntegrals(water, true); // on-the-fly, unscreened singles
+        int n = water.getBasisFunctions().size();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                double qij = Math.sqrt(Math.abs(tei.compute2E(i, j, i, j)));
+                for (int k = 0; k < n; k++) {
+                    for (int l = 0; l <= k; l++) {
+                        double qkl = Math.sqrt(Math.abs(tei.compute2E(k, l, k, l)));
+                        double val = Math.abs(tei.compute2E(i, j, k, l));
+                        double bound = qij * qkl;
+                        assertTrue(val <= bound + 1e-9,
+                                "Schwarz violated for (" + i + j + "|" + k + l + "): |val|=" + val + " bound=" + bound);
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    void defaultScreeningPreservesIntegralsForCompactSystem() throws Exception {
+        // For a compact molecule nothing of significance is screened, so every
+        // stored integral must still match the unscreened value (well within the
+        // 1e-10 default threshold).
+        BasisSetLibrary water = new BasisSetLibrary(Fixtures.getWater(), "sto-3g");
+        TwoElectronIntegrals screened = new TwoElectronIntegrals(water);           // in-core, default screening
+        TwoElectronIntegrals reference = new TwoElectronIntegrals(water, true);    // on-the-fly, unscreened
+        double[] ints = screened.getTwoEIntegrals();
+        int n = water.getBasisFunctions().size();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                int ij = i * (i + 1) / 2 + j;
+                for (int k = 0; k < n; k++) {
+                    for (int l = 0; l <= k; l++) {
+                        int kl = k * (k + 1) / 2 + l;
+                        if (ij >= kl) {
+                            double stored = ints[IntegralsUtil.ijkl2intindex(i, j, k, l)];
+                            assertEquals(reference.compute2E(i, j, k, l), stored, 1e-9);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    void aggressiveThresholdScreensEveryIntegral() {
+        // With a huge threshold no quartet can clear the bound, so all are skipped
+        // and left as zero.
+        TwoElectronIntegrals tei = new TwoElectronIntegrals(bsl, true); // H2, no auto-compute
+        tei.setSchwarzThreshold(1.0e6);
+        tei.compute2E();
+        for (double v : tei.getTwoEIntegrals()) {
+            assertEquals(0.0, v, 0.0);
+        }
+    }
+
+    @Test
+    void schwarzPredicateSkipsNegligibleQuartetsForBenzene() throws Exception {
+        // Benzene/STO-3G is spread out enough that many distant quartets are
+        // negligible. Apply the exact criterion the compute2E* methods use,
+        // Q[ij]*Q[kl] < threshold, to the real integral magnitudes and confirm it
+        // classifies a strict, non-empty subset of canonical quartets as skippable.
+        BasisSetLibrary benzene = new BasisSetLibrary(Fixtures.getBenzene(), "sto-3g");
+        TwoElectronIntegrals tei = new TwoElectronIntegrals(benzene, true);
+        int n = benzene.getBasisFunctions().size();
+        int nPairs = n * (n + 1) / 2;
+
+        // Schwarz bounds Q[ij] = sqrt(|(ij|ij)|) -- only O(n^2) integral evaluations.
+        double[] q = new double[nPairs];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                q[i * (i + 1) / 2 + j] = Math.sqrt(Math.abs(tei.compute2E(i, j, i, j)));
+            }
+        }
+
+        double threshold = 1.0e-8;
+        long total = 0;
+        long skipped = 0;
+        for (int ij = 0; ij < nPairs; ij++) {
+            for (int kl = 0; kl <= ij; kl++) { // canonical quartets with ij >= kl
+                total++;
+                if (q[ij] * q[kl] < threshold) {
+                    skipped++;
+                }
+            }
+        }
+
+        assertTrue(skipped > 0, "screening should skip negligible quartets, skipped=" + skipped);
+        assertTrue(skipped < total, "screening must retain the significant quartets");
+    }
 }
